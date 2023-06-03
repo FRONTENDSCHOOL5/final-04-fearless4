@@ -1,6 +1,6 @@
 # <img width="20" src = "https://github.com/starcradle101/starcradle101/assets/113353436/b707fb16-15ec-4e1a-8666-42f08a05be79"> Fearless 4
 
-Hello, there! 저희는 4명의 Front-End 개발자로 구성된 'Fearless 4'입니다.
+Hello, there! 저희는 4명의 Front-End 개발자로 구성된 **Fearless 4** 입니다.
 
 (<img width="20" src = "https://github.com/FRONTENDSCHOOL5/final-4-/assets/113353436/ed76f0e4-a75a-4db6-9c0d-914a28d20f6d"> LIKELION FE5 Project Team 4)<br>
 |**강동훈**|**김소연**|**정준영**|**최사라** |
