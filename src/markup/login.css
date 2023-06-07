@@ -14,6 +14,7 @@
 	align-items: center;
 	gap: 20px;
 	/* padding-top: 10rem; */
+	/* 패딩 건드려서 스크롤 발생 */
 	background-color: #81d8d0;
 }
 
