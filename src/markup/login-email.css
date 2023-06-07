@@ -2,12 +2,16 @@
 
 * {
 	font-size: 10px;
+	margin: 0;
+	padding: 0;
 }
 
-.container {
-	margin: 0 auto;
+.login-container {
 	width: 100%;
 	height: 100vh;
+	gap: 20px;
+	margin: 0 auto;
+	padding: 10rem;
 }
 
 .login {
