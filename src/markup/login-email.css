@@ -1,0 +1,39 @@
+@import url('./normalize.css');
+
+* {
+	font-size: 10px;
+}
+
+.container {
+	margin: 0 auto;
+	width: 100%;
+	height: 100vh;
+}
+
+.login {
+	display: block;
+	text-align: center;
+	font-size: 2rem;
+}
+
+.form-wrap {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.input-style {
+	border: none;
+	border-bottom: 1px solid #dbdbdb;
+}
+
+.login-btn {
+	background-color: #81d8d0;
+	opacity: 0.8;
+	display: block;
+	width: 100%;
+	color: white;
+	height: 48px;
+	border-radius: 44px;
+	border: none;
+}
