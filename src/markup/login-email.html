@@ -12,15 +12,23 @@
 
 <body>
   <div class="login-container">
-    <strong class="login">로그인</strong>
+    <h1 class="login">로그인</h1>
     <form class='form-wrap'>
-      <label class="label-style" for="user-email">이메일</label>
-      <input class="input-style" id="user-email" type="email" required>
-      <label class="label-style" for="user-pw">비밀번호</label>
-      <input class="input-style" id="user-email" type="password" required>
+      <div class="email">
+        <label class="label-style" for="user-email">이메일</label>
+        <input class="input-style" id="user-email" type="email" required>
+      </div>
+
+      <div class="password">
+        <label class="label-style" for="user-pw">비밀번호</label>
+        <input class="input-style" id="user-email" type="password" required>
+      </div>
+      <span>* 이메일 또는 비밀번호가 일치하지 않습니다.</span>
       <button class="login-btn" type="submit">로그인</button>
     </form>
-    <div>이메일로 회원가입</div>
+    <div class="signup-container">
+      <a href="#" class="signup-email">이메일로 회원가입</a>
+    </div>
   </div>
 
 </body>
