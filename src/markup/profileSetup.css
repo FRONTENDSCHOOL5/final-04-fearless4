@@ -38,10 +38,6 @@
 	cursor: pointer;
 }
 
-.upload .btn-char {
-	/* scale: 1.2; */
-}
-
 .upload .btn-img {
 	width: 36px;
 	position: absolute;
