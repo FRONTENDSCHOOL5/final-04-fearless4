@@ -1,5 +1,12 @@
+import Splash from './pages/Splash';
+import { GlobalStyle } from './GlobalStyle';
 function App() {
-	return <div className='App'></div>;
+	return (
+		<>
+			<GlobalStyle />
+			<Splash />
+		</>
+	);
 }
 
 export default App;
