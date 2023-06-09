@@ -1,10 +1,7 @@
 import styled from 'styled-components';
-import LogoImg from '../../assets/image/travelchar_crop.png';
-import HeartImg from '../../assets/image/heart-button.png';
 
 export const Logo = styled.img`
 	width: 250px;
-	z-index: 30;
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -28,7 +25,6 @@ export const Heart = styled.img`
 	top: 10%;
 	left: 10%;
 	transform: rotate(-30deg);
-	z-index: 40;
 `;
 
 export const LogoText = styled.h1`
