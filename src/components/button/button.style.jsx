@@ -34,3 +34,15 @@ export const SocialLoginButton = styled.button`
 					: `-86px -10px`};
 	}
 `;
+
+export const LoginButton = styled.button`
+	font-size: 14px;
+	background-color: #81d8d0;
+	opacity: 0.3;
+	display: block;
+	width: 100%;
+	color: white;
+	height: 48px;
+	border-radius: 44px;
+	border: none;
+`;
