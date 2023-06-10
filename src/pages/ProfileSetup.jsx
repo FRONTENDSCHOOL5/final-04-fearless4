@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import profilePic from '../assets/image/profilePic.png';
+import profileImageUploadButton from '../assets/image/profileImageUploadButton.png';
 
 const Container = styled.div`
 	width: 100%;
@@ -11,13 +13,14 @@ const Container = styled.div`
 const ProfileText = styled.h1`
 	display: block;
 	text-align: center;
-	font-size: 2.4rem;
+	font-size: 24px;
+	margin-bottom: 16px;
 `;
 
 const DescriptionText = styled.p`
 	display: block;
 	text-align: center;
-	font-size: 1.4rem;
+	font-size: 14px;
 	color: #767676;
 	margin-bottom: 30px;
 `;
@@ -55,13 +58,13 @@ const InputWrap = styled.div`
 const Name = styled.div`
 	display: flex;
 	flex-direction: column;
-	gap: 20px;
+	gap: 15px;
 `;
 
 const ID = styled.div`
 	display: flex;
 	flex-direction: column;
-	gap: 20px;
+	gap: 15px;
 
 	span {
 		font-size: 12px;
@@ -69,15 +72,21 @@ const ID = styled.div`
 	}
 `;
 
+const Intro = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+`;
+
 const LabelStyle = styled.label`
 	color: #767676;
-	font-size: 1.2rem;
+	font-size: 12px;
 `;
 
 const InputStyle = styled.input`
 	border: none;
 	border-bottom: 1px solid #dbdbdb;
-	font-size: 1.4rem;
+	font-size: 14px;
 
 	&::placeholder {
 		color: #dbdbdb;
@@ -92,7 +101,7 @@ const InputStyle = styled.input`
 const StartButton = styled.button`
 	width: 100%;
 	height: 48px;
-	font-size: 1.4rem;
+	font-size: 14px;
 	background-color: #81d8d0;
 	color: white;
 	opacity: 0.3;
@@ -108,8 +117,8 @@ const ProfileSetup = () => {
 			<DescriptionText>나중에 언제든지 변경할 수 있습니다.</DescriptionText>
 
 			<Upload>
-				<ProfileImage src='./img/profile-pic.png' alt='' />
-				<ImageButton src='./img/img-button.svg' />
+				<ProfileImage src={profilePic} alt='' />
+				<ImageButton src={profileImageUploadButton} alt='' />
 			</Upload>
 
 			<InputWrap>
@@ -132,14 +141,14 @@ const ProfileSetup = () => {
 					<span>*영문, 숫자, 밑줄 및 마침표만 사용할 수 있습니다.</span>
 				</ID>
 
-				<div className='intro'>
+				<Intro>
 					<LabelStyle htmlFor='user-intro'>소개</LabelStyle>
 					<InputStyle
 						type='text'
 						name=''
 						placeholder='자신과 판매할 상품에 대해 소개해 주세요!'
 					/>
-				</div>
+				</Intro>
 
 				<StartButton type='submit'>트래블어스 시작하기</StartButton>
 			</InputWrap>
