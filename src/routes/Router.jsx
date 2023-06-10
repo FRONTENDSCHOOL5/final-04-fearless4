@@ -1,5 +1,6 @@
 import React, { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import LoginEmail from '../pages/loginEmail/LoginEmail';
 
 const Splash = lazy(() => import('../pages/splash/Splash'));
 const Login = lazy(() => import('../pages/login/Login'));
@@ -12,6 +13,7 @@ export default function Router() {
 			<Suspense fallback={renderLoader()}>
 				<Routes>
 					<Route path='/' element={<Login />} />
+					<Route path='/loginEmail' element={<LoginEmail />} />
 				</Routes>
 			</Suspense>
 		</BrowserRouter>
