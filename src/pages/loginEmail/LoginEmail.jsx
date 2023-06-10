@@ -5,12 +5,9 @@ import {
 	LabelStyle,
 	InputStyle,
 	Incorrect,
-} from '../../components/form/form.style.jsx';
-import {
-	WrapperLoginEmail,
 	Title,
-	SignUpContainer,
-} from './loginEmail.style.jsx';
+} from '../../components/form/form.style.jsx';
+import { WrapperLoginEmail, SignUpContainer } from './loginEmail.style.jsx';
 import { LoginButton } from '../../components/button/button.style.jsx';
 
 export default function LoginEmail() {
