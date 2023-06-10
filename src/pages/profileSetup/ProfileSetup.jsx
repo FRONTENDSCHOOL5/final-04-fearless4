@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import profilePic from '../assets/image/profilePic.png';
-import profileImageUploadButton from '../assets/image/profileImageUploadButton.png';
+import profilePic from '../../assets/image/profilePic.png';
+import profileImageUploadButton from '../../assets/image/profileImageUploadButton.png';
 
 const Container = styled.div`
 	width: 100%;
@@ -15,6 +15,7 @@ const ProfileText = styled.h1`
 	text-align: center;
 	font-size: 24px;
 	margin-bottom: 16px;
+	font-weight: 700;
 `;
 
 const DescriptionText = styled.p`
