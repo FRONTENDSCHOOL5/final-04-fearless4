@@ -2,18 +2,18 @@ import styled from 'styled-components';
 import socialImg from '../../assets/image/social_login_sprites.png';
 
 export const SocialLoginButton = styled.button`
-	width: 100%;
-	font-size: 14px;
 	display: block;
-	padding: 13px 87px;
-	text-decoration: none;
-	color: #767676;
-	text-align: center;
+	width: 100%;
 	margin-top: 20px;
+	padding: 13px 87px;
+	font-size: 14px;
+	color: #767676;
+	background-color: #fff;
+	text-align: center;
 	border-radius: 44px;
 	box-sizing: border-box;
 	position: relative;
-	background-color: #fff;
+	cursor: pointer;
 	border: 1px solid ${(props) => props.borderColor};
 	&::before {
 		content: '';

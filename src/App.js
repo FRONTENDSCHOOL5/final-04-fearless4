@@ -1,12 +1,10 @@
-import Splash from './pages/Splash';
 import { GlobalStyle } from './GlobalStyle';
-import Login from './pages/Login';
+import Router from './routes/Router';
 function App() {
 	return (
 		<>
 			<GlobalStyle />
-			{/* <Splash /> */}
-			<Login />
+			<Router />
 		</>
 	);
 }
