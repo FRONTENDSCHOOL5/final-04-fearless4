@@ -20,16 +20,26 @@ export const LabelStyle = styled.label`
 
 export const InputStyle = styled.input`
 	border: none;
+	padding-bottom: 8px;
 	border-bottom: 1px solid #dbdbdb;
 	&:focus {
 		outline: none;
 		border-color: #81d8d0;
 	}
+
+	&::placeholder {
+		color: #dbdbdb;
+	}
 `;
 
 export const Incorrect = styled.span`
-	margin-top: 12px;
 	color: #eb5757;
 	font-size: 12px;
-	margin-bottom: 30px;
+`;
+
+export const Title = styled.h1`
+	display: block;
+	text-align: center;
+	font-size: 24px;
+	margin-bottom: ${({ mb }) => (mb === true ? `16px` : 0)};
 `;

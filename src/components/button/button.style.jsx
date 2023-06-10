@@ -45,4 +45,6 @@ export const LoginButton = styled.button`
 	height: 48px;
 	border-radius: 44px;
 	border: none;
+	margin-top: 14px;
+	cursor: pointer;
 `;

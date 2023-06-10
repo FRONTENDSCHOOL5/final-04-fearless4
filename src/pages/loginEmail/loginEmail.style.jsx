@@ -8,12 +8,6 @@ export const WrapperLoginEmail = styled.div`
 	box-sizing: border-box;
 `;
 
-export const Title = styled.h1`
-	display: block;
-	text-align: center;
-	font-size: 24px;
-`;
-
 export const SignUpContainer = styled.span`
 	display: block;
 	text-align: center;

@@ -14,9 +14,7 @@ export default function Router() {
 			<Suspense fallback={renderLoader()}>
 				<Routes>
 					<Route path='/' element={<Login />} />
-
 					<Route path='/profileSetup' element={<ProfileSetup />} />
-
 					<Route path='/loginEmail' element={<LoginEmail />} />
 				</Routes>
 			</Suspense>
