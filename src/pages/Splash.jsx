@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Background } from '../components/background/background.style.jsx';
 import LogoContainer from '../components/logo/LogoContainer.jsx';
 
-import { LogoText } from '../components/logo/Logo.style.jsx';
+import { LogoText } from '../components/logo/logo.style.jsx';
 
 const Wrapper = styled.div`
 	width: 100%;

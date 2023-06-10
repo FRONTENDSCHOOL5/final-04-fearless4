@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import Splash from './Splash.jsx';
-import { SocialLoginButton } from '../components/button/SocialLoginButton.style.jsx';
-import { LoginJoin } from '../components/loginJoin/LoginJoin.style.jsx';
-import { LoginList } from '../components/button/LoginList.style.jsx';
+import { SocialLoginButton } from '../components/button/socialLoginButton.style.jsx';
+import { LoginJoin } from '../components/loginJoin/loginJoin.style.jsx';
+import { LoginList } from '../components/button/loginList.style.jsx';
 import LogoContainer from '../components/logo/LogoContainer.jsx';
 import { Background } from '../components/background/background.style.jsx';
 
