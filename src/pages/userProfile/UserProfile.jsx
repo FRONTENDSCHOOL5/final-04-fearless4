@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 import { ChatShare, ProfileButton } from '../../components/button/button.style';
 import {
 	ProfileWrapper,
@@ -15,10 +14,19 @@ import {
 } from './userProfile.style';
 import { ProfileImage } from '../profileSetup/profileSetup.style';
 import profilePic from '../../assets/image/profilePic.png';
+import {
+	Backspace,
+	NavbarWrap,
+	OptionModal,
+} from '../../components/navbar/navbar.style';
 export default function UserProfile() {
 	return (
 		<>
 			<ProfileWrapper>
+				<NavbarWrap>
+					<Backspace />
+					<OptionModal />
+				</NavbarWrap>
 				<ProfileImgWrap>
 					<FollowerWrap>
 						<FollowerNumber followers>2950</FollowerNumber>

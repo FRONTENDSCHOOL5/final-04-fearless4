@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 
 export const ProfileWrapper = styled.div`
+	width: 100%;
+	position: relative;
+	box-sizing: border-box;
 	padding: 102px 60px 26px 60px;
 `;
 
