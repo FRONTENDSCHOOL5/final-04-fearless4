@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import socialImg from '../../assets/image/social_login_sprites.png';
+import chat from '../../assets/icon/message-circle.png';
+import share from '../../assets/icon/share.png';
 
 export const SocialLoginButton = styled.button`
 	display: block;
@@ -58,6 +60,18 @@ export const ProfileButton = styled.button`
 	padding: 8px 0;
 	color: ${({ follow }) => (follow === true ? `#fff` : `#767676`)};
 	border-radius: 30px;
-	border: solid 1px ${({ follow }) => (follow === true ? `none` : `#DBDBDB`)};
+	border: ${({ follow }) => (follow === true ? `none` : `solid 1px #DBDBDB`)};
 	cursor: pointer;
+`;
+
+export const ChatShare = styled.button`
+	width: 34px;
+	height: 34px;
+	padding: 7px;
+	border-radius: 50%;
+	box-sizing: border-box;
+	border: solid 1px #dbdbdb;
+	cursor: pointer;
+	background: url(${({ chatting }) => (chatting === true ? chat : share)})
+		no-repeat center;
 `;

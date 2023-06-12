@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ProfileButton } from '../../components/button/button.style';
+import { ChatShare, ProfileButton } from '../../components/button/button.style';
 import {
 	ProfileWrapper,
 	Intro,
@@ -44,10 +44,15 @@ export default function UserProfile() {
 				</UserWrap>
 
 				<ProfileButtonWrap>
-					<ProfileButton type='button'>프로필 수정</ProfileButton>
-					<ProfileButton product type='button'>
-						상품 등록
+					<ChatShare type='button' chatting />
+					<ProfileButton follow type='button'>
+						팔로우
 					</ProfileButton>
+					<ChatShare type='button' />
+					{/* <ProfileButton type='button'>언팔로우</ProfileButton> */}
+					{/* <ProfileButton product type='button'>
+						상품 등록
+					</ProfileButton> */}
 				</ProfileButtonWrap>
 			</ProfileWrapper>
 		</>
