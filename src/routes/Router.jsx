@@ -6,6 +6,8 @@ const Splash = lazy(() => import('../pages/splash/Splash'));
 const Login = lazy(() => import('../pages/login/Login'));
 const ProfileSetup = lazy(() => import('../pages/profileSetup/ProfileSetup'));
 const Signup = lazy(() => import('../pages/loginEmail/Signup'));
+const UserProfile = lazy(() => import('../pages/userProfile/UserProfile'));
+const MYProfile = lazy(() => import('../pages/userProfile/MyProfile'));
 
 const renderLoader = () => <span>로딩중...</span>;
 
@@ -18,6 +20,8 @@ export default function Router() {
 					<Route path='/profileSetup' element={<ProfileSetup />} />
 					<Route path='/loginEmail' element={<LoginEmail />} />
 					<Route path='/signup' element={<Signup />} />
+					<Route path='/userProfile' element={<UserProfile />}></Route>
+					<Route path='/myProfile' element={<MYProfile />}></Route>
 				</Routes>
 			</Suspense>
 		</BrowserRouter>

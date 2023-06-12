@@ -3,4 +3,10 @@ import reset from 'styled-reset';
 
 export const GlobalStyle = createGlobalStyle`
     ${reset}
+    img {
+        vertical-align: top;
+    }
+    a {
+        text-decoration: none;
+    }
 `;
