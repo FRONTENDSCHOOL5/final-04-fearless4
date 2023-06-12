@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import arrowIcon from '../../assets/icon/arrow-left.png';
-import optionIcon from '../../assets/icon/option.png';
+import arrowIcon from '../../assets/icon/arrow-left.svg';
+import optionIcon from '../../assets/icon/option.svg';
 
 export const NavbarWrap = styled.div`
 	width: 100%;
