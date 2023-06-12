@@ -38,7 +38,7 @@ export const SocialLoginButton = styled.button`
 export const LoginButton = styled.button`
 	font-size: 14px;
 	background-color: #81d8d0;
-	opacity: 0.3;
+	opacity: ${(props) => (props.disabled ? '0.3' : '1')};
 	display: block;
 	width: 100%;
 	color: white;
@@ -46,5 +46,5 @@ export const LoginButton = styled.button`
 	border-radius: 44px;
 	border: none;
 	margin-top: 14px;
-	cursor: pointer;
+	cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
 `;

@@ -23,11 +23,19 @@ export const Upload = styled.div`
 	display: flex;
 	justify-content: center;
 	position: relative;
+	cursor: pointer;
+`;
+
+export const ImageInput = styled.input`
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	opacity: 0;
+	z-index: 1;
 `;
 
 export const ProfileImage = styled.img`
 	width: 100%;
-	cursor: pointer;
 `;
 
 export const ImageButton = styled.img`
@@ -35,25 +43,6 @@ export const ImageButton = styled.img`
 	position: absolute;
 	bottom: 0;
 	right: 0;
-	cursor: pointer;
-`;
-
-export const Name = styled.div`
-	display: flex;
-	flex-direction: column;
-	gap: 15px;
-`;
-
-export const ID = styled.div`
-	display: flex;
-	flex-direction: column;
-	gap: 15px;
-`;
-
-export const Intro = styled.div`
-	display: flex;
-	flex-direction: column;
-	gap: 15px;
 `;
 
 export const FormElement = styled.div`
