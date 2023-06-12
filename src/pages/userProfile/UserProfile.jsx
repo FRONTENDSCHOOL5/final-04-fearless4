@@ -17,15 +17,20 @@ import profilePic from '../../assets/image/profilePic.png';
 import {
 	Backspace,
 	NavbarWrap,
-	OptionModal,
+	OptionModalTab,
 } from '../../components/navbar/navbar.style';
+import {
+	ModalBar,
+	ModalWrap,
+	ModalText,
+} from '../../components/modal/modal.style';
 export default function UserProfile() {
 	return (
 		<>
 			<ProfileWrapper>
 				<NavbarWrap>
 					<Backspace />
-					<OptionModal />
+					<OptionModalTab />
 				</NavbarWrap>
 				<ProfileImgWrap>
 					<FollowerWrap>
@@ -57,8 +62,11 @@ export default function UserProfile() {
 						팔로우
 					</ProfileButton>
 					<ChatShare type='button' />
-					{/* <ProfileButton type='button'>언팔로우</ProfileButton> */}
 				</ProfileButtonWrap>
+				<ModalWrap>
+					<ModalText>설정 및 개인정보</ModalText>
+					<ModalText>로그아웃</ModalText>
+				</ModalWrap>
 			</ProfileWrapper>
 		</>
 	);

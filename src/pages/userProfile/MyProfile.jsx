@@ -17,15 +17,16 @@ import profilePic from '../../assets/image/profilePic.png';
 import {
 	Backspace,
 	NavbarWrap,
-	OptionModal,
+	OptionModalTab,
 } from '../../components/navbar/navbar.style';
+import { ModalText, ModalWrap } from '../../components/modal/modal.style';
 export default function UserProfile() {
 	return (
 		<>
 			<ProfileWrapper>
 				<NavbarWrap>
 					<Backspace />
-					<OptionModal />
+					<OptionModalTab />
 				</NavbarWrap>
 				<ProfileImgWrap>
 					<FollowerWrap>
@@ -60,6 +61,10 @@ export default function UserProfile() {
 						상품 등록
 					</ProfileButton>
 				</ProfileButtonWrap>
+				<ModalWrap>
+					<ModalText>설정 및 개인정보</ModalText>
+					<ModalText>로그아웃</ModalText>
+				</ModalWrap>
 			</ProfileWrapper>
 		</>
 	);

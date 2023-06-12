@@ -25,7 +25,7 @@ export const Backspace = styled.button`
 	background: url(${arrowIcon}) no-repeat center;
 `;
 
-export const OptionModal = styled.button`
+export const OptionModalTab = styled.button`
 	width: 24px;
 	height: 24px;
 	border: none;
