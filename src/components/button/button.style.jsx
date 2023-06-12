@@ -48,3 +48,16 @@ export const LoginButton = styled.button`
 	margin-top: 14px;
 	cursor: pointer;
 `;
+
+export const ProfileButton = styled.button`
+	font-size: 14px;
+	font-weight: 500;
+	background-color: ${({ follow }) => (follow === true ? `#81d8d0` : `#fff`)};
+	display: block;
+	width: ${({ product }) => (product === true ? `100px` : `120px`)};
+	padding: 8px 0;
+	color: ${({ follow }) => (follow === true ? `#fff` : `#767676`)};
+	border-radius: 30px;
+	border: solid 1px ${({ follow }) => (follow === true ? `none` : `#DBDBDB`)};
+	cursor: pointer;
+`;
