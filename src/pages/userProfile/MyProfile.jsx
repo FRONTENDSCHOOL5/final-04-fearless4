@@ -52,12 +52,13 @@ export default function UserProfile() {
 				</UserWrap>
 
 				<ProfileButtonWrap>
-					<ChatShare type='button' chatting />
-					<ProfileButton follow type='button'>
+					{/* <ProfileButton follow type='button'>
 						팔로우
+					</ProfileButton> */}
+					<ProfileButton type='button'>프로필 수정</ProfileButton>
+					<ProfileButton product type='button'>
+						상품 등록
 					</ProfileButton>
-					<ChatShare type='button' />
-					{/* <ProfileButton type='button'>언팔로우</ProfileButton> */}
 				</ProfileButtonWrap>
 			</ProfileWrapper>
 		</>
