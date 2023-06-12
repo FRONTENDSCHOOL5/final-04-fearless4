@@ -7,14 +7,6 @@ export const WrapperProfileSetup = styled.div`
 	padding: 54px 34px 0px 34px;
 `;
 
-export const ProfileText = styled.h1`
-	display: block;
-	text-align: center;
-	font-size: 24px;
-	margin-bottom: 16px;
-	font-weight: 700;
-`;
-
 export const DescriptionText = styled.p`
 	display: block;
 	text-align: center;
@@ -56,14 +48,15 @@ export const ID = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 15px;
-
-	span {
-		font-size: 12px;
-		color: #eb5757;
-	}
 `;
 
 export const Intro = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+`;
+
+export const FormElement = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 15px;

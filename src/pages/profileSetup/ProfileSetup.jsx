@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 import {
 	Title,
 	WrapForm,
@@ -9,14 +8,11 @@ import {
 import { LoginButton } from '../../components/button/button.style.jsx';
 import {
 	WrapperProfileSetup,
-	ProfileText,
 	DescriptionText,
 	Upload,
 	ProfileImage,
 	ImageButton,
-	Name,
-	ID,
-	Intro,
+	FormElement,
 	LabelStyle,
 } from './profileSetup.style.jsx';
 import profilePic from '../../assets/image/profilePic.png';
@@ -34,16 +30,16 @@ const ProfileSetup = () => {
 			</Upload>
 
 			<WrapForm>
-				<Name>
+				<FormElement>
 					<LabelStyle htmlFor='user-name'>사용자 이름</LabelStyle>
 					<InputStyle
 						type='text'
 						name=''
 						placeholder='2~10자 이내여야 합니다.'
 					/>
-				</Name>
+				</FormElement>
 
-				<ID>
+				<FormElement>
 					<LabelStyle htmlFor='user-id'>계정 ID</LabelStyle>
 					<InputStyle
 						type='text'
@@ -53,16 +49,16 @@ const ProfileSetup = () => {
 					<Incorrect>
 						*영문, 숫자, 밑줄 및 마침표만 사용할 수 있습니다.
 					</Incorrect>
-				</ID>
+				</FormElement>
 
-				<Intro>
+				<FormElement>
 					<LabelStyle htmlFor='user-intro'>소개</LabelStyle>
 					<InputStyle
 						type='text'
 						name=''
 						placeholder='자신과 판매할 상품에 대해 소개해 주세요!'
 					/>
-				</Intro>
+				</FormElement>
 
 				<LoginButton type='submit'>트래블어스 시작하기</LoginButton>
 			</WrapForm>
