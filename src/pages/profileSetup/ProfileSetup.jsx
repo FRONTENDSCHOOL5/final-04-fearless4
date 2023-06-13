@@ -24,53 +24,68 @@ const ProfileSetup = () => {
 	const [userName, setUserName] = useState('');
 	const [userId, setUserId] = useState('');
 	const [intro, setIntro] = useState('');
-	const [imagePreview, setImagePreview] = useState('');
 	const [selectedImage, setSelectedImage] = useState(null);
 	const [buttonInvalid, setButtonInvalid] = useState(false);
 
-	const handleImageInputChange = (e) => {
-		const file = e.target.files[0];
-		setSelectedImage(file);
-		setImagePreview(URL.createObjectURL(file));
+	const handleImageInputChange = async (e) => {
+		const formData = new FormData();
+		const imageFile = e.target.files[0];
+		formData.append('image', imageFile);
+
+		try {
+			const response = await axios.post(
+				'https://api.mandarin.weniv.co.kr/image/uploadfile',
+				formData
+			);
+			const imageUrl =
+				'https://api.mandarin.weniv.co.kr/' + response.data.filename;
+			setSelectedImage(imageUrl);
+			// 테스트 코드
+			console.log(imageUrl);
+			console.log(formData, imageFile);
+		} catch (error) {
+			console.error(error.response.data);
+		}
 	};
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		// const formData = new FormData();
-		// formData.append('image', selectedImage);
-		// console.log(formData);
+		const formData = new FormData();
+		formData.append('image', selectedImage);
+		console.log(formData);
 
 		const data = {
 			user: {
 				username: userName,
-				email: 'thisTest2Email@test.com',
+				email: 'thisTest7Email@test.com',
 				password: '1234abcd!',
 				accountname: userId,
 				intro: intro,
-				image: '',
+				image: selectedImage,
 			},
 		};
+		// 테스트 코드
 		console.log(data);
 
 		axios
-			// .post('https://api.mandarin.weniv.co.kr/image/uploadfile', formData)
-			// .then((response) => {
-			// 	const imageUrl =
-			// 		'https://api.mandarin.weniv.co.kr/' + response.data.filename;
-			// 	data.user.image = imageUrl;
-			// 	return axios.post('https://api.mandarin.weniv.co.kr/user', data);
-			// })
-			.post('https://api.mandarin.weniv.co.kr/user', data, {
-				headers: {
-					'Content-Type': 'application/json',
-				},
-			})
+			.post('https://api.mandarin.weniv.co.kr/image/uploadfile', formData)
 			.then((response) => {
-				console.log(response.data);
-			})
-			.catch((error) => {
-				console.error(error.response.data);
-				console.log('오류 발생!');
+				const imageUrl =
+					'https://api.mandarin.weniv.co.kr/' + response.data.filename;
+				data.user.image = imageUrl;
+				return axios
+					.post('https://api.mandarin.weniv.co.kr/user', data, {
+						headers: {
+							'Content-Type': 'application/json',
+						},
+					})
+					.then((response) => {
+						console.log(response.data);
+					})
+					.catch((error) => {
+						console.error(error.response.data);
+						console.log('오류 발생!');
+					});
 			});
 	};
 
@@ -79,13 +94,17 @@ const ProfileSetup = () => {
 			<Title mb>프로필 설정</Title>
 			<DescriptionText>나중에 언제든지 변경할 수 있습니다.</DescriptionText>
 
-			<Upload>
-				<ImageInput type='file' />
-				<ProfileImage src={profilePic} alt='' />
-				<ImageButton src={profileImageUploadButton} alt='' />
-			</Upload>
-
 			<WrapForm onSubmit={handleSubmit}>
+				<Upload onSubmit={handleImageInputChange}>
+					<ImageInput
+						type='file'
+						accept='image/*'
+						onChange={handleImageInputChange}
+					/>
+					<ProfileImage src={selectedImage || profilePic} alt='' />
+					<ImageButton src={profileImageUploadButton} alt='' />
+				</Upload>
+
 				<FormElement>
 					<LabelStyle htmlFor='user-name'>사용자 이름</LabelStyle>
 					<InputStyle
