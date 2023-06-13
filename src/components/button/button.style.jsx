@@ -79,13 +79,13 @@ export const ChatShare = styled.button`
 export const FollowButton = styled.button`
 	font-size: 12px;
 	font-weight: 500;
-	background-color: ${({ follow }) => (follow === true ? `#81d8d0` : `#fff`)};
+	background-color: ${({ follow }) => (follow === false ? `#81d8d0` : `#fff`)};
 	display: block;
 	width: 60px;
 	height: 30px;
 	padding: 0 11px;
-	color: ${({ follow }) => (follow === true ? `#fff` : `#767676`)};
+	color: ${({ follow }) => (follow === false ? `#fff` : `#767676`)};
 	border-radius: 30px;
-	border: ${({ follow }) => (follow === true ? `none` : `solid 1px #DBDBDB`)};
+	border: ${({ follow }) => (follow === false ? `none` : `solid 1px #DBDBDB`)};
 	cursor: pointer;
 `;

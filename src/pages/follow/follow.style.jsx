@@ -27,6 +27,7 @@ export const UserProfileImg = styled.div`
 	height: 50px;
 	border: solid 1px #dbdbdb;
 	border-radius: 50%;
+	overflow: hidden;
 `;
 
 export const UserContent = styled.div`
