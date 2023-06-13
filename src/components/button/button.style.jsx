@@ -48,6 +48,7 @@ export const LoginButton = styled.button`
 	border-radius: 44px;
 	border: none;
 	margin-top: 14px;
+
 	cursor: ${({ disabled }) => (disabled === true ? 'not-allowed' : 'pointer')};
 `;
 
