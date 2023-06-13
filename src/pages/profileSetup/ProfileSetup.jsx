@@ -25,7 +25,7 @@ const ProfileSetup = () => {
 	const [userId, setUserId] = useState('');
 	const [intro, setIntro] = useState('');
 	const [selectedImage, setSelectedImage] = useState('');
-	const [idDuplication, setIdDuplication] = useState('false');
+	const [idDuplication, setIdDuplication] = useState(false);
 	const [disabled, setDisabled] = useState(false);
 
 	const handleImageInputChange = async (e) => {
@@ -49,10 +49,7 @@ const ProfileSetup = () => {
 	};
 
 	const validateUserId = async () => {
-		console.log(userId);
 		if (!userId || /^[A-Za-z0-9._]+$/.test(userId)) {
-			setIdDuplication(false);
-
 			// 유효성 검사 통과 후에 추가적인 로직을 구현하거나 API 호출을 할 수 있습니다.
 			// 예를 들어, 이미 사용 중인 계정 ID인지 확인하는 API 호출을 할 수 있습니다.
 
@@ -63,15 +60,17 @@ const ProfileSetup = () => {
 			};
 
 			await axios
-				.post('https://api.mandarin.weniv.co.kr/user/accountnamevalid/', {
-					data,
+				.post('https://api.mandarin.weniv.co.kr/user/accountnamevalid/', data, {
 					headers: {
 						'Content-Type': 'application/json',
 					},
 				})
 				.then((response) => {
-					console.log(response);
-					console.log(response.data);
+					if (response.data.message === '이미 가입된 계정ID 입니다.') {
+						setIdDuplication(true);
+					} else {
+						setIdDuplication(false);
+					}
 				})
 				.catch((error) => {
 					console.error(error.response.data.message);
@@ -107,9 +106,6 @@ const ProfileSetup = () => {
 			})
 			.catch((error) => {
 				console.error(error.response.data.message);
-				if (error.response.data.message === '이미 사용중인 계정 ID입니다.') {
-					setIdDuplication(true);
-				}
 				console.log('오류 발생!');
 			});
 	};
