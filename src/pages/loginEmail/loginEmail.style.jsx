@@ -14,4 +14,7 @@ export const SignUpContainer = styled.span`
 	margin-top: 20px;
 	color: #767676;
 	font-size: 12px;
+	&:hover {
+		cursor: pointer;
+	}
 `;

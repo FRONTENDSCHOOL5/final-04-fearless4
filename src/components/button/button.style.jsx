@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import socialImg from '../../assets/image/social_login_sprites.png';
+import chat from '../../assets/icon/message-circle.svg';
+import share from '../../assets/icon/share.svg';
 
 export const SocialLoginButton = styled.button`
 	display: block;
@@ -38,7 +40,7 @@ export const SocialLoginButton = styled.button`
 export const LoginButton = styled.button`
 	font-size: 14px;
 	background-color: #81d8d0;
-	opacity: ${(props) => (props.disabled ? '0.3' : '1')};
+	opacity: ${({ disabled }) => (disabled === true ? 0.3 : 1)};
 	display: block;
 	width: 100%;
 	color: white;
@@ -46,5 +48,31 @@ export const LoginButton = styled.button`
 	border-radius: 44px;
 	border: none;
 	margin-top: 14px;
-	cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
+
+	cursor: ${({ disabled }) => (disabled === true ? 'not-allowed' : 'pointer')};
+`;
+
+export const ProfileButton = styled.button`
+	font-size: 14px;
+	font-weight: 500;
+	background-color: ${({ follow }) => (follow === true ? `#81d8d0` : `#fff`)};
+	display: block;
+	width: ${({ product }) => (product === true ? `100px` : `120px`)};
+	padding: 8px 0;
+	color: ${({ follow }) => (follow === true ? `#fff` : `#767676`)};
+	border-radius: 30px;
+	border: ${({ follow }) => (follow === true ? `none` : `solid 1px #DBDBDB`)};
+	cursor: pointer;
+`;
+
+export const ChatShare = styled.button`
+	width: 34px;
+	height: 34px;
+	padding: 7px;
+	border-radius: 50%;
+	box-sizing: border-box;
+	border: solid 1px #dbdbdb;
+	cursor: pointer;
+	background: url(${({ chatting }) => (chatting === true ? chat : share)})
+		no-repeat center;
 `;
