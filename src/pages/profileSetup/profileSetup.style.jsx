@@ -36,6 +36,7 @@ export const ImageInput = styled.input`
 
 export const ProfileImage = styled.img`
 	width: 100%;
+	border-radius: 50%;
 `;
 
 export const ImageButton = styled.img`

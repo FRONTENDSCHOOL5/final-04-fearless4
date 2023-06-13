@@ -24,8 +24,9 @@ const ProfileSetup = () => {
 	const [userName, setUserName] = useState('');
 	const [userId, setUserId] = useState('');
 	const [intro, setIntro] = useState('');
-	const [selectedImage, setSelectedImage] = useState(null);
-	const [buttonInvalid, setButtonInvalid] = useState(false);
+	const [selectedImage, setSelectedImage] = useState('');
+	const [idDuplication, setIdDuplication] = useState('false');
+	const [disabled, setDisabled] = useState(false);
 
 	const handleImageInputChange = async (e) => {
 		const formData = new FormData();
@@ -34,58 +35,51 @@ const ProfileSetup = () => {
 
 		try {
 			const response = await axios.post(
-				'https://api.mandarin.weniv.co.kr/image/uploadfile',
+				'https://api.mandarin.weniv.co.kr/image/uploadfile/',
 				formData
 			);
+
 			const imageUrl =
 				'https://api.mandarin.weniv.co.kr/' + response.data.filename;
+
 			setSelectedImage(imageUrl);
-			// 테스트 코드
-			console.log(imageUrl);
-			console.log(formData, imageFile);
 		} catch (error) {
 			console.error(error.response.data);
 		}
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
+
 		const formData = new FormData();
 		formData.append('image', selectedImage);
-		console.log(formData);
 
 		const data = {
 			user: {
 				username: userName,
-				email: 'thisTest7Email@test.com',
+				email: 'thisTest40Email@test.com',
 				password: '1234abcd!',
 				accountname: userId,
 				intro: intro,
 				image: selectedImage,
 			},
 		};
-		// 테스트 코드
-		console.log(data);
 
-		axios
-			.post('https://api.mandarin.weniv.co.kr/image/uploadfile', formData)
+		await axios
+			.post('https://api.mandarin.weniv.co.kr/user/', data, {
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			})
 			.then((response) => {
-				const imageUrl =
-					'https://api.mandarin.weniv.co.kr/' + response.data.filename;
-				data.user.image = imageUrl;
-				return axios
-					.post('https://api.mandarin.weniv.co.kr/user', data, {
-						headers: {
-							'Content-Type': 'application/json',
-						},
-					})
-					.then((response) => {
-						console.log(response.data);
-					})
-					.catch((error) => {
-						console.error(error.response.data);
-						console.log('오류 발생!');
-					});
+				console.log(response.data);
+			})
+			.catch((error) => {
+				console.error(error.response.data.message);
+				if (error.response.data.message === '이미 사용중인 계정 ID입니다.') {
+					setIdDuplication(true);
+				}
+				console.log('오류 발생!');
 			});
 	};
 
@@ -95,13 +89,13 @@ const ProfileSetup = () => {
 			<DescriptionText>나중에 언제든지 변경할 수 있습니다.</DescriptionText>
 
 			<WrapForm onSubmit={handleSubmit}>
-				<Upload onSubmit={handleImageInputChange}>
+				<Upload>
 					<ImageInput
 						type='file'
 						accept='image/*'
 						onChange={handleImageInputChange}
 					/>
-					<ProfileImage src={selectedImage || profilePic} alt='' />
+					<ProfileImage src={selectedImage || profilePic} alt='' />{' '}
 					<ImageButton src={profileImageUploadButton} alt='' />
 				</Upload>
 
@@ -131,6 +125,9 @@ const ProfileSetup = () => {
 							*영문, 숫자, 밑줄 및 마침표만 사용할 수 있습니다.
 						</Incorrect>
 					)}
+					{idDuplication === true ? (
+						<Incorrect>*이미 사용중인 계정 ID입니다.</Incorrect>
+					) : null}
 				</FormElement>
 
 				<FormElement>
@@ -144,7 +141,7 @@ const ProfileSetup = () => {
 					/>
 				</FormElement>
 
-				<LoginButton disabled={buttonInvalid}>트래블어스 시작하기</LoginButton>
+				<LoginButton disabled={disabled}>트래블어스 시작하기</LoginButton>
 			</WrapForm>
 		</WrapperProfileSetup>
 	);
