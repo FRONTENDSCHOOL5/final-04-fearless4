@@ -34,7 +34,8 @@ export const OptionModalTab = styled.button`
 	background: url(${optionIcon}) no-repeat center;
 `;
 
-export const NavTitle = styled.span`
+export const NavbarTitle = styled.span`
 	font-size: 14px;
 	font-weight: 400;
+	margin-left: 8px;
 `;

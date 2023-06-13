@@ -1,5 +1,9 @@
 import React from 'react';
-import { Backspace, NavbarWrap } from '../../components/navbar/navbar.style';
+import {
+	Backspace,
+	NavbarTitle,
+	NavbarWrap,
+} from '../../components/navbar/navbar.style';
 import {
 	UserContent,
 	UserFlexWrap,
@@ -16,7 +20,7 @@ export default function Follwers() {
 		<Wrapper>
 			<NavbarWrap>
 				<Backspace />
-				<span>Followers</span>
+				<NavbarTitle>Followers</NavbarTitle>
 			</NavbarWrap>
 
 			<UserWrap>
