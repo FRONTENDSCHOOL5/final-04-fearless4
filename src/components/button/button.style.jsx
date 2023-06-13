@@ -76,3 +76,20 @@ export const ChatShare = styled.button`
 	background: url(${({ chatting }) => (chatting === true ? chat : share)})
 		no-repeat center;
 `;
+
+// await axios
+// .post('https://api.mandarin.weniv.co.kr/user/', data, {
+//   headers: {
+//     'Content-Type': 'application/json',
+//   },
+// })
+// .then((response) => {
+//   console.log(response.data);
+// })
+// .catch((error) => {
+//   console.error(error.response.data.message);
+//   if (error.response.data.message === '이미 사용중인 계정 ID입니다.') {
+//     setIdDuplication(true);
+//   }
+//   console.log('오류 발생!');
+// });

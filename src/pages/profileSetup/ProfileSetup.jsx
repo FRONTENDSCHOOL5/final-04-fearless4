@@ -48,6 +48,37 @@ const ProfileSetup = () => {
 		}
 	};
 
+	const validateUserId = async () => {
+		console.log(userId);
+		if (!userId || /^[A-Za-z0-9._]+$/.test(userId)) {
+			setIdDuplication(false);
+
+			// 유효성 검사 통과 후에 추가적인 로직을 구현하거나 API 호출을 할 수 있습니다.
+			// 예를 들어, 이미 사용 중인 계정 ID인지 확인하는 API 호출을 할 수 있습니다.
+
+			const data = {
+				user: {
+					accountname: userId,
+				},
+			};
+
+			await axios
+				.post('https://api.mandarin.weniv.co.kr/user/accountnamevalid/', {
+					data,
+					headers: {
+						'Content-Type': 'application/json',
+					},
+				})
+				.then((response) => {
+					console.log(response);
+					console.log(response.data);
+				})
+				.catch((error) => {
+					console.error(error.response.data.message);
+				});
+		}
+	};
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
@@ -57,7 +88,7 @@ const ProfileSetup = () => {
 		const data = {
 			user: {
 				username: userName,
-				email: 'thisTest40Email@test.com',
+				email: 'thisTest41Email@test.com',
 				password: '1234abcd!',
 				accountname: userId,
 				intro: intro,
@@ -117,6 +148,7 @@ const ProfileSetup = () => {
 						id='user-id'
 						value={userId}
 						onChange={(e) => setUserId(e.target.value)}
+						onBlur={validateUserId}
 						placeholder='영문, 숫자, 특수문자(.),(_)만 사용 가능합니다.'
 						pattern='^[A-Za-z0-9._]+$'
 					/>
@@ -125,9 +157,9 @@ const ProfileSetup = () => {
 							*영문, 숫자, 밑줄 및 마침표만 사용할 수 있습니다.
 						</Incorrect>
 					)}
-					{idDuplication === true ? (
+					{idDuplication === true && (
 						<Incorrect>*이미 사용중인 계정 ID입니다.</Incorrect>
-					) : null}
+					)}
 				</FormElement>
 
 				<FormElement>
