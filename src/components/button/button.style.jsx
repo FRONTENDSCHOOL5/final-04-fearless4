@@ -75,3 +75,17 @@ export const ChatShare = styled.button`
 	background: url(${({ chatting }) => (chatting === true ? chat : share)})
 		no-repeat center;
 `;
+
+export const FollowButton = styled.button`
+	font-size: 12px;
+	font-weight: 500;
+	background-color: ${({ follow }) => (follow === true ? `#81d8d0` : `#fff`)};
+	display: block;
+	width: 60px;
+	height: 30px;
+	padding: 0 11px;
+	color: ${({ follow }) => (follow === true ? `#fff` : `#767676`)};
+	border-radius: 30px;
+	border: ${({ follow }) => (follow === true ? `none` : `solid 1px #DBDBDB`)};
+	cursor: pointer;
+`;

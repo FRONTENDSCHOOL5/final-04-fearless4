@@ -8,6 +8,7 @@ const ProfileSetup = lazy(() => import('../pages/profileSetup/ProfileSetup'));
 const Signup = lazy(() => import('../pages/loginEmail/Signup'));
 const UserProfile = lazy(() => import('../pages/userProfile/UserProfile'));
 const MYProfile = lazy(() => import('../pages/userProfile/MyProfile'));
+const Followers = lazy(() => import('../pages/follow/Follwers'));
 
 const renderLoader = () => <span>로딩중...</span>;
 
@@ -22,6 +23,7 @@ export default function Router() {
 					<Route path='/signup' element={<Signup />} />
 					<Route path='/userProfile' element={<UserProfile />}></Route>
 					<Route path='/myProfile' element={<MYProfile />}></Route>
+					<Route path='/followers' element={<Followers />}></Route>
 				</Routes>
 			</Suspense>
 		</BrowserRouter>
