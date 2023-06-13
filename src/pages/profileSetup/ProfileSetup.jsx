@@ -30,16 +30,12 @@ const ProfileSetup = () => {
 	const [disabled, setDisabled] = useState(true);
 
 	useEffect(() => {
-		userName.length >= 2 &&
-		userName.length <= 10 &&
-		!notValidUserId &&
-		!idDuplication
-			? setDisabled(false)
-			: setDisabled(true);
-	}, [idDuplication, notValidUserId]);
+		if (!userName) {
+			setDisabled(true);
+		}
+	}, [userName]);
 
-	console.log(userName, notValidUserId, !idDuplication);
-
+	console.log(userName, !notValidUserId, !idDuplication);
 	const handleImageInputChange = async (e) => {
 		const formData = new FormData();
 		const imageFile = e.target.files[0];
@@ -77,10 +73,17 @@ const ProfileSetup = () => {
 					},
 				})
 				.then((response) => {
+					console.log(response);
 					if (response.data.message === '이미 가입된 계정ID 입니다.') {
 						setIdDuplication(true);
-					} else {
+					} else if (
+						response.data.message === '사용 가능한 계정ID 입니다.' &&
+						userName
+					) {
 						setIdDuplication(false);
+						setDisabled(false);
+					} else {
+						console.log('접근 불가');
 					}
 				})
 				.catch((error) => {
@@ -100,7 +103,7 @@ const ProfileSetup = () => {
 		const data = {
 			user: {
 				username: userName,
-				email: 'thisTest41Email@test.com',
+				email: 'thisTest42Email@test.com',
 				password: '1234abcd!',
 				accountname: userId,
 				intro: intro,
