@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
 	Title,
@@ -26,8 +26,19 @@ const ProfileSetup = () => {
 	const [intro, setIntro] = useState('');
 	const [selectedImage, setSelectedImage] = useState('');
 	const [idDuplication, setIdDuplication] = useState(false);
-	const [isValidUserId, setIsValidUserId] = useState(true);
+	const [notValidUserId, setNotValidUserId] = useState(false);
 	const [disabled, setDisabled] = useState(true);
+
+	useEffect(() => {
+		userName.length >= 2 &&
+		userName.length <= 10 &&
+		!notValidUserId &&
+		!idDuplication
+			? setDisabled(false)
+			: setDisabled(true);
+	}, [idDuplication, notValidUserId]);
+
+	console.log(userName, notValidUserId, !idDuplication);
 
 	const handleImageInputChange = async (e) => {
 		const formData = new FormData();
@@ -51,9 +62,7 @@ const ProfileSetup = () => {
 
 	const validateUserId = async () => {
 		if (!userId || /^[A-Za-z0-9._]+$/.test(userId)) {
-			// 유효성 검사 통과 후에 추가적인 로직을 구현하거나 API 호출을 할 수 있습니다.
-			// 예를 들어, 이미 사용 중인 계정 ID인지 확인하는 API 호출을 할 수 있습니다.
-			setIsValidUserId(true);
+			setNotValidUserId(false);
 
 			const data = {
 				user: {
@@ -78,17 +87,12 @@ const ProfileSetup = () => {
 					console.error(error.response.data.message);
 				});
 		} else {
-			setIsValidUserId(false);
+			setNotValidUserId(true);
 		}
 	};
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-
-		await validateUserId();
-		if (isValidUserId && !idDuplication) {
-			setDisabled(false);
-		}
 
 		const formData = new FormData();
 		formData.append('image', selectedImage);
@@ -157,12 +161,12 @@ const ProfileSetup = () => {
 						placeholder='영문, 숫자, 특수문자(.),(_)만 사용 가능합니다.'
 						pattern='^[A-Za-z0-9._]+$'
 					/>
-					{isValidUserId === false && (
+					{notValidUserId && (
 						<Incorrect>
 							*영문, 숫자, 밑줄 및 마침표만 사용할 수 있습니다.
 						</Incorrect>
 					)}
-					{idDuplication === true && (
+					{idDuplication && (
 						<Incorrect>*이미 사용중인 계정 ID입니다.</Incorrect>
 					)}
 				</FormElement>
