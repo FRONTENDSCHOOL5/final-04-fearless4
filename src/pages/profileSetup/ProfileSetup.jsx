@@ -26,7 +26,8 @@ const ProfileSetup = () => {
 	const [intro, setIntro] = useState('');
 	const [selectedImage, setSelectedImage] = useState('');
 	const [idDuplication, setIdDuplication] = useState(false);
-	const [disabled, setDisabled] = useState(false);
+	const [isValidUserId, setIsValidUserId] = useState(true);
+	const [disabled, setDisabled] = useState(true);
 
 	const handleImageInputChange = async (e) => {
 		const formData = new FormData();
@@ -52,6 +53,7 @@ const ProfileSetup = () => {
 		if (!userId || /^[A-Za-z0-9._]+$/.test(userId)) {
 			// 유효성 검사 통과 후에 추가적인 로직을 구현하거나 API 호출을 할 수 있습니다.
 			// 예를 들어, 이미 사용 중인 계정 ID인지 확인하는 API 호출을 할 수 있습니다.
+			setIsValidUserId(true);
 
 			const data = {
 				user: {
@@ -75,11 +77,18 @@ const ProfileSetup = () => {
 				.catch((error) => {
 					console.error(error.response.data.message);
 				});
+		} else {
+			setIsValidUserId(false);
 		}
 	};
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+
+		await validateUserId();
+		if (isValidUserId && !idDuplication) {
+			setDisabled(false);
+		}
 
 		const formData = new FormData();
 		formData.append('image', selectedImage);
@@ -148,7 +157,7 @@ const ProfileSetup = () => {
 						placeholder='영문, 숫자, 특수문자(.),(_)만 사용 가능합니다.'
 						pattern='^[A-Za-z0-9._]+$'
 					/>
-					{userId && !/^[A-Za-z0-9._]+$/.test(userId) && (
+					{isValidUserId === false && (
 						<Incorrect>
 							*영문, 숫자, 밑줄 및 마침표만 사용할 수 있습니다.
 						</Incorrect>
