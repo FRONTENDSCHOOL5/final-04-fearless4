@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>트래블어스 | 상품 등록</title>
+  <link rel="stylesheet" href="./product.css">
+</head>
+
+<body>
+  <nav>
+    <img class="arrow-left" src="../assets/icon/arrow-left.svg" alt="화살표 아이콘">
+    <button class="save-btn" type="button">저장</button>
+  </nav>
+
+  <div class="product-container">
+    <div class="upload">
+      <img class="upload-img" src="../assets/image/profileImageUploadButton.png" alt="업로드버튼">
+      <label class="label-style" for="bg-btn">이미지 등록</label>
+      <input class="input-style" id="bg-btn" type="file">
+      <div class="bg-btn-cover"></div>
+    </div>
+
+    <div class="input-wrap">
+      <div class="product">
+        <label class="label-style" for="product-name">상품명</label>
+        <input class="input-style" id="product-name" type="text" placeholder="2 ~ 15자 이내여야 합니다.">
+      </div>
+      <div class="price">
+        <label class="label-style" for="product-price">가격</label>
+        <input class="input-style" id="product-price" type="number" placeholder="숫자만 입력 가능합니다.">
+      </div>
+      <div class="link">
+        <label class="label-style" for="sales-link">판매 링크</label>
+        <input class="input-style" id="sales-link" type="url" placeholder="URL을 입력해 주세요.">
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>
