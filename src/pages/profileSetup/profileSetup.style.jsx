@@ -7,14 +7,6 @@ export const WrapperProfileSetup = styled.div`
 	padding: 54px 34px 0px 34px;
 `;
 
-export const ProfileText = styled.h1`
-	display: block;
-	text-align: center;
-	font-size: 24px;
-	margin-bottom: 16px;
-	font-weight: 700;
-`;
-
 export const DescriptionText = styled.p`
 	display: block;
 	text-align: center;
@@ -31,11 +23,21 @@ export const Upload = styled.div`
 	display: flex;
 	justify-content: center;
 	position: relative;
+	cursor: pointer;
+`;
+
+export const ImageInput = styled.input`
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	opacity: 0;
+	z-index: 1;
 `;
 
 export const ProfileImage = styled.img`
 	width: 100%;
-	cursor: pointer;
+	border-radius: 50%;
+	object-fit: cover;
 `;
 
 export const ImageButton = styled.img`
@@ -43,27 +45,9 @@ export const ImageButton = styled.img`
 	position: absolute;
 	bottom: 0;
 	right: 0;
-	cursor: pointer;
 `;
 
-export const Name = styled.div`
-	display: flex;
-	flex-direction: column;
-	gap: 15px;
-`;
-
-export const ID = styled.div`
-	display: flex;
-	flex-direction: column;
-	gap: 15px;
-
-	span {
-		font-size: 12px;
-		color: #eb5757;
-	}
-`;
-
-export const Intro = styled.div`
+export const FormElement = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 15px;
