@@ -14,7 +14,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function LoginEmail() {
 	const [emailValid, setEmailValid] = useState(false);
-	const [email, setEmail] = useState('');
+	const [email, setEmadil] = useState('');
 	const [pw, setPw] = useState('');
 	const [correct, setCorrect] = useState(false);
 	const [disabled, setDisabled] = useState(true);
