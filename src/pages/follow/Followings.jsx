@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import {
 	Backspace,
 	NavbarTitle,
@@ -21,16 +22,17 @@ import userNoneProfile from '../../assets/image/profilePic.png';
 export default function Follwers() {
 	const [follower, setFollower] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
+	const location = useLocation();
+	const accountname = location.state.accountname;
+	const token = location.state.token;
 
 	const url = 'https://api.mandarin.weniv.co.kr';
-	const token =
-		'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYjI2YzkyYjJjYjIwNTY2MzliZjg4ZCIsImV4cCI6MTY5MTgyMTIxMywiaWF0IjoxNjg2NjM3MjEzfQ.qEBk3V1ntQiSjVgujCAs8TDGX2HKy9FlJyCymPD866A';
 
 	const followerData = async () => {
 		try {
 			const res = await axios({
 				method: 'GET',
-				url: `${url}/profile/nonamukza/following`,
+				url: `${url}/profile/${accountname}/following`,
 				headers: {
 					Authorization: `Bearer ${token}`,
 					'Content-type': 'application/json',
@@ -43,7 +45,6 @@ export default function Follwers() {
 			console.log('에러입니다', error);
 		}
 	};
-	console.log(follower);
 
 	useEffect(() => {
 		followerData();

@@ -26,6 +26,7 @@ import { useEffect } from 'react';
 export default function UserProfile() {
 	const [profile, setProfile] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
+	const accountname = 'nonamukza';
 
 	const url = 'https://api.mandarin.weniv.co.kr';
 	const token =
@@ -47,7 +48,6 @@ export default function UserProfile() {
 			console.log('에러입니다', error);
 		}
 	};
-	// console.log(profile.profile.followerCount);
 
 	useEffect(() => {
 		profileData();
@@ -66,10 +66,11 @@ export default function UserProfile() {
 				{isLoading && (
 					<>
 						<ProfileImgWrap>
-							<FollowerWrap>
-								<FollowerNumber followers>
-									{profile.profile.followerCount}
-								</FollowerNumber>
+							<FollowerWrap
+								to='/followers'
+								state={{ accountname: accountname, token: token }}
+							>
+								<FollowerNumber>{profile.profile.followerCount}</FollowerNumber>
 								<Follower>followers</Follower>
 							</FollowerWrap>
 
@@ -80,7 +81,10 @@ export default function UserProfile() {
 								alt=''
 							></ProfileImage>
 
-							<FollowerWrap>
+							<FollowerWrap
+								to='/followings'
+								state={{ accountname: accountname, token: token }}
+							>
 								<FollowerNumber>
 									{profile.profile.followingCount}
 								</FollowerNumber>

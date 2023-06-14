@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const ProfileWrapper = styled.div`
@@ -40,7 +41,7 @@ export const Follower = styled.span`
 	color: #767676;
 `;
 
-export const FollowerWrap = styled.div`
+export const FollowerWrap = styled(Link)`
 	display: flex;
 	flex-direction: column;
 	align-items: center;

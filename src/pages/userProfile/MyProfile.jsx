@@ -24,6 +24,7 @@ import axios from 'axios';
 export default function UserProfile() {
 	const [profile, setProfile] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
+	const accountname = 'nonamukza';
 
 	const url = 'https://api.mandarin.weniv.co.kr';
 	const token =
@@ -33,7 +34,7 @@ export default function UserProfile() {
 		try {
 			const res = await axios({
 				method: 'GET',
-				url: `${url}/profile/nonamukza`,
+				url: `${url}/profile/${accountname}`,
 				headers: {
 					Authorization: `Bearer ${token}`,
 					'Content-type': 'application/json',
@@ -45,7 +46,6 @@ export default function UserProfile() {
 			console.log('에러입니다', error);
 		}
 	};
-	// console.log(profile.profile.followerCount);
 
 	useEffect(() => {
 		profileData();
@@ -66,7 +66,10 @@ export default function UserProfile() {
 				{isLoading && (
 					<>
 						<ProfileImgWrap>
-							<FollowerWrap>
+							<FollowerWrap
+								to='/followers'
+								state={{ accountname: accountname, token: token }}
+							>
 								<FollowerNumber followers>
 									{profile.profile.followerCount}
 								</FollowerNumber>
@@ -80,7 +83,10 @@ export default function UserProfile() {
 								alt=''
 							></ProfileImage>
 
-							<FollowerWrap>
+							<FollowerWrap
+								to='/followings'
+								state={{ accountname: accountname, token: token }}
+							>
 								<FollowerNumber>
 									{profile.profile.followingCount}
 								</FollowerNumber>
