@@ -1,5 +1,5 @@
-import React from 'react';
-import { ChatShare, ProfileButton } from '../../components/button/button.style';
+import React, { useState, useEffect } from 'react';
+import { ProfileButton } from '../../components/button/button.style';
 import {
 	ProfileWrapper,
 	Intro,
@@ -20,47 +20,94 @@ import {
 	OptionModalTab,
 } from '../../components/navbar/navbar.style';
 import { ModalText, ModalWrap } from '../../components/modal/modal.style';
+import axios from 'axios';
 export default function UserProfile() {
+	const [profile, setProfile] = useState([]);
+	const [isLoading, setIsLoading] = useState(false);
+	const accountname = 'nonamukza';
+
+	const url = 'https://api.mandarin.weniv.co.kr';
+	const token =
+		'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYjI2YzkyYjJjYjIwNTY2MzliZjg4ZCIsImV4cCI6MTY5MTgyMTIxMywiaWF0IjoxNjg2NjM3MjEzfQ.qEBk3V1ntQiSjVgujCAs8TDGX2HKy9FlJyCymPD866A';
+
+	const profileData = async () => {
+		try {
+			const res = await axios({
+				method: 'GET',
+				url: `${url}/profile/${accountname}`,
+				headers: {
+					Authorization: `Bearer ${token}`,
+					'Content-type': 'application/json',
+				},
+			});
+			setIsLoading(true);
+			setProfile(res.data);
+		} catch (error) {
+			console.log('에러입니다', error);
+		}
+	};
+
+	useEffect(() => {
+		profileData();
+	}, []);
+
+	const handleImgError = (e) => {
+		e.target.src = profilePic;
+	};
+
 	return (
 		<>
 			<ProfileWrapper>
-				<NavbarWrap profile>
+				<NavbarWrap profile='true'>
 					<Backspace />
 					<OptionModalTab />
 				</NavbarWrap>
-				<ProfileImgWrap>
-					<FollowerWrap>
-						<FollowerNumber followers>2950</FollowerNumber>
-						<Follower>followers</Follower>
-					</FollowerWrap>
 
-					<ProfileImage
-						style={{ width: '110px', height: '110px' }}
-						src={profilePic}
-						alt=''
-					></ProfileImage>
+				{isLoading && (
+					<>
+						<ProfileImgWrap>
+							<FollowerWrap
+								to='/followers'
+								state={{ accountname: accountname, token: token }}
+							>
+								<FollowerNumber followers>
+									{profile.profile.followerCount}
+								</FollowerNumber>
+								<Follower>followers</Follower>
+							</FollowerWrap>
 
-					<FollowerWrap>
-						<FollowerNumber>128</FollowerNumber>
-						<Follower>followings</Follower>
-					</FollowerWrap>
-				</ProfileImgWrap>
+							<ProfileImage
+								style={{ width: '110px', height: '110px' }}
+								src={profile.profile.image}
+								onError={handleImgError}
+								alt=''
+							></ProfileImage>
 
-				<UserWrap>
-					<UserNickName>애월읍 위니브 감귤 농장</UserNickName>
-					<UserEmail>@ weniv_Mandarin</UserEmail>
-					<Intro>애월읍 감귤 전국 배송, 귤따기 체험, 감귤 농장</Intro>
-				</UserWrap>
+							<FollowerWrap
+								to='/followings'
+								state={{ accountname: accountname, token: token }}
+							>
+								<FollowerNumber>
+									{profile.profile.followingCount}
+								</FollowerNumber>
+								<Follower>followings</Follower>
+							</FollowerWrap>
+						</ProfileImgWrap>
 
-				<ProfileButtonWrap>
-					{/* <ProfileButton follow type='button'>
-						팔로우
-					</ProfileButton> */}
-					<ProfileButton type='button'>프로필 수정</ProfileButton>
-					<ProfileButton product type='button'>
-						상품 등록
-					</ProfileButton>
-				</ProfileButtonWrap>
+						<UserWrap>
+							<UserNickName>{profile.profile.accountname}</UserNickName>
+							<UserEmail>@ {profile.profile.accountname}</UserEmail>
+							<Intro>{profile.profile.intro}</Intro>
+						</UserWrap>
+
+						<ProfileButtonWrap>
+							<ProfileButton type='button'>프로필 수정</ProfileButton>
+							<ProfileButton product type='button'>
+								상품 등록
+							</ProfileButton>
+						</ProfileButtonWrap>
+					</>
+				)}
 				<ModalWrap>
 					<ModalText>설정 및 개인정보</ModalText>
 					<ModalText>로그아웃</ModalText>
