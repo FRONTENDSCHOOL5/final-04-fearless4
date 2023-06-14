@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Backspace, NavbarWrap } from '../../components/navbar/navbar.style';
 import {
 	BgBtnCover,
@@ -15,6 +15,23 @@ import UploadButton from '../../assets/image/profileImageUploadButton.png';
 import { SaveButton } from '../../components/button/button.style';
 
 export default function Product() {
+	const [productPrice, setProductPrice] = useState('');
+
+	function handlePriceChange(e) {
+		const productPriceValue = e.target.value;
+		const numericPrice = parseInt(productPriceValue.replace(/[^0-9]+/g, ''));
+		const convertedPrice = numericPrice.toLocaleString('ko-KR', {
+			style: 'currency',
+			currency: 'KRW',
+		});
+
+		if (isNaN(numericPrice)) {
+			setProductPrice('');
+		} else {
+			setProductPrice(convertedPrice);
+		}
+	}
+
 	return (
 		<>
 			<NavbarWrap profile>
@@ -43,7 +60,9 @@ export default function Product() {
 						<InputStyle
 							id='product-price'
 							type='text'
+							value={productPrice}
 							placeholder='숫자만 입력 가능합니다.'
+							onChange={handlePriceChange}
 						/>
 					</InputList>
 					<InputList>
