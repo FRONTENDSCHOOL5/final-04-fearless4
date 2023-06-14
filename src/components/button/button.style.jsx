@@ -90,3 +90,14 @@ export const FollowButton = styled.button`
 	border: ${({ follow }) => (follow === false ? `none` : `solid 1px #DBDBDB`)};
 	cursor: pointer;
 `;
+
+export const SaveButton = styled.button`
+	border-radius: 32px;
+	color: rgba(255, 255, 255, 1);
+	width: 90px;
+	height: 32px;
+	background-color: #81d8d0;
+	border: none;
+	font-size: 14px;
+	opacity: 0.3;
+`;
