@@ -7,7 +7,7 @@ export const NavbarWrap = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: ${({ profile }) =>
-		profile === true ? `space-between` : `initial`};
+		profile === 'true' ? `space-between` : `initial`};
 	/* width: 100%; */
 	padding: 12px;
 	box-sizing: border-box;
