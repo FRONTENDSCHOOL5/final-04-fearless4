@@ -5,8 +5,16 @@
 // 4. 레이아웃 다 잡히면 기능명세 보고 기능구현 생각해보기
 // 5. 기능구현하고 리팩토링하기
 
-// 2. 필요한 컴포넌트
-// 1. 내 프로필 아이콘(사진)을 포함하는 아이콘 ProfileIcon
-// 2. nav bar: 업로드 버튼 추가 (PostUploadButton)
-// 3. 게시물 입력이 가능한 textarea (placeholder 포함)
-// 4. 이미지 업로드가 가능한 업로드 버튼 (이건 profileSetup 활용)
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { NavbarWrap } from '../../components/navbar/navbar.style';
+
+const WritePost = () => {
+	return (
+		<>
+			<NavbarWrap></NavbarWrap>
+		</>
+	);
+};
+
+export default WritePost;
