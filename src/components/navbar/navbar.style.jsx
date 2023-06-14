@@ -6,7 +6,8 @@ export const NavbarWrap = styled.div`
 	width: 100%;
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
+	justify-content: ${({ profile }) =>
+		profile === true ? `space-between` : `initial`};
 	/* width: 100%; */
 	padding: 12px;
 	box-sizing: border-box;
@@ -31,4 +32,10 @@ export const OptionModalTab = styled.button`
 	border: none;
 	cursor: pointer;
 	background: url(${optionIcon}) no-repeat center;
+`;
+
+export const NavbarTitle = styled.span`
+	font-size: 14px;
+	font-weight: 400;
+	margin-left: 8px;
 `;
