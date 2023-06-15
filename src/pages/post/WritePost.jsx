@@ -13,6 +13,7 @@ import {
 } from '../../components/button/button.style';
 
 const WritePost = () => {
+	// 테스트용 메세지 추가
 	return (
 		<WrapperWriteProfile>
 			<NavbarWrap spaceBetween>
