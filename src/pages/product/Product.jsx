@@ -10,12 +10,30 @@ import {
 	Upload,
 	UploadImage,
 } from './product.style';
-import { LabelStyle } from '../../components/form/form.style';
+import { Incorrect, LabelStyle } from '../../components/form/form.style';
 import UploadButton from '../../assets/image/profileImageUploadButton.png';
 import { SaveButton } from '../../components/button/button.style';
 
 export default function Product() {
+	// 상품명 입력
+	const [productName, setProductName] = useState('');
+	const [productNameError, setProductNameError] = useState('');
+	// 가격 입력
 	const [productPrice, setProductPrice] = useState('');
+	// URL 입력
+	const [salesLink, setSalesLink] = useState('');
+	const [salesLinkError, setSalesLinkError] = useState('');
+
+	function handleProductNameChange(e) {
+		const productNameValue = e.target.value;
+		setProductName(productNameValue);
+
+		if (productNameValue.length < 2 || productNameValue.length > 15) {
+			setProductNameError('2 ~ 15자 사이로 입력해주세요.');
+		} else {
+			setProductNameError('');
+		}
+	}
 
 	function handlePriceChange(e) {
 		const productPriceValue = e.target.value;
@@ -29,6 +47,19 @@ export default function Product() {
 			setProductPrice('');
 		} else {
 			setProductPrice(convertedPrice);
+		}
+	}
+
+	function handleSalesLinkChange(e) {
+		const salesLinkValue = e.target.value;
+		setSalesLink(salesLinkValue);
+		const urlPatterns =
+			/^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/i;
+
+		if (!urlPatterns.test(salesLinkValue)) {
+			setSalesLinkError('유효한 URL을 입력해주세요.');
+		} else {
+			setSalesLinkError('');
 		}
 	}
 
@@ -53,7 +84,10 @@ export default function Product() {
 							id='product-name'
 							type='text'
 							placeholder='2 ~ 15자 이내여야 합니다.'
+							value={productName}
+							onChange={handleProductNameChange}
 						/>
+						{productNameError && <Incorrect>{productNameError}</Incorrect>}
 					</InputList>
 					<InputList>
 						<LabelStyle htmlFor='product-price'>가격</LabelStyle>
@@ -71,7 +105,10 @@ export default function Product() {
 							id='sales-link'
 							type='url'
 							placeholder='URL을 입력해 주세요.'
+							value={salesLink}
+							onChange={handleSalesLinkChange}
 						/>
+						{salesLinkError && <Incorrect>{salesLinkError}</Incorrect>}
 					</InputList>
 				</InputWrap>
 			</ProductContainer>
