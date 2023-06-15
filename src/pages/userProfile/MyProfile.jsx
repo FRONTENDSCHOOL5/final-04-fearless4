@@ -21,14 +21,17 @@ import {
 } from '../../components/navbar/navbar.style';
 import { ModalText, ModalWrap } from '../../components/modal/modal.style';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
 export default function UserProfile() {
+	const navigate = useNavigate();
 	const [profile, setProfile] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
-	const accountname = 'nonamukza';
+	const accountname = 'jun';
 
 	const url = 'https://api.mandarin.weniv.co.kr';
 	const token =
-		'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYjI2YzkyYjJjYjIwNTY2MzliZjg4ZCIsImV4cCI6MTY5MTgyMTIxMywiaWF0IjoxNjg2NjM3MjEzfQ.qEBk3V1ntQiSjVgujCAs8TDGX2HKy9FlJyCymPD866A';
+		'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0N2YzNmM4YjJjYjIwNTY2MzJkNjBiZiIsImV4cCI6MTY5MTk3Njg3OSwiaWF0IjoxNjg2NzkyODc5fQ.vwMFkmxyEbUjd6xeOB1cTXiJqR10z1CqIpsoDClB1hc';
 
 	const profileData = async () => {
 		try {
@@ -68,7 +71,10 @@ export default function UserProfile() {
 						<ProfileImgWrap>
 							<FollowerWrap
 								to='/followers'
-								state={{ accountname: accountname, token: token }}
+								state={{
+									accountname: accountname,
+									token: token,
+								}}
 							>
 								<FollowerNumber followers>
 									{profile.profile.followerCount}
@@ -101,7 +107,15 @@ export default function UserProfile() {
 						</UserWrap>
 
 						<ProfileButtonWrap>
-							<ProfileButton type='button'>프로필 수정</ProfileButton>
+							<ProfileButton
+								type='button'
+								onClick={() => {
+									navigate('/myprofileedit', { state: { token: token } });
+								}}
+							>
+								프로필 수정
+							</ProfileButton>
+
 							<ProfileButton product type='button'>
 								상품 등록
 							</ProfileButton>

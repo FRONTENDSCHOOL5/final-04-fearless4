@@ -26,17 +26,18 @@ import { useEffect } from 'react';
 export default function UserProfile() {
 	const [profile, setProfile] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
-	const accountname = 'nonamukza';
+
+	const accountname = 'jun';
 
 	const url = 'https://api.mandarin.weniv.co.kr';
 	const token =
-		'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYjI2YzkyYjJjYjIwNTY2MzliZjg4ZCIsImV4cCI6MTY5MTgyMTIxMywiaWF0IjoxNjg2NjM3MjEzfQ.qEBk3V1ntQiSjVgujCAs8TDGX2HKy9FlJyCymPD866A';
+		'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0N2YzNmM4YjJjYjIwNTY2MzJkNjBiZiIsImV4cCI6MTY5MTk3Njg3OSwiaWF0IjoxNjg2NzkyODc5fQ.vwMFkmxyEbUjd6xeOB1cTXiJqR10z1CqIpsoDClB1hc';
 
 	const profileData = async () => {
 		try {
 			const res = await axios({
 				method: 'GET',
-				url: `${url}/profile/nonamukza`,
+				url: `${url}/profile/${accountname}`,
 				headers: {
 					Authorization: `Bearer ${token}`,
 					'Content-type': 'application/json',
@@ -68,7 +69,10 @@ export default function UserProfile() {
 						<ProfileImgWrap>
 							<FollowerWrap
 								to='/followers'
-								state={{ accountname: accountname, token: token }}
+								state={{
+									accountname: accountname,
+									token: token,
+								}}
 							>
 								<FollowerNumber>{profile.profile.followerCount}</FollowerNumber>
 								<Follower>followers</Follower>
