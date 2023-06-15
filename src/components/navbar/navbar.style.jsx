@@ -6,8 +6,8 @@ export const NavbarWrap = styled.div`
 	width: 100%;
 	display: flex;
 	align-items: center;
-	justify-content: ${({ profile }) =>
-		profile === true ? `space-between` : `initial`};
+	justify-content: ${({ spaceBetween }) =>
+		spaceBetween === true ? `space-between` : `initial`};
 	/* width: 100%; */
 	padding: 12px;
 	box-sizing: border-box;

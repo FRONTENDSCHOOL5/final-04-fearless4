@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import {
 	Title,
@@ -21,6 +22,11 @@ import profilePic from '../../assets/image/profilePic.png';
 import profileImageUploadButton from '../../assets/image/profileImageUploadButton.png';
 
 const ProfileSetup = () => {
+	// eslint-disable-next-line no-restricted-globals
+	const email = useState(location.state.email);
+	// eslint-disable-next-line no-restricted-globals
+	const password = useState(location.state.password);
+	console.log(email, password);
 	const [userName, setUserName] = useState('');
 	const [userId, setUserId] = useState('');
 	const [intro, setIntro] = useState('');
@@ -103,8 +109,8 @@ const ProfileSetup = () => {
 		const data = {
 			user: {
 				username: userName,
-				email: 'thisTest42Email@test.com',
-				password: '1234abcd!',
+				email: email,
+				password: password,
 				accountname: userId,
 				intro: intro,
 				image: selectedImage,
