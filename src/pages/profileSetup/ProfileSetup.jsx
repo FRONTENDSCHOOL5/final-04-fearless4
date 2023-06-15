@@ -22,11 +22,12 @@ import profilePic from '../../assets/image/profilePic.png';
 import profileImageUploadButton from '../../assets/image/profileImageUploadButton.png';
 
 const ProfileSetup = () => {
+	const location = useLocation();
+	console.log(location);
 	// eslint-disable-next-line no-restricted-globals
-	const email = useState(location.state.email);
+	const email = location.state.email;
 	// eslint-disable-next-line no-restricted-globals
-	const password = useState(location.state.password);
-	console.log(email, password);
+	const password = location.state.password;
 	const [userName, setUserName] = useState('');
 	const [userId, setUserId] = useState('');
 	const [intro, setIntro] = useState('');
