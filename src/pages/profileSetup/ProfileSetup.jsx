@@ -35,6 +35,8 @@ const ProfileSetup = () => {
 	const [notValidUserId, setNotValidUserId] = useState(false);
 	const [disabled, setDisabled] = useState(true);
 
+	// 테스트용 주석
+
 	useEffect(() => {
 		if (!userName) {
 			setDisabled(true);
