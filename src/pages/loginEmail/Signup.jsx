@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 export default function Signup() {
 	const url = API_URL;
 	const valid = exptext;
+	const navigate = useNavigate();
 
 	const [email, setEmail] = useState('');
 	const [validEmail, setValidEmail] = useState(false);
@@ -43,6 +44,7 @@ export default function Signup() {
 	const validPw = () => {
 		setPassword(pwAlertMsg.current.value);
 	};
+
 	useEffect(() => {
 		validEmail && password.length >= 6 ? setDisabled(false) : setDisabled(true);
 		if (password.length >= 1) {
@@ -119,7 +121,17 @@ export default function Signup() {
 							<Incorrect>*비밀번호는 6자 이상이어야 합니다.</Incorrect>
 						)}
 
-						<LoginButton disabled={disabled}>다음</LoginButton>
+						<LoginButton
+							type='button'
+							disabled={disabled}
+							onClick={() => {
+								navigate('/profileSetup', {
+									state: { email: email, password: password },
+								});
+							}}
+						>
+							다음
+						</LoginButton>
 					</WrapEmailPw>
 				</WrapForm>
 			</WrapperLoginEmail>

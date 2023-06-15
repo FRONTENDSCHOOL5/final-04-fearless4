@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import socialImg from '../../assets/image/social_login_sprites.png';
 import chat from '../../assets/icon/message-circle.svg';
 import share from '../../assets/icon/share.svg';
+import UploadImage from '../../assets/icon/upload-image.svg';
 
 export const SocialLoginButton = styled.button`
 	display: block;
@@ -100,5 +101,16 @@ export const SaveButton = styled.button`
 	border: none;
 	font-size: 14px;
 	opacity: ${({ disabled }) => (disabled === true ? 0.3 : 1)};
+	cursor: pointer;
+`;
+
+export const ImageUploadButton = styled.button`
+	background: url(${UploadImage});
+	width: 50px;
+	height: 50px;
+	position: fixed;
+	border: 0;
+	bottom: 16px;
+	right: 16px;
 	cursor: pointer;
 `;
