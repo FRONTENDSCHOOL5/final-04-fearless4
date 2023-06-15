@@ -4,7 +4,7 @@ export const WrapperProfileSetup = styled.div`
 	width: 100%;
 	justify-content: center;
 	box-sizing: border-box;
-	padding: 54px 34px 0px 34px;
+	padding: 78px 34px 0px 34px;
 `;
 
 export const DescriptionText = styled.p`

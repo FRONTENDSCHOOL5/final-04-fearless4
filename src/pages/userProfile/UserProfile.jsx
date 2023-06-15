@@ -27,7 +27,7 @@ export default function UserProfile() {
 	const [profile, setProfile] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
 
-	const accountname = 'jun';
+	const accountname = 'jun1';
 
 	const url = 'https://api.mandarin.weniv.co.kr';
 	const token =
@@ -74,7 +74,9 @@ export default function UserProfile() {
 									token: token,
 								}}
 							>
-								<FollowerNumber>{profile.profile.followerCount}</FollowerNumber>
+								<FollowerNumber followers>
+									{profile.profile.followerCount}
+								</FollowerNumber>
 								<Follower>followers</Follower>
 							</FollowerWrap>
 

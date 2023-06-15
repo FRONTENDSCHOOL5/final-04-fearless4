@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
-	Title,
 	WrapForm,
 	InputStyle,
 	Incorrect,
@@ -19,7 +18,7 @@ import {
 import { API_URL } from '../../api.js';
 import profilePic from '../../assets/image/profilePic.png';
 import profileImageUploadButton from '../../assets/image/profileImageUploadButton.png';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
 	Backspace,
 	NavbarWrap,
@@ -34,9 +33,20 @@ export default function ProfileSetup() {
 	const [notValidUserId, setNotValidUserId] = useState(false);
 	const [disabled, setDisabled] = useState(true);
 	const location = useLocation();
+	const navigate = useNavigate();
 	const url = API_URL;
 	const token = location.state.token;
-	const accountname = location.state.accountname;
+	const profileId = location.state.profileId;
+	const profileName = location.state.profileName;
+	const profileIntro = location.state.profileIntro;
+	const profileImg = location.state.profileImage;
+
+	useEffect(() => {
+		setSelectedImage(profileImg);
+		setUserId(profileId);
+		setUserName(profileName);
+		setIntro(profileIntro);
+	}, []);
 
 	useEffect(() => {
 		if (!userName) {
@@ -44,19 +54,21 @@ export default function ProfileSetup() {
 		}
 	}, [userName]);
 
-	console.log(userName, !notValidUserId, !idDuplication);
+	// console.log(userName, !notValidUserId, !idDuplication);
+
 	const handleImageInputChange = async (e) => {
 		const formData = new FormData();
 		const imageFile = e.target.files[0];
 		formData.append('image', imageFile);
 
 		try {
-			const response = await axios.post(`${url}image/uploadfile/`, formData);
+			const response = await axios.post(`${url}/image/uploadfile/`, formData);
 			console.log(response);
 
-			const imageUrl = `${url}` + response.data.filename;
+			const imageUrl = `${url}/` + response.data.filename;
 
 			setSelectedImage(imageUrl);
+			console.log(imageUrl);
 		} catch (error) {
 			console.error(error.response.data);
 		}
@@ -82,11 +94,15 @@ export default function ProfileSetup() {
 						},
 					}
 				);
-				if (response.data.message === '이미 가입된 계정ID 입니다.') {
-					setIdDuplication(true);
-				} else if (response.data.message === '사용 가능한 계정ID 입니다.') {
+				if (
+					userId === profileId ||
+					response.data.message === '사용 가능한 계정ID 입니다.'
+				) {
+					console.log(profileId);
 					setIdDuplication(false);
 					setDisabled(false);
+				} else if (response.data.message === '이미 가입된 계정ID 입니다.') {
+					setIdDuplication(true);
 				} else {
 					console.log('접근 불가');
 				}
@@ -98,9 +114,8 @@ export default function ProfileSetup() {
 		}
 	};
 
-	const handleSubmit = async (e) => {
+	const profileEdit = async (e) => {
 		e.preventDefault();
-
 		const formData = new FormData();
 		formData.append('image', selectedImage);
 
@@ -114,12 +129,18 @@ export default function ProfileSetup() {
 		};
 
 		try {
-			const response = await axios.post(`${url}/user/`, data, {
+			const response = await axios.put(`${url}/user/`, data, {
 				headers: {
+					Authorization: `Bearer ${token}`,
 					'Content-Type': 'application/json',
 				},
 			});
 			console.log(response.data);
+			navigate('/myprofile', {
+				state: {
+					userId: userId,
+				},
+			});
 		} catch (error) {
 			console.error('에러입니다.', error);
 			console.log('오류 발생!');
@@ -130,17 +151,22 @@ export default function ProfileSetup() {
 		<WrapperProfileSetup>
 			<NavbarWrap profile='true'>
 				<Backspace></Backspace>
-				<SaveButton disabled={disabled}>저장</SaveButton>
+				<SaveButton onClick={profileEdit} type='button' disabled={disabled}>
+					저장
+				</SaveButton>
 			</NavbarWrap>
 
-			<WrapForm onSubmit={handleSubmit}>
+			<WrapForm>
 				<Upload>
 					<ImageInput
 						type='file'
 						accept='image/*'
 						onChange={handleImageInputChange}
 					/>
-					<ProfileImage src={selectedImage || profilePic} alt='' />{' '}
+					<ProfileImage
+						src={selectedImage || profileImg || profilePic}
+						alt=''
+					/>{' '}
 					<ImageButton src={profileImageUploadButton} alt='' />
 				</Upload>
 

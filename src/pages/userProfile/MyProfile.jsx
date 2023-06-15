@@ -21,14 +21,19 @@ import {
 } from '../../components/navbar/navbar.style';
 import { ModalText, ModalWrap } from '../../components/modal/modal.style';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function UserProfile() {
 	const navigate = useNavigate();
+	const location = useLocation();
 	const [profile, setProfile] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
-	const accountname = 'jun';
+	const [profileImage, setProfileImage] = useState('');
+	const [profileName, setProfileName] = useState('');
+	const [profileId, setProfileId] = useState('');
+	const [profileIntro, setProfileIntro] = useState('');
 
+	const accountname = 'jun1';
 	const url = 'https://api.mandarin.weniv.co.kr';
 	const token =
 		'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0N2YzNmM4YjJjYjIwNTY2MzJkNjBiZiIsImV4cCI6MTY5MTk3Njg3OSwiaWF0IjoxNjg2NzkyODc5fQ.vwMFkmxyEbUjd6xeOB1cTXiJqR10z1CqIpsoDClB1hc';
@@ -45,6 +50,7 @@ export default function UserProfile() {
 			});
 			setIsLoading(true);
 			setProfile(res.data);
+			console.log(res.data);
 		} catch (error) {
 			console.log('에러입니다', error);
 		}
@@ -53,6 +59,15 @@ export default function UserProfile() {
 	useEffect(() => {
 		profileData();
 	}, []);
+
+	useEffect(() => {
+		if (isLoading === true) {
+			setProfileImage(profile.profile.image);
+			setProfileId(profile.profile.accountname);
+			setProfileName(profile.profile.username);
+			setProfileIntro(profile.profile.intro);
+		}
+	}, [isLoading]);
 
 	const handleImgError = (e) => {
 		e.target.src = profilePic;
@@ -91,7 +106,10 @@ export default function UserProfile() {
 
 							<FollowerWrap
 								to='/followings'
-								state={{ accountname: accountname, token: token }}
+								state={{
+									accountname: accountname,
+									token: token,
+								}}
 							>
 								<FollowerNumber>
 									{profile.profile.followingCount}
@@ -101,7 +119,7 @@ export default function UserProfile() {
 						</ProfileImgWrap>
 
 						<UserWrap>
-							<UserNickName>{profile.profile.accountname}</UserNickName>
+							<UserNickName>{profile.profile.username}</UserNickName>
 							<UserEmail>@ {profile.profile.accountname}</UserEmail>
 							<Intro>{profile.profile.intro}</Intro>
 						</UserWrap>
@@ -110,7 +128,15 @@ export default function UserProfile() {
 							<ProfileButton
 								type='button'
 								onClick={() => {
-									navigate('/myprofileedit', { state: { token: token } });
+									navigate('/myprofileedit', {
+										state: {
+											token: token,
+											profileImage: profileImage,
+											profileId: profileId,
+											profileName: profileName,
+											profileIntro: profileIntro,
+										},
+									});
 								}}
 							>
 								프로필 수정
