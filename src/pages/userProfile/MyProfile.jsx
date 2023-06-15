@@ -76,7 +76,7 @@ export default function UserProfile() {
 	return (
 		<>
 			<ProfileWrapper>
-				<NavbarWrap profile='true'>
+				<NavbarWrap spaceBetween>
 					<Backspace />
 					<OptionModalTab />
 				</NavbarWrap>

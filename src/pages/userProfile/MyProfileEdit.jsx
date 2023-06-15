@@ -46,13 +46,14 @@ export default function ProfileSetup() {
 		setUserId(profileId);
 		setUserName(profileName);
 		setIntro(profileIntro);
+		setDisabled(false);
 	}, []);
 
 	useEffect(() => {
-		if (!userName) {
+		if (!userId) {
 			setDisabled(true);
 		}
-	}, [userName]);
+	}, [userId]);
 
 	// console.log(userName, !notValidUserId, !idDuplication);
 
@@ -103,6 +104,7 @@ export default function ProfileSetup() {
 					setDisabled(false);
 				} else if (response.data.message === '이미 가입된 계정ID 입니다.') {
 					setIdDuplication(true);
+					setDisabled(true);
 				} else {
 					console.log('접근 불가');
 				}
@@ -111,6 +113,8 @@ export default function ProfileSetup() {
 			}
 		} else {
 			setNotValidUserId(true);
+			setIdDuplication(false);
+			setDisabled(true);
 		}
 	};
 
@@ -149,8 +153,12 @@ export default function ProfileSetup() {
 
 	return (
 		<WrapperProfileSetup>
-			<NavbarWrap profile='true'>
-				<Backspace></Backspace>
+			<NavbarWrap spaceBetween>
+				<Backspace
+					onClick={() => {
+						navigate(-1);
+					}}
+				/>
 				<SaveButton onClick={profileEdit} type='button' disabled={disabled}>
 					저장
 				</SaveButton>
