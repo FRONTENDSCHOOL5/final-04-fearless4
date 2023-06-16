@@ -4,18 +4,18 @@ import {
 	Backspace,
 	NavbarWrap,
 	OptionModalTab,
-	NavbarTitle,
 } from '../../components/navbar/navbar.style';
+import ProfilePic from '../../assets/image/profilePic.png';
 
-const WritePost = () => {
+const ViewPost = () => {
 	return (
 		<>
-			<NavbarWrap profile>
+			<NavbarWrap spaceBetween>
 				<Backspace />
-				<NavbarTitle>네비게이션 바 타이틀입니다</NavbarTitle>
+				<OptionModalTab></OptionModalTab>
 			</NavbarWrap>
 		</>
 	);
 };
 
-export default WritePost;
+export default ViewPost;

@@ -6,12 +6,7 @@ import {
 	ProfileImageMini,
 	PostInputArea,
 } from './writePost.style';
-import {
-	Backspace,
-	NavbarWrap,
-	OptionModalTab,
-	NavbarTitle,
-} from '../../components/navbar/navbar.style';
+import { Backspace, NavbarWrap } from '../../components/navbar/navbar.style';
 import {
 	SaveButton,
 	ImageUploadButton,

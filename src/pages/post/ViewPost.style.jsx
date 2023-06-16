@@ -9,3 +9,11 @@ export const WrapperViewPost = styled.div`
 	padding: 68px 16px 26px 16px;
 	gap: 13px;
 `;
+
+export const ProfileImageMini = styled.img`
+	display: block;
+	width: 44px;
+	height: 44px;
+	border-radius: 50%;
+	object-fit: cover;
+`;

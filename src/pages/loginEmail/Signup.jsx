@@ -30,8 +30,6 @@ export default function Signup() {
 
 	const [disabled, setDisabled] = useState(true);
 
-	const navigate = useNavigate();
-
 	useEffect(() => {
 		userEmail.current.focus();
 	}, []);
