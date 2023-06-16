@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import {
 	Title,
@@ -21,6 +22,12 @@ import profilePic from '../../assets/image/profilePic.png';
 import profileImageUploadButton from '../../assets/image/profileImageUploadButton.png';
 
 const ProfileSetup = () => {
+	const location = useLocation();
+	console.log(location);
+	// eslint-disable-next-line no-restricted-globals
+	const email = location.state.email;
+	// eslint-disable-next-line no-restricted-globals
+	const password = location.state.password;
 	const [userName, setUserName] = useState('');
 	const [userId, setUserId] = useState('');
 	const [intro, setIntro] = useState('');
@@ -28,6 +35,8 @@ const ProfileSetup = () => {
 	const [idDuplication, setIdDuplication] = useState(false);
 	const [notValidUserId, setNotValidUserId] = useState(false);
 	const [disabled, setDisabled] = useState(true);
+
+	// 테스트용 주석
 
 	useEffect(() => {
 		if (!userName) {
@@ -103,8 +112,8 @@ const ProfileSetup = () => {
 		const data = {
 			user: {
 				username: userName,
-				email: 'thisTest42Email@test.com',
-				password: '1234abcd!',
+				email: email,
+				password: password,
 				accountname: userId,
 				intro: intro,
 				image: selectedImage,
