@@ -11,6 +11,7 @@ const MyProfile = lazy(() => import('../pages/userProfile/MyProfile'));
 const Followers = lazy(() => import('../pages/follow/Followers'));
 const Followings = lazy(() => import('../pages/follow/Followings'));
 const Product = lazy(() => import('../pages/product/Product'));
+const Homefeed = lazy(() => import('../pages/homeFeed/Homefeed'));
 
 const renderLoader = () => <span>로딩중...</span>;
 
@@ -28,6 +29,7 @@ export default function Router() {
 					<Route path='/followers' element={<Followers />}></Route>
 					<Route path='/followings' element={<Followings />}></Route>
 					<Route path='/Product' element={<Product />}></Route>
+					<Route path='/Homefeed' element={<Homefeed />}></Route>
 				</Routes>
 			</Suspense>
 		</BrowserRouter>

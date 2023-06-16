@@ -29,6 +29,8 @@ export default function Signup() {
 
 	const [disabled, setDisabled] = useState(true);
 
+	const navigate = useNavigate();
+
 	useEffect(() => {
 		userEmail.current.focus();
 	}, []);
@@ -43,6 +45,7 @@ export default function Signup() {
 	const validPw = () => {
 		setPassword(pwAlertMsg.current.value);
 	};
+
 	useEffect(() => {
 		validEmail && password.length >= 6 ? setDisabled(false) : setDisabled(true);
 		if (password.length >= 1) {
