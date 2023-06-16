@@ -18,9 +18,10 @@ const renderLoader = () => <span>로딩중...</span>;
 export default function Router() {
 	return (
 		<BrowserRouter basename=''>
-			<Suspense fallback={renderLoader()}>
+			<Suspense fallback={<Splash />}>
 				<Routes>
-					<Route path='/' element={<Login />} />
+					<Route path='/' element={<Splash />} />
+					<Route path='/login' element={<Login />} />
 					<Route path='/loginEmail' element={<LoginEmail />} />
 					<Route path='/signup' element={<Signup />} />
 					<Route path='/profileSetup' element={<ProfileSetup />} />

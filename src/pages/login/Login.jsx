@@ -1,4 +1,3 @@
-import React from 'react';
 import { SocialLoginButton } from '../../components/button/button.style';
 import {
 	LoginJoin,
@@ -25,8 +24,8 @@ export default function Login() {
 							페이스북 계정으로 로그인
 						</SocialLoginButton>
 						<FlexWrapper>
-							<LoginJoin>이메일로 로그인</LoginJoin>|
-							<LoginJoin>회원가입</LoginJoin>
+							<LoginJoin to='/loginemail'>이메일로 로그인</LoginJoin>|
+							<LoginJoin to='/signup'>회원가입</LoginJoin>
 						</FlexWrapper>
 					</ButtonWrapper>
 				</Wrapper>
