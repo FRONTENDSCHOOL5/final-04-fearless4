@@ -6,8 +6,19 @@ import {
 import { LogoContainer } from '../../components/logo/logo.style';
 import { Background } from '../../components/background/background.style.jsx';
 import { Wrapper, ButtonWrapper } from './login.style';
+import { useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
 
 export default function Login() {
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		const token = localStorage.getItem('token');
+
+		if (token) {
+			navigate('/Homefeed');
+		}
+	}, []);
 	return (
 		<>
 			<Background>
