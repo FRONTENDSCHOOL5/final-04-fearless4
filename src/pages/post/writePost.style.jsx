@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const WrapperWritePost = styled.div`
 	width: 100%;
-	height: 844px;
+	height: 100%;
 	display: flex;
 	position: relative;
 	box-sizing: border-box;
