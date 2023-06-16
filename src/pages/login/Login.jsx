@@ -1,4 +1,3 @@
-import React from 'react';
 import { SocialLoginButton } from '../../components/button/button.style';
 import {
 	LoginJoin,
@@ -7,8 +6,19 @@ import {
 import { LogoContainer } from '../../components/logo/logo.style';
 import { Background } from '../../components/background/background.style.jsx';
 import { Wrapper, ButtonWrapper } from './login.style';
+import { useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
 
 export default function Login() {
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		const token = localStorage.getItem('token');
+
+		if (token) {
+			navigate('/Homefeed');
+		}
+	}, []);
 	return (
 		<>
 			<Background>
@@ -25,8 +35,8 @@ export default function Login() {
 							페이스북 계정으로 로그인
 						</SocialLoginButton>
 						<FlexWrapper>
-							<LoginJoin>이메일로 로그인</LoginJoin>|
-							<LoginJoin>회원가입</LoginJoin>
+							<LoginJoin to='/loginemail'>이메일로 로그인</LoginJoin>|
+							<LoginJoin to='/signup'>회원가입</LoginJoin>
 						</FlexWrapper>
 					</ButtonWrapper>
 				</Wrapper>
