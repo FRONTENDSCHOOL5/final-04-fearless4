@@ -25,7 +25,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function UserProfile() {
 	const navigate = useNavigate();
-	const location = useLocation();
 	const [profile, setProfile] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
 	const [profileImage, setProfileImage] = useState('');
@@ -33,7 +32,7 @@ export default function UserProfile() {
 	const [profileId, setProfileId] = useState('');
 	const [profileIntro, setProfileIntro] = useState('');
 
-	const accountname = 'jun1';
+	const accountname = 'jun12';
 	const url = 'https://api.mandarin.weniv.co.kr';
 	const token =
 		'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0N2YzNmM4YjJjYjIwNTY2MzJkNjBiZiIsImV4cCI6MTY5MTk3Njg3OSwiaWF0IjoxNjg2NzkyODc5fQ.vwMFkmxyEbUjd6xeOB1cTXiJqR10z1CqIpsoDClB1hc';
