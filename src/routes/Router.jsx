@@ -12,6 +12,7 @@ const MyProfileEdit = lazy(() => import('../pages/userProfile/MyProfileEdit'));
 const Followers = lazy(() => import('../pages/follow/Followers'));
 const Followings = lazy(() => import('../pages/follow/Followings'));
 const Product = lazy(() => import('../pages/product/Product'));
+const Homefeed = lazy(() => import('../pages/homeFeed/Homefeed'));
 const WritePost = lazy(() => import('../pages/post/WritePost'));
 
 const renderLoader = () => <span>로딩중...</span>;
@@ -19,7 +20,7 @@ const renderLoader = () => <span>로딩중...</span>;
 export default function Router() {
 	return (
 		<BrowserRouter basename=''>
-			<Suspense fallback={renderLoader()}>
+			<Suspense fallback={<Splash />}>
 				<Routes>
 					<Route path='/' element={<Login />} />
 					<Route path='/loginEmail' element={<LoginEmail />} />
@@ -31,6 +32,7 @@ export default function Router() {
 					<Route path='/followers' element={<Followers />}></Route>
 					<Route path='/followings' element={<Followings />}></Route>
 					<Route path='/Product' element={<Product />}></Route>
+					<Route path='/Homefeed' element={<Homefeed />}></Route>
 					<Route path='/writePost' element={<WritePost />}></Route>
 				</Routes>
 			</Suspense>

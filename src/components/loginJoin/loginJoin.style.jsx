@@ -1,6 +1,7 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
-export const LoginJoin = styled.span`
+export const LoginJoin = styled(Link)`
 	display: block;
 	text-align: center;
 	font-size: 12px;

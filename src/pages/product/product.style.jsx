@@ -12,7 +12,7 @@ export const Upload = styled.div`
 	flex-direction: column;
 `;
 
-export const UploadImage = styled.img`
+export const UploadImageBtn = styled.img`
 	width: 36px;
 	height: 36px;
 	position: absolute;
@@ -73,3 +73,8 @@ export const InputList = styled.div`
 	flex-direction: column;
 	gap: 16px;
 `;
+
+export const UploadImage = styled.img`
+	height: 100%;
+	width: 100%;
+`
