@@ -23,15 +23,22 @@ import {
 	ModalWrap,
 	ModalText,
 	DarkBackground,
+	CheckModalWrap,
+	CheckMsg,
+	CheckButtonWrap,
+	CheckLogout,
 } from '../../components/modal/modal.style';
 import { useState } from 'react';
 import axios from 'axios';
 import { useEffect } from 'react';
 import { API_URL } from '../../api';
+import { useNavigate } from 'react-router-dom';
 export default function UserProfile() {
+	const navigate = useNavigate();
 	const [profile, setProfile] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
 	const [isModal, setIsModal] = useState(false);
+	const [isCheckModal, setIsCheckModal] = useState(false);
 
 	const accountname = 'jun2';
 
@@ -74,14 +81,30 @@ export default function UserProfile() {
 		// e.target 내가 클릭한 자식 요소
 		if (e.target === e.currentTarget) {
 			setIsModal(false);
+			setIsCheckModal(false);
 		}
+	};
+
+	const handleCheckModal = (e) => {
+		e.preventDefault();
+		setIsCheckModal(true);
+	};
+
+	const accountLogout = (e) => {
+		e.preventDefault();
+		localStorage.removeItem('token');
+		navigate('/');
 	};
 
 	return (
 		<>
 			<ProfileWrapper>
 				<NavbarWrap spaceBetween>
-					<Backspace />
+					<Backspace
+						onClick={() => {
+							navigate(-1);
+						}}
+					/>
 					<OptionModalTab onClick={handleModalOpen} />
 				</NavbarWrap>
 				{isLoading && (
@@ -136,8 +159,21 @@ export default function UserProfile() {
 					<DarkBackground onClick={handleModalClose}>
 						<ModalWrap>
 							<ModalText>설정 및 개인정보</ModalText>
-							<ModalText>로그아웃</ModalText>
+							<ModalText onClick={handleCheckModal}>로그아웃</ModalText>
 						</ModalWrap>
+					</DarkBackground>
+				)}
+				{isCheckModal && (
+					<DarkBackground onClick={handleModalClose}>
+						<CheckModalWrap>
+							<CheckMsg>로그아웃하시겠어요?</CheckMsg>
+							<CheckButtonWrap>
+								<CheckLogout onClick={handleModalClose}>취소</CheckLogout>
+								<CheckLogout check onClick={accountLogout}>
+									로그아웃
+								</CheckLogout>
+							</CheckButtonWrap>
+						</CheckModalWrap>
 					</DarkBackground>
 				)}
 			</ProfileWrapper>

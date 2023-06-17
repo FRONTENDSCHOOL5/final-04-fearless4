@@ -11,8 +11,8 @@ export const DarkBackground = styled.div`
 	top: 0;
 	left: 0;
 	background-color: rgba(0, 0, 0, 0.2);
-	width: 100vw;
-	height: 100vw;
+	width: 100%;
+	height: 100%;
 `;
 
 export const ModalWrap = styled.div`
@@ -23,7 +23,6 @@ export const ModalWrap = styled.div`
 	justify-content: center;
 	gap: 10px;
 	border-radius: 10px 10px 0 0;
-	border: solid 1px black;
 	box-sizing: border-box;
 	padding: 36px 20px 24px;
 	position: fixed;
@@ -48,14 +47,75 @@ export const ModalWrap = styled.div`
 	}
 `;
 
-export const ModalText = styled.span`
+export const ModalText = styled.button`
+	border: 0;
+	background-color: transparent;
+	display: flex;
 	font-size: 14px;
 	font-weight: 500;
 	padding: 10px 5px;
 	cursor: pointer;
 
 	&:hover {
+		border-radius: 10px;
 		color: white;
+		background-color: #81d8d0;
+	}
+`;
+
+export const CheckModalWrap = styled.div`
+	width: 250px;
+	height: 110px;
+	background-color: #fff;
+	border-radius: 10px;
+	box-sizing: border-box;
+	padding-top: 22px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+`;
+
+export const CheckMsg = styled.span`
+	font-size: 16px;
+	font-weight: 500;
+`;
+
+export const CheckButtonWrap = styled.div`
+	display: flex;
+	width: 100%;
+	align-items: center;
+	justify-content: space-between;
+	border-top: solid 1px #dbdbdb;
+	border-radius: 0 0 10px 10px;
+	box-sizing: border-box;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	overflow: hidden;
+`;
+
+export const CheckLogout = styled.button`
+	display: flex;
+	width: 50%;
+	align-items: center;
+	justify-content: center;
+	padding: 14px 0;
+	border: 0;
+	background-color: transparent;
+	font-size: 14px;
+	font-weight: 400;
+	color: ${({ check }) => (check === true ? `#81D8D0` : `initial`)};
+	border-left: ${({ check }) =>
+		check === true ? `solid 1px #DBDBDB` : `initial`};
+	box-sizing: border-box;
+	cursor: pointer;
+
+	&:hover {
+		color: ${({ check }) => (check === true ? `#fff` : `#fff`)};
 		background-color: #81d8d0;
 	}
 `;

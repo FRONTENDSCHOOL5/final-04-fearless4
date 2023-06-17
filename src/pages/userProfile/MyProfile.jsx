@@ -20,6 +20,10 @@ import {
 	OptionModalTab,
 } from '../../components/navbar/navbar.style';
 import {
+	CheckButtonWrap,
+	CheckLogout,
+	CheckModalWrap,
+	CheckMsg,
 	DarkBackground,
 	ModalText,
 	ModalWrap,
@@ -37,6 +41,7 @@ export default function UserProfile() {
 	const [profileId, setProfileId] = useState('');
 	const [profileIntro, setProfileIntro] = useState('');
 	const [isModal, setIsModal] = useState(false);
+	const [isCheckModal, setIsCheckModal] = useState(false);
 
 	const url = API_URL;
 	const token = localStorage.getItem('token');
@@ -52,7 +57,6 @@ export default function UserProfile() {
 			});
 			setIsLoading(true);
 			setProfile(res.data);
-			console.log(res.data);
 		} catch (error) {
 			console.log('에러입니다', error);
 		}
@@ -86,14 +90,30 @@ export default function UserProfile() {
 		// e.target 내가 클릭한 자식 요소
 		if (e.target === e.currentTarget) {
 			setIsModal(false);
+			setIsCheckModal(false);
 		}
+	};
+
+	const handleCheckModal = (e) => {
+		e.preventDefault();
+		setIsCheckModal(true);
+	};
+
+	const accountLogout = (e) => {
+		e.preventDefault();
+		localStorage.removeItem('token');
+		navigate('/');
 	};
 
 	return (
 		<>
 			<ProfileWrapper>
 				<NavbarWrap spaceBetween>
-					<Backspace />
+					<Backspace
+						onClick={() => {
+							navigate(-1);
+						}}
+					/>
 					<OptionModalTab onClick={handleModalOpen} />
 				</NavbarWrap>
 
@@ -164,8 +184,21 @@ export default function UserProfile() {
 					<DarkBackground onClick={handleModalClose}>
 						<ModalWrap>
 							<ModalText>설정 및 개인정보</ModalText>
-							<ModalText>로그아웃</ModalText>
+							<ModalText onClick={handleCheckModal}>로그아웃</ModalText>
 						</ModalWrap>
+					</DarkBackground>
+				)}
+				{isCheckModal && (
+					<DarkBackground onClick={handleModalClose}>
+						<CheckModalWrap>
+							<CheckMsg>로그아웃하시겠어요?</CheckMsg>
+							<CheckButtonWrap>
+								<CheckLogout onClick={handleModalClose}>취소</CheckLogout>
+								<CheckLogout check onClick={accountLogout}>
+									로그아웃
+								</CheckLogout>
+							</CheckButtonWrap>
+						</CheckModalWrap>
 					</DarkBackground>
 				)}
 			</ProfileWrapper>
