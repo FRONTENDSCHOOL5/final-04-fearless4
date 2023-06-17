@@ -23,15 +23,15 @@ import { ModalWrap, ModalText } from '../../components/modal/modal.style';
 import { useState } from 'react';
 import axios from 'axios';
 import { useEffect } from 'react';
+import { API_URL } from '../../api';
 export default function UserProfile() {
 	const [profile, setProfile] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
 
-	const accountname = 'jun1';
+	const accountname = 'jun2';
 
-	const url = 'https://api.mandarin.weniv.co.kr';
-	const token =
-		'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0N2YzNmM4YjJjYjIwNTY2MzJkNjBiZiIsImV4cCI6MTY5MTk3Njg3OSwiaWF0IjoxNjg2NzkyODc5fQ.vwMFkmxyEbUjd6xeOB1cTXiJqR10z1CqIpsoDClB1hc';
+	const url = API_URL;
+	const token = localStorage.getItem('token');
 
 	const profileData = async () => {
 		try {

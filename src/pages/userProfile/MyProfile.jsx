@@ -22,6 +22,7 @@ import {
 import { ModalText, ModalWrap } from '../../components/modal/modal.style';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { API_URL } from '../../api';
 
 export default function UserProfile() {
 	const navigate = useNavigate();
@@ -33,9 +34,8 @@ export default function UserProfile() {
 	const [profileIntro, setProfileIntro] = useState('');
 
 	const accountname = 'jun12';
-	const url = 'https://api.mandarin.weniv.co.kr';
-	const token =
-		'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0N2YzNmM4YjJjYjIwNTY2MzJkNjBiZiIsImV4cCI6MTY5MTk3Njg3OSwiaWF0IjoxNjg2NzkyODc5fQ.vwMFkmxyEbUjd6xeOB1cTXiJqR10z1CqIpsoDClB1hc';
+	const url = API_URL;
+	const token = localStorage.getItem('token');
 
 	const profileData = async () => {
 		try {
