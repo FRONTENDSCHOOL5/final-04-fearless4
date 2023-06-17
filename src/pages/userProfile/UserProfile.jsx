@@ -19,7 +19,11 @@ import {
 	NavbarWrap,
 	OptionModalTab,
 } from '../../components/navbar/navbar.style';
-import { ModalWrap, ModalText } from '../../components/modal/modal.style';
+import {
+	ModalWrap,
+	ModalText,
+	DarkBackground,
+} from '../../components/modal/modal.style';
 import { useState } from 'react';
 import axios from 'axios';
 import { useEffect } from 'react';
@@ -27,6 +31,7 @@ import { API_URL } from '../../api';
 export default function UserProfile() {
 	const [profile, setProfile] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
+	const [isModal, setIsModal] = useState(false);
 
 	const accountname = 'jun2';
 
@@ -57,12 +62,27 @@ export default function UserProfile() {
 	const handleImgError = (e) => {
 		e.target.src = profilePic;
 	};
+
+	const handleModalOpen = (e) => {
+		e.preventDefault();
+		setIsModal(true);
+	};
+
+	const handleModalClose = (e) => {
+		e.preventDefault();
+		// e.currentTarget 현재 handleModalClose가 부착된 요소
+		// e.target 내가 클릭한 자식 요소
+		if (e.target === e.currentTarget) {
+			setIsModal(false);
+		}
+	};
+
 	return (
 		<>
 			<ProfileWrapper>
 				<NavbarWrap spaceBetween>
 					<Backspace />
-					<OptionModalTab />
+					<OptionModalTab onClick={handleModalOpen} />
 				</NavbarWrap>
 				{isLoading && (
 					<>
@@ -112,10 +132,14 @@ export default function UserProfile() {
 						</ProfileButtonWrap>
 					</>
 				)}
-				<ModalWrap>
-					<ModalText>설정 및 개인정보</ModalText>
-					<ModalText>로그아웃</ModalText>
-				</ModalWrap>
+				{isModal && (
+					<DarkBackground onClick={handleModalClose}>
+						<ModalWrap>
+							<ModalText>설정 및 개인정보</ModalText>
+							<ModalText>로그아웃</ModalText>
+						</ModalWrap>
+					</DarkBackground>
+				)}
 			</ProfileWrapper>
 		</>
 	);
