@@ -33,7 +33,6 @@ export default function UserProfile() {
 	const [profileId, setProfileId] = useState('');
 	const [profileIntro, setProfileIntro] = useState('');
 
-	const accountname = 'jun12';
 	const url = API_URL;
 	const token = localStorage.getItem('token');
 
@@ -41,10 +40,9 @@ export default function UserProfile() {
 		try {
 			const res = await axios({
 				method: 'GET',
-				url: `${url}/profile/${accountname}`,
+				url: `${url}/user/myinfo`,
 				headers: {
 					Authorization: `Bearer ${token}`,
-					'Content-type': 'application/json',
 				},
 			});
 			setIsLoading(true);
@@ -61,10 +59,10 @@ export default function UserProfile() {
 
 	useEffect(() => {
 		if (isLoading === true) {
-			setProfileImage(profile.profile.image);
-			setProfileId(profile.profile.accountname);
-			setProfileName(profile.profile.username);
-			setProfileIntro(profile.profile.intro);
+			setProfileImage(profile.user.image);
+			setProfileId(profile.user.accountname);
+			setProfileName(profile.user.username);
+			setProfileIntro(profile.user.intro);
 		}
 	}, [isLoading]);
 
@@ -86,19 +84,18 @@ export default function UserProfile() {
 							<FollowerWrap
 								to='/followers'
 								state={{
-									accountname: accountname,
-									token: token,
+									accountname: profile.user.accountname,
 								}}
 							>
 								<FollowerNumber followers>
-									{profile.profile.followerCount}
+									{profile.user.followerCount}
 								</FollowerNumber>
 								<Follower>followers</Follower>
 							</FollowerWrap>
 
 							<ProfileImage
 								style={{ width: '110px', height: '110px' }}
-								src={profile.profile.image}
+								src={profile.user.image}
 								onError={handleImgError}
 								alt=''
 							></ProfileImage>
@@ -106,21 +103,18 @@ export default function UserProfile() {
 							<FollowerWrap
 								to='/followings'
 								state={{
-									accountname: accountname,
-									token: token,
+									accountname: profile.user.accountname,
 								}}
 							>
-								<FollowerNumber>
-									{profile.profile.followingCount}
-								</FollowerNumber>
+								<FollowerNumber>{profile.user.followingCount}</FollowerNumber>
 								<Follower>followings</Follower>
 							</FollowerWrap>
 						</ProfileImgWrap>
 
 						<UserWrap>
-							<UserNickName>{profile.profile.username}</UserNickName>
-							<UserEmail>@ {profile.profile.accountname}</UserEmail>
-							<Intro>{profile.profile.intro}</Intro>
+							<UserNickName>{profile.user.username}</UserNickName>
+							<UserEmail>@ {profile.user.accountname}</UserEmail>
+							<Intro>{profile.user.intro}</Intro>
 						</UserWrap>
 
 						<ProfileButtonWrap>
