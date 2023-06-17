@@ -39,6 +39,7 @@ export default function UserProfile() {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isModal, setIsModal] = useState(false);
 	const [isCheckModal, setIsCheckModal] = useState(false);
+	const [isFollow, setIsFollow] = useState();
 
 	const accountname = 'jun2';
 
@@ -57,6 +58,7 @@ export default function UserProfile() {
 			});
 			setIsLoading(true);
 			setProfile(res.data);
+			console.log(profile);
 		} catch (error) {
 			console.log('에러입니다', error);
 		}
@@ -64,10 +66,53 @@ export default function UserProfile() {
 
 	useEffect(() => {
 		profileData();
-	}, []);
+	}, [isFollow]);
+
+	useEffect(() => {
+		if (isLoading === true) {
+			profile.profile.isfollow === true
+				? setIsFollow(true)
+				: setIsFollow(false);
+		}
+	}, [isLoading]);
 
 	const handleImgError = (e) => {
 		e.target.src = profilePic;
+	};
+
+	const handleFollowChange = async (e) => {
+		e.preventDefault();
+		if (isFollow === false) {
+			try {
+				const res = await axios({
+					method: 'POST',
+					url: `${url}/profile/${accountname}/follow`,
+					headers: {
+						Authorization: `Bearer ${token}`,
+						'Content-type': 'application/json',
+					},
+				});
+				console.log(res.data.profile.isfollow);
+				setIsFollow(true);
+			} catch (error) {
+				console.log('에러입니다', error);
+			}
+		} else {
+			try {
+				const res = await axios({
+					method: 'DELETE',
+					url: `${url}/profile/${accountname}/unfollow`,
+					headers: {
+						Authorization: `Bearer ${token}`,
+						'Content-type': 'application/json',
+					},
+				});
+				console.log(res.data.profile.isfollow);
+				setIsFollow(false);
+			} catch (error) {
+				console.log('에러입니다', error);
+			}
+		}
 	};
 
 	const handleModalOpen = (e) => {
@@ -148,8 +193,12 @@ export default function UserProfile() {
 
 						<ProfileButtonWrap>
 							<ChatShare type='button' chatting />
-							<ProfileButton follow type='button'>
-								팔로우
+							<ProfileButton
+								follow={isFollow === true ? false : true}
+								type='button'
+								onClick={handleFollowChange}
+							>
+								{isFollow === true ? '언팔로우' : '팔로우'}
 							</ProfileButton>
 							<ChatShare type='button' />
 						</ProfileButtonWrap>
