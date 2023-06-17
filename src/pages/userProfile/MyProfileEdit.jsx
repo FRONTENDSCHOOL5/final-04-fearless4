@@ -35,7 +35,7 @@ export default function ProfileSetup() {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const url = API_URL;
-	const token = location.state.token;
+	const token = localStorage.getItem('token');
 	const profileId = location.state.profileId;
 	const profileName = location.state.profileName;
 	const profileIntro = location.state.profileIntro;
@@ -50,9 +50,12 @@ export default function ProfileSetup() {
 	}, []);
 
 	useEffect(() => {
-		if (!userId) {
-			setDisabled(true);
-		}
+		userId === profileId &&
+		userName === profileName &&
+		intro === profileIntro &&
+		selectedImage === profileImg
+			? setDisabled(false)
+			: setDisabled(true);
 	}, [userId]);
 
 	// console.log(userName, !notValidUserId, !idDuplication);
@@ -66,7 +69,7 @@ export default function ProfileSetup() {
 			const response = await axios.post(`${url}/image/uploadfile/`, formData);
 			console.log(response);
 
-			const imageUrl = `${url}/` + response.data.filename;
+			const imageUrl = `${url}/` + response.data.filename ?? selectedImage;
 
 			setSelectedImage(imageUrl);
 			console.log(imageUrl);
@@ -140,11 +143,7 @@ export default function ProfileSetup() {
 				},
 			});
 			console.log(response.data);
-			navigate('/myprofile', {
-				state: {
-					userId: userId,
-				},
-			});
+			navigate('/myprofile');
 		} catch (error) {
 			console.error('에러입니다.', error);
 			console.log('오류 발생!');
