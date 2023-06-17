@@ -71,7 +71,6 @@ export default function UserProfile() {
 								to='/followers'
 								state={{
 									accountname: accountname,
-									token: token,
 								}}
 							>
 								<FollowerNumber followers>
