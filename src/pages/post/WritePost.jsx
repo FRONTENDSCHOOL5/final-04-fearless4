@@ -11,7 +11,7 @@
 // - 게시글 하단에 말풍선 아이콘을 클릭하면 댓글을 확인하고 입력할 수 있는 페이지가 나타납니다.
 // - 댓글 입력창에 텍스트를 입력하면 `게시` 버튼이 활성화됩니다.
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import {
 	WrapperWritePost,
@@ -31,9 +31,13 @@ import ProfilePic from '../../assets/image/profilePic.png';
 
 const WritePost = () => {
 	const [imageUrl, setImageUrl] = useState('');
+	const [text, setText] = useState('');
+	const [disabled, setDisabled] = useState(true);
+	const textarea = useRef();
+
 	useEffect(() => {
-		console.log(imageUrl);
-	}, [imageUrl]);
+		imageUrl || text ? setDisabled(false) : setDisabled(true);
+	}, [imageUrl, text]);
 
 	const handleImageInputChange = (e) => {
 		const file = e.target.files[0];
@@ -53,20 +57,39 @@ const WritePost = () => {
 		setImageUrl('');
 	};
 
+	const handleResizeHeight = () => {
+		textarea.current.style.height = 'auto';
+		textarea.current.style.height = `${textarea.current.scrollHeight}px`;
+	};
+
+	const handleTextChange = (e) => {
+		setText(e.target.value);
+		handleResizeHeight();
+	};
+
+	// 게시글 업로드 버튼 클릭 시 로직 구현할 것
+	// const handleUpload = () => {
+	//  SaveButton 클릭 시 구현
+	// };
+
 	return (
 		<>
 			<WrapperWritePost>
 				<NavbarWrap spaceBetween>
 					<Backspace />
-					<SaveButton>업로드</SaveButton>
+					<SaveButton disabled={disabled}>업로드</SaveButton>
 				</NavbarWrap>
 				<PostForm>
 					<TextForm>
 						<ProfileImageMini src={ProfilePic}></ProfileImageMini>
 						{/* 프로필 이미지를 내 프로필 이미지로 불러오는 기능 구현 필요 */}
 						<PostInputArea
+							ref={textarea}
 							placeholder='게시글 입력하기...'
 							name='post'
+							value={text}
+							rows={1}
+							onChange={handleTextChange}
 						></PostInputArea>
 					</TextForm>
 

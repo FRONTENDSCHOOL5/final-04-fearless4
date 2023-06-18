@@ -38,15 +38,16 @@ export const TextForm = styled.div`
 export const PostInputArea = styled.textarea`
 	padding-top: 15px;
 	width: 100%;
-	height: 100px;
 	resize: none;
 	border: none;
+	border-bottom: 1px solid #dbdbdb;
 	font-size: 14px;
 	&::placeholder {
 		font-size: 14px;
 	}
 	&:focus {
 		outline: none;
+		border-color: #81d8d0;
 	}
 `;
 
