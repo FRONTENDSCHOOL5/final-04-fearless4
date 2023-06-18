@@ -90,7 +90,7 @@ export default function Product() {
 
 	return (
 		<>
-			<NavbarWrap profile>
+			<NavbarWrap spaceBetween>
 				<Backspace />
 				<SaveButton>저장</SaveButton>
 			</NavbarWrap>
