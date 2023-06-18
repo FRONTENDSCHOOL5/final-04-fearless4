@@ -8,6 +8,7 @@ import {
 import {
 	UserContent,
 	UserFlexWrap,
+	UserFollowImage,
 	UserFollowIntro,
 	UserFollowNickName,
 	UserProfileImg,
@@ -16,7 +17,6 @@ import {
 } from './follow.style';
 import { FollowButton } from '../../components/button/button.style';
 import axios from 'axios';
-import { ProfileImage } from '../profileSetup/profileSetup.style';
 import userNoneProfile from '../../assets/image/profilePic.png';
 
 export default function Follwers() {
@@ -75,7 +75,7 @@ export default function Follwers() {
 										});
 									}}
 								>
-									<ProfileImage
+									<UserFollowImage
 										src={item.image}
 										onError={handleImgError}
 										alt='유저 프로필 이미지입니다.'

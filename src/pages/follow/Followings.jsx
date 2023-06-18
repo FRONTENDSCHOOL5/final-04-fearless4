@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
 	Backspace,
 	NavbarTitle,
@@ -8,6 +8,7 @@ import {
 import {
 	UserContent,
 	UserFlexWrap,
+	UserFollowImage,
 	UserFollowIntro,
 	UserFollowNickName,
 	UserProfileImg,
@@ -16,13 +17,13 @@ import {
 } from './follow.style';
 import { FollowButton } from '../../components/button/button.style';
 import axios from 'axios';
-import { ProfileImage } from '../profileSetup/profileSetup.style';
 import userNoneProfile from '../../assets/image/profilePic.png';
 
 export default function Follwers() {
 	const [follower, setFollower] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
 	const location = useLocation();
+	const navigate = useNavigate();
 	const accountname = location.state.accountname;
 	const token = localStorage.getItem('token');
 
@@ -65,14 +66,30 @@ export default function Follwers() {
 					return (
 						<UserWrap key={item._id}>
 							<UserFlexWrap>
-								<UserProfileImg>
-									<ProfileImage
+								<UserProfileImg
+									onClick={() => {
+										navigate('/userprofile', {
+											state: {
+												accountname: item.accountname,
+											},
+										});
+									}}
+								>
+									<UserFollowImage
 										src={item.image}
 										onError={handleImgError}
 										alt='유저 프로필 이미지입니다.'
 									/>
 								</UserProfileImg>
-								<UserContent>
+								<UserContent
+									onClick={() => {
+										navigate('/userprofile', {
+											state: {
+												accountname: item.accountname,
+											},
+										});
+									}}
+								>
 									<UserFollowNickName>{item.username}</UserFollowNickName>
 									<UserFollowIntro>{item.intro}</UserFollowIntro>
 								</UserContent>
