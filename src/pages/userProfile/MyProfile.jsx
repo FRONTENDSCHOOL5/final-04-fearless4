@@ -19,25 +19,40 @@ import {
 	NavbarWrap,
 	OptionModalTab,
 } from '../../components/navbar/navbar.style';
-import { ModalText, ModalWrap } from '../../components/modal/modal.style';
+import {
+	CheckButtonWrap,
+	CheckLogout,
+	CheckModalWrap,
+	CheckMsg,
+	DarkBackground,
+	ModalText,
+	ModalWrap,
+} from '../../components/modal/modal.style';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { API_URL } from '../../api';
+
 export default function UserProfile() {
+	const navigate = useNavigate();
 	const [profile, setProfile] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
-	const accountname = 'nonamukza';
+	const [profileImage, setProfileImage] = useState('');
+	const [profileName, setProfileName] = useState('');
+	const [profileId, setProfileId] = useState('');
+	const [profileIntro, setProfileIntro] = useState('');
+	const [isModal, setIsModal] = useState(false);
+	const [isCheckModal, setIsCheckModal] = useState(false);
 
-	const url = 'https://api.mandarin.weniv.co.kr';
-	const token =
-		'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYjI2YzkyYjJjYjIwNTY2MzliZjg4ZCIsImV4cCI6MTY5MTgyMTIxMywiaWF0IjoxNjg2NjM3MjEzfQ.qEBk3V1ntQiSjVgujCAs8TDGX2HKy9FlJyCymPD866A';
+	const url = API_URL;
+	const token = localStorage.getItem('token');
 
 	const profileData = async () => {
 		try {
 			const res = await axios({
 				method: 'GET',
-				url: `${url}/profile/${accountname}`,
+				url: `${url}/user/myinfo`,
 				headers: {
 					Authorization: `Bearer ${token}`,
-					'Content-type': 'application/json',
 				},
 			});
 			setIsLoading(true);
@@ -51,16 +66,55 @@ export default function UserProfile() {
 		profileData();
 	}, []);
 
+	useEffect(() => {
+		if (isLoading === true) {
+			setProfileImage(profile.user.image);
+			setProfileId(profile.user.accountname);
+			setProfileName(profile.user.username);
+			setProfileIntro(profile.user.intro);
+		}
+	}, [isLoading]);
+
 	const handleImgError = (e) => {
 		e.target.src = profilePic;
+	};
+
+	const handleModalOpen = (e) => {
+		e.preventDefault();
+		setIsModal(true);
+	};
+
+	const handleModalClose = (e) => {
+		e.preventDefault();
+		// e.currentTarget 현재 handleModalClose가 부착된 요소
+		// e.target 내가 클릭한 자식 요소
+		if (e.target === e.currentTarget) {
+			setIsModal(false);
+			setIsCheckModal(false);
+		}
+	};
+
+	const handleCheckModal = (e) => {
+		e.preventDefault();
+		setIsCheckModal(true);
+	};
+
+	const accountLogout = (e) => {
+		e.preventDefault();
+		localStorage.removeItem('token');
+		navigate('/');
 	};
 
 	return (
 		<>
 			<ProfileWrapper>
-				<NavbarWrap profile='true'>
-					<Backspace />
-					<OptionModalTab />
+				<NavbarWrap spaceBetween>
+					<Backspace
+						onClick={() => {
+							navigate(-1);
+						}}
+					/>
+					<OptionModalTab onClick={handleModalOpen} />
 				</NavbarWrap>
 
 				{isLoading && (
@@ -68,50 +122,85 @@ export default function UserProfile() {
 						<ProfileImgWrap>
 							<FollowerWrap
 								to='/followers'
-								state={{ accountname: accountname, token: token }}
+								state={{
+									accountname: profile.user.accountname,
+								}}
 							>
 								<FollowerNumber followers>
-									{profile.profile.followerCount}
+									{profile.user.followerCount}
 								</FollowerNumber>
 								<Follower>followers</Follower>
 							</FollowerWrap>
 
 							<ProfileImage
 								style={{ width: '110px', height: '110px' }}
-								src={profile.profile.image}
+								src={profile.user.image}
 								onError={handleImgError}
 								alt=''
 							></ProfileImage>
 
 							<FollowerWrap
 								to='/followings'
-								state={{ accountname: accountname, token: token }}
+								state={{
+									accountname: profile.user.accountname,
+								}}
 							>
-								<FollowerNumber>
-									{profile.profile.followingCount}
-								</FollowerNumber>
+								<FollowerNumber>{profile.user.followingCount}</FollowerNumber>
 								<Follower>followings</Follower>
 							</FollowerWrap>
 						</ProfileImgWrap>
 
 						<UserWrap>
-							<UserNickName>{profile.profile.accountname}</UserNickName>
-							<UserEmail>@ {profile.profile.accountname}</UserEmail>
-							<Intro>{profile.profile.intro}</Intro>
+							<UserNickName>{profile.user.username}</UserNickName>
+							<UserEmail>@ {profile.user.accountname}</UserEmail>
+							<Intro>{profile.user.intro}</Intro>
 						</UserWrap>
 
 						<ProfileButtonWrap>
-							<ProfileButton type='button'>프로필 수정</ProfileButton>
+							<ProfileButton
+								type='button'
+								onClick={() => {
+									navigate('/myprofileedit', {
+										state: {
+											token: token,
+											profileImage: profileImage,
+											profileId: profileId,
+											profileName: profileName,
+											profileIntro: profileIntro,
+										},
+									});
+								}}
+							>
+								프로필 수정
+							</ProfileButton>
+
 							<ProfileButton product type='button'>
 								상품 등록
 							</ProfileButton>
 						</ProfileButtonWrap>
 					</>
 				)}
-				<ModalWrap>
-					<ModalText>설정 및 개인정보</ModalText>
-					<ModalText>로그아웃</ModalText>
-				</ModalWrap>
+				{isModal && (
+					<DarkBackground onClick={handleModalClose}>
+						<ModalWrap>
+							<ModalText>설정 및 개인정보</ModalText>
+							<ModalText onClick={handleCheckModal}>로그아웃</ModalText>
+						</ModalWrap>
+					</DarkBackground>
+				)}
+				{isCheckModal && (
+					<DarkBackground onClick={handleModalClose}>
+						<CheckModalWrap>
+							<CheckMsg>로그아웃하시겠어요?</CheckMsg>
+							<CheckButtonWrap>
+								<CheckLogout onClick={handleModalClose}>취소</CheckLogout>
+								<CheckLogout check onClick={accountLogout}>
+									로그아웃
+								</CheckLogout>
+							</CheckButtonWrap>
+						</CheckModalWrap>
+					</DarkBackground>
+				)}
 			</ProfileWrapper>
 		</>
 	);
