@@ -37,19 +37,19 @@ export function BottomNavContainer() {
 		<BottomNav>
 			<NavLink href='#'>
 				<NavIcon src={homeIcon} />
-				<span class='nav-text'>홈</span>
+				<span className='nav-text'>홈</span>
 			</NavLink>
 			<NavLink href='#'>
 				<NavIcon src={messageIcon} />
-				<span class='nav-text'>채팅</span>
+				<span className='nav-text'>채팅</span>
 			</NavLink>
 			<NavLink href='#'>
 				<NavIcon src={editIcon} />
-				<span class='nav-text'>게시물 작성</span>
+				<span className='nav-text'>게시물 작성</span>
 			</NavLink>
 			<NavLink href='#'>
 				<NavIcon src={userIcon} />
-				<span class='nav-text'>프로필</span>
+				<span className='nav-text'>프로필</span>
 			</NavLink>
 		</BottomNav>
 	);
