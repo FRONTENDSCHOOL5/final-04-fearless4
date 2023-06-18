@@ -100,7 +100,8 @@ export const SaveButton = styled.button`
 	background-color: #81d8d0;
 	border: none;
 	font-size: 14px;
-	opacity: 0.3;
+	opacity: ${({ disabled }) => (disabled === true ? 0.3 : 1)};
+	cursor: ${({ disabled }) => (disabled === true ? 'not-allowed' : 'pointer')};
 `;
 
 export const ImageUploadButton = styled.button`
