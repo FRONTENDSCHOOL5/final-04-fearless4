@@ -1,13 +1,17 @@
 import styled from 'styled-components';
+import DeleteButtonImg from '../../assets/icon/x.svg';
 
 export const WrapperWritePost = styled.div`
 	width: 100%;
-	height: 100%;
-	display: flex;
 	position: relative;
 	box-sizing: border-box;
+`;
+
+export const PostForm = styled.form`
+	width: 100%;
+	display: flex;
+	flex-direction: column;
 	padding: 68px 16px 26px 16px;
-	gap: 13px;
 `;
 
 export const ProfileImageMini = styled.img`
@@ -26,10 +30,15 @@ export const ImageInput = styled.input`
 	z-index: 1;
 `;
 
+export const TextForm = styled.div`
+	display: flex;
+	gap: 13px;
+`;
+
 export const PostInputArea = styled.textarea`
 	padding-top: 15px;
 	width: 100%;
-	height: 100%;
+	height: 100px;
 	resize: none;
 	border: none;
 	font-size: 14px;
@@ -41,13 +50,44 @@ export const PostInputArea = styled.textarea`
 	}
 `;
 
-// export const ImageUploadButton = styled.button`
-// 	background: url(${UploadImage});
-// 	width: 50px;
-// 	height: 50px;
-// 	position: fixed;
-// 	border: 0;
-// 	bottom: 16px;
-// 	right: 16px;
-// 	cursor: pointer;
-// `;
+export const ImageContainer = styled.div`
+	position: relative;
+	display: inline-block;
+	align-self: flex-end;
+
+	> img {
+		width: 300px;
+		height: auto;
+		object-fit: cover;
+		border-radius: 10px;
+	}
+`;
+
+export const DeleteIcon = styled.img`
+	position: relative;
+	top: 10px;
+	right: 34px;
+	cursor: pointer;
+`;
+
+export const StyledDeleteIcon = styled(DeleteIcon)`
+	width: 24px !important;
+	height: 24px !important;
+`;
+
+export const ImagePreview = ({ src, alt, handleDeleteImage }) => {
+	const handleClickDelete = () => {
+		handleDeleteImage();
+	};
+
+	return (
+		<ImageContainer>
+			<img src={src} alt={alt} />
+			<StyledDeleteIcon
+				src={DeleteButtonImg}
+				alt='Delete'
+				onClick={handleClickDelete}
+			/>
+		</ImageContainer>
+	);
+};
