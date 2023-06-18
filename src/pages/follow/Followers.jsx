@@ -24,7 +24,7 @@ export default function Follwers() {
 	const [isLoading, setIsLoading] = useState(false);
 	const location = useLocation();
 	const accountname = location.state.accountname;
-	const token = location.state.token;
+	const token = localStorage.getItem('token');
 
 	const url = 'https://api.mandarin.weniv.co.kr';
 
