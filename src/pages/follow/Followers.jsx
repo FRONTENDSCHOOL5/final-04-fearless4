@@ -33,7 +33,7 @@ export default function Follwers() {
 		try {
 			const res = await axios({
 				method: 'GET',
-				url: `${url}/profile/${accountname}/follower`,
+				url: `${url}/profile/${accountname}/follower/?limit=infinity`,
 				headers: {
 					Authorization: `Bearer ${token}`,
 					'Content-type': 'application/json',
@@ -58,7 +58,11 @@ export default function Follwers() {
 	return (
 		<Wrapper>
 			<NavbarWrap>
-				<Backspace />
+				<Backspace
+					onClick={() => {
+						navigate(-1);
+					}}
+				/>
 				<NavbarTitle>Followers</NavbarTitle>
 			</NavbarWrap>
 			{isLoading &&
