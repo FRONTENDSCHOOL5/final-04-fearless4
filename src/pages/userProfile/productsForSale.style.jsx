@@ -1,0 +1,75 @@
+import styled from 'styled-components';
+
+export const WrapAll = styled.div`
+	background: white;
+	padding: 20px 0px 20px 20px;
+	border: 0.5px solid #dbdbdb;
+`;
+
+export const Scroll = styled.div`
+	overflow-x: scroll;
+	overflow-y: hidden;
+	height: 100%;
+
+	::-webkit-scrollbar {
+		height: 10px;
+	}
+	::-webkit-scrollbar-thumb {
+		background-color: #ddf0ef;
+		border-radius: 10px;
+		background-clip: padding-box;
+		border: 1px solid transparent;
+		height: 5px;
+	}
+
+	::webkit-scrollbar-track {
+		background-color: transparent;
+		border-radius: 10px;
+	}
+`;
+
+export const Title = styled.h2`
+	font-size: 16px;
+	font-weight: 700;
+	margin-bottom: 16px;
+	line-height: 20.03px;
+`;
+
+export const ProductsContainer = styled.ul`
+	display: flex;
+	gap: 10px;
+	height: 100%;
+	padding-bottom: 20px;
+`;
+
+export const ProductList = styled.li`
+	width: 140px;
+	height: 132px;
+	flex-shrink: 0;
+	list-style: none;
+	padding-bottom: 10px;
+`;
+
+export const ProductImg = styled.img`
+	width: 140px;
+	heihgt: 90px;
+	border-radius: 8px;
+	border: 0.5px solid #dbdbdb;
+	object-fit: cover;
+`;
+
+export const ProductName = styled.h3`
+	font-weight: 400;
+	font-size: 14px;
+	margin-top: 6px;
+	margin-bottom: 4px;
+	line-height: 17.53px;
+`;
+
+export const ProductPrice = styled.span`
+	display: block;
+	color: #81d8d0;
+	font-size: 12px;
+	font-weight: 700;
+	line-height: 15.02px;
+`;

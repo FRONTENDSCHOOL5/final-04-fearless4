@@ -8,6 +8,9 @@ const ProfileSetup = lazy(() => import('../pages/profileSetup/ProfileSetup'));
 const Signup = lazy(() => import('../pages/loginEmail/Signup'));
 const UserProfile = lazy(() => import('../pages/userProfile/UserProfile'));
 const MyProfile = lazy(() => import('../pages/userProfile/MyProfile'));
+const ProductsForSale = lazy(() =>
+	import('../pages/userProfile/ProductsForSale')
+);
 const Followers = lazy(() => import('../pages/follow/Followers'));
 const Followings = lazy(() => import('../pages/follow/Followings'));
 const Product = lazy(() => import('../pages/product/Product'));
@@ -28,6 +31,7 @@ export default function Router() {
 					<Route path='/profileSetup' element={<ProfileSetup />} />
 					<Route path='/userProfile' element={<UserProfile />}></Route>
 					<Route path='/myProfile' element={<MyProfile />}></Route>
+					<Route path='/ProductsForSale' element={<ProductsForSale />}></Route>
 					<Route path='/followers' element={<Followers />}></Route>
 					<Route path='/followings' element={<Followings />}></Route>
 					<Route path='/Product' element={<Product />}></Route>
