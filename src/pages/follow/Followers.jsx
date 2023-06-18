@@ -22,6 +22,7 @@ import userNoneProfile from '../../assets/image/profilePic.png';
 export default function Follwers() {
 	const [follower, setFollower] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
+	const [isFollow, setIsFollow] = useState();
 	const location = useLocation();
 	const navigate = useNavigate();
 	const accountname = location.state.accountname;
@@ -49,7 +50,44 @@ export default function Follwers() {
 
 	useEffect(() => {
 		followerData();
-	}, []);
+	}, [isFollow]);
+
+	const handleFollowChange = async (isfollow, accountname, e) => {
+		e.preventDefault();
+		if (isfollow === false) {
+			try {
+				const res = await axios({
+					method: 'POST',
+					url: `${url}/profile/${accountname}/follow`,
+					headers: {
+						Authorization: `Bearer ${token}`,
+						'Content-type': 'application/json',
+					},
+				});
+				// console.log(res.data.profile);
+				setIsFollow(res.data.profile);
+				// console.log(isfollow);
+			} catch (error) {
+				console.log('에러입니다', error);
+			}
+		} else {
+			try {
+				const res = await axios({
+					method: 'DELETE',
+					url: `${url}/profile/${accountname}/unfollow`,
+					headers: {
+						Authorization: `Bearer ${token}`,
+						'Content-type': 'application/json',
+					},
+				});
+				setIsFollow(res.data.profile);
+				// console.log(res);
+				// console.log(isfollow);
+			} catch (error) {
+				console.log('에러입니다', error);
+			}
+		}
+	};
 
 	const handleImgError = (e) => {
 		e.target.src = userNoneProfile;
@@ -98,7 +136,12 @@ export default function Follwers() {
 									<UserFollowIntro>{item.intro}</UserFollowIntro>
 								</UserContent>
 							</UserFlexWrap>
-							<FollowButton follow={item.isfollow}>
+							<FollowButton
+								follow={item.isfollow === false ? false : true}
+								onClick={(e) => {
+									handleFollowChange(item.isfollow, item.accountname, e);
+								}}
+							>
 								{item.isfollow === true ? '취소' : '팔로우'}
 							</FollowButton>
 						</UserWrap>

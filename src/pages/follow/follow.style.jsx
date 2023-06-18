@@ -27,6 +27,7 @@ export const UserProfileImg = styled.div`
 	height: 50px;
 	border-radius: 50%;
 	overflow: hidden;
+	cursor: pointer;
 `;
 
 export const UserFollowImage = styled.img`
@@ -39,6 +40,7 @@ export const UserContent = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 6px;
+	cursor: pointer;
 `;
 
 export const UserFollowNickName = styled.span`
