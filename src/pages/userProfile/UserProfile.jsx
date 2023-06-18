@@ -199,7 +199,7 @@ export default function UserProfile() {
 								type='button'
 								onClick={handleFollowChange}
 							>
-								{isFollow === true ? '언팔로우' : '팔로우'}
+								{isFollow === true ? '팔로우 취소' : '팔로우'}
 							</ProfileButton>
 							<ChatShare type='button' />
 						</ProfileButtonWrap>
