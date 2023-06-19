@@ -145,14 +145,16 @@ export default function Follwers() {
 									<UserFollowIntro>{item.intro}</UserFollowIntro>
 								</UserContent>
 							</UserFlexWrap>
-							<FollowButton
-								follow={item.isfollow}
-								onClick={(e) => {
-									handleFollowChange(item.isfollow, item.accountname, e);
-								}}
-							>
-								{item.isfollow === true ? '취소' : '팔로우'}
-							</FollowButton>
+							{!(myAccountName === item.accountname) && (
+								<FollowButton
+									follow={item.isfollow}
+									onClick={(e) => {
+										handleFollowChange(item.isfollow, item.accountname, e);
+									}}
+								>
+									{item.isfollow === true ? '취소' : '팔로우'}
+								</FollowButton>
+							)}
 						</UserWrap>
 					);
 				})}
