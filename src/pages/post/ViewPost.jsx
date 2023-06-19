@@ -8,7 +8,7 @@ import {
 import ProfilePic from '../../assets/image/profilePic.png';
 import {
 	WrapperViewPost,
-	OptionModalTabComment,
+	Comment,
 	PostView,
 	CommentSection,
 	UploadComment,
@@ -27,10 +27,12 @@ const ViewPost = () => {
 			<PostView>
 				<p>여기는 게시글 컴포넌트가 들어갈 자리입니다.</p>
 			</PostView>
-			<CommentSection></CommentSection>
+			<CommentSection>
+				<Comment></Comment>
+			</CommentSection>
 			<UploadComment>
 				<ProfileImageComment src={ProfilePic}></ProfileImageComment>
-				<CommentInputArea placeholder='여기에 텍스트 입력'></CommentInputArea>
+				<CommentInputArea placeholder='댓글 입력하기...'></CommentInputArea>
 				<CommentUploadButton>게시</CommentUploadButton>
 			</UploadComment>
 		</WrapperViewPost>

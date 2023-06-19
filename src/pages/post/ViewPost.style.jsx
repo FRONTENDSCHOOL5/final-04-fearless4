@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { OptionModalTab } from '../../components/navbar/navbar.style';
+import ProfilePic from '../../assets/image/alpaca.png';
 
 export const WrapperViewPost = styled.div`
 	width: 100%;
@@ -19,6 +20,8 @@ export const ProfileImagePost = styled.img`
 export const OptionModalTabComment = styled(OptionModalTab)`
 	width: 20px;
 	height: 20px;
+
+	margin-left: auto;
 `;
 
 // 게시글 컴포넌트 삽입 전 임시로 작성
@@ -31,12 +34,80 @@ export const PostView = styled.div`
 	justify-content: center;
 	align-items: center;
 	border-bottom: 2px solid #dbdbdb;
+	box-sizing: border-box;
 `;
 
 export const CommentSection = styled.section`
 	width: 100%;
 	height: auto;
+	padding: 20px 16px;
+	box-sizing: border-box;
 `;
+
+export const CommentWrapper = styled.div`
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+	flex-shrink: 0;
+`;
+
+export const FollowerProfileImageComment = styled.img`
+	display: block;
+	width: 36px;
+	height: 36px;
+	border-radius: 50%;
+	object-fit: cover;
+`;
+
+export const CommentDetail = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	flex-shrink: 0;
+`;
+
+export const CommentFollower = styled.div`
+	display: flex;
+	gap: 6px;
+	align-items: center;
+	width: 270px;
+	margin-top: 6px;
+`;
+export const CommentFollowerName = styled.p`
+	font-size: 14px;
+`;
+export const CommentTime = styled.p`
+	font-size: 10px;
+	color: #767676;
+`;
+export const CommentText = styled.p`
+	max-width: 260px;
+	font-size: 14px;
+	color: #333333;
+	white-space: pre-line;
+`;
+
+export const Comment = () => {
+	return (
+		<CommentWrapper>
+			<FollowerProfileImageComment
+				src={ProfilePic}
+			></FollowerProfileImageComment>
+			<CommentDetail>
+				<CommentFollower>
+					<CommentFollowerName>서귀포시 무슨 농장</CommentFollowerName>
+					<CommentTime>5분 전</CommentTime>
+				</CommentFollower>
+
+				<CommentText>
+					댓글 테스트 중입니다 왘! 댓글 테스트 중입니다 왘!댓글 테스트 중입니다
+					왘!댓글 테스트 중입니다 왘!댓글 테스트 중입니다 왘!
+				</CommentText>
+			</CommentDetail>
+			<OptionModalTabComment />
+		</CommentWrapper>
+	);
+};
 
 export const UploadComment = styled.div`
 	width: 100%;
@@ -63,7 +134,6 @@ export const CommentInputArea = styled.textarea`
 	width: 260px;
 	resize: none;
 	border: none;
-
 	font-size: 14px;
 
 	&::placeholder {
@@ -75,6 +145,7 @@ export const CommentInputArea = styled.textarea`
 `;
 
 export const CommentUploadButton = styled.button`
+	width: 40px;
 	border: none;
 	background-color: #fff;
 	color: #81d8d0;
