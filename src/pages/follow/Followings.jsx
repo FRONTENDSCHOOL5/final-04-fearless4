@@ -18,17 +18,20 @@ import {
 import { FollowButton } from '../../components/button/button.style';
 import axios from 'axios';
 import userNoneProfile from '../../assets/image/profilePic.png';
+import { API_URL } from '../../api';
+import useMyProfile from '../../hook/useMyProfile';
 
 export default function Follwers() {
 	const [follower, setFollower] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
 	const [isFollow, setIsFollow] = useState();
+	const [myAccountName, setMyAccountName] = useState(false);
 	const location = useLocation();
 	const navigate = useNavigate();
 	const accountname = location.state.accountname;
 	const token = localStorage.getItem('token');
-
-	const url = 'https://api.mandarin.weniv.co.kr';
+	const url = API_URL;
+	const data = useMyProfile();
 
 	const followerData = async () => {
 		try {
@@ -50,7 +53,9 @@ export default function Follwers() {
 
 	useEffect(() => {
 		followerData();
-	}, []);
+		data && setMyAccountName(data.accountname);
+		console.log(myAccountName);
+	}, [data]);
 
 	useEffect(() => {}, [isFollow]);
 
@@ -106,17 +111,19 @@ export default function Follwers() {
 				<NavbarTitle>Followings</NavbarTitle>
 			</NavbarWrap>
 			{isLoading &&
+				myAccountName &&
 				follower.map((item) => {
 					return (
 						<UserWrap key={item._id}>
 							<UserFlexWrap>
 								<UserProfileImg
 									onClick={() => {
-										navigate('/userprofile', {
-											state: {
-												accountname: item.accountname,
-											},
-										});
+										console.log(myAccountName);
+										myAccountName === item.accountname
+											? navigate('/myprofile')
+											: navigate('/userprofile', {
+													state: { accountname: item.accountname },
+											  });
 									}}
 								>
 									<UserFollowImage
@@ -127,11 +134,11 @@ export default function Follwers() {
 								</UserProfileImg>
 								<UserContent
 									onClick={() => {
-										navigate('/userprofile', {
-											state: {
-												accountname: item.accountname,
-											},
-										});
+										myAccountName === item.accountname
+											? navigate('/myprofile')
+											: navigate('/userprofile', {
+													state: { accountname: item.accountname },
+											  });
 									}}
 								>
 									<UserFollowNickName>{item.username}</UserFollowNickName>

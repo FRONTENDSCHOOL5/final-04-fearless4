@@ -1,6 +1,6 @@
-import React from 'react';
-import API_URL from '../api';
+import { API_URL } from '../api';
 import { useState } from 'react';
+import axios from 'axios';
 
 export default function useMyProfile() {
 	const url = API_URL;
