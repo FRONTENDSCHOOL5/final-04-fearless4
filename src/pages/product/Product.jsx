@@ -1,4 +1,4 @@
-import React, {useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Backspace, NavbarWrap } from '../../components/navbar/navbar.style';
 import {
 	BgBtnCover,
@@ -15,6 +15,7 @@ import { Incorrect, LabelStyle } from '../../components/form/form.style';
 import UploadButton from '../../assets/image/profileImageUploadButton.png';
 import { SaveButton } from '../../components/button/button.style';
 import axios from 'axios';
+import { useNavigate } from 'react-router';
 
 export default function Product() {
 	// 이미지 등록
@@ -27,8 +28,23 @@ export default function Product() {
 	// URL 입력
 	const [salesLink, setSalesLink] = useState('');
 	const [salesLinkError, setSalesLinkError] = useState('');
-    
-    async function handleImageInputChange(e) {
+
+	// 전체 유효성 검사
+	const [isFormValid, setIsFormValid] = useState(false);
+	const token = localStorage.getItem('token');
+
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		const isFormValid =
+			selectedImage !== '' &&
+			productNameError === '' &&
+			productPrice !== '' &&
+			salesLinkError === '';
+		setIsFormValid(isFormValid);
+	}, [selectedImage, productNameError, productPrice, salesLinkError]);
+
+	async function handleImageInputChange(e) {
 		const formData = new FormData();
 		const imageFile = e.target.files[0];
 		console.log(imageFile);
@@ -36,16 +52,41 @@ export default function Product() {
 		try {
 			const res = await axios({
 				method: 'POST',
-			    url: 'https://api.mandarin.weniv.co.kr/image/uploadfile/', 
+				url: 'https://api.mandarin.weniv.co.kr/image/uploadfile/',
 				data: formData,
-			    headers: {
-					"Content-type" : "multipart/form-data"
-				},		
+				headers: {
+					'Content-type': 'multipart/form-data',
+				},
 			});
 			const imageUrl = 'https://api.mandarin.weniv.co.kr/' + res.data.filename;
-            setSelectedImage(imageUrl);
-		} catch(error) { 
+			setSelectedImage(imageUrl);
+		} catch (error) {
 			console.error(error);
+		}
+	}
+
+	async function handleSaveButtonClick(e) {
+		const productData = {
+			product: {
+				itemName: productName,
+				price: parseInt(productPrice.replace(/[₩,]/g, '')),
+				link: salesLink,
+				itemImage: selectedImage,
+			},
+		};
+		try {
+			const res = await axios({
+				method: 'POST',
+				url: 'https://api.mandarin.weniv.co.kr/product',
+				data: productData,
+				headers: {
+					Authorization: `Bearer ${token}`,
+					'Content-type': 'application/json',
+				},
+			});
+			navigate('/myProfile');
+		} catch (error) {
+			console.error(error.response);
 		}
 	}
 
@@ -90,17 +131,29 @@ export default function Product() {
 
 	return (
 		<>
-			<NavbarWrap profile>
+			<NavbarWrap spaceBetween>
 				<Backspace />
-				<SaveButton>저장</SaveButton>
+				<SaveButton disabled={!isFormValid} onClick={handleSaveButtonClick}>
+					저장
+				</SaveButton>
 			</NavbarWrap>
 
 			<ProductContainer>
 				<Upload>
 					<UploadImageBtn src={UploadButton} alt='업로드버튼' />
 					<LabelStyle htmlFor='bg-btn'>이미지 등록</LabelStyle>
-					<BgBtnInputStyle id='bg-btn' type='file' onChange={handleImageInputChange} />
-					<BgBtnCover><UploadImage src={selectedImage}/></BgBtnCover>
+					<BgBtnInputStyle
+						id='bg-btn'
+						type='file'
+						onChange={handleImageInputChange}
+					/>
+					<BgBtnCover>
+						{selectedImage ? (
+							<UploadImage src={selectedImage} />
+						) : (
+							<Incorrect>이미지를 등록해주세요</Incorrect>
+						)}
+					</BgBtnCover>
 				</Upload>
 				<InputWrap>
 					<InputList>
