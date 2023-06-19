@@ -101,7 +101,7 @@ export const SaveButton = styled.button`
 	border: none;
 	font-size: 14px;
 	opacity: ${({ disabled }) => (disabled === true ? 0.3 : 1)};
-	cursor: pointer;
+	cursor: ${({ disabled }) => (disabled === true ? 'not-allowed' : 'pointer')};
 `;
 
 export const ImageUploadButton = styled.button`

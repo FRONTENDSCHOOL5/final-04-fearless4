@@ -4,18 +4,41 @@ import {
 	Backspace,
 	NavbarWrap,
 	OptionModalTab,
-	NavbarTitle,
 } from '../../components/navbar/navbar.style';
+import ProfilePic from '../../assets/image/profilePic.png';
+import {
+	WrapperViewPost,
+	Comment,
+	PostView,
+	CommentSection,
+	UploadComment,
+	CommentInputArea,
+	CommentUploadButton,
+	ProfileImageComment,
+} from './ViewPost.style';
 
-const WritePost = () => {
+const ViewPost = () => {
 	return (
-		<>
-			<NavbarWrap profile>
+		<WrapperViewPost>
+			<NavbarWrap spaceBetween>
 				<Backspace />
-				<NavbarTitle>네비게이션 바 타이틀입니다</NavbarTitle>
+				<OptionModalTab></OptionModalTab>
 			</NavbarWrap>
-		</>
+			<PostView>
+				<p>여기는 게시글 컴포넌트가 들어갈 자리입니다.</p>
+			</PostView>
+			<CommentSection>
+				<Comment></Comment>
+			</CommentSection>
+			<UploadComment>
+				<ProfileImageComment src={ProfilePic}></ProfileImageComment>
+				<CommentInputArea placeholder='댓글 입력하기...'></CommentInputArea>
+				<CommentUploadButton>게시</CommentUploadButton>
+			</UploadComment>
+		</WrapperViewPost>
 	);
 };
 
-export default WritePost;
+export default ViewPost;
+
+//
