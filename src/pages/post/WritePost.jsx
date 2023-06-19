@@ -33,6 +33,7 @@ const WritePost = () => {
 	const [imageUrl, setImageUrl] = useState('');
 	const [text, setText] = useState('');
 	const [disabled, setDisabled] = useState(true);
+	const inputRef = useRef(null);
 	const textarea = useRef();
 
 	useEffect(() => {
@@ -55,6 +56,10 @@ const WritePost = () => {
 
 	const handleDeleteImage = () => {
 		setImageUrl('');
+
+		if (inputRef.current) {
+			inputRef.current.value = '';
+		}
 	};
 
 	const handleResizeHeight = () => {
@@ -73,44 +78,42 @@ const WritePost = () => {
 	// };
 
 	return (
-		<>
-			<WrapperWritePost>
-				<NavbarWrap spaceBetween>
-					<Backspace />
-					<SaveButton disabled={disabled}>업로드</SaveButton>
-				</NavbarWrap>
-				<PostForm>
-					<TextForm>
-						<ProfileImageMini src={ProfilePic}></ProfileImageMini>
-						{/* 프로필 이미지를 내 프로필 이미지로 불러오는 기능 구현 필요 */}
-						<PostInputArea
-							ref={textarea}
-							placeholder='게시글 입력하기...'
-							name='post'
-							value={text}
-							rows={1}
-							onChange={handleTextChange}
-						></PostInputArea>
-					</TextForm>
+		<WrapperWritePost>
+			<NavbarWrap spaceBetween>
+				<Backspace />
+				<SaveButton disabled={disabled}>업로드</SaveButton>
+			</NavbarWrap>
+			<PostForm>
+				<TextForm>
+					<ProfileImageMini src={ProfilePic}></ProfileImageMini>
+					{/* 프로필 이미지를 내 프로필 이미지로 불러오는 기능 구현 필요 */}
+					<PostInputArea
+						ref={textarea}
+						placeholder='게시글 입력하기...'
+						name='post'
+						value={text}
+						rows={1}
+						onChange={handleTextChange}
+					></PostInputArea>
+				</TextForm>
 
-					{imageUrl && (
-						<ImagePreview
-							src={imageUrl}
-							alt='Uploaded'
-							handleDeleteImage={handleDeleteImage}
-						/>
-					)}
-				</PostForm>
-			</WrapperWritePost>
-
+				{imageUrl && (
+					<ImagePreview
+						src={imageUrl}
+						alt='Uploaded'
+						handleDeleteImage={handleDeleteImage}
+					/>
+				)}
+			</PostForm>
 			<ImageUploadButton>
 				<ImageInput
+					ref={inputRef}
 					type='file'
 					accept='image/*'
 					onChange={handleImageInputChange}
 				/>
 			</ImageUploadButton>
-		</>
+		</WrapperWritePost>
 	);
 };
 

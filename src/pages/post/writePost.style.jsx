@@ -12,6 +12,7 @@ export const PostForm = styled.form`
 	display: flex;
 	flex-direction: column;
 	padding: 68px 16px 26px 16px;
+	gap: 16px;
 `;
 
 export const ProfileImageMini = styled.img`
@@ -55,9 +56,10 @@ export const ImageContainer = styled.div`
 	position: relative;
 	display: inline-block;
 	align-self: flex-end;
+	width: 300px;
 
 	> img {
-		width: 300px;
+		width: 100%;
 		height: auto;
 		object-fit: cover;
 		border-radius: 10px;
@@ -65,9 +67,9 @@ export const ImageContainer = styled.div`
 `;
 
 export const DeleteIcon = styled.img`
-	position: relative;
+	position: absolute;
 	top: 10px;
-	right: 34px;
+	right: 10px;
 	cursor: pointer;
 `;
 
