@@ -3,6 +3,9 @@ import styled from 'styled-components';
 export const ProductContainer = styled.div`
 	padding: 78px 34px 0px 34px;
 	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 `;
 
 export const Upload = styled.div`
@@ -20,13 +23,13 @@ export const UploadImageBtn = styled.img`
 	right: 12px;
 	z-index: 1;
 	pointer-events: none;
-	opacity: 0.3;
 `;
 
 export const InputStyle = styled.input`
 	border: none;
 	border-bottom: 1px solid #dbdbdb;
 	font-size: 14px;
+	width: 322px;
 	&:focus {
 		outline: none;
 		border-color: #81d8d0;
@@ -39,6 +42,7 @@ export const InputStyle = styled.input`
 
 export const BgBtnInputStyle = styled(InputStyle)`
 	background-color: rgba(242, 242, 242, 1);
+	width: 322px;
 	height: 204px;
 	border-radius: 10px;
 	margin-top: 18px;
@@ -53,6 +57,7 @@ export const BgBtnCover = styled.div`
 	position: absolute;
 	top: 31px;
 	width: 100%;
+	width: 322px;
 	height: 204px;
 	border-radius: 10px;
 	background-color: rgba(242, 242, 242, 1);
@@ -77,4 +82,6 @@ export const InputList = styled.div`
 export const UploadImage = styled.img`
 	height: 100%;
 	width: 100%;
-`
+	border-radius: 10px;
+	object-fit: cover;
+`;
