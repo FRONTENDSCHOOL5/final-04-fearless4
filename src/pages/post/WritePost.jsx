@@ -21,41 +21,74 @@ import {
 	PostForm,
 	ImagePreview,
 	TextForm,
+	UploadButton,
 } from './writePost.style';
 import { Backspace, NavbarWrap } from '../../components/navbar/navbar.style';
-import {
-	SaveButton,
-	ImageUploadButton,
-} from '../../components/button/button.style';
-import ProfilePic from '../../assets/image/profilePic.png';
+import { ImageUploadButton } from '../../components/button/button.style';
 
 const WritePost = () => {
-	const [imageUrl, setImageUrl] = useState('');
+	const [uploadImageUrl, setUploadImageUrl] = useState('');
+	const [myProfileImage, setMyProfileImage] = useState('');
 	const [text, setText] = useState('');
 	const [disabled, setDisabled] = useState(true);
 	const inputRef = useRef(null);
 	const textarea = useRef();
 
 	useEffect(() => {
-		imageUrl || text ? setDisabled(false) : setDisabled(true);
-	}, [imageUrl, text]);
+		const loadMyProfileImage = async () => {
+			try {
+				const token = localStorage.getItem('token');
+				await axios
+					.get('https://api.mandarin.weniv.co.kr/user/myinfo', {
+						headers: {
+							Authorization: `Bearer ${token}`,
+						},
+					})
+					.then((response) => {
+						setMyProfileImage(response.data.user.image);
+					});
+			} catch (error) {
+				console.error('프로필 이미지를 불러오지 못했습니다!', error);
+			}
+		};
+		loadMyProfileImage();
+	}, []);
 
-	const handleImageInputChange = (e) => {
-		const file = e.target.files[0];
+	useEffect(() => {
+		uploadImageUrl || text ? setDisabled(false) : setDisabled(true);
+	}, [uploadImageUrl, text]);
+
+	const handleImageInputChange = async (e) => {
+		const formData = new FormData();
+		const imageFile = e.target.files[0];
 		const reader = new FileReader();
+		formData.append('image', imageFile);
 
 		reader.onloadend = () => {
-			setImageUrl(reader.result);
+			setUploadImageUrl(reader.result);
 		};
 
-		if (file) {
-			reader.readAsDataURL(file);
+		if (imageFile) {
+			reader.readAsDataURL(imageFile);
 		}
-		console.log(file);
+
+		try {
+			const response = await axios.post(
+				'https://api.mandarin.weniv.co.kr/image/uploadfile/',
+				formData
+			);
+
+			const imageUrl =
+				'https://api.mandarin.weniv.co.kr/' + response.data.filename;
+
+			setUploadImageUrl(imageUrl);
+		} catch (error) {
+			console.error(error.response.data);
+		}
 	};
 
 	const handleDeleteImage = () => {
-		setImageUrl('');
+		setUploadImageUrl('');
 
 		if (inputRef.current) {
 			inputRef.current.value = '';
@@ -72,21 +105,44 @@ const WritePost = () => {
 		handleResizeHeight();
 	};
 
-	// 게시글 업로드 버튼 클릭 시 로직 구현할 것
-	// const handleUpload = () => {
-	//  SaveButton 클릭 시 구현
-	// };
+	const handleSubmit = async () => {
+		const data = {
+			post: {
+				content: text,
+				image: uploadImageUrl,
+			},
+		};
+
+		const token = localStorage.getItem('token');
+		const headers = {
+			Authorization: `Bearer ${token}`,
+			'Content-Type': 'application/json',
+		};
+
+		try {
+			const response = await axios.post(
+				'https://api.mandarin.weniv.co.kr/post',
+				data,
+				{ headers }
+			);
+			console.log(response);
+			console.log(response.data);
+		} catch (error) {
+			console.error(error);
+		}
+	};
 
 	return (
 		<WrapperWritePost>
 			<NavbarWrap spaceBetween>
 				<Backspace />
-				<SaveButton disabled={disabled}>업로드</SaveButton>
+				<UploadButton disabled={disabled} onClick={handleSubmit}>
+					업로드
+				</UploadButton>
 			</NavbarWrap>
 			<PostForm>
 				<TextForm>
-					<ProfileImageMini src={ProfilePic}></ProfileImageMini>
-					{/* 프로필 이미지를 내 프로필 이미지로 불러오는 기능 구현 필요 */}
+					<ProfileImageMini src={myProfileImage}></ProfileImageMini>
 					<PostInputArea
 						ref={textarea}
 						placeholder='게시글 입력하기...'
@@ -97,9 +153,9 @@ const WritePost = () => {
 					></PostInputArea>
 				</TextForm>
 
-				{imageUrl && (
+				{uploadImageUrl && (
 					<ImagePreview
-						src={imageUrl}
+						src={uploadImageUrl}
 						alt='Uploaded'
 						handleDeleteImage={handleDeleteImage}
 					/>

@@ -7,6 +7,26 @@ export const WrapperWritePost = styled.div`
 	box-sizing: border-box;
 `;
 
+export const Button = styled.button`
+	border-radius: 32px;
+	color: rgba(255, 255, 255, 1);
+	width: 90px;
+	height: 32px;
+	background-color: #81d8d0;
+	border: none;
+	font-size: 14px;
+	opacity: ${({ disabled }) => (disabled === true ? 0.3 : 1)};
+	cursor: ${({ disabled }) => (disabled === true ? 'not-allowed' : 'pointer')};
+`;
+
+export const UploadButton = ({ disabled, onClick }) => {
+	return (
+		<Button disabled={disabled} onClick={onClick}>
+			업로드
+		</Button>
+	);
+};
+
 export const PostForm = styled.form`
 	width: 100%;
 	display: flex;
