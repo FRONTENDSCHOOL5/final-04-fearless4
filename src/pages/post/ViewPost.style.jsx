@@ -81,6 +81,7 @@ export const CommentTime = styled.p`
 	color: #767676;
 `;
 export const CommentText = styled.p`
+	width: 100%;
 	max-width: 260px;
 	font-size: 14px;
 	color: #333333;
