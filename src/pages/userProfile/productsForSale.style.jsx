@@ -52,7 +52,7 @@ export const ProductList = styled.li`
 
 export const ProductImg = styled.img`
 	width: 140px;
-	heihgt: 90px;
+	height: 90px;
 	border-radius: 8px;
 	border: 0.5px solid #dbdbdb;
 	object-fit: cover;
