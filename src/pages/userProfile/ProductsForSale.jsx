@@ -16,15 +16,22 @@ import {
 	ModalText,
 	ModalWrap,
 } from '../../components/modal/modal.style';
+import { useNavigate } from 'react-router-dom';
+import useMyProfile from '../../hook/useMyProfile';
 
 export default function ProductsForSale({ userAccountName }) {
 	const [productData, setProductData] = useState([]);
 	const [resProd, setResProd] = useState([]);
 	const [isModal, setIsModal] = useState(false);
+	const [isUserModal, setIsUserModal] = useState(false);
 	const [selectedProduct, setSelectedProduct] = useState(null);
+	const [myProfile, setMyProfile] = useState();
+	const navigate = useNavigate();
 	const accountname = userAccountName;
+	console.log(accountname);
 	const url = API_URL;
 	const token = localStorage.getItem('token');
+	const data = useMyProfile();
 
 	useEffect(() => {
 		async function getProductForSale() {
@@ -36,16 +43,26 @@ export default function ProductsForSale({ userAccountName }) {
 					'Content-type': 'application/json',
 				},
 			});
-			console.log(res);
+			// console.log(res);
 			setResProd(res.data.product);
 		}
 		getProductForSale();
 	}, []);
 
+	useEffect(() => {
+		data && setMyProfile(data);
+	}, [data]);
+
 	const handleModalOpen = (item) => {
-		console.log(item);
-		setIsModal(true);
-		setSelectedProduct(item);
+		if (accountname === myProfile.accountname) {
+			setIsModal(true);
+			setIsUserModal(true);
+			setSelectedProduct(item);
+		} else {
+			setIsModal(true);
+			setIsUserModal(false);
+			console.log(item);
+		}
 	};
 
 	const handleModalClose = () => {
@@ -63,7 +80,7 @@ export default function ProductsForSale({ userAccountName }) {
 						'Content-type': 'application/json',
 					},
 				});
-				console.log(res);
+				// console.log(res);
 				setResProd((prevProducts) =>
 					prevProducts.filter((product) => product.id !== selectedProduct.id)
 				);
@@ -76,6 +93,13 @@ export default function ProductsForSale({ userAccountName }) {
 	const viewProductOnWebsite = () => {
 		const url = `https://${selectedProduct.link}`;
 		window.open(url, '_blank');
+	};
+	const goToProductEdit = () => {
+		navigate('/ProductsForSaleEdit', {
+			state: {
+				selectedProduct: selectedProduct,
+			},
+		});
 	};
 
 	useEffect(() => {
@@ -111,8 +135,12 @@ export default function ProductsForSale({ userAccountName }) {
 			{isModal && (
 				<DarkBackground onClick={handleModalClose}>
 					<ModalWrap>
-						<ModalText onClick={handleDeleteProduct}>삭제</ModalText>
-						<ModalText>수정</ModalText>
+						{isUserModal && (
+							<>
+								<ModalText onClick={handleDeleteProduct}>삭제</ModalText>
+								<ModalText onClick={goToProductEdit}>수정</ModalText>
+							</>
+						)}
 						<ModalText onClick={viewProductOnWebsite}>
 							웹사이트에서 상품 보기
 						</ModalText>
