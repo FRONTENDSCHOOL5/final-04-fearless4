@@ -1,16 +1,28 @@
 import styled from 'styled-components';
+import searchIcon from '../../assets/icon/icon-search.svg';
 
 export const Nav = styled.nav`
 	display: flex;
-	justify-content: space-between;
 	padding: 8px 16px 8px 20.58px;
 	border-bottom: solid 1px #dbdbdb;
+	position: fixed;
+	width: 100%;
+	background-color: #fff;
+	align-items: center;
+	z-index: 999;
 `;
 
 export const NavTitle = styled.span`
 	font-size: 18px;
 	font-weight: bold;
 	color: black;
+`;
+export const SearchIcon = styled.button`
+	width: 22px;
+	height: 22px;
+	border: none;
+	cursor: pointer;
+	background: url(${searchIcon}) no-repeat center;
 `;
 
 export const HomeContainer = styled.div`
