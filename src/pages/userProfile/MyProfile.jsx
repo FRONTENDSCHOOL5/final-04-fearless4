@@ -185,7 +185,9 @@ export default function UserProfile() {
 					)}
 				</ProfileWrapper>
 
-				<ProductsForSale />
+				{isLoading && (
+					<ProductsForSale userAccountName={profile.user.accountname} />
+				)}
 				{isModal && (
 					<DarkBackground onClick={handleModalClose}>
 						<ModalWrap>

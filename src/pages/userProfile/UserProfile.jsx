@@ -34,6 +34,7 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import { API_URL } from '../../api';
 import { useLocation, useNavigate } from 'react-router-dom';
+import ProductsForSale from './ProductsForSale';
 export default function UserProfile() {
 	const location = useLocation();
 	const navigate = useNavigate();
@@ -206,6 +207,8 @@ export default function UserProfile() {
 						</ProfileButtonWrap>
 					</>
 				)}
+
+				<ProductsForSale userAccountName={accountname} />
 				{isModal && (
 					<DarkBackground onClick={handleModalClose}>
 						<ModalWrap>
