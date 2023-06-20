@@ -17,13 +17,12 @@ import {
 	ModalWrap,
 } from '../../components/modal/modal.style';
 
-export default function ProductsForSale() {
+export default function ProductsForSale({ userAccountName }) {
 	const [productData, setProductData] = useState([]);
 	const [resProd, setResProd] = useState([]);
 	const [isModal, setIsModal] = useState(false);
 	const [selectedProduct, setSelectedProduct] = useState(null);
-	const accountname = 'TravelUs';
-
+	const accountname = userAccountName;
 	const url = API_URL;
 	const token = localStorage.getItem('token');
 
@@ -49,7 +48,7 @@ export default function ProductsForSale() {
 		setSelectedProduct(item);
 	};
 
-	const handleModalClose = (e) => {
+	const handleModalClose = () => {
 		setIsModal(false);
 	};
 
@@ -72,6 +71,11 @@ export default function ProductsForSale() {
 				console.error(error);
 			}
 		}
+	};
+
+	const viewProductOnWebsite = () => {
+		const url = `https://${selectedProduct.link}`;
+		window.open(url, '_blank');
 	};
 
 	useEffect(() => {
@@ -109,7 +113,9 @@ export default function ProductsForSale() {
 					<ModalWrap>
 						<ModalText onClick={handleDeleteProduct}>삭제</ModalText>
 						<ModalText>수정</ModalText>
-						<ModalText>웹사이트에서 상품 보기</ModalText>
+						<ModalText onClick={viewProductOnWebsite}>
+							웹사이트에서 상품 보기
+						</ModalText>
 					</ModalWrap>
 				</DarkBackground>
 			)}
