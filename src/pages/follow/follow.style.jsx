@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Wrapper = styled.div`
 	width: 100%;
 	box-sizing: border-box;
-	padding: 72px 16px 0;
+	padding: 72px 16px 24px;
 	display: flex;
 	flex-direction: column;
 	gap: 16px;
@@ -27,12 +27,20 @@ export const UserProfileImg = styled.div`
 	height: 50px;
 	border-radius: 50%;
 	overflow: hidden;
+	cursor: pointer;
+`;
+
+export const UserFollowImage = styled.img`
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
 `;
 
 export const UserContent = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 6px;
+	cursor: pointer;
 `;
 
 export const UserFollowNickName = styled.span`

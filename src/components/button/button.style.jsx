@@ -64,6 +64,12 @@ export const ProfileButton = styled.button`
 	border-radius: 30px;
 	border: ${({ follow }) => (follow === true ? `none` : `solid 1px #DBDBDB`)};
 	cursor: pointer;
+
+	&:hover {
+		color: ${({ follow }) => (follow === false ? `#767676` : `#fff`)};
+		background-color: ${({ follow }) =>
+			follow === false ? `#DBDBDB` : `#81d8d0`};
+	}
 `;
 
 export const ChatShare = styled.button`
