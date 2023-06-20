@@ -132,7 +132,11 @@ export default function Product() {
 	return (
 		<>
 			<NavbarWrap spaceBetween>
-				<Backspace />
+				<Backspace
+					onClick={() => {
+						navigate(-1);
+					}}
+				/>
 				<SaveButton disabled={!isFormValid} onClick={handleSaveButtonClick}>
 					저장
 				</SaveButton>
