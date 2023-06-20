@@ -20,17 +20,14 @@ export const ProfileImagePost = styled.img`
 export const OptionModalTabComment = styled(OptionModalTab)`
 	width: 20px;
 	height: 20px;
-
 	margin-left: auto;
 `;
 
-// 게시글 컴포넌트 삽입 전 임시로 작성
 export const PostView = styled.div`
 	width: 100%;
-	height: 434px;
-	background-color: #81d8d0;
+	height: auto;
 	display: flex;
-	padding: 68px 16px 26px 16px;
+	padding-top: 48px;
 	justify-content: center;
 	align-items: center;
 	border-bottom: 2px solid #dbdbdb;

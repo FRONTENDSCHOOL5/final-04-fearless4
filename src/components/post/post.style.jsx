@@ -2,14 +2,13 @@ import styled from 'styled-components';
 import heartIcon from '../../assets/icon/icon-heart.svg';
 import messageIcon from '../../assets/icon/icon-message-circle.svg';
 import dotIcon from '../../assets/icon/icon- more-vertical.svg';
-import profileImg from '../../assets/image/profilePic.png';
-import postImg from '../../assets/image/travelchar_crop.png'; //임시사진
 
 export const Container = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	margin: 0 auto;
+	min-width: 358px;
 `;
 
 export const Card = styled.div`
@@ -120,38 +119,43 @@ export const Date = styled.div`
 	color: #767676;
 `;
 
-export function Post() {
+export function Post({
+	myProfileImg,
+	username,
+	accountname,
+	content,
+	image,
+	heartCount,
+	commentCount,
+	createdAt,
+}) {
 	return (
 		<Container>
 			<Card>
 				<ProfileImg
-					src={profileImg}
+					src={myProfileImg}
 					alt='Profile Image'
 					className='profile_img'
 				/>
 				<RightCard>
 					<Top>
 						<UserDetails>
-							<SpanName className='span-name'>애월읍 위니브 감귤농장</SpanName>
-							<SpanId className='span-id'>@weniv_Mandarin</SpanId>
+							<SpanName className='span-name'>{username}</SpanName>
+							<SpanId className='span-id'>@{accountname}</SpanId>
 						</UserDetails>
 						<Dot src={dotIcon} alt='Dot Icon'></Dot>
 					</Top>
-					<TextPost>
-						옷을 인생을 그러므로 없으면 것은 이상은 것은 우리의 위하여, 뿐이다.
-						이상의 청춘의 뼈 따뜻한 그들의 그와 약동하다. 대고, 못할 넣는
-						풍부하게 뛰노는 인생의 힘있다.
-					</TextPost>
+					<TextPost>{content}</TextPost>
 					<ImgBx>
-						<Cover src={postImg} alt='업로드한 이미지' />
+						<Cover src={image} alt='업로드한 이미지' />
 					</ImgBx>
 					<Icons>
 						<IconsImg src={heartIcon} alt='Heart Icon' />
-						<IconsSpan>20</IconsSpan>
+						<IconsSpan>{heartCount}</IconsSpan>
 						<IconsImg src={messageIcon} alt='Message Icon' />
-						<IconsSpan>13</IconsSpan>
+						<IconsSpan>{commentCount}</IconsSpan>
 					</Icons>
-					<Date>June 18, 2023</Date>
+					<Date>{createdAt}</Date>
 				</RightCard>
 			</Card>
 		</Container>
