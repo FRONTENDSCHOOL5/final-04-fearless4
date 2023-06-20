@@ -6,7 +6,6 @@ import {
 	NavbarWrap,
 	OptionModalTab,
 } from '../../components/navbar/navbar.style';
-import ProfilePic from '../../assets/image/profilePic.png';
 import {
 	WrapperViewPost,
 	Comment,
@@ -16,19 +15,21 @@ import {
 	CommentInputArea,
 	CommentUploadButton,
 	ProfileImageComment,
-} from './ViewPost.style';
+} from './viewPost.style';
 
 const ViewPost = () => {
 	const [token, setToken] = useState(localStorage.getItem('token') || '');
 	const [postData, setPostData] = useState(null);
-	console.log(token);
+	const [commentContent, setCommentContent] = useState('');
 
 	useEffect(() => {
-		const apiData = async () => {
+		const getApiData = async () => {
 			try {
 				await axios
 					.get(
-						'https://api.mandarin.weniv.co.kr/post/64912d1eb2cb205663424bf1',
+						// 게시물 리스트에서 받아오기 때문에 거기서 받아온 post id를 프롭스로 여기에 넘겨 주어야 함
+						// 현재는 임시 데이터 지정
+						'https://api.mandarin.weniv.co.kr/post/64914e1db2cb20566347a3d5',
 						{
 							headers: {
 								Authorization: `Bearer ${token}`,
@@ -37,15 +38,60 @@ const ViewPost = () => {
 						}
 					)
 					.then((response) => {
-						console.log(response.data.post);
 						setPostData(response.data.post);
 					});
 			} catch (error) {
 				console.error('데이터를 불러오지 못했습니다!', error);
 			}
 		};
-		apiData();
+		getApiData();
 	}, [token]);
+
+	useEffect(() => {
+		const getCommentList = async () => {
+			try {
+				await axios
+					.get(
+						`https://api.mandarin.weniv.co.kr/post/${postData.id}/comments`,
+						{
+							headers: {
+								Authorization: `Bearer ${token}`,
+								'Content-type': 'application/json',
+							},
+						}
+					)
+					.then((response) => {
+						console.log(response);
+					});
+			} catch (error) {
+				console.error('오류 발생!', error.response || error);
+			}
+		};
+		if (postData) {
+			getCommentList();
+		}
+	}, [token, postData]);
+
+	const handleCommentUpload = async () => {
+		try {
+			const response = await axios.post(
+				`https://api.mandarin.weniv.co.kr/post/${postData.id}/comments`,
+				{
+					comment: {
+						content: commentContent,
+					},
+				},
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+						'Content-type': 'application/json',
+					},
+				}
+			);
+		} catch (error) {
+			console.error('댓글을 업로드하지 못했습니다!', error.response.data);
+		}
+	};
 
 	const formatCreatedAt = (createdAt) => {
 		const date = new Date(createdAt);
@@ -77,9 +123,20 @@ const ViewPost = () => {
 				<Comment></Comment>
 			</CommentSection>
 			<UploadComment>
-				<ProfileImageComment src={ProfilePic}></ProfileImageComment>
-				<CommentInputArea placeholder='댓글 입력하기...'></CommentInputArea>
-				<CommentUploadButton>게시</CommentUploadButton>
+				{postData && (
+					<ProfileImageComment
+						src={postData.author.image}
+					></ProfileImageComment>
+				)}
+				<CommentInputArea
+					placeholder='댓글 입력하기...'
+					value={commentContent}
+					onChange={(e) => setCommentContent(e.target.value)}
+					rows={1}
+				></CommentInputArea>
+				<CommentUploadButton onClick={handleCommentUpload}>
+					게시
+				</CommentUploadButton>
 			</UploadComment>
 		</WrapperViewPost>
 	);

@@ -107,9 +107,28 @@ export const Comment = () => {
 	);
 };
 
+// {
+//     "id": "64916843b2cb2056634a0870",
+//     "content": "테스트 하는 주우웅2",
+//     "createdAt": "2023-06-20T08:50:11.716Z",
+//     "author": {
+//         "_id": "648fe139b2cb2056633b37a1",
+//         "username": "테스트입니다",
+//         "accountname": "ohpleasetest12",
+//         "intro": "테스트계정입니다",
+//         "image": "https://api.mandarin.weniv.co.kr/1687150875436.png",
+//         "isfollow": false,
+//         "following": [],
+//         "follower": [],
+//         "followerCount": 0,
+//         "followingCount": 0
+//     }
+// },
+
 export const UploadComment = styled.div`
 	width: 100%;
 	box-sizing: border-box;
+	background-color: #fff;
 	padding: 12px 16px;
 	border-top: 1px solid #dbdbdb;
 	position: fixed;
@@ -133,6 +152,7 @@ export const CommentInputArea = styled.textarea`
 	resize: none;
 	border: none;
 	font-size: 14px;
+	overflow: hidden;
 
 	&::placeholder {
 		font-size: 14px;
