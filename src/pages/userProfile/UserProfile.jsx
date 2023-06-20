@@ -210,7 +210,7 @@ export default function UserProfile() {
 					)}
 				</ProfileWrapper>
 
-				<ProductsForSale />
+				<ProductsForSale userAccountName={accountname} />
 				{isModal && (
 					<DarkBackground onClick={handleModalClose}>
 						<ModalWrap>
