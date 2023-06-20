@@ -11,6 +11,7 @@ import {
 	ProfileImgWrap,
 	UserWrap,
 	ProfileButtonWrap,
+	ProfilePageWrapper,
 } from './userProfile.style';
 import { ProfileImage } from '../profileSetup/profileSetup.style';
 import profilePic from '../../assets/image/profilePic.png';
@@ -31,6 +32,7 @@ import {
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { API_URL } from '../../api';
+import ProductsForSale from './ProductsForSale';
 
 export default function UserProfile() {
 	const navigate = useNavigate();
@@ -107,79 +109,83 @@ export default function UserProfile() {
 
 	return (
 		<>
-			<ProfileWrapper>
-				<NavbarWrap spaceBetween>
-					<Backspace
-						onClick={() => {
-							navigate(-1);
-						}}
-					/>
-					<OptionModalTab onClick={handleModalOpen} />
-				</NavbarWrap>
+			<ProfilePageWrapper>
+				<ProfileWrapper>
+					<NavbarWrap spaceBetween>
+						<Backspace
+							onClick={() => {
+								navigate(-1);
+							}}
+						/>
+						<OptionModalTab onClick={handleModalOpen} />
+					</NavbarWrap>
 
-				{isLoading && (
-					<>
-						<ProfileImgWrap>
-							<FollowerWrap
-								to='/followers'
-								state={{
-									accountname: profile.user.accountname,
-								}}
-							>
-								<FollowerNumber followers>
-									{profile.user.followerCount}
-								</FollowerNumber>
-								<Follower>followers</Follower>
-							</FollowerWrap>
+					{isLoading && (
+						<>
+							<ProfileImgWrap>
+								<FollowerWrap
+									to='/followers'
+									state={{
+										accountname: profile.user.accountname,
+									}}
+								>
+									<FollowerNumber followers>
+										{profile.user.followerCount}
+									</FollowerNumber>
+									<Follower>followers</Follower>
+								</FollowerWrap>
 
-							<ProfileImage
-								style={{ width: '110px', height: '110px' }}
-								src={profile.user.image}
-								onError={handleImgError}
-								alt=''
-							></ProfileImage>
+								<ProfileImage
+									style={{ width: '110px', height: '110px' }}
+									src={profile.user.image}
+									onError={handleImgError}
+									alt=''
+								></ProfileImage>
 
-							<FollowerWrap
-								to='/followings'
-								state={{
-									accountname: profile.user.accountname,
-								}}
-							>
-								<FollowerNumber>{profile.user.followingCount}</FollowerNumber>
-								<Follower>followings</Follower>
-							</FollowerWrap>
-						</ProfileImgWrap>
+								<FollowerWrap
+									to='/followings'
+									state={{
+										accountname: profile.user.accountname,
+									}}
+								>
+									<FollowerNumber>{profile.user.followingCount}</FollowerNumber>
+									<Follower>followings</Follower>
+								</FollowerWrap>
+							</ProfileImgWrap>
 
-						<UserWrap>
-							<UserNickName>{profile.user.username}</UserNickName>
-							<UserEmail>@ {profile.user.accountname}</UserEmail>
-							<Intro>{profile.user.intro}</Intro>
-						</UserWrap>
+							<UserWrap>
+								<UserNickName>{profile.user.username}</UserNickName>
+								<UserEmail>@ {profile.user.accountname}</UserEmail>
+								<Intro>{profile.user.intro}</Intro>
+							</UserWrap>
 
-						<ProfileButtonWrap>
-							<ProfileButton
-								type='button'
-								onClick={() => {
-									navigate('/myprofileedit', {
-										state: {
-											token: token,
-											profileImage: profileImage,
-											profileId: profileId,
-											profileName: profileName,
-											profileIntro: profileIntro,
-										},
-									});
-								}}
-							>
-								프로필 수정
-							</ProfileButton>
+							<ProfileButtonWrap>
+								<ProfileButton
+									type='button'
+									onClick={() => {
+										navigate('/myprofileedit', {
+											state: {
+												token: token,
+												profileImage: profileImage,
+												profileId: profileId,
+												profileName: profileName,
+												profileIntro: profileIntro,
+											},
+										});
+									}}
+								>
+									프로필 수정
+								</ProfileButton>
 
-							<ProfileButton product type='button'>
-								상품 등록
-							</ProfileButton>
-						</ProfileButtonWrap>
-					</>
-				)}
+								<ProfileButton product type='button'>
+									상품 등록
+								</ProfileButton>
+							</ProfileButtonWrap>
+						</>
+					)}
+				</ProfileWrapper>
+
+				<ProductsForSale />
 				{isModal && (
 					<DarkBackground onClick={handleModalClose}>
 						<ModalWrap>
@@ -201,7 +207,7 @@ export default function UserProfile() {
 						</CheckModalWrap>
 					</DarkBackground>
 				)}
-			</ProfileWrapper>
+			</ProfilePageWrapper>
 		</>
 	);
 }
