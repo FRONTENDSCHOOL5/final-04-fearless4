@@ -11,6 +11,7 @@ import {
 	ProfileImgWrap,
 	UserWrap,
 	ProfileButtonWrap,
+	ProfilePageWrapper,
 } from './userProfile.style';
 import { ProfileImage } from '../profileSetup/profileSetup.style';
 import profilePic from '../../assets/image/profilePic.png';
@@ -33,6 +34,7 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import { API_URL } from '../../api';
 import { useLocation, useNavigate } from 'react-router-dom';
+import ProductsForSale from './ProductsForSale';
 export default function UserProfile() {
 	const location = useLocation();
 	const navigate = useNavigate();
@@ -144,67 +146,71 @@ export default function UserProfile() {
 
 	return (
 		<>
-			<ProfileWrapper>
-				<NavbarWrap spaceBetween>
-					<Backspace
-						onClick={() => {
-							navigate(-1);
-						}}
-					/>
-					<OptionModalTab onClick={handleModalOpen} />
-				</NavbarWrap>
-				{isLoading && (
-					<>
-						<ProfileImgWrap>
-							<FollowerWrap
-								to='/followers'
-								state={{
-									accountname: accountname,
-								}}
-							>
-								<FollowerNumber followers>
-									{profile.profile.followerCount}
-								</FollowerNumber>
-								<Follower>followers</Follower>
-							</FollowerWrap>
+			<ProfilePageWrapper>
+				<ProfileWrapper>
+					<NavbarWrap spaceBetween>
+						<Backspace
+							onClick={() => {
+								navigate(-1);
+							}}
+						/>
+						<OptionModalTab onClick={handleModalOpen} />
+					</NavbarWrap>
+					{isLoading && (
+						<>
+							<ProfileImgWrap>
+								<FollowerWrap
+									to='/followers'
+									state={{
+										accountname: accountname,
+									}}
+								>
+									<FollowerNumber followers>
+										{profile.profile.followerCount}
+									</FollowerNumber>
+									<Follower>followers</Follower>
+								</FollowerWrap>
 
-							<ProfileImage
-								style={{ width: '110px', height: '110px' }}
-								src={profile.profile.image}
-								onError={handleImgError}
-								alt=''
-							></ProfileImage>
+								<ProfileImage
+									style={{ width: '110px', height: '110px' }}
+									src={profile.profile.image}
+									onError={handleImgError}
+									alt=''
+								></ProfileImage>
 
-							<FollowerWrap
-								to='/followings'
-								state={{ accountname: accountname, token: token }}
-							>
-								<FollowerNumber>
-									{profile.profile.followingCount}
-								</FollowerNumber>
-								<Follower>followings</Follower>
-							</FollowerWrap>
-						</ProfileImgWrap>
+								<FollowerWrap
+									to='/followings'
+									state={{ accountname: accountname, token: token }}
+								>
+									<FollowerNumber>
+										{profile.profile.followingCount}
+									</FollowerNumber>
+									<Follower>followings</Follower>
+								</FollowerWrap>
+							</ProfileImgWrap>
 
-						<UserWrap>
-							<UserNickName>{profile.profile.accountname}</UserNickName>
-							<UserEmail>@ {profile.profile.accountname}</UserEmail>
-							<Intro>{profile.profile.intro}</Intro>
-						</UserWrap>
+							<UserWrap>
+								<UserNickName>{profile.profile.accountname}</UserNickName>
+								<UserEmail>@ {profile.profile.accountname}</UserEmail>
+								<Intro>{profile.profile.intro}</Intro>
+							</UserWrap>
 
-						<ProfileButtonWrap>
-							<ChatShare type='button' chatting />
-							<ProfileButton
-								follow={isFollow === true ? false : true}
-								type='button'
-								onClick={handleFollowChange}
-							>
-								{isFollow === true ? '팔로우 취소' : '팔로우'}
-							</ProfileButton>
-							<ChatShare type='button' />
-						</ProfileButtonWrap>
-					</>
-				)}
+							<ProfileButtonWrap>
+								<ChatShare type='button' chatting />
+								<ProfileButton
+									follow={isFollow === true ? false : true}
+									type='button'
+									onClick={handleFollowChange}
+								>
+									{isFollow === true ? '팔로우 취소' : '팔로우'}
+								</ProfileButton>
+								<ChatShare type='button' />
+							</ProfileButtonWrap>
+						</>
+					)}
+				</ProfileWrapper>
+
+				<ProductsForSale />
 				{isModal && (
 					<DarkBackground onClick={handleModalClose}>
 						<ModalWrap>
@@ -226,7 +232,7 @@ export default function UserProfile() {
 						</CheckModalWrap>
 					</DarkBackground>
 				)}
-			</ProfileWrapper>
+			</ProfilePageWrapper>
 		</>
 	);
 }
