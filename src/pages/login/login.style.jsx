@@ -1,6 +1,7 @@
 import styled, { keyframes } from 'styled-components';
 
 export const Wrapper = styled.div`
+	background-color: #81d8d0;
 	min-width: 420px;
 	height: 100vh;
 	display: flex;
