@@ -177,7 +177,13 @@ export default function UserProfile() {
 									프로필 수정
 								</ProfileButton>
 
-								<ProfileButton product type='button'>
+								<ProfileButton
+									product
+									type='button'
+									onClick={() => {
+										navigate('/product');
+									}}
+								>
 									상품 등록
 								</ProfileButton>
 							</ProfileButtonWrap>
