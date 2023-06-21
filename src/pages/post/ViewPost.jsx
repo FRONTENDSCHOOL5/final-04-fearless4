@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Post } from '../../components/post/post.style';
 import {
@@ -26,6 +27,7 @@ import {
 } from '../../components/modal/modal.style';
 import { Comment } from './Comment';
 import { API_URL } from '../../api';
+import { useNavigate } from 'react-router-dom';
 
 const ViewPost = () => {
 	const [token, setToken] = useState(localStorage.getItem('token') || '');
@@ -35,6 +37,8 @@ const ViewPost = () => {
 	const [comments, setComments] = useState([]);
 	const [isPostModal, setIsPostModal] = useState(false);
 	const [isPostDeleteCheckModal, setIsPostDeleteCheckModal] = useState(false);
+	const navigate = useNavigate();
+	const { postId } = useParams();
 
 	const handlePostModalOptionClick = () => {
 		setIsPostModal(true);
@@ -51,7 +55,15 @@ const ViewPost = () => {
 
 	// 게시글 모달 수정 버튼 클릭 시 코드
 	const handlePostEditClick = () => {
-		console.log('수정 완료');
+		if (postData) {
+			navigate('/editPost', {
+				state: {
+					id: postData.id,
+					content: postData.content,
+					image: postData.image,
+				},
+			});
+		}
 		// 여기에 게시물 수정 API 호출 로직이 들어가야 합니다.
 	};
 
@@ -122,7 +134,7 @@ const ViewPost = () => {
 					.get(
 						// 게시물 리스트에서 받아오기 때문에 거기서 받아온 post id를 프롭스로 여기에 넘겨 주어야 함
 						// 현재는 임시 데이터 지정
-						`${API_URL}/post/6492a623b2cb205663530f47`,
+						`${API_URL}/post/6492ac31b2cb20566353add3`,
 						{
 							headers: {
 								Authorization: `Bearer ${token}`,
