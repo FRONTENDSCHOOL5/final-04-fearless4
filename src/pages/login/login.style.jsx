@@ -1,11 +1,5 @@
 import styled, { keyframes } from 'styled-components';
 
-const slideUp = keyframes`
-	from {
-		transform: translateY(300px);
-	}
-`;
-
 export const Wrapper = styled.div`
 	min-width: 420px;
 	height: 100vh;
@@ -28,8 +22,10 @@ export const ButtonWrapper = styled.div`
 	bottom: 0;
 	box-sizing: border-box;
 
-	animation-duration: 0.8s;
-	animation-timing-function: ease-out;
-	animation-name: ${slideUp};
-	animation-fill-mode: forwards;
+	transition: 0.7s;
+	transform: translate3d(0, 100%, 0);
+
+	&.modal-open {
+		transform: translate3d(0, 0, 0);
+	}
 `;
