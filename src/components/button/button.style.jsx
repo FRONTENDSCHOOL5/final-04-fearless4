@@ -36,6 +36,16 @@ export const SocialLoginButton = styled.button`
 					? `-10px -10px`
 					: `-86px -10px`};
 	}
+	&:hover {
+		background-color: ${({ socialImage }) =>
+			socialImage === 'kakao'
+				? '#f3dfa3'
+				: socialImage === 'google'
+				? '#cac8c8'
+				: '#69b2dd'};
+		border-color: transparent;
+		color: #fff;
+	}
 `;
 
 export const LoginButton = styled.button`
