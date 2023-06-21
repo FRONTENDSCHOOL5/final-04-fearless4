@@ -10,7 +10,7 @@ import {
 	CommentTime,
 	CommentText,
 	OptionModalTabComment,
-} from './viewPost.style';
+} from './ViewPost.style';
 
 export const Comment = ({ comment }) => {
 	const { author, createdAt, content } = comment;

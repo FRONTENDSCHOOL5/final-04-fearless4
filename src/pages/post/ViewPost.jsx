@@ -14,7 +14,7 @@ import {
 	CommentInputArea,
 	CommentUploadButton,
 	ProfileImageComment,
-} from './viewPost.style';
+} from './ViewPost.style';
 import { Comment } from './Comment';
 
 const ViewPost = () => {
@@ -23,6 +23,29 @@ const ViewPost = () => {
 	const [commentContent, setCommentContent] = useState('');
 
 	const [comments, setComments] = useState([]);
+
+	const getCommentList = async () => {
+		try {
+			await axios
+				.get(
+					`https://api.mandarin.weniv.co.kr/post/${postData.id}/comments/?limit=infinity`,
+					{
+						headers: {
+							Authorization: `Bearer ${token}`,
+							'Content-type': 'application/json',
+						},
+					}
+				)
+				.then((response) => {
+					const sortedComments = response.data.comments.sort((a, b) => {
+						return new Date(a.createdAt) - new Date(b.createdAt);
+					});
+					setComments(sortedComments);
+				});
+		} catch (error) {
+			console.error('오류 발생!', error.response || error);
+		}
+	};
 
 	useEffect(() => {
 		const getApiData = async () => {
@@ -50,28 +73,6 @@ const ViewPost = () => {
 	}, [token]);
 
 	useEffect(() => {
-		const getCommentList = async () => {
-			try {
-				await axios
-					.get(
-						`https://api.mandarin.weniv.co.kr/post/${postData.id}/comments`,
-						{
-							headers: {
-								Authorization: `Bearer ${token}`,
-								'Content-type': 'application/json',
-							},
-						}
-					)
-					.then((response) => {
-						const sortedComments = response.data.comments.sort((a, b) => {
-							return new Date(a.createdAt) - new Date(b.createdAt);
-						});
-						setComments(sortedComments);
-					});
-			} catch (error) {
-				console.error('오류 발생!', error.response || error);
-			}
-		};
 		if (postData) {
 			getCommentList();
 		}
@@ -93,6 +94,9 @@ const ViewPost = () => {
 					},
 				}
 			);
+
+			setCommentContent('');
+			await getCommentList();
 		} catch (error) {
 			console.error('댓글을 업로드하지 못했습니다!', error.response.data);
 		}
