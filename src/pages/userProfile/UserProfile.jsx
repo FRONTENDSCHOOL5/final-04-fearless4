@@ -147,66 +147,68 @@ export default function UserProfile() {
 	return (
 		<>
 			<ProfilePageWrapper>
-				<NavbarWrap spaceBetween>
-					<Backspace
-						onClick={() => {
-							navigate(-1);
-						}}
-					/>
-					<OptionModalTab onClick={handleModalOpen} />
-				</NavbarWrap>
-				{isLoading && (
-					<>
-						<ProfileImgWrap>
-							<FollowerWrap
-								to='/followers'
-								state={{
-									accountname: accountname,
-								}}
-							>
-								<FollowerNumber followers>
-									{profile.profile.followerCount}
-								</FollowerNumber>
-								<Follower>followers</Follower>
-							</FollowerWrap>
+				<ProfileWrapper>
+					<NavbarWrap spaceBetween>
+						<Backspace
+							onClick={() => {
+								navigate(-1);
+							}}
+						/>
+						<OptionModalTab onClick={handleModalOpen} />
+					</NavbarWrap>
+					{isLoading && (
+						<>
+							<ProfileImgWrap>
+								<FollowerWrap
+									to='/followers'
+									state={{
+										accountname: accountname,
+									}}
+								>
+									<FollowerNumber followers>
+										{profile.profile.followerCount}
+									</FollowerNumber>
+									<Follower>followers</Follower>
+								</FollowerWrap>
 
-							<ProfileImage
-								style={{ width: '110px', height: '110px' }}
-								src={profile.profile.image}
-								onError={handleImgError}
-								alt=''
-							></ProfileImage>
+								<ProfileImage
+									style={{ width: '110px', height: '110px' }}
+									src={profile.profile.image}
+									onError={handleImgError}
+									alt=''
+								></ProfileImage>
 
-							<FollowerWrap
-								to='/followings'
-								state={{ accountname: accountname, token: token }}
-							>
-								<FollowerNumber>
-									{profile.profile.followingCount}
-								</FollowerNumber>
-								<Follower>followings</Follower>
-							</FollowerWrap>
-						</ProfileImgWrap>
+								<FollowerWrap
+									to='/followings'
+									state={{ accountname: accountname, token: token }}
+								>
+									<FollowerNumber>
+										{profile.profile.followingCount}
+									</FollowerNumber>
+									<Follower>followings</Follower>
+								</FollowerWrap>
+							</ProfileImgWrap>
 
-						<UserWrap>
-							<UserNickName>{profile.profile.accountname}</UserNickName>
-							<UserEmail>@ {profile.profile.accountname}</UserEmail>
-							<Intro>{profile.profile.intro}</Intro>
-						</UserWrap>
+							<UserWrap>
+								<UserNickName>{profile.profile.accountname}</UserNickName>
+								<UserEmail>@ {profile.profile.accountname}</UserEmail>
+								<Intro>{profile.profile.intro}</Intro>
+							</UserWrap>
 
-						<ProfileButtonWrap>
-							<ChatShare type='button' chatting />
-							<ProfileButton
-								follow={isFollow === true ? false : true}
-								type='button'
-								onClick={handleFollowChange}
-							>
-								{isFollow === true ? '팔로우 취소' : '팔로우'}
-							</ProfileButton>
-							<ChatShare type='button' />
-						</ProfileButtonWrap>
-					</>
-				)}
+							<ProfileButtonWrap>
+								<ChatShare type='button' chatting />
+								<ProfileButton
+									follow={isFollow === true ? false : true}
+									type='button'
+									onClick={handleFollowChange}
+								>
+									{isFollow === true ? '팔로우 취소' : '팔로우'}
+								</ProfileButton>
+								<ChatShare type='button' />
+							</ProfileButtonWrap>
+						</>
+					)}
+				</ProfileWrapper>
 
 				<ProductsForSale userAccountName={accountname} />
 				{isModal && (
