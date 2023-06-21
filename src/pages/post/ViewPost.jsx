@@ -14,7 +14,7 @@ import {
 	CommentInputArea,
 	CommentUploadButton,
 	ProfileImageComment,
-} from './ViewPost.style';
+} from './viewPost.style';
 import { Comment } from './Comment';
 
 const ViewPost = () => {
