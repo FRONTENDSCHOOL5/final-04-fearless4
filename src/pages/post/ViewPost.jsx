@@ -19,6 +19,10 @@ import {
 	DarkBackground,
 	ModalWrap,
 	ModalText,
+	CheckModalWrap,
+	CheckMsg,
+	CheckButtonWrap,
+	CheckLogout,
 } from '../../components/modal/modal.style';
 import { Comment } from './Comment';
 import { API_URL } from '../../api';
@@ -26,9 +30,11 @@ import { API_URL } from '../../api';
 const ViewPost = () => {
 	const [token, setToken] = useState(localStorage.getItem('token') || '');
 	const [postData, setPostData] = useState(null);
+	const [myProfilePic, setMyProfilePic] = useState('');
 	const [commentContent, setCommentContent] = useState('');
 	const [comments, setComments] = useState([]);
 	const [isPostModal, setIsPostModal] = useState(false);
+	const [isPostDeleteCheckModal, setIsPostDeleteCheckModal] = useState(false);
 
 	const handlePostModalOptionClick = () => {
 		setIsPostModal(true);
@@ -46,6 +52,10 @@ const ViewPost = () => {
 	const handlePostDeleteClick = () => {};
 	// 게시글 모달 수정 버튼 클릭 시 코드
 	const handlePostEditClick = () => {};
+	// 게시글 삭제 모달 취소 시 코드
+	const handlePostDeleteCheckModal = () => {
+		setIsPostDeleteCheckModal(true);
+	};
 
 	const getCommentList = async () => {
 		try {
@@ -61,6 +71,22 @@ const ViewPost = () => {
 						return new Date(a.createdAt) - new Date(b.createdAt);
 					});
 					setComments(sortedComments);
+				});
+		} catch (error) {
+			console.error('오류 발생!', error.response || error);
+		}
+	};
+
+	const getMyProfilePic = async () => {
+		try {
+			await axios
+				.get(`${API_URL}/user/myinfo`, {
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				})
+				.then((response) => {
+					setMyProfilePic(response.data.user.image);
 				});
 		} catch (error) {
 			console.error('오류 발생!', error.response || error);
@@ -93,6 +119,7 @@ const ViewPost = () => {
 	}, [token]);
 
 	useEffect(() => {
+		getMyProfilePic();
 		if (postData) {
 			getCommentList();
 		}
@@ -156,9 +183,7 @@ const ViewPost = () => {
 			</CommentSection>
 			<UploadComment>
 				{postData && (
-					<ProfileImageComment
-						src={postData.author.image}
-					></ProfileImageComment>
+					<ProfileImageComment src={myProfilePic}></ProfileImageComment>
 				)}
 				<CommentInputArea
 					placeholder='댓글 입력하기...'
@@ -176,6 +201,17 @@ const ViewPost = () => {
 						<ModalText onClick={handlePostDeleteClick}>삭제</ModalText>
 						<ModalText onClick={handlePostEditClick}>수정</ModalText>
 					</ModalWrap>
+				</DarkBackground>
+			)}
+			{isPostDeleteCheckModal && (
+				<DarkBackground onClick={handlePostDeleteCheckModal}>
+					<CheckModalWrap>
+						<CheckMsg>게시글을 삭제하시겠어요?</CheckMsg>
+						<CheckButtonWrap>
+							<CheckLogout>취소</CheckLogout>
+							<CheckLogout check>삭제</CheckLogout>
+						</CheckButtonWrap>
+					</CheckModalWrap>
 				</DarkBackground>
 			)}
 		</WrapperViewPost>
