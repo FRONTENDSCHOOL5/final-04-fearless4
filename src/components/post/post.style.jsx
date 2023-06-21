@@ -14,7 +14,7 @@ export const Container = styled.div`
 export const Card = styled.div`
 	position: relative;
 	display: flex;
-	width: 100%;
+	min-width: 100%;
 	height: 100%;
 	padding: 20px 16px;
 	justify-content: center;
@@ -23,6 +23,7 @@ export const Card = styled.div`
 export const RightCard = styled.div`
 	position: relative;
 	margin-top: 4px;
+	flex: 1;
 `;
 
 export const Top = styled.div`
@@ -68,7 +69,7 @@ export const Dot = styled.img`
 `;
 
 export const TextPost = styled.div`
-	margin-top: 16px;
+	margin: 16px 0;
 	font-size: 14px;
 	min-width: 200px;
 `;
@@ -77,7 +78,6 @@ export const ImgBx = styled.div`
 	position: relative;
 	width: 100%;
 	height: auto;
-	margin-top: 16px;
 	border-radius: 10px;
 	overflow: hidden;
 `;
@@ -90,7 +90,6 @@ export const Cover = styled.img`
 
 export const Icons = styled.div`
 	display: flex;
-
 	margin-top: 12px;
 	position: relative;
 	align-items: center;

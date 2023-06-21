@@ -11,6 +11,7 @@ export default function Homefeed() {
 	const token = localStorage.getItem('token');
 	const [followingFeed, setFollowingFeed] = useState([]);
 	const [post, setPost] = useState([]);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		const homeFeedData = async () => {
@@ -46,7 +47,12 @@ export default function Homefeed() {
 		<>
 			<NavbarWrap spaceBetween>
 				travelus 피드
-				<SearchIcon alt='검색 아이콘' />
+				<SearchIcon
+					onClick={() => {
+						navigate('/Search');
+					}}
+					alt='검색 아이콘'
+				/>
 			</NavbarWrap>
 
 			{followingFeed.length === 0 ? <NoFeed /> : post}

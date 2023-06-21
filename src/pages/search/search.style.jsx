@@ -10,5 +10,7 @@ export const SearchInput = styled.input`
 	justify-content: center;
 	align-items: center;
 	border: none;
+	outline: none;
 	padding: 7px 16px;
+	font-size: 18px;
 `;
