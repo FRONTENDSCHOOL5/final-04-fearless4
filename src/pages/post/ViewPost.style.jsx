@@ -20,17 +20,14 @@ export const ProfileImagePost = styled.img`
 export const OptionModalTabComment = styled(OptionModalTab)`
 	width: 20px;
 	height: 20px;
-
 	margin-left: auto;
 `;
 
-// 게시글 컴포넌트 삽입 전 임시로 작성
 export const PostView = styled.div`
 	width: 100%;
-	height: 434px;
-	background-color: #81d8d0;
+	height: auto;
 	display: flex;
-	padding: 68px 16px 26px 16px;
+	padding-top: 48px;
 	justify-content: center;
 	align-items: center;
 	border-bottom: 2px solid #dbdbdb;
@@ -49,6 +46,7 @@ export const CommentWrapper = styled.div`
 	align-items: flex-start;
 	gap: 12px;
 	flex-shrink: 0;
+	margin-bottom: 16px;
 `;
 
 export const FollowerProfileImageComment = styled.img`
@@ -57,6 +55,7 @@ export const FollowerProfileImageComment = styled.img`
 	height: 36px;
 	border-radius: 50%;
 	object-fit: cover;
+	align-self: flex-start;
 `;
 
 export const CommentDetail = styled.div`
@@ -75,6 +74,7 @@ export const CommentFollower = styled.div`
 `;
 export const CommentFollowerName = styled.p`
 	font-size: 14px;
+	font-weight: 500;
 `;
 export const CommentTime = styled.p`
 	font-size: 10px;
@@ -88,31 +88,10 @@ export const CommentText = styled.p`
 	white-space: pre-line;
 `;
 
-export const Comment = () => {
-	return (
-		<CommentWrapper>
-			<FollowerProfileImageComment
-				src={ProfilePic}
-			></FollowerProfileImageComment>
-			<CommentDetail>
-				<CommentFollower>
-					<CommentFollowerName>서귀포시 무슨 농장</CommentFollowerName>
-					<CommentTime>5분 전</CommentTime>
-				</CommentFollower>
-
-				<CommentText>
-					댓글 테스트 중입니다 왘! 댓글 테스트 중입니다 왘!댓글 테스트 중입니다
-					왘!댓글 테스트 중입니다 왘!댓글 테스트 중입니다 왘!
-				</CommentText>
-			</CommentDetail>
-			<OptionModalTabComment />
-		</CommentWrapper>
-	);
-};
-
 export const UploadComment = styled.div`
 	width: 100%;
 	box-sizing: border-box;
+	background-color: #fff;
 	padding: 12px 16px;
 	border-top: 1px solid #dbdbdb;
 	position: fixed;
@@ -136,6 +115,7 @@ export const CommentInputArea = styled.textarea`
 	resize: none;
 	border: none;
 	font-size: 14px;
+	overflow: hidden;
 
 	&::placeholder {
 		font-size: 14px;
