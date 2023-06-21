@@ -48,6 +48,7 @@ export default function Homefeed() {
 				travelus 피드
 				<SearchIcon alt='검색 아이콘' />
 			</NavbarWrap>
+
 			{followingFeed.length === 0 ? <NoFeed /> : post}
 		</>
 	);

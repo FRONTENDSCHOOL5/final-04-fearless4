@@ -66,7 +66,6 @@ export const SpanName = styled.span`
 export const SpanId = styled.span`
 	font-size: 12px;
 	color: #767676;
-
 	display: block;
 	margin-top: 2px;
 `;
@@ -80,6 +79,7 @@ export const Dot = styled.img`
 export const TextPost = styled.div`
 	margin-top: 16px;
 	font-size: 14px;
+	min-width: 200px;
 `;
 
 export const ImgBx = styled.div`
