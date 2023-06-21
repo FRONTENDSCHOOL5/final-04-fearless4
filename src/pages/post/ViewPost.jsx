@@ -8,7 +8,6 @@ import {
 } from '../../components/navbar/navbar.style';
 import {
 	WrapperViewPost,
-	Comment,
 	PostView,
 	CommentSection,
 	UploadComment,
@@ -16,11 +15,14 @@ import {
 	CommentUploadButton,
 	ProfileImageComment,
 } from './viewPost.style';
+import { Comment } from './Comment';
 
 const ViewPost = () => {
 	const [token, setToken] = useState(localStorage.getItem('token') || '');
 	const [postData, setPostData] = useState(null);
 	const [commentContent, setCommentContent] = useState('');
+
+	const [comments, setComments] = useState([]);
 
 	useEffect(() => {
 		const getApiData = async () => {
@@ -61,7 +63,10 @@ const ViewPost = () => {
 						}
 					)
 					.then((response) => {
-						console.log(response);
+						const sortedComments = response.data.comments.sort((a, b) => {
+							return new Date(a.createdAt) - new Date(b.createdAt);
+						});
+						setComments(sortedComments);
 					});
 			} catch (error) {
 				console.error('오류 발생!', error.response || error);
@@ -120,7 +125,9 @@ const ViewPost = () => {
 				)}
 			</PostView>
 			<CommentSection>
-				<Comment></Comment>
+				{comments.map((comment) => (
+					<Comment key={comment.id} comment={comment} />
+				))}
 			</CommentSection>
 			<UploadComment>
 				{postData && (

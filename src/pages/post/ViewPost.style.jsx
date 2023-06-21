@@ -46,6 +46,7 @@ export const CommentWrapper = styled.div`
 	align-items: flex-start;
 	gap: 12px;
 	flex-shrink: 0;
+	margin-bottom: 16px;
 `;
 
 export const FollowerProfileImageComment = styled.img`
@@ -54,6 +55,7 @@ export const FollowerProfileImageComment = styled.img`
 	height: 36px;
 	border-radius: 50%;
 	object-fit: cover;
+	align-self: flex-start;
 `;
 
 export const CommentDetail = styled.div`
@@ -72,6 +74,7 @@ export const CommentFollower = styled.div`
 `;
 export const CommentFollowerName = styled.p`
 	font-size: 14px;
+	font-weight: 500;
 `;
 export const CommentTime = styled.p`
 	font-size: 10px;
@@ -84,46 +87,6 @@ export const CommentText = styled.p`
 	color: #333333;
 	white-space: pre-line;
 `;
-
-export const Comment = () => {
-	return (
-		<CommentWrapper>
-			<FollowerProfileImageComment
-				src={ProfilePic}
-			></FollowerProfileImageComment>
-			<CommentDetail>
-				<CommentFollower>
-					<CommentFollowerName>서귀포시 무슨 농장</CommentFollowerName>
-					<CommentTime>5분 전</CommentTime>
-				</CommentFollower>
-
-				<CommentText>
-					댓글 테스트 중입니다 왘! 댓글 테스트 중입니다 왘!댓글 테스트 중입니다
-					왘!댓글 테스트 중입니다 왘!댓글 테스트 중입니다 왘!
-				</CommentText>
-			</CommentDetail>
-			<OptionModalTabComment />
-		</CommentWrapper>
-	);
-};
-
-// {
-//     "id": "64916843b2cb2056634a0870",
-//     "content": "테스트 하는 주우웅2",
-//     "createdAt": "2023-06-20T08:50:11.716Z",
-//     "author": {
-//         "_id": "648fe139b2cb2056633b37a1",
-//         "username": "테스트입니다",
-//         "accountname": "ohpleasetest12",
-//         "intro": "테스트계정입니다",
-//         "image": "https://api.mandarin.weniv.co.kr/1687150875436.png",
-//         "isfollow": false,
-//         "following": [],
-//         "follower": [],
-//         "followerCount": 0,
-//         "followingCount": 0
-//     }
-// },
 
 export const UploadComment = styled.div`
 	width: 100%;

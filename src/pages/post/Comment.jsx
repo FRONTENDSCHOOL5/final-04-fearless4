@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import 'moment/locale/ko';
 import {
 	CommentWrapper,
 	FollowerProfileImageComment,
@@ -13,6 +14,8 @@ import {
 
 export const Comment = ({ comment }) => {
 	const { author, createdAt, content } = comment;
+
+	moment.locale('ko');
 	const fromNow = moment(createdAt).fromNow();
 
 	return (
