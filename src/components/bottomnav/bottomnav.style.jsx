@@ -3,6 +3,7 @@ import homeIcon from '../../assets/icon/icon-home-fill.svg';
 import editIcon from '../../assets/icon/icon-edit.svg';
 import messageIcon from '../../assets/icon/icon-message-circle.svg';
 import userIcon from '../../assets/icon/icon-user.svg';
+import { Link } from 'react-router-dom';
 
 export const BottomNav = styled.div`
 	position: fixed;
@@ -14,7 +15,7 @@ export const BottomNav = styled.div`
 	border-top: solid 1px #dbdbdb;
 `;
 
-export const NavLink = styled.a`
+export const NavLink = styled(Link)`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -43,7 +44,7 @@ export function BottomNavContainer() {
 				<NavIcon src={messageIcon} />
 				<span className='nav-text'>채팅</span>
 			</NavLink>
-			<NavLink href='#'>
+			<NavLink to='/writePost'>
 				<NavIcon src={editIcon} />
 				<span className='nav-text'>게시물 작성</span>
 			</NavLink>
