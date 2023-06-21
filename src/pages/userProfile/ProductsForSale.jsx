@@ -34,6 +34,7 @@ export default function ProductsForSale({ userAccountName }) {
 	const data = useMyProfile();
 
 	useEffect(() => {
+		data && setMyProfile(data);
 		async function getProductForSale() {
 			const res = await axios({
 				method: 'GET',
@@ -46,11 +47,9 @@ export default function ProductsForSale({ userAccountName }) {
 			// console.log(res);
 			setResProd(res.data.product);
 		}
-		getProductForSale();
-	}, []);
-
-	useEffect(() => {
-		data && setMyProfile(data);
+		if (data) {
+			getProductForSale();
+		}
 	}, [data]);
 
 	const handleModalOpen = (item) => {
