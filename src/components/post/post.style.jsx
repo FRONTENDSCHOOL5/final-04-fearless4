@@ -47,15 +47,6 @@ export const ProfileImg = styled.img`
 	display: block;
 `;
 
-export const Cover = styled.img`
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	top: 0;
-	left: 0;
-`;
-
 export const SpanName = styled.span`
 	font-size: 14px;
 	color: #000;
@@ -85,10 +76,16 @@ export const TextPost = styled.div`
 export const ImgBx = styled.div`
 	position: relative;
 	width: 100%;
-	height: 260px;
+	height: auto;
 	margin-top: 16px;
 	border-radius: 10px;
 	overflow: hidden;
+`;
+
+export const Cover = styled.img`
+	width: 100%;
+	height: auto;
+	object-fit: cover;
 `;
 
 export const Icons = styled.div`
