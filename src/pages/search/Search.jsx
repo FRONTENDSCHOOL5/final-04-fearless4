@@ -15,8 +15,8 @@ export default function Search() {
 	};
 
 	useEffect(() => {
-		const searchData = async () => {
-			if (inputSearch.length > 0) {
+		if (inputSearch.length > 0) {
+			const searchData = async () => {
 				try {
 					const res = await axios({
 						method: 'GET',
@@ -30,19 +30,22 @@ export default function Search() {
 				} catch (error) {
 					console.log('에러입니다', error);
 				}
-			}
+			};
 			searchData();
-		};
+		}
 	}, [url, inputSearch]);
 
 	return (
-		<div>
+		<>
 			<NavbarWrap spaceBetween>
 				<Backspace />
 				<SearchInput placeholder='계정 검색' />
 			</NavbarWrap>
+			{/* <div>{inputSearch !== 0 ? inputSearch.map(item)=>{
+				return <></>
+			}}</div> */}
 
 			<BottomNavContainer />
-		</div>
+		</>
 	);
 }
