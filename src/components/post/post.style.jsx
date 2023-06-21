@@ -125,6 +125,7 @@ export function Post({
 	heartCount,
 	commentCount,
 	createdAt,
+	handlePostModalOptionClick,
 }) {
 	return (
 		<Container>
@@ -140,7 +141,11 @@ export function Post({
 							<SpanName className='span-name'>{username}</SpanName>
 							<SpanId className='span-id'>@{accountname}</SpanId>
 						</UserDetails>
-						<Dot src={dotIcon} alt='Dot Icon'></Dot>
+						<Dot
+							onClick={handlePostModalOptionClick}
+							src={dotIcon}
+							alt='Dot Icon'
+						></Dot>
 					</Top>
 					<TextPost>{content}</TextPost>
 					<ImgBx>
