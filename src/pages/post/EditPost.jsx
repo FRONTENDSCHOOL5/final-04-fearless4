@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {
 	WrapperWritePost,
@@ -20,10 +20,11 @@ const EditPost = () => {
 	const [myProfileImage, setMyProfileImage] = useState('');
 	const [text, setText] = useState('');
 	const [disabled, setDisabled] = useState(true);
+	const [token, setToken] = useState(localStorage.getItem('token') || '');
 	const inputRef = useRef(null);
 	const textarea = useRef();
-	const [token, setToken] = useState(localStorage.getItem('token') || '');
 	const location = useLocation();
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		if (location.state) {
@@ -149,6 +150,8 @@ const EditPost = () => {
 			);
 			console.log(response);
 			console.log(response.data);
+
+			navigate(`/viewPost/${location.state.id}`);
 		} catch (error) {
 			console.error(error);
 		}

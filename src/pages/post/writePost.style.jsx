@@ -21,7 +21,7 @@ export const Button = styled.button`
 
 export const UploadButton = ({ disabled, onClick }) => {
 	return (
-		<Button disabled={disabled} onClick={onClick}>
+		<Button type='button' disabled={disabled} onClick={onClick}>
 			업로드
 		</Button>
 	);

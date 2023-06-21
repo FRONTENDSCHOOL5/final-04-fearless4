@@ -44,7 +44,7 @@ export default function Router() {
 					<Route path='/Product' element={<Product />}></Route>
 					<Route path='/Homefeed' element={<Homefeed />}></Route>
 					<Route path='/writePost' element={<WritePost />}></Route>
-					<Route path='/viewPost' element={<ViewPost />}></Route>
+					<Route path='/viewPost/:id' element={<ViewPost />}></Route>
 
 					<Route path='/editPost' element={<EditPost />}></Route>
 

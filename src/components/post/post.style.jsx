@@ -18,6 +18,7 @@ export const Card = styled.div`
 	height: 100%;
 	padding: 20px 16px;
 	justify-content: center;
+	box-sizing: border-box;
 `;
 
 export const RightCard = styled.div`

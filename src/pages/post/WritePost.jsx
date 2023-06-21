@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {
 	WrapperWritePost,
@@ -21,6 +22,8 @@ const WritePost = () => {
 	const inputRef = useRef(null);
 	const textarea = useRef();
 	const [token, setToken] = useState(localStorage.getItem('token') || '');
+	const [postId, setPostId] = useState(null);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		const loadMyProfileImage = async () => {
@@ -139,6 +142,11 @@ const WritePost = () => {
 			);
 			console.log(response);
 			console.log(response.data);
+
+			const postId = response.data.post.id;
+			console.log(postId);
+			setPostId(postId);
+			navigate(`/viewPost/${postId}`);
 		} catch (error) {
 			console.error(error);
 		}

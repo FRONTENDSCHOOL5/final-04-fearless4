@@ -38,7 +38,7 @@ const ViewPost = () => {
 	const [isPostModal, setIsPostModal] = useState(false);
 	const [isPostDeleteCheckModal, setIsPostDeleteCheckModal] = useState(false);
 	const navigate = useNavigate();
-	const { postId } = useParams();
+	const { id } = useParams();
 
 	const handlePostModalOptionClick = () => {
 		setIsPostModal(true);
@@ -134,7 +134,7 @@ const ViewPost = () => {
 					.get(
 						// 게시물 리스트에서 받아오기 때문에 거기서 받아온 post id를 프롭스로 여기에 넘겨 주어야 함
 						// 현재는 임시 데이터 지정
-						`${API_URL}/post/6492ac31b2cb20566353add3`,
+						`${API_URL}/post/${id}`,
 						{
 							headers: {
 								Authorization: `Bearer ${token}`,
@@ -150,7 +150,7 @@ const ViewPost = () => {
 			}
 		};
 		getApiData();
-	}, [token]);
+	}, [token, id]);
 
 	useEffect(() => {
 		getMyProfilePic();
