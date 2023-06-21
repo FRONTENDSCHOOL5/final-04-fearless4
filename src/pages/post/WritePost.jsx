@@ -20,12 +20,11 @@ const WritePost = () => {
 	const [disabled, setDisabled] = useState(true);
 	const inputRef = useRef(null);
 	const textarea = useRef();
-	const [token, setToken] = useState('');
+	const [token, setToken] = useState(localStorage.getItem('token') || '');
 
 	useEffect(() => {
 		const loadMyProfileImage = async () => {
 			try {
-				const token = localStorage.getItem('token');
 				await axios
 					.get('https://api.mandarin.weniv.co.kr/user/myinfo', {
 						headers: {
@@ -50,7 +49,6 @@ const WritePost = () => {
 		const allowedExtensionsRegex = /\.(jpg|gif|png|jpeg|bmp|tif|heic)$/i;
 		const maxImageSize = 10 * 1024 * 1024;
 		const imageFile = e.target.files[0];
-		console.log(imageFile);
 
 		if (imageFile) {
 			if (imageFile.size > maxImageSize) {
@@ -62,7 +60,6 @@ const WritePost = () => {
 			}
 
 			const fileExtension = '.' + imageFile.name.split('.').pop().toLowerCase();
-			console.log(fileExtension);
 			if (!allowedExtensionsRegex.test(fileExtension)) {
 				alert(
 					'올바른 파일 확장자가 아닙니다!\n올바른 파일 확장자는 다음과 같습니다: .jpg, .gif, .png, .jpeg, .bmp, .tif, .heic'
@@ -129,7 +126,6 @@ const WritePost = () => {
 			},
 		};
 
-		const token = localStorage.getItem('token');
 		const headers = {
 			Authorization: `Bearer ${token}`,
 			'Content-Type': 'application/json',
