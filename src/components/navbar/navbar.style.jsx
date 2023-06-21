@@ -8,7 +8,7 @@ export const NavbarWrap = styled.div`
 	align-items: center;
 	justify-content: ${({ spaceBetween }) =>
 		spaceBetween === true ? `space-between` : `initial`};
-	/* width: 100%; */
+	width: 100%;
 	padding: 12px;
 	box-sizing: border-box;
 	background-color: #fff;
