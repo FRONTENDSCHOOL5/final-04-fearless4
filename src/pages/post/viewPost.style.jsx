@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { OptionModalTab } from '../../components/navbar/navbar.style';
-import ProfilePic from '../../assets/image/alpaca.png';
 
 export const WrapperViewPost = styled.div`
 	width: 100%;
@@ -37,7 +36,7 @@ export const PostView = styled.div`
 export const CommentSection = styled.section`
 	width: 100%;
 	height: auto;
-	padding: 20px 16px;
+	padding: 20px 16px 60px;
 	box-sizing: border-box;
 `;
 
@@ -98,7 +97,6 @@ export const UploadComment = styled.div`
 	bottom: 0;
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
 	gap: 18px;
 `;
 
@@ -116,6 +114,7 @@ export const CommentInputArea = styled.textarea`
 	border: none;
 	font-size: 14px;
 	overflow: hidden;
+	flex-grow: 1;
 
 	&::placeholder {
 		font-size: 14px;
