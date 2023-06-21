@@ -22,7 +22,7 @@ import {
 	CheckModalWrap,
 	CheckMsg,
 	CheckButtonWrap,
-	CheckLogout,
+	CheckConfirm,
 } from '../../components/modal/modal.style';
 import { Comment } from './Comment';
 import { API_URL } from '../../api';
@@ -44,17 +44,39 @@ const ViewPost = () => {
 		setIsPostModal(false);
 	};
 
-	const handleDotClick = () => {
-		console.log('Dot 클릭됨!');
+	// 게시글 모달 삭제 버튼 클릭 시 코드
+	const handlePostDeleteClick = () => {
+		setIsPostDeleteCheckModal(true);
 	};
 
-	// 게시글 모달 삭제 버튼 클릭 시 코드
-	const handlePostDeleteClick = () => {};
 	// 게시글 모달 수정 버튼 클릭 시 코드
-	const handlePostEditClick = () => {};
+	const handlePostEditClick = () => {
+		console.log('수정 완료');
+		// 여기에 게시물 수정 API 호출 로직이 들어가야 합니다.
+	};
+
 	// 게시글 삭제 모달 취소 시 코드
-	const handlePostDeleteCheckModal = () => {
-		setIsPostDeleteCheckModal(true);
+	const handlePostDeleteCheckModalClose = () => {
+		setIsPostDeleteCheckModal(false);
+	};
+
+	// 게시글 삭제 모달 클릭 시 코드
+	const handlePostDeleteConfirmClick = async () => {
+		try {
+			await axios
+				.delete(`${API_URL}/post/${postData.id}`, {
+					headers: {
+						Authorization: `Bearer ${token}`,
+						'Content-Type': 'application/json',
+					},
+				})
+				.then((response) => {
+					console.log(response);
+				});
+		} catch (error) {
+			console.error('오류 발생!');
+		}
+		setIsPostDeleteCheckModal(false);
 	};
 
 	const getCommentList = async () => {
@@ -100,7 +122,7 @@ const ViewPost = () => {
 					.get(
 						// 게시물 리스트에서 받아오기 때문에 거기서 받아온 post id를 프롭스로 여기에 넘겨 주어야 함
 						// 현재는 임시 데이터 지정
-						`${API_URL}/post/64914e1db2cb20566347a3d5`,
+						`${API_URL}/post/6492a623b2cb205663530f47`,
 						{
 							headers: {
 								Authorization: `Bearer ${token}`,
@@ -204,12 +226,16 @@ const ViewPost = () => {
 				</DarkBackground>
 			)}
 			{isPostDeleteCheckModal && (
-				<DarkBackground onClick={handlePostDeleteCheckModal}>
+				<DarkBackground onClick={handlePostDeleteCheckModalClose}>
 					<CheckModalWrap>
 						<CheckMsg>게시글을 삭제하시겠어요?</CheckMsg>
 						<CheckButtonWrap>
-							<CheckLogout>취소</CheckLogout>
-							<CheckLogout check>삭제</CheckLogout>
+							<CheckConfirm onClick={handlePostDeleteCheckModalClose}>
+								취소
+							</CheckConfirm>
+							<CheckConfirm check onClick={handlePostDeleteConfirmClick}>
+								삭제
+							</CheckConfirm>
 						</CheckButtonWrap>
 					</CheckModalWrap>
 				</DarkBackground>
