@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Backspace, NavbarWrap } from '../../components/navbar/navbar.style';
+import { SaveButton } from '../../components/button/button.style';
 import {
 	BgBtnCover,
 	BgBtnInputStyle,
@@ -10,14 +11,14 @@ import {
 	Upload,
 	UploadImage,
 	UploadImageBtn,
-} from './product.style';
+} from '../product/product.style';
 import { Incorrect, LabelStyle } from '../../components/form/form.style';
 import UploadButton from '../../assets/image/profileImageUploadButton.png';
-import { SaveButton } from '../../components/button/button.style';
+import { API_URL } from '../../api.js';
 import axios from 'axios';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
-export default function Product() {
+export default function ProductsForSaleEdit() {
 	// 이미지 등록
 	const [selectedImage, setSelectedImage] = useState('');
 	// 상품명 입력
@@ -31,9 +32,33 @@ export default function Product() {
 
 	// 전체 유효성 검사
 	const [isFormValid, setIsFormValid] = useState(false);
-	const token = localStorage.getItem('token');
 
+	const location = useLocation();
 	const navigate = useNavigate();
+	const url = API_URL;
+	const token = localStorage.getItem('token');
+	const selectedProduct = location.state.selectedProduct;
+
+	useEffect(() => {
+		setSelectedImage(selectedProduct.itemImage);
+		setProductPrice(
+			selectedProduct.price.toLocaleString('ko-KR', {
+				style: 'currency',
+				currency: 'KRW',
+			})
+		);
+		setProductName(selectedProduct.itemName);
+		setSalesLink(selectedProduct.link);
+	}, []);
+
+	useEffect(() => {
+		const isFormValid =
+			selectedImage !== '' &&
+			productNameError === '' &&
+			productPrice !== '' &&
+			salesLinkError === '';
+		setIsFormValid(isFormValid);
+	}, []);
 
 	useEffect(() => {
 		const isFormValid =
@@ -76,14 +101,15 @@ export default function Product() {
 		};
 		try {
 			const res = await axios({
-				method: 'POST',
-				url: 'https://api.mandarin.weniv.co.kr/product',
+				method: 'PUT',
+				url: `${url}/product/${selectedProduct.id}`,
 				data: productData,
 				headers: {
 					Authorization: `Bearer ${token}`,
 					'Content-type': 'application/json',
 				},
 			});
+			console.log(res);
 			navigate('/myProfile');
 		} catch (error) {
 			console.error(error.response);
@@ -128,15 +154,15 @@ export default function Product() {
 			setSalesLinkError('');
 		}
 	}
-
 	return (
 		<>
-			<NavbarWrap spaceBetween>
-				<Backspace
-					onClick={() => {
-						navigate(-1);
-					}}
-				/>
+			<NavbarWrap
+				spaceBetween
+				onClick={() => {
+					navigate(-1);
+				}}
+			>
+				<Backspace />
 				<SaveButton disabled={!isFormValid} onClick={handleSaveButtonClick}>
 					저장
 				</SaveButton>
