@@ -14,6 +14,7 @@ import {
 	ProfilePageWrapper,
 } from './userProfile.style';
 import { ProfileImage } from '../profileSetup/profileSetup.style';
+import PostListView from '../../components/post/PostList';
 import profilePic from '../../assets/image/profilePic.png';
 import {
 	Backspace,
@@ -216,6 +217,12 @@ export default function UserProfile() {
 						</CheckModalWrap>
 					</DarkBackground>
 				)}
+				{/* 여기에 게시글 리스트 목록 추가 */}
+				{/* PostListWrapper를 만들고 그 내부에
+        - PostViewStyleBar랑
+        - PostList
+          - Post.style.jsx를 집어넣자 */}
+				<PostListView accountname={profileId}></PostListView>
 				<BottomNavContainer></BottomNavContainer>
 			</ProfilePageWrapper>
 		</>
