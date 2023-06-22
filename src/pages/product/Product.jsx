@@ -16,6 +16,13 @@ import UploadButton from '../../assets/image/profileImageUploadButton.png';
 import { SaveButton } from '../../components/button/button.style';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
+import {
+	ToastClose,
+	ToastContainer,
+	ToastIcon,
+	ToastMsg,
+	ToastMsgBold,
+} from '../../components/toast/toast.style';
 
 export default function Product() {
 	// 이미지 등록
@@ -33,6 +40,7 @@ export default function Product() {
 	const [isFormValid, setIsFormValid] = useState(false);
 	const token = localStorage.getItem('token');
 
+	const [showToast, setShowToast] = useState(false);
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -84,7 +92,10 @@ export default function Product() {
 					'Content-type': 'application/json',
 				},
 			});
-			navigate('/myProfile');
+			setShowToast(true);
+			setTimeout(() => {
+				navigate('/myProfile');
+			}, 3000);
 		} catch (error) {
 			console.error(error.response);
 		}
@@ -129,6 +140,25 @@ export default function Product() {
 		}
 	}
 
+	const Toast = () => {
+		const handleCloseToast = () => {
+			setShowToast(false);
+		};
+		return (
+			<>
+				{showToast && (
+					<ToastContainer>
+						<ToastIcon>😺</ToastIcon>
+						<ToastMsg>
+							<ToastMsgBold>상품</ToastMsgBold>이 등록되었습니다.
+						</ToastMsg>
+						<ToastClose onClick={handleCloseToast}>X</ToastClose>
+					</ToastContainer>
+				)}
+			</>
+		);
+	};
+
 	return (
 		<>
 			<NavbarWrap spaceBetween>
@@ -140,6 +170,7 @@ export default function Product() {
 				<SaveButton disabled={!isFormValid} onClick={handleSaveButtonClick}>
 					저장
 				</SaveButton>
+				<Toast />
 			</NavbarWrap>
 
 			<ProductContainer>
