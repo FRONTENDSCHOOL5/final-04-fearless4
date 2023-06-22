@@ -29,6 +29,7 @@ import {
 	CheckButtonWrap,
 	CheckLogout,
 } from '../../components/modal/modal.style';
+import { BottomNavContainer } from '../../components/bottomnav/bottomnav.style';
 import { useState } from 'react';
 import axios from 'axios';
 import { useEffect } from 'react';
@@ -232,6 +233,7 @@ export default function UserProfile() {
 						</CheckModalWrap>
 					</DarkBackground>
 				)}
+				<BottomNavContainer></BottomNavContainer>
 			</ProfilePageWrapper>
 		</>
 	);

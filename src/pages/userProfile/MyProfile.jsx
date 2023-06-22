@@ -29,6 +29,7 @@ import {
 	ModalText,
 	ModalWrap,
 } from '../../components/modal/modal.style';
+import { BottomNavContainer } from '../../components/bottomnav/bottomnav.style';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { API_URL } from '../../api';
@@ -215,6 +216,7 @@ export default function UserProfile() {
 						</CheckModalWrap>
 					</DarkBackground>
 				)}
+				<BottomNavContainer></BottomNavContainer>
 			</ProfilePageWrapper>
 		</>
 	);
