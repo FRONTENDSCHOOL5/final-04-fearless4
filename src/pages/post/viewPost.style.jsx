@@ -45,7 +45,7 @@ export const CommentWrapper = styled.div`
 	align-items: flex-start;
 	gap: 12px;
 	flex-shrink: 0;
-	margin-bottom: 16px;
+	margin-bottom: 18px;
 `;
 
 export const FollowerProfileImageComment = styled.img`
@@ -60,7 +60,7 @@ export const FollowerProfileImageComment = styled.img`
 export const CommentDetail = styled.div`
 	display: flex;
 	flex-direction: column;
-	gap: 16px;
+	gap: 10px;
 	flex-shrink: 0;
 `;
 

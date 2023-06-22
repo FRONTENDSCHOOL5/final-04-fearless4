@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, startTransition } from 'react';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Post } from '../../components/post/post.style';
 import {
@@ -15,32 +16,139 @@ import {
 	CommentUploadButton,
 	ProfileImageComment,
 } from './viewPost.style';
+import {
+	DarkBackground,
+	ModalWrap,
+	ModalText,
+	CheckModalWrap,
+	CheckMsg,
+	CheckButtonWrap,
+	CheckConfirm,
+} from '../../components/modal/modal.style';
 import { Comment } from './Comment';
+import { API_URL } from '../../api';
+import { useNavigate } from 'react-router-dom';
 
 const ViewPost = () => {
 	const [token, setToken] = useState(localStorage.getItem('token') || '');
 	const [postData, setPostData] = useState(null);
+	const [myProfilePic, setMyProfilePic] = useState('');
+	const [myAccountName, setMyAccountName] = useState('');
 	const [commentContent, setCommentContent] = useState('');
-
 	const [comments, setComments] = useState([]);
+	const [isPostModal, setIsPostModal] = useState(false);
+	const [isPostDeleteCheckModal, setIsPostDeleteCheckModal] = useState(false);
+	const [isReportModal, setIsReportModal] = useState(false);
+	const navigate = useNavigate();
+	const { id } = useParams();
 
-	const getCommentList = async () => {
+	const handlePostModalOptionClick = () => {
+		postData.author.accountname === myAccountName
+			? setIsPostModal(true)
+			: setIsReportModal(true);
+	};
+
+	const handlePostModalClose = () => {
+		setIsPostModal(false);
+	};
+
+	// 게시글 모달 삭제 버튼 클릭 시 코드
+	const handlePostDeleteClick = () => {
+		setIsPostDeleteCheckModal(true);
+	};
+
+	// 게시글 모달 수정 버튼 클릭 시 코드
+	const handlePostEditClick = () => {
+		if (postData) {
+			navigate('/editPost', {
+				state: {
+					id: postData.id,
+					content: postData.content,
+					image: postData.image,
+				},
+			});
+		}
+	};
+
+	// 게시글 삭제 모달 취소 시 코드
+	const handlePostDeleteCheckModalClose = () => {
+		setIsPostDeleteCheckModal(false);
+	};
+
+	// 게시글 삭제 모달 클릭 시 코드
+	const handlePostDeleteConfirmClick = async () => {
 		try {
 			await axios
-				.get(
-					`https://api.mandarin.weniv.co.kr/post/${postData.id}/comments/?limit=infinity`,
-					{
+				.delete(`${API_URL}/post/${postData.id}`, {
+					headers: {
+						Authorization: `Bearer ${token}`,
+						'Content-Type': 'application/json',
+					},
+				})
+				.then((response) => {
+					console.log(response);
+				});
+		} catch (error) {
+			console.error('오류 발생!');
+		}
+		setIsPostDeleteCheckModal(false);
+	};
+
+	const handleReportClick = () => {
+		console.log('댓글이 신고되었습니다.');
+		setIsReportModal(false);
+	};
+
+	const getCommentList = () => {
+		startTransition(async () => {
+			try {
+				await axios
+					.get(`${API_URL}/post/${postData.id}/comments/?limit=infinity`, {
 						headers: {
 							Authorization: `Bearer ${token}`,
 							'Content-type': 'application/json',
 						},
-					}
-				)
-				.then((response) => {
-					const sortedComments = response.data.comments.sort((a, b) => {
-						return new Date(a.createdAt) - new Date(b.createdAt);
+					})
+					.then((response) => {
+						const sortedComments = response.data.comments.sort((a, b) => {
+							return new Date(a.createdAt) - new Date(b.createdAt);
+						});
+						console.log(response.data);
+						setComments(sortedComments);
 					});
-					setComments(sortedComments);
+			} catch (error) {
+				console.error('오류 발생!', error.response || error);
+			}
+		});
+	};
+
+	const getMyProfilePic = async () => {
+		try {
+			await axios
+				.get(`${API_URL}/user/myinfo`, {
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				})
+				.then((response) => {
+					setMyProfilePic(response.data.user.image);
+					console.log(response.data);
+				});
+		} catch (error) {
+			console.error('오류 발생!', error.response || error);
+		}
+	};
+
+	const getMyAccountName = async () => {
+		try {
+			await axios
+				.get(`${API_URL}/user/myinfo`, {
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				})
+				.then((response) => {
+					setMyAccountName(response.data.user.accountname);
 				});
 		} catch (error) {
 			console.error('오류 발생!', error.response || error);
@@ -54,7 +162,7 @@ const ViewPost = () => {
 					.get(
 						// 게시물 리스트에서 받아오기 때문에 거기서 받아온 post id를 프롭스로 여기에 넘겨 주어야 함
 						// 현재는 임시 데이터 지정
-						'https://api.mandarin.weniv.co.kr/post/64914e1db2cb20566347a3d5',
+						`${API_URL}/post/${id}`,
 						{
 							headers: {
 								Authorization: `Bearer ${token}`,
@@ -64,15 +172,18 @@ const ViewPost = () => {
 					)
 					.then((response) => {
 						setPostData(response.data.post);
+						console.log(response.data);
 					});
 			} catch (error) {
 				console.error('데이터를 불러오지 못했습니다!', error);
 			}
 		};
+		getMyAccountName();
 		getApiData();
-	}, [token]);
+	}, [token, id]);
 
 	useEffect(() => {
+		getMyProfilePic();
 		if (postData) {
 			getCommentList();
 		}
@@ -81,7 +192,7 @@ const ViewPost = () => {
 	const handleCommentUpload = async () => {
 		try {
 			const response = await axios.post(
-				`https://api.mandarin.weniv.co.kr/post/${postData.id}/comments`,
+				`${API_URL}/post/${postData.id}/comments`,
 				{
 					comment: {
 						content: commentContent,
@@ -125,19 +236,25 @@ const ViewPost = () => {
 						heartCount={postData.heartCount}
 						commentCount={postData.commentCount}
 						createdAt={formatCreatedAt(postData.createdAt)}
+						handlePostModalOptionClick={handlePostModalOptionClick}
 					/>
 				)}
 			</PostView>
 			<CommentSection>
 				{comments.map((comment) => (
-					<Comment key={comment.id} comment={comment} />
+					<Comment
+						key={comment.id}
+						comment={comment}
+						token={token}
+						postId={postData.id}
+						reloadComments={getCommentList}
+						currentUsername={myAccountName}
+					/>
 				))}
 			</CommentSection>
 			<UploadComment>
 				{postData && (
-					<ProfileImageComment
-						src={postData.author.image}
-					></ProfileImageComment>
+					<ProfileImageComment src={myProfilePic}></ProfileImageComment>
 				)}
 				<CommentInputArea
 					placeholder='댓글 입력하기...'
@@ -149,6 +266,36 @@ const ViewPost = () => {
 					게시
 				</CommentUploadButton>
 			</UploadComment>
+			{isPostModal && (
+				<DarkBackground onClick={handlePostModalClose}>
+					<ModalWrap>
+						<ModalText onClick={handlePostDeleteClick}>삭제</ModalText>
+						<ModalText onClick={handlePostEditClick}>수정</ModalText>
+					</ModalWrap>
+				</DarkBackground>
+			)}
+			{isPostDeleteCheckModal && (
+				<DarkBackground onClick={handlePostDeleteCheckModalClose}>
+					<CheckModalWrap>
+						<CheckMsg>게시글을 삭제하시겠어요?</CheckMsg>
+						<CheckButtonWrap>
+							<CheckConfirm onClick={handlePostDeleteCheckModalClose}>
+								취소
+							</CheckConfirm>
+							<CheckConfirm check onClick={handlePostDeleteConfirmClick}>
+								삭제
+							</CheckConfirm>
+						</CheckButtonWrap>
+					</CheckModalWrap>
+				</DarkBackground>
+			)}
+			{isReportModal && (
+				<DarkBackground onClick={() => setIsReportModal(false)}>
+					<ModalWrap>
+						<ModalText onClick={handleReportClick}>신고하기</ModalText>
+					</ModalWrap>
+				</DarkBackground>
+			)}
 		</WrapperViewPost>
 	);
 };
