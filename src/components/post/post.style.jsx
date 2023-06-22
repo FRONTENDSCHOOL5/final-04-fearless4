@@ -9,6 +9,7 @@ export const Container = styled.div`
 	align-items: center;
 	margin: 0 auto;
 	min-width: 358px;
+	flex-grow: 1;
 `;
 
 export const Card = styled.div`

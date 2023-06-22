@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, startTransition } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Post } from '../../components/post/post.style';
@@ -33,15 +33,19 @@ const ViewPost = () => {
 	const [token, setToken] = useState(localStorage.getItem('token') || '');
 	const [postData, setPostData] = useState(null);
 	const [myProfilePic, setMyProfilePic] = useState('');
+	const [myAccountName, setMyAccountName] = useState('');
 	const [commentContent, setCommentContent] = useState('');
 	const [comments, setComments] = useState([]);
 	const [isPostModal, setIsPostModal] = useState(false);
 	const [isPostDeleteCheckModal, setIsPostDeleteCheckModal] = useState(false);
+	const [isReportModal, setIsReportModal] = useState(false);
 	const navigate = useNavigate();
 	const { id } = useParams();
 
 	const handlePostModalOptionClick = () => {
-		setIsPostModal(true);
+		postData.author.accountname === myAccountName
+			? setIsPostModal(true)
+			: setIsReportModal(true);
 	};
 
 	const handlePostModalClose = () => {
@@ -64,7 +68,6 @@ const ViewPost = () => {
 				},
 			});
 		}
-		// 여기에 게시물 수정 API 호출 로직이 들어가야 합니다.
 	};
 
 	// 게시글 삭제 모달 취소 시 코드
@@ -91,24 +94,32 @@ const ViewPost = () => {
 		setIsPostDeleteCheckModal(false);
 	};
 
-	const getCommentList = async () => {
-		try {
-			await axios
-				.get(`${API_URL}/post/${postData.id}/comments/?limit=infinity`, {
-					headers: {
-						Authorization: `Bearer ${token}`,
-						'Content-type': 'application/json',
-					},
-				})
-				.then((response) => {
-					const sortedComments = response.data.comments.sort((a, b) => {
-						return new Date(a.createdAt) - new Date(b.createdAt);
+	const handleReportClick = () => {
+		console.log('댓글이 신고되었습니다.');
+		setIsReportModal(false);
+	};
+
+	const getCommentList = () => {
+		startTransition(async () => {
+			try {
+				await axios
+					.get(`${API_URL}/post/${postData.id}/comments/?limit=infinity`, {
+						headers: {
+							Authorization: `Bearer ${token}`,
+							'Content-type': 'application/json',
+						},
+					})
+					.then((response) => {
+						const sortedComments = response.data.comments.sort((a, b) => {
+							return new Date(a.createdAt) - new Date(b.createdAt);
+						});
+						console.log(response.data);
+						setComments(sortedComments);
 					});
-					setComments(sortedComments);
-				});
-		} catch (error) {
-			console.error('오류 발생!', error.response || error);
-		}
+			} catch (error) {
+				console.error('오류 발생!', error.response || error);
+			}
+		});
 	};
 
 	const getMyProfilePic = async () => {
@@ -121,6 +132,23 @@ const ViewPost = () => {
 				})
 				.then((response) => {
 					setMyProfilePic(response.data.user.image);
+					console.log(response.data);
+				});
+		} catch (error) {
+			console.error('오류 발생!', error.response || error);
+		}
+	};
+
+	const getMyAccountName = async () => {
+		try {
+			await axios
+				.get(`${API_URL}/user/myinfo`, {
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				})
+				.then((response) => {
+					setMyAccountName(response.data.user.accountname);
 				});
 		} catch (error) {
 			console.error('오류 발생!', error.response || error);
@@ -144,11 +172,13 @@ const ViewPost = () => {
 					)
 					.then((response) => {
 						setPostData(response.data.post);
+						console.log(response.data);
 					});
 			} catch (error) {
 				console.error('데이터를 불러오지 못했습니다!', error);
 			}
 		};
+		getMyAccountName();
 		getApiData();
 	}, [token, id]);
 
@@ -212,7 +242,14 @@ const ViewPost = () => {
 			</PostView>
 			<CommentSection>
 				{comments.map((comment) => (
-					<Comment key={comment.id} comment={comment} />
+					<Comment
+						key={comment.id}
+						comment={comment}
+						token={token}
+						postId={postData.id}
+						reloadComments={getCommentList}
+						currentUsername={myAccountName}
+					/>
 				))}
 			</CommentSection>
 			<UploadComment>
@@ -250,6 +287,13 @@ const ViewPost = () => {
 							</CheckConfirm>
 						</CheckButtonWrap>
 					</CheckModalWrap>
+				</DarkBackground>
+			)}
+			{isReportModal && (
+				<DarkBackground onClick={() => setIsReportModal(false)}>
+					<ModalWrap>
+						<ModalText onClick={handleReportClick}>신고하기</ModalText>
+					</ModalWrap>
 				</DarkBackground>
 			)}
 		</WrapperViewPost>
