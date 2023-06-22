@@ -13,6 +13,7 @@ export const DarkBackground = styled.div`
 	background-color: rgba(0, 0, 0, 0.2);
 	width: 100%;
 	height: 100%;
+	z-index: 999;
 `;
 
 export const ModalWrap = styled.div`
@@ -99,6 +100,28 @@ export const CheckButtonWrap = styled.div`
 `;
 
 export const CheckLogout = styled.button`
+	display: flex;
+	width: 50%;
+	align-items: center;
+	justify-content: center;
+	padding: 14px 0;
+	border: 0;
+	background-color: transparent;
+	font-size: 14px;
+	font-weight: 400;
+	color: ${({ check }) => (check === true ? `#81D8D0` : `initial`)};
+	border-left: ${({ check }) =>
+		check === true ? `solid 1px #DBDBDB` : `initial`};
+	box-sizing: border-box;
+	cursor: pointer;
+
+	&:hover {
+		color: ${({ check }) => (check === true ? `#fff` : `#fff`)};
+		background-color: #81d8d0;
+	}
+`;
+
+export const CheckConfirm = styled.button`
 	display: flex;
 	width: 50%;
 	align-items: center;

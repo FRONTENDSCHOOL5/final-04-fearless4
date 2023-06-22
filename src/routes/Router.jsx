@@ -18,6 +18,7 @@ const Product = lazy(() => import('../pages/product/Product'));
 const Homefeed = lazy(() => import('../pages/homeFeed/Homefeed'));
 const WritePost = lazy(() => import('../pages/post/WritePost'));
 const ViewPost = lazy(() => import('../pages/post/ViewPost'));
+const EditPost = lazy(() => import('../pages/post/EditPost'));
 const Search = lazy(() => import('../pages/search/Search'));
 
 const renderLoader = () => <span>로딩중...</span>;
@@ -43,7 +44,10 @@ export default function Router() {
 					<Route path='/Product' element={<Product />}></Route>
 					<Route path='/Homefeed' element={<Homefeed />}></Route>
 					<Route path='/writePost' element={<WritePost />}></Route>
-					<Route path='/viewPost' element={<ViewPost />}></Route>
+					<Route path='/viewPost/:id' element={<ViewPost />}></Route>
+
+					<Route path='/editPost' element={<EditPost />}></Route>
+
 					<Route path='/search' element={<Search />}></Route>
 				</Routes>
 			</Suspense>

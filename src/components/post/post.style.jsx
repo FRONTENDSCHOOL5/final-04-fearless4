@@ -9,6 +9,7 @@ export const Container = styled.div`
 	align-items: center;
 	margin: 0 auto;
 	min-width: 358px;
+	flex-grow: 1;
 `;
 
 export const Card = styled.div`
@@ -18,6 +19,7 @@ export const Card = styled.div`
 	height: 100%;
 	padding: 20px 16px;
 	justify-content: center;
+	box-sizing: border-box;
 `;
 
 export const RightCard = styled.div`
@@ -124,6 +126,7 @@ export function Post({
 	heartCount,
 	commentCount,
 	createdAt,
+	handlePostModalOptionClick,
 }) {
 	return (
 		<Container>
@@ -139,7 +142,11 @@ export function Post({
 							<SpanName className='span-name'>{username}</SpanName>
 							<SpanId className='span-id'>@{accountname}</SpanId>
 						</UserDetails>
-						<Dot src={dotIcon} alt='Dot Icon'></Dot>
+						<Dot
+							onClick={handlePostModalOptionClick}
+							src={dotIcon}
+							alt='Dot Icon'
+						></Dot>
 					</Top>
 					<TextPost>{content}</TextPost>
 					<ImgBx>

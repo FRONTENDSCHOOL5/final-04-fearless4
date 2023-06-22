@@ -14,3 +14,12 @@ export const SearchInput = styled.input`
 	padding: 7px 16px;
 	font-size: 18px;
 `;
+
+export const Wrapper = styled.div`
+	width: 100%;
+	box-sizing: border-box;
+	padding: 16px;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+`;
