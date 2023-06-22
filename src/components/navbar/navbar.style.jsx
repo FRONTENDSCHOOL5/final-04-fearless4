@@ -16,7 +16,7 @@ export const NavbarWrap = styled.div`
 	top: 0;
 	left: 0;
 	border-bottom: solid 1px #dbdbdb;
-	z-index: 999;
+	z-index: 888;
 `;
 
 export const Backspace = styled.button`
