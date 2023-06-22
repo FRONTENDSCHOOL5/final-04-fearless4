@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Post } from './post.style';
 import { API_URL } from '../../api';
+import * as P from './post.style';
 
 const PostSection = ({ accountname }) => {
 	const [posts, setPosts] = useState([]);
