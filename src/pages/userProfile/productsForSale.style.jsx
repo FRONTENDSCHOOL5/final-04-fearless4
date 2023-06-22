@@ -48,6 +48,7 @@ export const ProductList = styled.li`
 	flex-shrink: 0;
 	list-style: none;
 	padding-bottom: 10px;
+	cursor: pointer;
 `;
 
 export const ProductImg = styled.img`
@@ -56,6 +57,10 @@ export const ProductImg = styled.img`
 	border-radius: 8px;
 	border: 0.5px solid #dbdbdb;
 	object-fit: cover;
+	:hover {
+		border: 3px solid #81d8d0;
+		box-sizing: border-box;
+	}
 `;
 
 export const ProductName = styled.h3`
