@@ -61,20 +61,59 @@ export default function ProfileSetup() {
 	// console.log(userName, !notValidUserId, !idDuplication);
 
 	const handleImageInputChange = async (e) => {
+		const allowedExtensionsRegex = /\.(jpg|gif|png|jpeg|bmp|tif|heic)$/i;
+		const maxImageSize = 10 * 1024 * 1024;
 		const formData = new FormData();
 		const imageFile = e.target.files[0];
 		formData.append('image', imageFile);
 
-		try {
-			const response = await axios.post(`${url}/image/uploadfile/`, formData);
-			console.log(response);
+		if (imageFile) {
+			if (imageFile.size > maxImageSize) {
+				alert(
+					'이미지 크기가 너무 큽니다.\n10MB보다 작은 이미지를 업로드 해 주세요!'
+				);
+				e.target.value = ''; // 파일 선택 창을 비웁니다.
+				return;
+			}
 
-			const imageUrl = `${url}/` + response.data.filename ?? selectedImage;
+			const fileExtension = '.' + imageFile.name.split('.').pop().toLowerCase();
+			if (!allowedExtensionsRegex.test(fileExtension)) {
+				alert(
+					'올바른 파일 확장자가 아닙니다!\n올바른 파일 확장자는 다음과 같습니다: .jpg, .gif, .png, .jpeg, .bmp, .tif, .heic'
+				);
+				e.target.value = ''; // 파일 선택 창을 비웁니다.
+				return;
+			}
 
-			setSelectedImage(imageUrl);
-			console.log(imageUrl);
-		} catch (error) {
-			console.error(error.response.data);
+			// 유효성 검사를 통과한 경우에만 이미지 업로드 처리를 진행합니다.
+			const formData = new FormData();
+			const reader = new FileReader();
+
+			formData.append('image', imageFile);
+
+			reader.onloadend = () => {
+				setSelectedImage(reader.result);
+			};
+
+			if (imageFile) {
+				reader.readAsDataURL(imageFile);
+			}
+
+			try {
+				const response = await axios.post(
+					'https://api.mandarin.weniv.co.kr/image/uploadfile/',
+					formData
+				);
+
+				const imageUrl =
+					'https://api.mandarin.weniv.co.kr/' + response.data.filename;
+
+				setSelectedImage(imageUrl);
+			} catch (error) {
+				console.error(error.response.data);
+			}
+		} else {
+			e.target.value = ''; // 파일 선택 창을 비웁니다.
 		}
 	};
 
