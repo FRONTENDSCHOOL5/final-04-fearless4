@@ -9,6 +9,9 @@ import { useNavigate } from 'react-router-dom';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import Splash from '../splash/Splash';
+import { useRef } from 'react';
+import HeartImg from '../../assets/image/heart-button.png';
+import LogoImg from '../../assets/image/travelchar_crop.png';
 
 export default function Login() {
 	const navigate = useNavigate();
