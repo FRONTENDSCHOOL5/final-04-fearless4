@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import socialImg from '../../assets/image/social_login_sprites.png';
-import chat from '../../assets/icon/message-circle.svg';
+import chat from '../../assets/icon/icon-message-circle.svg';
 import share from '../../assets/icon/share.svg';
 import UploadImage from '../../assets/icon/upload-image.svg';
 
