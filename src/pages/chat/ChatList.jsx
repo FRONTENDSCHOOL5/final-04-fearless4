@@ -99,7 +99,7 @@ export default function ChatList() {
 				</UserWrap>
 			</Wrapper2>
 
-			<BottomNavContainer />
+			<BottomNavContainer message />
 		</div>
 	);
 }
