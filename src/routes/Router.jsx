@@ -26,7 +26,7 @@ export default function Router() {
 		<BrowserRouter basename=''>
 			<Suspense fallback={<Splash />}>
 				<Routes>
-					<Route path='/' element={<Splash />} />
+					<Route path='/' element={<Login />} />
 					<Route path='/loginEmail' element={<LoginEmail />} />
 					<Route path='/signup' element={<Signup />} />
 					<Route path='/profileSetup' element={<ProfileSetup />} />
