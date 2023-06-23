@@ -4,6 +4,7 @@ import heartIcon from '../../assets/icon/icon-heart.svg';
 import messageIcon from '../../assets/icon/icon-message-circle.svg';
 import dotIcon from '../../assets/icon/icon- more-vertical.svg';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 export const ProfileImg = styled.img`
 	position: relative;
@@ -22,6 +23,8 @@ export const Cover = styled.img`
 `;
 
 export default function PostFeed({ data }) {
+	const navigate = useNavigate();
+
 	return (
 		<P.Container>
 			<P.Card>
@@ -32,7 +35,13 @@ export default function PostFeed({ data }) {
 				/>
 				<P.RightCard>
 					<P.Top>
-						<P.UserDetails>
+						<P.UserDetails
+							onClick={() => {
+								navigate('/userprofile', {
+									state: { accountname: data.author.accountname },
+								});
+							}}
+						>
 							<P.SpanName className='span-name'>
 								{data.author.username}
 							</P.SpanName>
