@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { NavbarWrap } from '../../components/navbar/navbar.style.jsx';
+import { NavbarWrap, TitleLogo } from '../../components/navbar/navbar.style.jsx';
 import { SearchIcon } from '../homeFeed/homefeed.style.jsx';
 import { API_URL } from '../../api.js';
 import HomeFollower from './HomeFollower';
@@ -46,7 +46,7 @@ export default function Homefeed() {
 	return (
 		<>
 			<NavbarWrap spaceBetween>
-				travelus 피드
+				<TitleLogo/>
 				<SearchIcon
 					onClick={() => {
 						navigate('/Search');
