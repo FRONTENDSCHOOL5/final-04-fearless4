@@ -163,7 +163,7 @@ export default function UserProfile() {
 								<ProfileButton
 									type='button'
 									onClick={() => {
-										navigate('/profileSetup', {
+										navigate('/myprofileedit', {
 											state: {
 												token: token,
 												profileImage: profileImage,

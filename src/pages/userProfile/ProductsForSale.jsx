@@ -43,7 +43,7 @@ export default function ProductsForSale({ userAccountName }) {
 		async function getProductForSale() {
 			const res = await axios({
 				method: 'GET',
-				url: `${url}/product/${accountname}`,
+				url: `${url}/product/${accountname}/?limit=infinity`,
 				headers: {
 					Authorization: `Bearer ${token}`,
 					'Content-type': 'application/json',
