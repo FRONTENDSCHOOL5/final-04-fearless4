@@ -38,6 +38,7 @@ export const UserDetails = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	cursor: pointer;
 `;
 
 export const ProfileImg = styled.img`

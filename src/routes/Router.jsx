@@ -20,6 +20,8 @@ const WritePost = lazy(() => import('../pages/post/WritePost'));
 const ViewPost = lazy(() => import('../pages/post/ViewPost'));
 const EditPost = lazy(() => import('../pages/post/EditPost'));
 const Search = lazy(() => import('../pages/search/Search'));
+const ChatList = lazy(() => import('../pages/chat/ChatList'));
+const Chat = lazy(() => import('../pages/chat/Chat'));
 
 const renderLoader = () => <span>로딩중...</span>;
 
@@ -49,6 +51,8 @@ export default function Router() {
 					<Route path='/editPost' element={<EditPost />}></Route>
 
 					<Route path='/search' element={<Search />}></Route>
+					<Route path='/ChatList' element={<ChatList />}></Route>
+					<Route path='/Chat' element={<Chat />}></Route>
 				</Routes>
 			</Suspense>
 		</BrowserRouter>
