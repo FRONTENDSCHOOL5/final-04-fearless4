@@ -1,7 +1,8 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 export const Wrapper = styled.div`
-	width: 100%;
+	background-color: #81d8d0;
+	min-width: 420px;
 	height: 100vh;
 	display: flex;
 	flex-direction: column;
@@ -14,11 +15,18 @@ export const Wrapper = styled.div`
 export const ButtonWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
-	box-sizing: border-box;
 	width: 100%;
-	padding: 34px 34px 50px 34px;
+	padding: 30px 34px 20px 34px;
 	background-color: #ffff;
 	border-radius: 20px 20px 0 0;
 	position: fixed;
 	bottom: 0;
+	box-sizing: border-box;
+
+	transition: 0.7s;
+	transform: translate3d(0, 100%, 0);
+
+	&.modal-open {
+		transform: translate3d(0, 0, 0);
+	}
 `;

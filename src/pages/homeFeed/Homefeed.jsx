@@ -1,31 +1,61 @@
-import React from 'react';
-import { BottomNavContainer } from '../../components/bottomnav/bottomnav.style';
-import {
-	SearchBtn,
-	Span,
-	HomeContainer,
-	Nav,
-	NavTitle,
-} from '../homeFeed/homefeed.style.jsx';
-import { LogoContainer } from '../../components/logo/logo.style';
-import searchIcon from '../../assets/icon/icon-search.svg';
-import { Post } from '../../components/post/post.style';
-
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { NavbarWrap } from '../../components/navbar/navbar.style.jsx';
+import { SearchIcon } from '../homeFeed/homefeed.style.jsx';
+import { API_URL } from '../../api.js';
+import HomeFollower from './HomeFollower';
+import NoFeed from './NoFeed.jsx';
 export default function Homefeed() {
+	const url = API_URL;
+	const token = localStorage.getItem('token');
+	const [followingFeed, setFollowingFeed] = useState([]);
+	const [post, setPost] = useState([]);
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		const homeFeedData = async () => {
+			try {
+				setPost([]);
+				const res = await axios({
+					method: 'GET',
+					url: `${url}/post/feed/?limit=infinity`,
+					headers: {
+						Authorization: `Bearer ${token}`,
+						'Content-type': 'application/json',
+					},
+				});
+				setFollowingFeed(res.data.posts);
+			} catch (error) {
+				console.log('에러입니다', error);
+			}
+		};
+		homeFeedData();
+	}, [url]);
+
+	useEffect(() => {
+		if (followingFeed.length !== 0) {
+			followingFeed.map((item) => {
+				setPost((post) => {
+					return [...post, <HomeFollower key={item.id} data={item} />];
+				});
+			});
+		}
+	}, [followingFeed]);
+
 	return (
 		<>
-			<Nav>
-				<NavTitle>감귤마켓 피드</NavTitle>
-				<img className='search-icon' src={searchIcon} alt='검색 아이콘' />
-			</Nav>
-			<Post />
+			<NavbarWrap spaceBetween>
+				travelus 피드
+				<SearchIcon
+					onClick={() => {
+						navigate('/Search');
+					}}
+					alt='검색 아이콘'
+				/>
+			</NavbarWrap>
 
-			<BottomNavContainer />
-			{/* <HomeContainer>
-				<LogoContainer />
-				<Span>유저를 검색해 팔로우 해보세요!</Span>
-				<SearchBtn>검색하기</SearchBtn> */}
-			{/* </HomeContainer> */}
+			{followingFeed.length === 0 ? <NoFeed /> : post}
 		</>
 	);
 }

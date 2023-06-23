@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {
 	WrapperWritePost,
@@ -13,17 +13,25 @@ import {
 } from './writePost.style';
 import { Backspace, NavbarWrap } from '../../components/navbar/navbar.style';
 import { ImageUploadButton } from '../../components/button/button.style';
+import { API_URL } from '../../api';
 
-const WritePost = () => {
+const EditPost = () => {
 	const [uploadImageUrl, setUploadImageUrl] = useState('');
 	const [myProfileImage, setMyProfileImage] = useState('');
 	const [text, setText] = useState('');
 	const [disabled, setDisabled] = useState(true);
+	const [token, setToken] = useState(localStorage.getItem('token') || '');
 	const inputRef = useRef(null);
 	const textarea = useRef();
-	const [token, setToken] = useState(localStorage.getItem('token') || '');
-	const [postId, setPostId] = useState(null);
+	const location = useLocation();
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		if (location.state) {
+			setText(location.state.content);
+			setUploadImageUrl(location.state.image);
+		}
+	}, [location.state]);
 
 	useEffect(() => {
 		const loadMyProfileImage = async () => {
@@ -135,18 +143,15 @@ const WritePost = () => {
 		};
 
 		try {
-			const response = await axios.post(
-				'https://api.mandarin.weniv.co.kr/post',
+			const response = await axios.put(
+				`${API_URL}/post/${location.state.id}`,
 				data,
 				{ headers }
 			);
 			console.log(response);
 			console.log(response.data);
 
-			const postId = response.data.post.id;
-			console.log(postId);
-			setPostId(postId);
-			navigate(`/viewPost/${postId}`);
+			navigate(`/viewPost/${location.state.id}`);
 		} catch (error) {
 			console.error(error);
 		}
@@ -193,4 +198,4 @@ const WritePost = () => {
 	);
 };
 
-export default WritePost;
+export default EditPost;

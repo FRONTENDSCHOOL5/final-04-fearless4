@@ -20,6 +20,7 @@ import axios from 'axios';
 import userNoneProfile from '../../assets/image/profilePic.png';
 import { API_URL } from '../../api';
 import useMyProfile from '../../hook/useMyProfile';
+import FollowUnknown from './FollowUnknown';
 
 export default function Follwers() {
 	const [follower, setFollower] = useState([]);
@@ -108,8 +109,7 @@ export default function Follwers() {
 				/>
 				<NavbarTitle>Followers</NavbarTitle>
 			</NavbarWrap>
-			{isLoading &&
-				myAccountName &&
+			{isLoading && myAccountName && follower.length !== 0 ? (
 				follower.map((item) => {
 					return (
 						<UserWrap key={item._id}>
@@ -154,7 +154,10 @@ export default function Follwers() {
 							)}
 						</UserWrap>
 					);
-				})}
+				})
+			) : (
+				<FollowUnknown follower />
+			)}
 		</Wrapper>
 	);
 }

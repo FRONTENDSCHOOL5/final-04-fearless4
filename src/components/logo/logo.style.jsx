@@ -27,7 +27,7 @@ export const LogoText = styled.h1`
 	color: white;
 `;
 
-const Wrapper = styled.div`
+export const LogoWrapper = styled.div`
 	width: 250px;
 	min-height: 250px;
 	display: flex;
@@ -39,9 +39,9 @@ const Wrapper = styled.div`
 
 export function LogoContainer() {
 	return (
-		<Wrapper>
+		<LogoWrapper>
 			<Heart src={HeartImg} />
 			<Logo src={LogoImg} />
-		</Wrapper>
+		</LogoWrapper>
 	);
 }

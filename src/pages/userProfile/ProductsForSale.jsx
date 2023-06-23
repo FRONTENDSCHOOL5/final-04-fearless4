@@ -12,6 +12,10 @@ import {
 import axios from 'axios';
 import { API_URL } from '../../api.js';
 import {
+	CheckButtonWrap,
+	CheckLogout,
+	CheckModalWrap,
+	CheckMsg,
 	DarkBackground,
 	ModalText,
 	ModalWrap,
@@ -26,6 +30,7 @@ export default function ProductsForSale({ userAccountName }) {
 	const [isUserModal, setIsUserModal] = useState(false);
 	const [selectedProduct, setSelectedProduct] = useState(null);
 	const [myProfile, setMyProfile] = useState();
+	const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
 	const navigate = useNavigate();
 	const accountname = userAccountName;
 	console.log(accountname);
@@ -38,7 +43,7 @@ export default function ProductsForSale({ userAccountName }) {
 		async function getProductForSale() {
 			const res = await axios({
 				method: 'GET',
-				url: `${url}/product/${accountname}`,
+				url: `${url}/product/${accountname}/?limit=infinity`,
 				headers: {
 					Authorization: `Bearer ${token}`,
 					'Content-type': 'application/json',
@@ -68,8 +73,17 @@ export default function ProductsForSale({ userAccountName }) {
 		setIsModal(false);
 	};
 
+	const handleConfirmationModalOpen = () => {
+		setIsConfirmationModalOpen(true);
+	};
+
+	const handleConfirmationModalClose = () => {
+		setIsConfirmationModalOpen(false);
+	};
+
 	const handleDeleteProduct = async () => {
 		if (selectedProduct) {
+			setIsConfirmationModalOpen(false);
 			try {
 				const res = await axios({
 					method: 'DELETE',
@@ -136,7 +150,9 @@ export default function ProductsForSale({ userAccountName }) {
 					<ModalWrap>
 						{isUserModal && (
 							<>
-								<ModalText onClick={handleDeleteProduct}>삭제</ModalText>
+								<ModalText onClick={handleConfirmationModalOpen}>
+									삭제
+								</ModalText>
 								<ModalText onClick={goToProductEdit}>수정</ModalText>
 							</>
 						)}
@@ -144,6 +160,21 @@ export default function ProductsForSale({ userAccountName }) {
 							웹사이트에서 상품 보기
 						</ModalText>
 					</ModalWrap>
+				</DarkBackground>
+			)}
+			{isConfirmationModalOpen && (
+				<DarkBackground onClick={handleModalClose}>
+					<CheckModalWrap>
+						<CheckMsg>삭제하시겠어요?</CheckMsg>
+						<CheckButtonWrap>
+							<CheckLogout onClick={handleConfirmationModalClose}>
+								취소
+							</CheckLogout>
+							<CheckLogout check onClick={handleDeleteProduct}>
+								삭제
+							</CheckLogout>
+						</CheckButtonWrap>
+					</CheckModalWrap>
 				</DarkBackground>
 			)}
 		</>

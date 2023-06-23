@@ -57,8 +57,8 @@ export default function UserProfile() {
 					Authorization: `Bearer ${token}`,
 				},
 			});
-			setIsLoading(true);
 			setProfile(res.data);
+			setIsLoading(true);
 		} catch (error) {
 			console.log('에러입니다', error);
 		}
@@ -181,7 +181,7 @@ export default function UserProfile() {
 									product
 									type='button'
 									onClick={() => {
-										navigate('/product');
+										navigate('/Product');
 									}}
 								>
 									상품 등록

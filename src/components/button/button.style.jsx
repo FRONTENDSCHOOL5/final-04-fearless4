@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import socialImg from '../../assets/image/social_login_sprites.png';
-import chat from '../../assets/icon/message-circle.svg';
+import chat from '../../assets/icon/icon-message-circle.svg';
 import share from '../../assets/icon/share.svg';
 import UploadImage from '../../assets/icon/upload-image.svg';
 
@@ -35,6 +35,16 @@ export const SocialLoginButton = styled.button`
 					: socialImage === 'google'
 					? `-10px -10px`
 					: `-86px -10px`};
+	}
+	&:hover {
+		background-color: ${({ socialImage }) =>
+			socialImage === 'kakao'
+				? '#f3dfa3'
+				: socialImage === 'google'
+				? '#cac8c8'
+				: '#69b2dd'};
+		border-color: transparent;
+		color: #fff;
 	}
 `;
 
