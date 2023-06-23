@@ -5,8 +5,9 @@ import { Post } from './post.style';
 import { GridView, GridItem } from './postAlbum.style';
 import { API_URL } from '../../api';
 
-const PostSection = ({ accountname, listView, handlePostModalOptionClick }) => {
+const PostSection = ({ accountname, listView }) => {
 	const [posts, setPosts] = useState(null);
+	const [isLoading, setIsLoading] = useState(false);
 	const token = localStorage.getItem('token');
 	const navigate = useNavigate();
 
@@ -28,44 +29,30 @@ const PostSection = ({ accountname, listView, handlePostModalOptionClick }) => {
 				console.error('데이터를 불러올 수 없습니다', error);
 			}
 		};
+		setIsLoading(true);
 		getPostList();
 	}, [accountname, token]);
 
-	console.log(posts);
-
 	return (
 		<div>
-			{listView ? (
-				posts &&
-				posts.map((post, index) => (
-					<Post
-						key={index}
-						postId={post.id}
-						myProfileImg={post.author.image}
-						username={post.author.username}
-						accountname={post.author.accountname}
-						content={post.content}
-						image={post.image}
-						heartCount={post.heartCount}
-						commentCount={post.commentCount}
-						createdAt={post.createdAt}
-						handlePostModalOptionClick={handlePostModalOptionClick}
-					/>
-				))
-			) : (
-				<GridView>
-					{posts &&
-						posts
-							.filter((post) => post.image !== '')
-							.map((post, index) => (
-								<GridItem
-									key={index}
-									image={post.image}
-									onClick={() => navigate(`/viewPost/${post.id}`)}
-								/>
-							))}
-				</GridView>
-			)}
+			{isLoading &&
+				(listView ? (
+					posts &&
+					posts.map((post, index) => <Post key={index} postId={post.id} />)
+				) : (
+					<GridView>
+						{posts &&
+							posts
+								.filter((post) => post.image !== '')
+								.map((post, index) => (
+									<GridItem
+										key={index}
+										image={post.image}
+										onClick={() => navigate(`/viewPost/${post.id}`)}
+									/>
+								))}
+					</GridView>
+				))}
 		</div>
 	);
 };

@@ -21,74 +21,14 @@ import { API_URL } from '../../api';
 import { useNavigate } from 'react-router-dom';
 
 const ViewPost = () => {
-	const [token, setToken] = useState(localStorage.getItem('token') || '');
+	const token = localStorage.getItem('token');
 	const [postData, setPostData] = useState(null);
 	const [myProfilePic, setMyProfilePic] = useState('');
 	const [myAccountName, setMyAccountName] = useState('');
 	const [commentContent, setCommentContent] = useState('');
 	const [comments, setComments] = useState([]);
-	const [isPostModal, setIsPostModal] = useState(false);
-	const [isPostDeleteCheckModal, setIsPostDeleteCheckModal] = useState(false);
-	const [isReportModal, setIsReportModal] = useState(false);
 	const navigate = useNavigate();
 	const { id } = useParams();
-
-	// const handlePostModalOptionClick = () => {
-	// 	postData.author.accountname === myAccountName
-	// 		? setIsPostModal(true)
-	// 		: setIsReportModal(true);
-	// };
-
-	// const handlePostModalClose = () => {
-	// 	setIsPostModal(false);
-	// };
-
-	// 게시글 모달 삭제 버튼 클릭 시 코드
-	// const handlePostDeleteClick = () => {
-	// 	setIsPostDeleteCheckModal(true);
-	// };
-
-	// 게시글 모달 수정 버튼 클릭 시 코드
-	// const handlePostEditClick = () => {
-	// 	if (postData) {
-	// 		navigate('/editPost', {
-	// 			state: {
-	// 				id: postData.id,
-	// 				content: postData.content,
-	// 				image: postData.image,
-	// 			},
-	// 		});
-	// 	}
-	// };
-
-	// 게시글 삭제 모달 취소 시 코드
-	// const handlePostDeleteCheckModalClose = () => {
-	// 	setIsPostDeleteCheckModal(false);
-	// };
-
-	// 게시글 삭제 모달 클릭 시 코드
-	// const handlePostDeleteConfirmClick = async () => {
-	// 	try {
-	// 		await axios
-	// 			.delete(`${API_URL}/post/${postData.id}`, {
-	// 				headers: {
-	// 					Authorization: `Bearer ${token}`,
-	// 					'Content-Type': 'application/json',
-	// 				},
-	// 			})
-	// 			.then((response) => {
-	// 				console.log(response);
-	// 			});
-	// 	} catch (error) {
-	// 		console.error('오류 발생!');
-	// 	}
-	// 	setIsPostDeleteCheckModal(false);
-	// };
-
-	const handleReportClick = () => {
-		console.log('댓글이 신고되었습니다.');
-		setIsReportModal(false);
-	};
 
 	const getCommentList = () => {
 		startTransition(async () => {
@@ -104,7 +44,6 @@ const ViewPost = () => {
 						const sortedComments = response.data.comments.sort((a, b) => {
 							return new Date(a.createdAt) - new Date(b.createdAt);
 						});
-						console.log(response.data);
 						setComments(sortedComments);
 					});
 			} catch (error) {
@@ -113,7 +52,7 @@ const ViewPost = () => {
 		});
 	};
 
-	const getMyProfilePic = async () => {
+	const getMyInfo = async () => {
 		try {
 			await axios
 				.get(`${API_URL}/user/myinfo`, {
@@ -123,22 +62,6 @@ const ViewPost = () => {
 				})
 				.then((response) => {
 					setMyProfilePic(response.data.user.image);
-					console.log(response.data);
-				});
-		} catch (error) {
-			console.error('오류 발생!', error.response || error);
-		}
-	};
-
-	const getMyAccountName = async () => {
-		try {
-			await axios
-				.get(`${API_URL}/user/myinfo`, {
-					headers: {
-						Authorization: `Bearer ${token}`,
-					},
-				})
-				.then((response) => {
 					setMyAccountName(response.data.user.accountname);
 				});
 		} catch (error) {
@@ -148,7 +71,6 @@ const ViewPost = () => {
 
 	useEffect(() => {
 		const getApiData = async () => {
-			console.log(id);
 			try {
 				await axios
 					.get(`${API_URL}/post/${id}`, {
@@ -159,18 +81,17 @@ const ViewPost = () => {
 					})
 					.then((response) => {
 						setPostData(response.data.post);
-						console.log(response.data);
 					});
 			} catch (error) {
 				console.error('데이터를 불러오지 못했습니다!', error);
 			}
 		};
-		getMyAccountName();
+		getMyInfo();
 		getApiData();
 	}, [token, id]);
 
 	useEffect(() => {
-		getMyProfilePic();
+		getMyInfo();
 		if (postData) {
 			getCommentList();
 		}

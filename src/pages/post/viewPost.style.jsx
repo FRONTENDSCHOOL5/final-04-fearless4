@@ -128,7 +128,7 @@ export const CommentUploadButton = styled.button`
 	width: 40px;
 	border: none;
 	background-color: #fff;
-
+	color: #81d8d0;
 	cursor: pointer;
 	font-size: 14px;
 	font-weight: 700;

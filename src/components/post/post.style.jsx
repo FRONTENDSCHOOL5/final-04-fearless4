@@ -138,13 +138,15 @@ const formatCreatedAt = (createdAt) => {
 	return date.toLocaleDateString('ko-KR', options);
 };
 
-export function Post({ accountname, postId }) {
-	console.log(postId);
+export function Post({ postId }) {
 	const token = localStorage.getItem('token');
 	const currentUserAccountName = localStorage.getItem('userAccountName');
-	console.log(token);
 	const [postData, setPostData] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
+	const [isPostModal, setIsPostModal] = useState(false);
+	const [isPostDeleteCheckModal, setIsPostDeleteCheckModal] = useState(false);
+	const [isReportModal, setIsReportModal] = useState(false);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		const getpostData = async () => {
@@ -168,91 +170,53 @@ export function Post({ accountname, postId }) {
 	}, [token, postId]);
 	console.log(postData);
 
-	// postId면 GET 요청을 서버에 보내서 해당 게시글의 정보를 뿌린다
-	// 잠긴 것들을 하나씩 해금한다는 느낌으로 가자.
-	// 일단 GET 요청을 받아서 상세 게시글의 컴포넌트를 불러와야 한다.
-	// accountname이면 게시글 전부를 불러와야 하니, 여기가 아닌 다른 곳에서 (PostSection) 진행하자.
-	// useParams 쓸 거면 다른거 안 해도 되겠는데...?
+	const handlePostModalOptionClick = () => {
+		postData.author.accountname === currentUserAccountName
+			? setIsPostModal(true)
+			: setIsReportModal(true);
+	};
+	const handlePostModalClose = () => {
+		setIsPostModal(false);
+	};
+	const handlePostDeleteClick = () => {
+		setIsPostDeleteCheckModal(true);
+	};
+	const handlePostEditClick = () => {
+		if (postData) {
+			navigate('/editPost', {
+				state: {
+					id: postData.id,
+					content: postData.content,
+					image: postData.image,
+				},
+			});
+		}
+	};
+	const handlePostDeleteCheckModalClose = () => {
+		setIsPostDeleteCheckModal(false);
+	};
+	const handlePostDeleteConfirmClick = async () => {
+		try {
+			await axios
+				.delete(`${API_URL}/post/${postData.id}`, {
+					headers: {
+						Authorization: `Bearer ${token}`,
+						'Content-Type': 'application/json',
+					},
+				})
+				.then((response) => {
+					console.log(response);
+				});
+		} catch (error) {
+			console.error('오류 발생!');
+		}
+		setIsPostDeleteCheckModal(false);
+	};
+	const handleReportClick = () => {
+		console.log('댓글이 신고되었습니다.');
+		setIsReportModal(false);
+	};
 
-	// const { postId } = useParams();
-	// console.log(postId);
-	// const navigate = useNavigate();
-	// const [isPostModal, setIsPostModal] = useState(false);
-	// const [isPostDeleteCheckModal, setIsPostDeleteCheckModal] = useState(false);
-	// const [isReportModal, setIsReportModal] = useState(false);
-	// const [token, setToken] = useState(localStorage.getItem('token') || '');
-	// const [postData, setPostData] = useState(null);
-	// const [postAuthorProfilePic, setPostAuthorProfilePic] = useState('');
-	// const [myProfilePic, setMyProfilePic] = useState('');
-	// const [myAccountName, setMyAccountName] = useState('');
-	// const handlePostModalOptionClick = () => {
-	// 	postData.author.accountname === myAccountName
-	// 		? setIsPostModal(true)
-	// 		: setIsReportModal(true);
-	// };
-	// const handlePostModalClose = () => {
-	// 	setIsPostModal(false);
-	// };
-	// const handlePostDeleteClick = () => {
-	// 	setIsPostDeleteCheckModal(true);
-	// };
-	// const handlePostEditClick = () => {
-	// 	if (postData) {
-	// 		navigate('/editPost', {
-	// 			state: {
-	// 				id: postData.id,
-	// 				content: postData.content,
-	// 				image: postData.image,
-	// 			},
-	// 		});
-	// 	}
-	// };
-	// const handlePostDeleteCheckModalClose = () => {
-	// 	setIsPostDeleteCheckModal(false);
-	// };
-	// const handlePostDeleteConfirmClick = async () => {
-	// 	try {
-	// 		await axios
-	// 			.delete(`${API_URL}/post/${postData.id}`, {
-	// 				headers: {
-	// 					Authorization: `Bearer ${token}`,
-	// 					'Content-Type': 'application/json',
-	// 				},
-	// 			})
-	// 			.then((response) => {
-	// 				console.log(response);
-	// 			});
-	// 	} catch (error) {
-	// 		console.error('오류 발생!');
-	// 	}
-	// 	setIsPostDeleteCheckModal(false);
-	// };
-	// const handleReportClick = () => {
-	// 	console.log('댓글이 신고되었습니다.');
-	// 	setIsReportModal(false);
-	// };
-	// useEffect(() => {
-	// 	const getpostData = async () => {
-	// 		try {
-	// 			await axios
-	// 				.get(`${API_URL}/post/${postId}`, {
-	// 					headers: {
-	// 						Authorization: `Bearer ${token}`,
-	// 						'Content-type': 'application/json',
-	// 					},
-	// 				})
-	// 				.then((response) => {
-	// 					setPostData(response.data.post);
-	// 					setPostAuthorProfilePic(response.data.post.author.image);
-	// 				});
-	// 		} catch (error) {
-	// 			console.error('데이터를 불러오지 못했습니다!', error);
-	// 		}
-	// 	};
-	// 	getpostData();
-	// 	console.log(postData);
-	// 	console.log(postAuthorProfilePic);
-	// }, [token, postId]);
 	return (
 		<>
 			{isLoading && (
@@ -274,7 +238,7 @@ export function Post({ accountname, postId }) {
 									</SpanId>
 								</UserDetails>
 								<Dot
-									// onClick={handlePostModalOptionClick}
+									onClick={handlePostModalOptionClick}
 									src={dotIcon}
 									alt='Dot Icon'
 								></Dot>

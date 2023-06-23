@@ -4,7 +4,7 @@ import PostSection from './PostSection';
 export const PostListWrapper = styled.div`
 	width: 100%;
 	background-color: #fff;
-
+	padding-bottom: 50px;
 	box-sizing: border-box;
 `;
 

@@ -42,16 +42,12 @@ export const Comment = ({
 
 	const handleCommentDeleteClick = async () => {
 		try {
-			await axios
-				.delete(`${API_URL}/post/${postId}/comments/${id}`, {
-					headers: {
-						Authorization: `Bearer ${token}`,
-						'Content-Type': 'application/json',
-					},
-				})
-				.then((response) => {
-					console.log(response);
-				});
+			await axios.delete(`${API_URL}/post/${postId}/comments/${id}`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+					'Content-Type': 'application/json',
+				},
+			});
 			setIsCommentModal(false);
 			reloadComments();
 		} catch (error) {

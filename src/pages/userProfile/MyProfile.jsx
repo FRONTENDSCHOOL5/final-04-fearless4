@@ -218,11 +218,8 @@ export default function UserProfile() {
 					</DarkBackground>
 				)}
 				{/* 여기에 게시글 리스트 목록 추가 */}
-				{/* PostListWrapper를 만들고 그 내부에
-        - PostViewStyleBar랑
-        - PostList
-          - Post.style.jsx를 집어넣자 */}
-				{/* <PostList accountname={profileId}></PostList> */}
+
+				{isLoading && <PostList accountname={profileId}></PostList>}
 				<BottomNavContainer></BottomNavContainer>
 			</ProfilePageWrapper>
 		</>
