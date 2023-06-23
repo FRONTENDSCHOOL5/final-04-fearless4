@@ -11,18 +11,22 @@ import postAlbumOn from '../../assets/icon/icon-post-album-on.svg';
 import postListOff from '../../assets/icon/icon-post-list-off.svg';
 import postListOn from '../../assets/icon/icon-post-list-on.svg';
 
-const PostListView = ({ accountname }) => {
-	const [listView, setListView] = useState(false);
-	const [albumView, setAlbumView] = useState(true);
+const PostList = ({ accountname }) => {
+	const [listView, setListView] = useState(true);
+	const [albumView, setAlbumView] = useState(false);
 
 	const handleListView = () => {
-		setListView(!listView);
-		setAlbumView(!albumView);
+		if (!listView) {
+			setListView(!listView);
+			setAlbumView(!albumView);
+		}
 	};
 
 	const handleAlbumView = () => {
-		setAlbumView(!albumView);
-		setListView(!listView);
+		if (!albumView) {
+			setAlbumView(!albumView);
+			setListView(!listView);
+		}
 	};
 
 	return (
@@ -35,9 +39,9 @@ const PostListView = ({ accountname }) => {
 					<img src={albumView ? postAlbumOn : postAlbumOff} alt='album view' />
 				</PostStyleAlbum>
 			</PostViewStyleBar>
-			<PostSection accountname={accountname}></PostSection>
+			<PostSection accountname={accountname} listView={listView}></PostSection>
 		</PostListWrapper>
 	);
 };
 
-export default PostListView;
+export default PostList;

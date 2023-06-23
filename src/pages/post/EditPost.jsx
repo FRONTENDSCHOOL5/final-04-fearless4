@@ -160,7 +160,7 @@ const EditPost = () => {
 	return (
 		<WrapperWritePost>
 			<NavbarWrap spaceBetween>
-				<Backspace />
+				<Backspace onClick={() => navigate(-1)} />
 				<UploadButton disabled={disabled} onClick={handleSubmit}>
 					업로드
 				</UploadButton>

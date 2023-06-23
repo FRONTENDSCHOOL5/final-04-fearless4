@@ -3,7 +3,6 @@ import PostSection from './PostSection';
 
 export const PostListWrapper = styled.div`
 	width: 100%;
-	border: 0.5px solid #dbdbdb;
 	background-color: #fff;
 
 	box-sizing: border-box;
@@ -16,6 +15,7 @@ export const PostViewStyleBar = styled.div`
 	padding: 9px 16px;
 	justify-content: flex-end;
 	box-sizing: border-box;
+	border-bottom: 0.5px solid #dbdbdb;
 `;
 
 export const PostStyleList = styled.div`

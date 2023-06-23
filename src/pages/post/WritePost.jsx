@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Post } from '../../components/post/post.style';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {
@@ -143,10 +144,10 @@ const WritePost = () => {
 			console.log(response);
 			console.log(response.data);
 
-			const postId = response.data.post.id;
-			console.log(postId);
-			setPostId(postId);
-			navigate(`/viewPost/${postId}`);
+			const id = response.data.post.id;
+			console.log(id);
+			setPostId(id);
+			navigate(`/viewPost/${id}`);
 		} catch (error) {
 			console.error(error);
 		}
@@ -155,7 +156,7 @@ const WritePost = () => {
 	return (
 		<WrapperWritePost>
 			<NavbarWrap spaceBetween>
-				<Backspace />
+				<Backspace onClick={() => navigate(-1)} />
 				<UploadButton disabled={disabled} onClick={handleSubmit}>
 					업로드
 				</UploadButton>

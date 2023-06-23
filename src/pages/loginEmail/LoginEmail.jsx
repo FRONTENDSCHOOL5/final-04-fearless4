@@ -60,8 +60,8 @@ export default function LoginEmail() {
 				// 요청이 성공하고, user 속성이 존재하는 경우 localStorage에 'token'이라는 키로 저장한다.
 				const token = successRes.user['token'];
 				localStorage.setItem('token', token);
-				const currentUserAccountName = successRes.user['accountname'];
-				localStorage.setItem('currentUserAccountName', currentUserAccountName);
+				const userAccountName = successRes.user['accountname'];
+				localStorage.setItem('userAccountName', userAccountName);
 				navigate('/Homefeed');
 			} else if (successRes.message) {
 				// 요청이 성공하고, message 속성이 존재하는 경우 setCorrect(true)를 호출해서 이메일 또는 비밀번호가 일치하지 않을 때 오류 메시지를 표시한다.

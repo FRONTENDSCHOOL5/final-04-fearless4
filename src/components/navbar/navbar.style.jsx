@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import arrowIcon from '../../assets/icon/arrow-left.svg';
 import optionIcon from '../../assets/icon/option.svg';
+import { useNavigate } from 'react-router-dom';
 
 export const NavbarWrap = styled.div`
 	width: 100%;

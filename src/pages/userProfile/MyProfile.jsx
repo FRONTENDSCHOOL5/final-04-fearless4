@@ -14,6 +14,7 @@ import {
 	ProfilePageWrapper,
 } from './userProfile.style';
 import { ProfileImage } from '../profileSetup/profileSetup.style';
+import PostList from '../../components/post/PostList';
 import profilePic from '../../assets/image/profilePic.png';
 import {
 	Backspace,
@@ -221,6 +222,7 @@ export default function UserProfile() {
         - PostViewStyleBar랑
         - PostList
           - Post.style.jsx를 집어넣자 */}
+				{/* <PostList accountname={profileId}></PostList> */}
 				<BottomNavContainer></BottomNavContainer>
 			</ProfilePageWrapper>
 		</>
