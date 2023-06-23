@@ -20,8 +20,8 @@ export const HomeContainer = styled.div`
 	height: 90vh;
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
-	align-items: center;
+	/* justify-content: center;
+	align-items: center; */
 	gap: 20px;
 	margin: 0 auto;
 `;
