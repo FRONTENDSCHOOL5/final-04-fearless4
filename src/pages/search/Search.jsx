@@ -25,6 +25,8 @@ export default function Search() {
 	const token = localStorage.getItem('token');
 	const [keyword, setKeyword] = useState('');
 	const [searchData, setSearchData] = useState([]);
+	const [debounceValue, setDebounceValue] = useState(keyword);
+
 	const onChange = (event) => {
 		setKeyword(event.target.value);
 	};
@@ -33,12 +35,22 @@ export default function Search() {
 	};
 
 	useEffect(() => {
-		if (keyword) {
+		const timer = setTimeout(() => {
+			setDebounceValue(keyword);
+		}, 500);
+
+		return () => {
+			clearTimeout(timer);
+		};
+	}, [keyword]);
+
+	useEffect(() => {
+		if (debounceValue.length > 0) {
 			const getSearch = async () => {
 				try {
 					const res = await axios({
 						method: 'GET',
-						url: `${url}/user/searchuser/?keyword=${keyword}`,
+						url: `${url}/user/searchuser/?keyword=${debounceValue}`,
 						headers: {
 							Authorization: `Bearer ${token}`,
 							'Content-type': 'application/json',
@@ -51,13 +63,13 @@ export default function Search() {
 			};
 			getSearch();
 		}
-	}, [keyword]);
+	}, [debounceValue]);
 
 	const SearchColor = ({ user, word, type }) => {
 		return user.includes(word) ? (
 			<div type={type}>
 				{user.split(word)[0]}
-				<span style={{ color: '#A6E3DA' }}>{keyword}</span>
+				<span style={{ color: '#A6E3DA' }}>{debounceValue}</span>
 				{user.split(word)[1]}
 			</div>
 		) : (
@@ -76,9 +88,9 @@ export default function Search() {
 				/>
 			</NavbarWrap>
 
-			{searchData.map((item) => {
+			{searchData.map((item, index) => {
 				return (
-					<Wrapper>
+					<Wrapper key={index}>
 						<UserWrap>
 							<UserFlexWrap>
 								<UserProfileImg>

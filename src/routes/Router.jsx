@@ -18,6 +18,7 @@ const Product = lazy(() => import('../pages/product/Product'));
 const Homefeed = lazy(() => import('../pages/homeFeed/Homefeed'));
 const WritePost = lazy(() => import('../pages/post/WritePost'));
 const ViewPost = lazy(() => import('../pages/post/ViewPost'));
+const Search = lazy(() => import('../pages/search/Search'));
 
 const renderLoader = () => <span>로딩중...</span>;
 
@@ -30,6 +31,7 @@ export default function Router() {
 					<Route path='/loginEmail' element={<LoginEmail />} />
 					<Route path='/signup' element={<Signup />} />
 					<Route path='/profileSetup' element={<ProfileSetup />} />
+					<Route path='/search' element={<Search />}></Route>
 					<Route path='/userProfile' element={<UserProfile />}></Route>
 					<Route
 						path='/productsForSaleEdit'
