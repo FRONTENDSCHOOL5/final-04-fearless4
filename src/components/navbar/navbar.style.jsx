@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import arrowIcon from '../../assets/icon/arrow-left.svg';
 import optionIcon from '../../assets/icon/option.svg';
-import { useNavigate } from 'react-router-dom';
 import Cat from '../../assets/image/cat.png';
 
 export const NavbarWrap = styled.div`

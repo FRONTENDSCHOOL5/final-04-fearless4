@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import heartIcon from '../../assets/icon/icon-heart.svg';
 import messageIcon from '../../assets/icon/icon-message-circle.svg';
 import dotIcon from '../../assets/icon/icon- more-vertical.svg';
-import { Link, useParams, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
 	DarkBackground,
 	ModalWrap,
@@ -168,7 +168,6 @@ export function Post({ postId }) {
 		};
 		getpostData();
 	}, [token, postId]);
-	console.log(postData);
 
 	const handlePostModalOptionClick = () => {
 		postData.author.accountname === currentUserAccountName

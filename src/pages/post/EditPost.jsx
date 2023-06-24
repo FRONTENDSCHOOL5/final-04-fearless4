@@ -20,11 +20,11 @@ const EditPost = () => {
 	const [myProfileImage, setMyProfileImage] = useState('');
 	const [text, setText] = useState('');
 	const [disabled, setDisabled] = useState(true);
-	const [token, setToken] = useState(localStorage.getItem('token') || '');
 	const inputRef = useRef(null);
 	const textarea = useRef();
 	const location = useLocation();
 	const navigate = useNavigate();
+	const token = localStorage.getItem('token');
 
 	useEffect(() => {
 		if (location.state) {
@@ -50,7 +50,7 @@ const EditPost = () => {
 			}
 		};
 		loadMyProfileImage();
-	}, []);
+	}, [token]);
 
 	useEffect(() => {
 		uploadImageUrl || text ? setDisabled(false) : setDisabled(true);

@@ -217,8 +217,6 @@ export default function UserProfile() {
 						</CheckModalWrap>
 					</DarkBackground>
 				)}
-				{/* 여기에 게시글 리스트 목록 추가 */}
-
 				{isLoading && <PostList accountname={profileId}></PostList>}
 				<BottomNavContainer></BottomNavContainer>
 			</ProfilePageWrapper>

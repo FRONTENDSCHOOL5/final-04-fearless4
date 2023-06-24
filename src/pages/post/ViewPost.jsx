@@ -16,6 +16,15 @@ import {
 	CommentUploadButton,
 	ProfileImageComment,
 } from './viewPost.style';
+import {
+	ModalWrap,
+	ModalText,
+	DarkBackground,
+	CheckModalWrap,
+	CheckMsg,
+	CheckButtonWrap,
+	CheckLogout,
+} from '../../components/modal/modal.style';
 import { Comment } from './Comment';
 import { API_URL } from '../../api';
 import { useNavigate } from 'react-router-dom';
@@ -27,6 +36,9 @@ const ViewPost = () => {
 	const [myAccountName, setMyAccountName] = useState('');
 	const [commentContent, setCommentContent] = useState('');
 	const [comments, setComments] = useState([]);
+	const [isLoading, setIsLoading] = useState(false);
+	const [isModal, setIsModal] = useState(false);
+	const [isCheckModal, setIsCheckModal] = useState(false);
 	const navigate = useNavigate();
 	const { id } = useParams();
 
@@ -69,6 +81,32 @@ const ViewPost = () => {
 		}
 	};
 
+	const handleModalOpen = (e) => {
+		e.preventDefault();
+		setIsModal(true);
+	};
+
+	const handleModalClose = (e) => {
+		e.preventDefault();
+		// e.currentTarget 현재 handleModalClose가 부착된 요소
+		// e.target 내가 클릭한 자식 요소
+		if (e.target === e.currentTarget) {
+			setIsModal(false);
+			setIsCheckModal(false);
+		}
+	};
+
+	const handleCheckModal = (e) => {
+		e.preventDefault();
+		setIsCheckModal(true);
+	};
+
+	const accountLogout = (e) => {
+		e.preventDefault();
+		localStorage.removeItem('token');
+		navigate('/');
+	};
+
 	useEffect(() => {
 		const getApiData = async () => {
 			try {
@@ -86,7 +124,6 @@ const ViewPost = () => {
 				console.error('데이터를 불러오지 못했습니다!', error);
 			}
 		};
-		getMyInfo();
 		getApiData();
 	}, [token, id]);
 
@@ -95,6 +132,7 @@ const ViewPost = () => {
 		if (postData) {
 			getCommentList();
 		}
+		setIsLoading(true);
 	}, [token, postData]);
 
 	const handleCommentUpload = async () => {
@@ -125,9 +163,9 @@ const ViewPost = () => {
 		<WrapperViewPost>
 			<NavbarWrap spaceBetween>
 				<Backspace onClick={() => navigate(-1)} />
-				<OptionModalTab></OptionModalTab>
+				<OptionModalTab onClick={handleModalOpen}></OptionModalTab>
 			</NavbarWrap>
-			<PostView>{postData && <Post postId={id} />}</PostView>
+			{isLoading && <PostView>{postData && <Post postId={id} />}</PostView>}
 			<CommentSection>
 				{comments.map((comment) => (
 					<Comment
@@ -154,6 +192,27 @@ const ViewPost = () => {
 					게시
 				</CommentUploadButton>
 			</UploadComment>
+			{isModal && (
+				<DarkBackground onClick={handleModalClose}>
+					<ModalWrap>
+						<ModalText>설정 및 개인정보</ModalText>
+						<ModalText onClick={handleCheckModal}>로그아웃</ModalText>
+					</ModalWrap>
+				</DarkBackground>
+			)}
+			{isCheckModal && (
+				<DarkBackground onClick={handleModalClose}>
+					<CheckModalWrap>
+						<CheckMsg>로그아웃하시겠어요?</CheckMsg>
+						<CheckButtonWrap>
+							<CheckLogout onClick={handleModalClose}>취소</CheckLogout>
+							<CheckLogout check onClick={accountLogout}>
+								로그아웃
+							</CheckLogout>
+						</CheckButtonWrap>
+					</CheckModalWrap>
+				</DarkBackground>
+			)}
 		</WrapperViewPost>
 	);
 };
