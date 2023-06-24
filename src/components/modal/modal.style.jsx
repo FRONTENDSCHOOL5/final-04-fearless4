@@ -2,23 +2,26 @@ import styled, { keyframes } from 'styled-components';
 
 const slideUp = keyframes`
 	from {
-		transform: translateY(200px);
+		transform: translateY(100%);
 	}
 `;
 
 export const DarkBackground = styled.div`
-	position: fixed;
+	position: absolute;
+	display: flex;
 	top: 0;
 	left: 0;
 	background-color: rgba(0, 0, 0, 0.2);
 	width: 100%;
 	height: 100%;
 	z-index: 999;
+	overflow: hidden;
 `;
 
 export const ModalWrap = styled.div`
 	width: 100%;
 	background-color: #fff;
+	margin-top: auto;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -26,9 +29,8 @@ export const ModalWrap = styled.div`
 	border-radius: 10px 10px 0 0;
 	box-sizing: border-box;
 	padding: 36px 20px 24px;
-	position: fixed;
+	position: sticky;
 	bottom: 0;
-	left: 0;
 
 	animation-duration: 0.5s;
 	animation-timing-function: ease-out;
