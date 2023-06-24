@@ -80,7 +80,11 @@ export default function Search() {
 	return (
 		<>
 			<NavbarWrap spaceBetween>
-				<Backspace />
+				<Backspace
+					onClick={() => {
+						navigate(-1);
+					}}
+				/>
 				<SearchInput
 					placeholder='계정 검색'
 					onChange={onChange}
@@ -115,9 +119,8 @@ export default function Search() {
 										></SearchColor>
 									</UserFollowNickName>
 									<UserFollowIntro>
-										@
 										<SearchColor
-											user={item.accountname}
+											user={`@${item.accountname}`}
 											word={keyword}
 											type='accountname'
 										/>

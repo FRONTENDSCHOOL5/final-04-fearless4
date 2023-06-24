@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import arrowIcon from '../../assets/icon/arrow-left.svg';
 import optionIcon from '../../assets/icon/option.svg';
+import Cat from '../../assets/image/cat.png';
 
 export const NavbarWrap = styled.div`
 	width: 100%;
@@ -40,3 +41,37 @@ export const NavbarTitle = styled.span`
 	font-weight: 400;
 	margin-left: 8px;
 `;
+
+export const TitleLogoWrap = styled.div`
+	font-weight: bold;
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+`
+
+export const TitleImg = styled.img`
+	width: 42px;
+	margin-right: -8px;
+	margin-left: ${({ ml }) => (ml === true ? '-15px' : 'initial')};
+`
+
+export const TitleColorMint = styled.span`
+	color: #81D8D0;
+`;
+
+export const TitleColorGray = styled.span`
+	color: #767676;
+`;
+
+
+ export function TitleLogo () {
+	
+	return (
+		<TitleLogoWrap>
+			<TitleImg src={Cat} ml />
+			<TitleColorMint>T</TitleColorMint>
+			<TitleColorGray>ravel</TitleColorGray>
+			<TitleColorMint>Us</TitleColorMint>
+		</TitleLogoWrap>
+	)
+ }
