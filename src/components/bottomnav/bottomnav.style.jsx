@@ -123,7 +123,13 @@ export function BottomNavContainer(props) {
 			<NavLink to='/myProfile'>
 				<NavIcon
 					id='profile'
-					src={isProfileMouseOver ? profileIconFill : profileIcon}
+					src={
+						isProfileMouseOver
+							? profileIconFill
+							: props.profile === true
+							? profileIconFill
+							: profileIcon
+					}
 					onMouseOver={handleMouseOver}
 					onMouseOut={handleMouseOut}
 				/>
