@@ -190,7 +190,7 @@ export default function ProfileSetup() {
 	};
 
 	return (
-		<WrapperProfileSetup>
+		<>
 			<NavbarWrap spaceBetween>
 				<Backspace
 					onClick={() => {
@@ -201,64 +201,65 @@ export default function ProfileSetup() {
 					저장
 				</SaveButton>
 			</NavbarWrap>
+			<WrapperProfileSetup>
+				<WrapForm>
+					<Upload>
+						<ImageInput
+							type='file'
+							accept='image/*'
+							onChange={handleImageInputChange}
+						/>
+						<ProfileImage
+							src={selectedImage || profileImg || profilePic}
+							alt=''
+						/>{' '}
+						<ImageButton src={profileImageUploadButton} alt='' />
+					</Upload>
 
-			<WrapForm>
-				<Upload>
-					<ImageInput
-						type='file'
-						accept='image/*'
-						onChange={handleImageInputChange}
-					/>
-					<ProfileImage
-						src={selectedImage || profileImg || profilePic}
-						alt=''
-					/>{' '}
-					<ImageButton src={profileImageUploadButton} alt='' />
-				</Upload>
+					<FormElement>
+						<LabelStyle htmlFor='user-name'>사용자 이름</LabelStyle>
+						<InputStyle
+							type='text'
+							name=''
+							placeholder='2~10자 이내여야 합니다.'
+							value={userName}
+							onChange={(e) => setUserName(e.target.value)}
+						/>
+					</FormElement>
 
-				<FormElement>
-					<LabelStyle htmlFor='user-name'>사용자 이름</LabelStyle>
-					<InputStyle
-						type='text'
-						name=''
-						placeholder='2~10자 이내여야 합니다.'
-						value={userName}
-						onChange={(e) => setUserName(e.target.value)}
-					/>
-				</FormElement>
+					<FormElement>
+						<LabelStyle htmlFor='user-id'>계정 ID</LabelStyle>
+						<InputStyle
+							type='text'
+							id='user-id'
+							value={userId}
+							onChange={(e) => setUserId(e.target.value)}
+							onBlur={validateUserId}
+							placeholder='영문, 숫자, 특수문자(.),(_)만 사용 가능합니다.'
+							pattern='^[A-Za-z0-9._]+$'
+						/>
+						{notValidUserId && (
+							<Incorrect>
+								*영문, 숫자, 밑줄 및 마침표만 사용할 수 있습니다.
+							</Incorrect>
+						)}
+						{idDuplication && (
+							<Incorrect>*이미 사용중인 계정 ID입니다.</Incorrect>
+						)}
+					</FormElement>
 
-				<FormElement>
-					<LabelStyle htmlFor='user-id'>계정 ID</LabelStyle>
-					<InputStyle
-						type='text'
-						id='user-id'
-						value={userId}
-						onChange={(e) => setUserId(e.target.value)}
-						onBlur={validateUserId}
-						placeholder='영문, 숫자, 특수문자(.),(_)만 사용 가능합니다.'
-						pattern='^[A-Za-z0-9._]+$'
-					/>
-					{notValidUserId && (
-						<Incorrect>
-							*영문, 숫자, 밑줄 및 마침표만 사용할 수 있습니다.
-						</Incorrect>
-					)}
-					{idDuplication && (
-						<Incorrect>*이미 사용중인 계정 ID입니다.</Incorrect>
-					)}
-				</FormElement>
-
-				<FormElement>
-					<LabelStyle htmlFor='user-intro'>소개</LabelStyle>
-					<InputStyle
-						type='text'
-						name=''
-						placeholder='자신에 대해서 소개해 주세요!'
-						value={intro}
-						onChange={(e) => setIntro(e.target.value)}
-					/>
-				</FormElement>
-			</WrapForm>
-		</WrapperProfileSetup>
+					<FormElement>
+						<LabelStyle htmlFor='user-intro'>소개</LabelStyle>
+						<InputStyle
+							type='text'
+							name=''
+							placeholder='자신에 대해서 소개해 주세요!'
+							value={intro}
+							onChange={(e) => setIntro(e.target.value)}
+						/>
+					</FormElement>
+				</WrapForm>
+			</WrapperProfileSetup>
+		</>
 	);
 }

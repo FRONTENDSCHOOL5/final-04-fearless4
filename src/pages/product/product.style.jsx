@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const ProductContainer = styled.div`
-	padding: 78px 34px 0px 34px;
+	padding: 26px 34px;
 	box-sizing: border-box;
 	display: flex;
 	flex-direction: column;

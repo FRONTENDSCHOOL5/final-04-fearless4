@@ -35,6 +35,7 @@ import { useEffect } from 'react';
 import { API_URL } from '../../api';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ProductsForSale from './ProductsForSale';
+import { BottomNavContainer } from '../../components/bottomnav/bottomnav.style';
 export default function UserProfile() {
 	const location = useLocation();
 	const navigate = useNavigate();
@@ -233,6 +234,7 @@ export default function UserProfile() {
 					</CheckModalWrap>
 				</DarkBackground>
 			)}
+			<BottomNavContainer profile />
 		</>
 	);
 }

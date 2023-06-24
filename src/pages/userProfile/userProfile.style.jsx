@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const ProfilePageWrapper = styled.div`
+	height: calc(100vh - 100px);
 	background-color: #f2f2f2;
 	display: flex;
 	flex-direction: column;
@@ -12,7 +13,7 @@ export const ProfileWrapper = styled.div`
 	width: 100%;
 	position: relative;
 	box-sizing: border-box;
-	padding: 78px 60px 26px 60px;
+	padding: 26px 60px;
 	background-color: #fff;
 `;
 
