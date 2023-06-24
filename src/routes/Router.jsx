@@ -22,6 +22,7 @@ const EditPost = lazy(() => import('../pages/post/EditPost'));
 const Search = lazy(() => import('../pages/search/Search'));
 const ChatList = lazy(() => import('../pages/chat/ChatList'));
 const Chat = lazy(() => import('../pages/chat/Chat'));
+const Page404 = lazy(() => import('../pages/page404/Page404'));
 
 const renderLoader = () => <span>로딩중...</span>;
 
@@ -54,6 +55,7 @@ export default function Router() {
 					<Route path='/ChatList' element={<ChatList />}></Route>
 					<Route path='/Chat' element={<Chat />}></Route>
 					<Route path='/viewPost' element={<ViewPost />}></Route>
+					<Route path='/page404' element={<Page404 />}></Route>
 				</Routes>
 			</Suspense>
 		</BrowserRouter>
