@@ -98,56 +98,56 @@ export default function Follwers() {
 				/>
 				<NavbarTitle>Followings</NavbarTitle>
 			</NavbarWrap>
-			{isLoading && myAccountName && follower.length !== 0 ? (
-				follower.map((item, index) => {
-					return (
-						<UserWrap key={item._id}>
-							<UserFlexWrap>
-								<UserProfileImg
-									onClick={() => {
-										console.log(myAccountName);
-										myAccountName === item.accountname
-											? navigate('/myprofile')
-											: navigate('/userprofile', {
-													state: { accountname: item.accountname },
-											  });
-									}}
-								>
-									<UserFollowImage
-										src={item.image}
-										onError={handleImgError}
-										alt='유저 프로필 이미지입니다.'
-									/>
-								</UserProfileImg>
-								<UserContent
-									onClick={() => {
-										myAccountName === item.accountname
-											? navigate('/myprofile')
-											: navigate('/userprofile', {
-													state: { accountname: item.accountname },
-											  });
-									}}
-								>
-									<UserFollowNickName>{item.username}</UserFollowNickName>
-									<UserFollowIntro>{item.intro}</UserFollowIntro>
-								</UserContent>
-							</UserFlexWrap>
-							{!(myAccountName === item.accountname) && (
-								<FollowButton
-									follow={item.isFollow}
-									onClick={(e) => {
-										handleFollowChange(index, item.accountname, e);
-									}}
-								>
-									{item.isFollow === true ? '취소' : '팔로우'}
-								</FollowButton>
-							)}
-						</UserWrap>
-					);
-				})
-			) : (
-				<FollowUnknown />
-			)}
+			{isLoading && myAccountName && follower.length !== 0
+				? follower.map((item, index) => {
+						return (
+							<UserWrap key={item._id}>
+								<UserFlexWrap>
+									<UserProfileImg
+										onClick={() => {
+											console.log(myAccountName);
+											myAccountName === item.accountname
+												? navigate('/myprofile')
+												: navigate('/userprofile', {
+														state: { accountname: item.accountname },
+												  });
+										}}
+									>
+										<UserFollowImage
+											src={item.image}
+											onError={handleImgError}
+											alt='유저 프로필 이미지입니다.'
+										/>
+									</UserProfileImg>
+									<UserContent
+										onClick={() => {
+											myAccountName === item.accountname
+												? navigate('/myprofile')
+												: navigate('/userprofile', {
+														state: { accountname: item.accountname },
+												  });
+										}}
+									>
+										<UserFollowNickName>{item.username}</UserFollowNickName>
+										<UserFollowIntro>{item.intro}</UserFollowIntro>
+									</UserContent>
+								</UserFlexWrap>
+								{!(myAccountName === item.accountname) && (
+									<FollowButton
+										follow={item.isFollow}
+										onClick={(e) => {
+											handleFollowChange(index, item.accountname, e);
+										}}
+									>
+										{item.isFollow === true ? '취소' : '팔로우'}
+									</FollowButton>
+								)}
+							</UserWrap>
+						);
+				  })
+				: isLoading &&
+				  myAccountName &&
+				  (!follower || follower.length === 0) && <FollowUnknown />}
 		</Wrapper>
 	);
 }
