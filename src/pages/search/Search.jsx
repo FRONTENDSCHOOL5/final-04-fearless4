@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Backspace, NavbarWrap } from '../../components/navbar/navbar.style';
 import { BottomNavContainer } from '../../components/bottomnav/bottomnav.style';
-import { SearchInput, Wrapper } from './search.style';
+import { SearchInput, SearchWrap, Wrapper } from './search.style';
 import { API_URL } from '../../api.js';
 import axios from 'axios';
 import {
@@ -78,7 +78,7 @@ export default function Search() {
 	};
 
 	return (
-		<>
+		<SearchWrap>
 			<NavbarWrap spaceBetween>
 				<Backspace
 					onClick={() => {
@@ -92,9 +92,9 @@ export default function Search() {
 				/>
 			</NavbarWrap>
 
-			{searchData.map((item, index) => {
+			{searchData.map((item) => {
 				return (
-					<Wrapper key={index}>
+					<Wrapper key={item.id}>
 						<UserWrap>
 							<UserFlexWrap>
 								<UserProfileImg>
@@ -102,6 +102,11 @@ export default function Search() {
 										src={item.image}
 										onError={onErrorImg}
 										alt='유저 프로필 이미지입니다.'
+										onClick={() => {
+											navigate('/userprofile', {
+												state: { accountname: item.accountname },
+											});
+										}}
 									/>
 								</UserProfileImg>
 								<UserContent
@@ -133,6 +138,6 @@ export default function Search() {
 			})}
 
 			<BottomNavContainer />
-		</>
+		</SearchWrap>
 	);
 }
