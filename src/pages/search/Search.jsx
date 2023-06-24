@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Backspace, NavbarWrap } from '../../components/navbar/navbar.style';
 import { BottomNavContainer } from '../../components/bottomnav/bottomnav.style';
-import { SearchInput, Wrapper } from './search.style';
+import { SearchInput, SearchWrap, Wrapper } from './search.style';
 import { API_URL } from '../../api.js';
 import axios from 'axios';
 import {
@@ -25,6 +25,8 @@ export default function Search() {
 	const token = localStorage.getItem('token');
 	const [keyword, setKeyword] = useState('');
 	const [searchData, setSearchData] = useState([]);
+	const [debounceValue, setDebounceValue] = useState(keyword);
+
 	const onChange = (event) => {
 		setKeyword(event.target.value);
 	};
@@ -33,12 +35,22 @@ export default function Search() {
 	};
 
 	useEffect(() => {
-		if (keyword) {
+		const timer = setTimeout(() => {
+			setDebounceValue(keyword);
+		}, 500);
+
+		return () => {
+			clearTimeout(timer);
+		};
+	}, [keyword]);
+
+	useEffect(() => {
+		if (debounceValue.length > 0) {
 			const getSearch = async () => {
 				try {
 					const res = await axios({
 						method: 'GET',
-						url: `${url}/user/searchuser/?keyword=${keyword}`,
+						url: `${url}/user/searchuser/?keyword=${debounceValue}`,
 						headers: {
 							Authorization: `Bearer ${token}`,
 							'Content-type': 'application/json',
@@ -51,13 +63,13 @@ export default function Search() {
 			};
 			getSearch();
 		}
-	}, [keyword]);
+	}, [debounceValue]);
 
 	const SearchColor = ({ user, word, type }) => {
 		return user.includes(word) ? (
 			<div type={type}>
 				{user.split(word)[0]}
-				<span style={{ color: '#A6E3DA' }}>{keyword}</span>
+				<span style={{ color: '#A6E3DA' }}>{debounceValue}</span>
 				{user.split(word)[1]}
 			</div>
 		) : (
@@ -66,7 +78,7 @@ export default function Search() {
 	};
 
 	return (
-		<>
+		<SearchWrap>
 			<NavbarWrap spaceBetween>
 				<Backspace
 					onClick={() => {
@@ -82,7 +94,7 @@ export default function Search() {
 
 			{searchData.map((item) => {
 				return (
-					<Wrapper>
+					<Wrapper key={item.id}>
 						<UserWrap>
 							<UserFlexWrap>
 								<UserProfileImg>
@@ -90,6 +102,11 @@ export default function Search() {
 										src={item.image}
 										onError={onErrorImg}
 										alt='유저 프로필 이미지입니다.'
+										onClick={() => {
+											navigate('/userprofile', {
+												state: { accountname: item.accountname },
+											});
+										}}
 									/>
 								</UserProfileImg>
 								<UserContent
@@ -121,6 +138,6 @@ export default function Search() {
 			})}
 
 			<BottomNavContainer />
-		</>
+		</SearchWrap>
 	);
 }

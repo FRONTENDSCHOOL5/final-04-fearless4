@@ -1,5 +1,11 @@
 import styled from 'styled-components';
 
+export const SearchWrap = styled.div`
+	width: 100%;
+	padding: 60px 0;
+	box-sizing: border-box;
+`;
+
 export const SearchInput = styled.input`
 	width: 100%;
 	height: 32px;
