@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const WrapAll = styled.div`
 	background: white;
+	box-sizing: border-box;
 	padding: 20px 20px 20px 20px;
 `;
 

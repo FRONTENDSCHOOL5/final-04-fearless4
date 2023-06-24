@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const ProfilePageWrapper = styled.div`
-	height: calc(100vh - 100px);
 	background-color: #f2f2f2;
 	display: flex;
 	flex-direction: column;
