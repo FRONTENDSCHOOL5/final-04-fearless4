@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { PostDeleteContext } from '../post/PostDeleteContext.jsx';
 import { ChatShare, ProfileButton } from '../../components/button/button.style';
 import {
 	ProfileWrapper,
@@ -31,9 +32,8 @@ import {
 } from '../../components/modal/modal.style';
 import PostList from '../../components/post/PostList';
 import { BottomNavContainer } from '../../components/bottomnav/bottomnav.style';
-import { useState } from 'react';
 import axios from 'axios';
-import { useEffect } from 'react';
+
 import { API_URL } from '../../api';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ProductsForSale from './ProductsForSale';
@@ -45,6 +45,7 @@ export default function UserProfile() {
 	const [isModal, setIsModal] = useState(false);
 	const [isCheckModal, setIsCheckModal] = useState(false);
 	const [isFollow, setIsFollow] = useState();
+	const [deletedPostId, setDeletedPostId] = useState(null);
 
 	const accountname = location.state.accountname;
 
@@ -213,7 +214,14 @@ export default function UserProfile() {
 				</ProfileWrapper>
 
 				<ProductsForSale userAccountName={accountname} />
-				{isLoading && <PostList accountname={accountname}></PostList>}
+				{isLoading && (
+					<PostDeleteContext.Provider
+						value={{ deletedPostId, setDeletedPostId }}
+					>
+						{' '}
+						<PostList accountname={accountname}></PostList>
+					</PostDeleteContext.Provider>
+				)}
 			</ProfilePageWrapper>
 			{isModal && (
 				<DarkBackground onClick={handleModalClose}>

@@ -23,6 +23,13 @@ import {
 	Backspace,
 	NavbarWrap,
 } from '../../components/navbar/navbar.style.jsx';
+import {
+	ToastClose,
+	ToastContainer,
+	ToastIcon,
+	ToastMsg,
+	ToastMsgBold,
+} from '../../components/toast/toast.style';
 
 export default function ProfileSetup() {
 	const [userName, setUserName] = useState('');
@@ -32,6 +39,7 @@ export default function ProfileSetup() {
 	const [idDuplication, setIdDuplication] = useState(false);
 	const [notValidUserId, setNotValidUserId] = useState(false);
 	const [disabled, setDisabled] = useState(true);
+	const [showProfileEditToast, setShowProfileEditToast] = useState(false);
 	const location = useLocation();
 	const navigate = useNavigate();
 	const url = API_URL;
@@ -182,12 +190,29 @@ export default function ProfileSetup() {
 				},
 			});
 			console.log(response.data);
-			navigate('/myprofile');
+			setShowProfileEditToast(true);
+			setTimeout(() => {
+				setShowProfileEditToast(false);
+				navigate('/myprofile');
+			}, 1000);
 		} catch (error) {
 			console.error('에러입니다.', error);
 			console.log('오류 발생!');
 		}
 	};
+
+	const ProfileEditToast = () => (
+		<>
+			{showProfileEditToast && (
+				<ToastContainer>
+					<ToastIcon>😆</ToastIcon>
+					<ToastMsg>
+						<ToastMsgBold>프로필</ToastMsgBold>이 수정되었습니다.
+					</ToastMsg>
+				</ToastContainer>
+			)}
+		</>
+	);
 
 	return (
 		<>
@@ -259,6 +284,7 @@ export default function ProfileSetup() {
 						/>
 					</FormElement>
 				</WrapForm>
+				<ProfileEditToast />
 			</WrapperProfileSetup>
 		</>
 	);

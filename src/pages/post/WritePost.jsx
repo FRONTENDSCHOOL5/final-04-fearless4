@@ -13,6 +13,7 @@ import {
 } from './writePost.style';
 import { Backspace, NavbarWrap } from '../../components/navbar/navbar.style';
 import { ImageUploadButton } from '../../components/button/button.style';
+import profilePic from '../../assets/image/profilePic.png';
 
 const WritePost = () => {
 	const token = localStorage.getItem('token');
@@ -120,6 +121,10 @@ const WritePost = () => {
 		handleResizeHeight();
 	};
 
+	const handleImgError = (e) => {
+		e.target.src = profilePic;
+	};
+
 	const handleSubmit = async () => {
 		const data = {
 			post: {
@@ -148,45 +153,45 @@ const WritePost = () => {
 	};
 
 	return (
-		<>
-			<WrapperWritePost>
-				<NavbarWrap spaceBetween>
-					<Backspace onClick={() => navigate(-1)} />
-					<UploadButton disabled={disabled} onClick={handleSubmit}>
-						업로드
-					</UploadButton>
-				</NavbarWrap>
-				<PostForm>
-					<TextForm>
-						<ProfileImageMini src={myProfileImage}></ProfileImageMini>
-						<PostInputArea
-							ref={textarea}
-							placeholder='게시글 입력하기...'
-							name='post'
-							value={text}
-							rows={1}
-							onChange={handleTextChange}
-						></PostInputArea>
-					</TextForm>
-
-					{uploadImageUrl && (
-						<ImagePreview
-							src={uploadImageUrl}
-							alt='Uploaded'
-							handleDeleteImage={handleDeleteImage}
-						/>
-					)}
-				</PostForm>
-				<ImageUploadButton>
-					<ImageInput
-						ref={inputRef}
-						type='file'
-						accept='image/*'
-						onChange={handleImageInputChange}
+		<WrapperWritePost>
+			<NavbarWrap spaceBetween>
+				<Backspace onClick={() => navigate(-1)} />
+				<UploadButton disabled={disabled} onClick={handleSubmit}>
+					업로드
+				</UploadButton>
+			</NavbarWrap>
+			<PostForm>
+				<TextForm>
+					<ProfileImageMini
+						src={myProfileImage}
+						onError={handleImgError}
+					></ProfileImageMini>
+					<PostInputArea
+						ref={textarea}
+						placeholder='게시글 입력하기...'
+						name='post'
+						value={text}
+						rows={1}
+						onChange={handleTextChange}
+					></PostInputArea>
+				</TextForm>
+				{uploadImageUrl && (
+					<ImagePreview
+						src={uploadImageUrl}
+						alt='Uploaded'
+						handleDeleteImage={handleDeleteImage}
 					/>
-				</ImageUploadButton>
-			</WrapperWritePost>
-		</>
+				)}
+			</PostForm>
+			<ImageUploadButton>
+				<ImageInput
+					ref={inputRef}
+					type='file'
+					accept='image/*'
+					onChange={handleImageInputChange}
+				/>
+			</ImageUploadButton>
+		</WrapperWritePost>
 	);
 };
 

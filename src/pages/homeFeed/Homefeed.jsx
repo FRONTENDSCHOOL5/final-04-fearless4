@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { PostDeleteContext } from '../post/PostDeleteContext.jsx';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -17,6 +18,7 @@ export default function Homefeed() {
 	const [followingFeed, setFollowingFeed] = useState([]);
 	const [post, setPost] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
+	const [deletedPostId, setDeletedPostId] = useState(null);
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -43,7 +45,12 @@ export default function Homefeed() {
 	useEffect(() => {
 		if (followingFeed.length !== 0) {
 			const newPosts = followingFeed.map((item) => (
-				<HomeFollower key={item.id} postId={item.id} />
+				<PostDeleteContext.Provider
+					key={item.id}
+					value={{ deletedPostId, setDeletedPostId }}
+				>
+					<HomeFollower postId={item.id} />
+				</PostDeleteContext.Provider>
 			));
 			setPost(newPosts);
 		}

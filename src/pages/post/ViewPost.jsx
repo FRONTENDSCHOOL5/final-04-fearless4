@@ -1,4 +1,5 @@
-import React, { useState, useEffect, startTransition } from 'react';
+import React, { useState, useEffect, startTransition, useContext } from 'react';
+import { PostDeleteContext } from './PostDeleteContext';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Post } from '../../components/post/post.style';
@@ -25,6 +26,13 @@ import {
 	CheckButtonWrap,
 	CheckLogout,
 } from '../../components/modal/modal.style';
+import {
+	ToastContainer,
+	ToastIcon,
+	ToastMsg,
+	ToastMsgBold,
+} from '../../components/toast/toast.style';
+import profilePic from '../../assets/image/profilePic.png';
 import { Comment } from './Comment';
 import { API_URL } from '../../api';
 import { useNavigate } from 'react-router-dom';
@@ -39,6 +47,8 @@ const ViewPost = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isModal, setIsModal] = useState(false);
 	const [isCheckModal, setIsCheckModal] = useState(false);
+	const [showCommentToast, setShowCommentToast] = useState(false);
+	const [deletedPostId, setDeletedPostId] = useState(null);
 	const navigate = useNavigate();
 	const { id } = useParams();
 
@@ -88,8 +98,6 @@ const ViewPost = () => {
 
 	const handleModalClose = (e) => {
 		e.preventDefault();
-		// e.currentTarget 현재 handleModalClose가 부착된 요소
-		// e.target 내가 클릭한 자식 요소
 		if (e.target === e.currentTarget) {
 			setIsModal(false);
 			setIsCheckModal(false);
@@ -154,68 +162,95 @@ const ViewPost = () => {
 
 			setCommentContent('');
 			await getCommentList();
+			setShowCommentToast(true);
+			setTimeout(() => setShowCommentToast(false), 1000);
 		} catch (error) {
 			console.error('댓글을 업로드하지 못했습니다!', error.response.data);
 		}
 	};
 
-	return (
+	const handleImgError = (e) => {
+		e.target.src = profilePic;
+	};
+
+	const CommentToast = () => (
 		<>
+			{showCommentToast && (
+				<ToastContainer>
+					<ToastIcon>😺</ToastIcon>
+					<ToastMsg>
+						<ToastMsgBold>댓글</ToastMsgBold>이 등록되었습니다.
+					</ToastMsg>
+				</ToastContainer>
+			)}
+		</>
+	);
+
+	return (
+		<WrapperViewPost>
 			<NavbarWrap spaceBetween>
 				<Backspace onClick={() => navigate(-1)} />
 				<OptionModalTab onClick={handleModalOpen}></OptionModalTab>
 			</NavbarWrap>
-			<WrapperViewPost>
-				{isLoading && <PostView>{postData && <Post postId={id} />}</PostView>}
-				<CommentSection>
-					{comments.map((comment) => (
-						<Comment
-							key={comment.id}
-							comment={comment}
-							token={token}
-							postId={postData.id}
-							reloadComments={getCommentList}
-							currentUsername={myAccountName}
-						/>
-					))}
-				</CommentSection>
-				<UploadComment>
-					{postData && (
-						<ProfileImageComment src={myProfilePic}></ProfileImageComment>
-					)}
-					<CommentInputArea
-						placeholder='댓글 입력하기...'
-						value={commentContent}
-						onChange={(e) => setCommentContent(e.target.value)}
-						rows={1}
-					></CommentInputArea>
-					<CommentUploadButton onClick={handleCommentUpload}>
-						게시
-					</CommentUploadButton>
-				</UploadComment>
-				{isModal && (
-					<DarkBackground onClick={handleModalClose}>
-						<ModalWrap>
-							<ModalText>설정 및 개인정보</ModalText>
-							<ModalText onClick={handleCheckModal}>로그아웃</ModalText>
-						</ModalWrap>
-					</DarkBackground>
+
+			{isLoading && (
+				<PostDeleteContext.Provider value={{ deletedPostId, setDeletedPostId }}>
+					{' '}
+					<PostView>{postData && <Post postId={id} />}</PostView>
+				</PostDeleteContext.Provider>
+			)}
+			<CommentSection>
+				{comments.map((comment) => (
+					<Comment
+						key={comment.id}
+						comment={comment}
+						token={token}
+						postId={postData.id}
+						reloadComments={getCommentList}
+						currentUsername={myAccountName}
+					/>
+				))}
+			</CommentSection>
+			<UploadComment>
+				{postData && (
+					<ProfileImageComment
+						src={myProfilePic}
+						onError={handleImgError}
+					></ProfileImageComment>
 				)}
-				{isCheckModal && (
-					<DarkBackground onClick={handleModalClose}>
-						<CheckModalWrap>
-							<CheckMsg>로그아웃하시겠어요?</CheckMsg>
-							<CheckButtonWrap>
-								<CheckLogout onClick={handleModalClose}>취소</CheckLogout>
-								<CheckLogout check onClick={accountLogout}>
-									로그아웃
-								</CheckLogout>
-							</CheckButtonWrap>
-						</CheckModalWrap>
-					</DarkBackground>
-				)}
-			</WrapperViewPost>
-		</>
+				<CommentInputArea
+					placeholder='댓글 입력하기...'
+					value={commentContent}
+					onChange={(e) => setCommentContent(e.target.value)}
+					rows={1}
+				></CommentInputArea>
+				<CommentUploadButton onClick={handleCommentUpload}>
+					게시
+				</CommentUploadButton>
+			</UploadComment>
+			{isModal && (
+				<DarkBackground onClick={handleModalClose}>
+					<ModalWrap>
+						<ModalText>설정 및 개인정보</ModalText>
+						<ModalText onClick={handleCheckModal}>로그아웃</ModalText>
+					</ModalWrap>
+				</DarkBackground>
+			)}
+			{isCheckModal && (
+				<DarkBackground onClick={handleModalClose}>
+					<CheckModalWrap>
+						<CheckMsg>로그아웃하시겠어요?</CheckMsg>
+						<CheckButtonWrap>
+							<CheckLogout onClick={handleModalClose}>취소</CheckLogout>
+							<CheckLogout check onClick={accountLogout}>
+								로그아웃
+							</CheckLogout>
+						</CheckButtonWrap>
+					</CheckModalWrap>
+				</DarkBackground>
+			)}
+			<CommentToast />
+		</WrapperViewPost>
 	);
 };
 
