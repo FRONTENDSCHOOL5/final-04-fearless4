@@ -134,6 +134,6 @@ export const ImageUploadButton = styled.button`
 	position: fixed;
 	border: 0;
 	bottom: 16px;
-	right: 16px;
+	right: 28%;
 	cursor: pointer;
 `;

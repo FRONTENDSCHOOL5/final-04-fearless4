@@ -22,6 +22,7 @@ export default function Login() {
 	setTimeout(() => {
 		setIsLoading(false);
 	}, 2800);
+
 	if (token) {
 		navigate('/Homefeed');
 	}
