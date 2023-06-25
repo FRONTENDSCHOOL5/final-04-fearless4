@@ -10,11 +10,13 @@ import { API_URL } from '../../api.js';
 import HomeFollower from './HomeFollower';
 import NoFeed from './NoFeed.jsx';
 import { BottomNavContainer } from '../../components/bottomnav/bottomnav.style';
+import Loading from '../../components/loading/Loading.jsx';
 export default function Homefeed() {
 	const url = API_URL;
 	const token = localStorage.getItem('token');
 	const [followingFeed, setFollowingFeed] = useState([]);
 	const [post, setPost] = useState([]);
+	const [isLoading, setIsLoading] = useState(false);
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -30,6 +32,7 @@ export default function Homefeed() {
 					},
 				});
 				setFollowingFeed(res.data.posts);
+				setIsLoading(true);
 			} catch (error) {
 				console.log('에러입니다', error);
 			}
@@ -58,8 +61,11 @@ export default function Homefeed() {
 				/>
 			</NavbarWrap>
 			<HomefeedWrap>
-				{followingFeed.length === 0 ? <NoFeed /> : post}
+				{followingFeed.length !== 0
+					? post
+					: isLoading && (!post || followingFeed.length === 0) && <NoFeed />}
 				<BottomNavContainer home />
+				{!isLoading && <Loading />}
 			</HomefeedWrap>
 		</>
 	);

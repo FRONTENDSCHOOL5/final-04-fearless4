@@ -35,6 +35,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { API_URL } from '../../api';
 import ProductsForSale from './ProductsForSale';
+import Loading from '../../components/loading/Loading';
 
 export default function UserProfile() {
 	const navigate = useNavigate();
