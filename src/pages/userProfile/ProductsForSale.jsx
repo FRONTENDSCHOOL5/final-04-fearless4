@@ -8,6 +8,7 @@ import {
 	ProductImg,
 	ProductName,
 	ProductPrice,
+	SortedButton,
 } from './productsForSale.style';
 import axios from 'axios';
 import { API_URL } from '../../api.js';
@@ -37,6 +38,7 @@ export default function ProductsForSale({ userAccountName }) {
 	const url = API_URL;
 	const token = localStorage.getItem('token');
 	const data = useMyProfile();
+	const [isAllProductsShown, setIsAllProductsShown] = useState(true);
 
 	useEffect(() => {
 		data && setMyProfile(data);
@@ -135,11 +137,84 @@ export default function ProductsForSale({ userAccountName }) {
 			setProductData(product);
 		}
 	}, [resProd]);
+
+	const handleShowAllProducts = () => {
+		const products = resProd.map((item) => (
+			<ProductList
+				key={item.id}
+				onClick={() => {
+					handleModalOpen(item);
+				}}
+			>
+				<ProductImg
+					src={item.itemImage}
+					alt={`${item.itemName}의 상품 이미지`}
+				/>
+				<ProductName>{item.itemName}</ProductName>
+				<ProductPrice>{item.price.toLocaleString()}원</ProductPrice>
+			</ProductList>
+		));
+		setProductData(products);
+	};
+
+	const handleShowRecommendedItems = () => {
+		const recommendedProducts = resProd.filter((item) =>
+			item.itemName.includes('[추천]')
+		);
+		const products = recommendedProducts.map((item) => (
+			<ProductList
+				key={item.id}
+				onClick={() => {
+					handleModalOpen(item);
+				}}
+			>
+				<ProductImg
+					src={item.itemImage}
+					alt={`${item.itemName}의 상품 이미지`}
+				/>
+				<ProductName>{item.itemName}</ProductName>
+				<ProductPrice>{item.price.toLocaleString()}원</ProductPrice>
+			</ProductList>
+		));
+		setProductData(products);
+	};
+
+	const handleShowDiscountedItems = () => {
+		const discountedProducts = resProd.filter((item) =>
+			item.itemName.includes('[할인]')
+		);
+		const products = discountedProducts.map((item) => (
+			<ProductList
+				key={item.id}
+				onClick={() => {
+					handleModalOpen(item);
+				}}
+			>
+				<ProductImg
+					src={item.itemImage}
+					alt={`${item.itemName}의 상품 이미지`}
+				/>
+				<ProductName>{item.itemName}</ProductName>
+				<ProductPrice>{item.price.toLocaleString()}원</ProductPrice>
+			</ProductList>
+		));
+		setProductData(products);
+	};
+
 	return (
 		<>
 			{resProd.length === 0 ? null : (
 				<WrapAll>
 					<Title>함께 떠나는 상품</Title>
+					<SortedButton onClick={handleShowAllProducts}>
+						🎁전체 상품
+					</SortedButton>
+					<SortedButton onClick={handleShowRecommendedItems}>
+						🔥추천 상품
+					</SortedButton>
+					<SortedButton onClick={handleShowDiscountedItems}>
+						🤑할인 상품
+					</SortedButton>
 					<Scroll>
 						<ProductsContainer>{productData}</ProductsContainer>
 					</Scroll>
