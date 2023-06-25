@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_URL } from '../../api';
 import styled from 'styled-components';
-import heartIcon from '../../assets/icon/icon-heart.svg';
+import heartIconInactive from '../../assets/icon/icon-heart.svg';
+import heartIconActive from '../../assets/icon/icon-heart-active.svg';
 import messageIcon from '../../assets/icon/icon-message-circle.svg';
 import dotIcon from '../../assets/icon/icon- more-vertical.svg';
 import { Link } from 'react-router-dom';
@@ -142,6 +143,8 @@ export function Post({ postId }) {
 	const token = localStorage.getItem('token');
 	const currentUserAccountName = localStorage.getItem('userAccountName');
 	const [postData, setPostData] = useState(null);
+	const [isHearted, setIsHearted] = useState(false);
+	const [heartCount, setHeartCount] = useState(0);
 	const [isLoading, setIsLoading] = useState(false);
 	const [isPostModal, setIsPostModal] = useState(false);
 	const [isPostDeleteCheckModal, setIsPostDeleteCheckModal] = useState(false);
@@ -161,6 +164,8 @@ export function Post({ postId }) {
 					.then((response) => {
 						setIsLoading(true);
 						setPostData(response.data.post);
+						setIsHearted(response.data.post.hearted);
+						setHeartCount(response.data.post.heartCount);
 					});
 			} catch (error) {
 				console.error('데이터를 불러오지 못했습니다!', error);
@@ -168,6 +173,42 @@ export function Post({ postId }) {
 		};
 		getpostData();
 	}, [token, postId]);
+
+	const handleHeartClick = async () => {
+		try {
+			if (!isHearted) {
+				await axios
+					.post(
+						`${API_URL}/post/${postId}/heart`,
+						{},
+						{
+							headers: {
+								Authorization: `Bearer ${token}`,
+								'Content-type': 'application/json',
+							},
+						}
+					)
+					.then((response) => {
+						setIsHearted(true);
+						setHeartCount(response.data.post.heartCount);
+					});
+			} else {
+				await axios
+					.delete(`${API_URL}/post/${postId}/unheart`, {
+						headers: {
+							Authorization: `Bearer ${token}`,
+							'Content-Type': 'application/json',
+						},
+					})
+					.then((response) => {
+						setIsHearted(false);
+						setHeartCount(response.data.post.heartCount);
+					});
+			}
+		} catch (error) {
+			console.error('오류 발생!');
+		}
+	};
 
 	const handlePostModalOptionClick = () => {
 		postData.author.accountname === currentUserAccountName
@@ -249,8 +290,12 @@ export function Post({ postId }) {
 								</ImgBx>
 							)}
 							<Icons>
-								<IconsImg src={heartIcon} alt='Heart Icon' />
-								<IconsSpan>{postData.heartCount}</IconsSpan>
+								<IconsImg
+									src={isHearted ? heartIconActive : heartIconInactive}
+									alt='Heart Icon'
+									onClick={handleHeartClick}
+								/>
+								<IconsSpan>{heartCount}</IconsSpan>
 								<Link to={`/viewPost/${postData.id}`}>
 									<IconsImg src={messageIcon} alt='Message Icon' />
 								</Link>
