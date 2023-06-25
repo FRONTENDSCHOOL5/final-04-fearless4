@@ -160,60 +160,62 @@ const ViewPost = () => {
 	};
 
 	return (
-		<WrapperViewPost>
+		<>
 			<NavbarWrap spaceBetween>
 				<Backspace onClick={() => navigate(-1)} />
 				<OptionModalTab onClick={handleModalOpen}></OptionModalTab>
 			</NavbarWrap>
-			{isLoading && <PostView>{postData && <Post postId={id} />}</PostView>}
-			<CommentSection>
-				{comments.map((comment) => (
-					<Comment
-						key={comment.id}
-						comment={comment}
-						token={token}
-						postId={postData.id}
-						reloadComments={getCommentList}
-						currentUsername={myAccountName}
-					/>
-				))}
-			</CommentSection>
-			<UploadComment>
-				{postData && (
-					<ProfileImageComment src={myProfilePic}></ProfileImageComment>
+			<WrapperViewPost>
+				{isLoading && <PostView>{postData && <Post postId={id} />}</PostView>}
+				<CommentSection>
+					{comments.map((comment) => (
+						<Comment
+							key={comment.id}
+							comment={comment}
+							token={token}
+							postId={postData.id}
+							reloadComments={getCommentList}
+							currentUsername={myAccountName}
+						/>
+					))}
+				</CommentSection>
+				<UploadComment>
+					{postData && (
+						<ProfileImageComment src={myProfilePic}></ProfileImageComment>
+					)}
+					<CommentInputArea
+						placeholder='댓글 입력하기...'
+						value={commentContent}
+						onChange={(e) => setCommentContent(e.target.value)}
+						rows={1}
+					></CommentInputArea>
+					<CommentUploadButton onClick={handleCommentUpload}>
+						게시
+					</CommentUploadButton>
+				</UploadComment>
+				{isModal && (
+					<DarkBackground onClick={handleModalClose}>
+						<ModalWrap>
+							<ModalText>설정 및 개인정보</ModalText>
+							<ModalText onClick={handleCheckModal}>로그아웃</ModalText>
+						</ModalWrap>
+					</DarkBackground>
 				)}
-				<CommentInputArea
-					placeholder='댓글 입력하기...'
-					value={commentContent}
-					onChange={(e) => setCommentContent(e.target.value)}
-					rows={1}
-				></CommentInputArea>
-				<CommentUploadButton onClick={handleCommentUpload}>
-					게시
-				</CommentUploadButton>
-			</UploadComment>
-			{isModal && (
-				<DarkBackground onClick={handleModalClose}>
-					<ModalWrap>
-						<ModalText>설정 및 개인정보</ModalText>
-						<ModalText onClick={handleCheckModal}>로그아웃</ModalText>
-					</ModalWrap>
-				</DarkBackground>
-			)}
-			{isCheckModal && (
-				<DarkBackground onClick={handleModalClose}>
-					<CheckModalWrap>
-						<CheckMsg>로그아웃하시겠어요?</CheckMsg>
-						<CheckButtonWrap>
-							<CheckLogout onClick={handleModalClose}>취소</CheckLogout>
-							<CheckLogout check onClick={accountLogout}>
-								로그아웃
-							</CheckLogout>
-						</CheckButtonWrap>
-					</CheckModalWrap>
-				</DarkBackground>
-			)}
-		</WrapperViewPost>
+				{isCheckModal && (
+					<DarkBackground onClick={handleModalClose}>
+						<CheckModalWrap>
+							<CheckMsg>로그아웃하시겠어요?</CheckMsg>
+							<CheckButtonWrap>
+								<CheckLogout onClick={handleModalClose}>취소</CheckLogout>
+								<CheckLogout check onClick={accountLogout}>
+									로그아웃
+								</CheckLogout>
+							</CheckButtonWrap>
+						</CheckModalWrap>
+					</DarkBackground>
+				)}
+			</WrapperViewPost>
+		</>
 	);
 };
 
