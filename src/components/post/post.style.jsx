@@ -69,9 +69,9 @@ export const ProfileImg = styled.img`
 `;
 
 export const SpanName = styled.span`
+	font-family: 'Suit-Bold';
 	font-size: 14px;
 	color: #000;
-	font-weight: bold;
 	display: block;
 `;
 
