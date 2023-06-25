@@ -14,6 +14,7 @@ import {
 	ProfilePageWrapper,
 } from './userProfile.style';
 import { ProfileImage } from '../profileSetup/profileSetup.style';
+import PostList from '../../components/post/PostList';
 import profilePic from '../../assets/image/profilePic.png';
 import {
 	Backspace,
@@ -29,6 +30,7 @@ import {
 	ModalText,
 	ModalWrap,
 } from '../../components/modal/modal.style';
+import { BottomNavContainer } from '../../components/bottomnav/bottomnav.style';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { API_URL } from '../../api';
@@ -215,6 +217,8 @@ export default function UserProfile() {
 						</CheckModalWrap>
 					</DarkBackground>
 				)}
+				{isLoading && <PostList accountname={profileId}></PostList>}
+				<BottomNavContainer></BottomNavContainer>
 			</ProfilePageWrapper>
 		</>
 	);

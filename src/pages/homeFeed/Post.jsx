@@ -79,7 +79,7 @@ export default function PostFeed({ data }) {
 						<P.IconsImg src={messageIcon} alt='Message Icon' />
 						<P.IconsSpan>{data.commentCount}</P.IconsSpan>
 					</P.Icons>
-					<P.Date>{data.createdAt.slice(0, 10)}</P.Date>
+					<P.PostDate>{data.createdAt.slice(0, 10)}</P.PostDate>
 				</P.RightCard>
 			</P.Card>
 		</P.Container>

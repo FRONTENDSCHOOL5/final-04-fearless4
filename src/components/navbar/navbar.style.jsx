@@ -47,25 +47,23 @@ export const TitleLogoWrap = styled.div`
 	display: flex;
 	align-items: center;
 	cursor: pointer;
-`
+`;
 
 export const TitleImg = styled.img`
 	width: 42px;
 	margin-right: -8px;
 	margin-left: ${({ ml }) => (ml === true ? '-15px' : 'initial')};
-`
+`;
 
 export const TitleColorMint = styled.span`
-	color: #81D8D0;
+	color: #81d8d0;
 `;
 
 export const TitleColorGray = styled.span`
 	color: #767676;
 `;
 
-
- export function TitleLogo () {
-	
+export function TitleLogo() {
 	return (
 		<TitleLogoWrap>
 			<TitleImg src={Cat} ml />
@@ -73,5 +71,5 @@ export const TitleColorGray = styled.span`
 			<TitleColorGray>ravel</TitleColorGray>
 			<TitleColorMint>Us</TitleColorMint>
 		</TitleLogoWrap>
-	)
- }
+	);
+}

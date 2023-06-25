@@ -15,14 +15,13 @@ import { Backspace, NavbarWrap } from '../../components/navbar/navbar.style';
 import { ImageUploadButton } from '../../components/button/button.style';
 
 const WritePost = () => {
+	const token = localStorage.getItem('token');
 	const [uploadImageUrl, setUploadImageUrl] = useState('');
 	const [myProfileImage, setMyProfileImage] = useState('');
 	const [text, setText] = useState('');
 	const [disabled, setDisabled] = useState(true);
 	const inputRef = useRef(null);
 	const textarea = useRef();
-	const [token, setToken] = useState(localStorage.getItem('token') || '');
-	const [postId, setPostId] = useState(null);
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -42,7 +41,7 @@ const WritePost = () => {
 			}
 		};
 		loadMyProfileImage();
-	}, []);
+	}, [token]);
 
 	useEffect(() => {
 		uploadImageUrl || text ? setDisabled(false) : setDisabled(true);
@@ -140,13 +139,9 @@ const WritePost = () => {
 				data,
 				{ headers }
 			);
-			console.log(response);
-			console.log(response.data);
 
-			const postId = response.data.post.id;
-			console.log(postId);
-			setPostId(postId);
-			navigate(`/viewPost/${postId}`);
+			const id = response.data.post.id;
+			navigate(`/viewPost/${id}`);
 		} catch (error) {
 			console.error(error);
 		}
@@ -155,7 +150,7 @@ const WritePost = () => {
 	return (
 		<WrapperWritePost>
 			<NavbarWrap spaceBetween>
-				<Backspace />
+				<Backspace onClick={() => navigate(-1)} />
 				<UploadButton disabled={disabled} onClick={handleSubmit}>
 					업로드
 				</UploadButton>
