@@ -1,7 +1,22 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { API_URL } from '../../api';
 import styled from 'styled-components';
-import heartIcon from '../../assets/icon/icon-heart.svg';
+import heartIconInactive from '../../assets/icon/icon-heart.svg';
+import heartIconActive from '../../assets/icon/icon-heart-active.svg';
 import messageIcon from '../../assets/icon/icon-message-circle.svg';
 import dotIcon from '../../assets/icon/icon- more-vertical.svg';
+import { Link } from 'react-router-dom';
+import {
+	DarkBackground,
+	ModalWrap,
+	ModalText,
+	CheckModalWrap,
+	CheckMsg,
+	CheckButtonWrap,
+	CheckConfirm,
+} from '../../components/modal/modal.style';
+import { useNavigate } from 'react-router-dom';
 
 export const Container = styled.div`
 	display: flex;
@@ -112,56 +127,215 @@ export const IconsSpan = styled.span`
 	margin-right: 16px;
 `;
 
-export const Date = styled.div`
+export const PostDate = styled.div`
 	margin-top: 16px;
 	font-size: 10px;
 	color: #767676;
 `;
 
-export function Post({
-	myProfileImg,
-	username,
-	accountname,
-	content,
-	image,
-	heartCount,
-	commentCount,
-	createdAt,
-	handlePostModalOptionClick,
-}) {
+const formatCreatedAt = (createdAt) => {
+	const date = new Date(createdAt);
+	const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+	return date.toLocaleDateString('ko-KR', options);
+};
+
+export function Post({ postId }) {
+	const token = localStorage.getItem('token');
+	const currentUserAccountName = localStorage.getItem('userAccountName');
+	const [postData, setPostData] = useState(null);
+	const [isHearted, setIsHearted] = useState(false);
+	const [heartCount, setHeartCount] = useState(0);
+	const [isLoading, setIsLoading] = useState(false);
+	const [isPostModal, setIsPostModal] = useState(false);
+	const [isPostDeleteCheckModal, setIsPostDeleteCheckModal] = useState(false);
+	const [isReportModal, setIsReportModal] = useState(false);
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		const getpostData = async () => {
+			try {
+				await axios
+					.get(`${API_URL}/post/${postId}`, {
+						headers: {
+							Authorization: `Bearer ${token}`,
+							'Content-type': 'application/json',
+						},
+					})
+					.then((response) => {
+						setIsLoading(true);
+						setPostData(response.data.post);
+						setIsHearted(response.data.post.hearted);
+						setHeartCount(response.data.post.heartCount);
+					});
+			} catch (error) {
+				console.error('데이터를 불러오지 못했습니다!', error);
+			}
+		};
+		getpostData();
+	}, [token, postId]);
+
+	const handleHeartClick = async () => {
+		try {
+			if (!isHearted) {
+				await axios
+					.post(
+						`${API_URL}/post/${postId}/heart`,
+						{},
+						{
+							headers: {
+								Authorization: `Bearer ${token}`,
+								'Content-type': 'application/json',
+							},
+						}
+					)
+					.then((response) => {
+						setIsHearted(true);
+						setHeartCount(response.data.post.heartCount);
+					});
+			} else {
+				await axios
+					.delete(`${API_URL}/post/${postId}/unheart`, {
+						headers: {
+							Authorization: `Bearer ${token}`,
+							'Content-Type': 'application/json',
+						},
+					})
+					.then((response) => {
+						setIsHearted(false);
+						setHeartCount(response.data.post.heartCount);
+					});
+			}
+		} catch (error) {
+			console.error('오류 발생!');
+		}
+	};
+
+	const handlePostModalOptionClick = () => {
+		postData.author.accountname === currentUserAccountName
+			? setIsPostModal(true)
+			: setIsReportModal(true);
+	};
+	const handlePostModalClose = () => {
+		setIsPostModal(false);
+	};
+	const handlePostDeleteClick = () => {
+		setIsPostDeleteCheckModal(true);
+	};
+	const handlePostEditClick = () => {
+		if (postData) {
+			navigate('/editPost', {
+				state: {
+					id: postData.id,
+					content: postData.content,
+					image: postData.image,
+				},
+			});
+		}
+	};
+	const handlePostDeleteCheckModalClose = () => {
+		setIsPostDeleteCheckModal(false);
+	};
+	const handlePostDeleteConfirmClick = async () => {
+		try {
+			await axios
+				.delete(`${API_URL}/post/${postData.id}`, {
+					headers: {
+						Authorization: `Bearer ${token}`,
+						'Content-Type': 'application/json',
+					},
+				})
+				.then((response) => {
+					console.log(response);
+				});
+		} catch (error) {
+			console.error('오류 발생!');
+		}
+		setIsPostDeleteCheckModal(false);
+	};
+	const handleReportClick = () => {
+		console.log('댓글이 신고되었습니다.');
+		setIsReportModal(false);
+	};
+
 	return (
-		<Container>
-			<Card>
-				<ProfileImg
-					src={myProfileImg}
-					alt='Profile Image'
-					className='profile_img'
-				/>
-				<RightCard>
-					<Top>
-						<UserDetails>
-							<SpanName className='span-name'>{username}</SpanName>
-							<SpanId className='span-id'>@{accountname}</SpanId>
-						</UserDetails>
-						<Dot
-							onClick={handlePostModalOptionClick}
-							src={dotIcon}
-							alt='Dot Icon'
-						></Dot>
-					</Top>
-					<TextPost>{content}</TextPost>
-					<ImgBx>
-						<Cover src={image} alt='업로드한 이미지' />
-					</ImgBx>
-					<Icons>
-						<IconsImg src={heartIcon} alt='Heart Icon' />
-						<IconsSpan>{heartCount}</IconsSpan>
-						<IconsImg src={messageIcon} alt='Message Icon' />
-						<IconsSpan>{commentCount}</IconsSpan>
-					</Icons>
-					<Date>{createdAt}</Date>
-				</RightCard>
-			</Card>
-		</Container>
+		<>
+			{isLoading && (
+				<Container>
+					<Card>
+						<ProfileImg
+							src={postData.author.image}
+							alt='Profile Image'
+							className='profile_img'
+						/>
+						<RightCard>
+							<Top>
+								<UserDetails>
+									<SpanName className='span-name'>
+										{postData.author.username}
+									</SpanName>
+									<SpanId className='span-id'>
+										@{postData.author.accountname}
+									</SpanId>
+								</UserDetails>
+								<Dot
+									onClick={handlePostModalOptionClick}
+									src={dotIcon}
+									alt='Dot Icon'
+								></Dot>
+							</Top>
+							<TextPost>{postData.content}</TextPost>
+							{postData.image && (
+								<ImgBx>
+									<Cover src={postData.image} alt='업로드한 이미지' />
+								</ImgBx>
+							)}
+							<Icons>
+								<IconsImg
+									src={isHearted ? heartIconActive : heartIconInactive}
+									alt='Heart Icon'
+									onClick={handleHeartClick}
+								/>
+								<IconsSpan>{heartCount}</IconsSpan>
+								<Link to={`/viewPost/${postData.id}`}>
+									<IconsImg src={messageIcon} alt='Message Icon' />
+								</Link>
+								<IconsSpan>{postData.commentCount}</IconsSpan>
+							</Icons>
+							<PostDate>{formatCreatedAt(postData.createdAt)}</PostDate>
+						</RightCard>
+					</Card>
+				</Container>
+			)}
+			{isPostModal && (
+				<DarkBackground onClick={handlePostModalClose}>
+					<ModalWrap>
+						<ModalText onClick={handlePostDeleteClick}>삭제</ModalText>
+						<ModalText onClick={handlePostEditClick}>수정</ModalText>
+					</ModalWrap>
+				</DarkBackground>
+			)}
+			{isPostDeleteCheckModal && (
+				<DarkBackground onClick={handlePostDeleteCheckModalClose}>
+					<CheckModalWrap>
+						<CheckMsg>게시글을 삭제하시겠어요?</CheckMsg>
+						<CheckButtonWrap>
+							<CheckConfirm onClick={handlePostDeleteCheckModalClose}>
+								취소
+							</CheckConfirm>
+							<CheckConfirm check onClick={handlePostDeleteConfirmClick}>
+								삭제
+							</CheckConfirm>
+						</CheckButtonWrap>
+					</CheckModalWrap>
+				</DarkBackground>
+			)}
+			{isReportModal && (
+				<DarkBackground onClick={() => setIsReportModal(false)}>
+					<ModalWrap>
+						<ModalText onClick={handleReportClick}>신고하기</ModalText>
+					</ModalWrap>
+				</DarkBackground>
+			)}
+		</>
 	);
 }

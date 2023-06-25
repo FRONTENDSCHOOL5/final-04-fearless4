@@ -29,6 +29,8 @@ import {
 	CheckButtonWrap,
 	CheckLogout,
 } from '../../components/modal/modal.style';
+import PostList from '../../components/post/PostList';
+import { BottomNavContainer } from '../../components/bottomnav/bottomnav.style';
 import { useState } from 'react';
 import axios from 'axios';
 import { useEffect } from 'react';
@@ -212,6 +214,7 @@ export default function UserProfile() {
 				</ProfileWrapper>
 
 				<ProductsForSale userAccountName={accountname} />
+				{isLoading && <PostList accountname={accountname}></PostList>}
 			</ProfilePageWrapper>
 			{isModal && (
 				<DarkBackground onClick={handleModalClose}>

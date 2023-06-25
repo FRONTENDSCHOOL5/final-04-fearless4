@@ -17,87 +17,30 @@ import {
 	ProfileImageComment,
 } from './viewPost.style';
 import {
-	DarkBackground,
 	ModalWrap,
 	ModalText,
+	DarkBackground,
 	CheckModalWrap,
 	CheckMsg,
 	CheckButtonWrap,
-	CheckConfirm,
+	CheckLogout,
 } from '../../components/modal/modal.style';
 import { Comment } from './Comment';
 import { API_URL } from '../../api';
 import { useNavigate } from 'react-router-dom';
 
 const ViewPost = () => {
-	const [token, setToken] = useState(localStorage.getItem('token') || '');
+	const token = localStorage.getItem('token');
 	const [postData, setPostData] = useState(null);
 	const [myProfilePic, setMyProfilePic] = useState('');
 	const [myAccountName, setMyAccountName] = useState('');
 	const [commentContent, setCommentContent] = useState('');
 	const [comments, setComments] = useState([]);
-	const [isPostModal, setIsPostModal] = useState(false);
-	const [isPostDeleteCheckModal, setIsPostDeleteCheckModal] = useState(false);
-	const [isReportModal, setIsReportModal] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
+	const [isModal, setIsModal] = useState(false);
+	const [isCheckModal, setIsCheckModal] = useState(false);
 	const navigate = useNavigate();
 	const { id } = useParams();
-
-	const handlePostModalOptionClick = () => {
-		postData.author.accountname === myAccountName
-			? setIsPostModal(true)
-			: setIsReportModal(true);
-	};
-
-	const handlePostModalClose = () => {
-		setIsPostModal(false);
-	};
-
-	// 게시글 모달 삭제 버튼 클릭 시 코드
-	const handlePostDeleteClick = () => {
-		setIsPostDeleteCheckModal(true);
-	};
-
-	// 게시글 모달 수정 버튼 클릭 시 코드
-	const handlePostEditClick = () => {
-		if (postData) {
-			navigate('/editPost', {
-				state: {
-					id: postData.id,
-					content: postData.content,
-					image: postData.image,
-				},
-			});
-		}
-	};
-
-	// 게시글 삭제 모달 취소 시 코드
-	const handlePostDeleteCheckModalClose = () => {
-		setIsPostDeleteCheckModal(false);
-	};
-
-	// 게시글 삭제 모달 클릭 시 코드
-	const handlePostDeleteConfirmClick = async () => {
-		try {
-			await axios
-				.delete(`${API_URL}/post/${postData.id}`, {
-					headers: {
-						Authorization: `Bearer ${token}`,
-						'Content-Type': 'application/json',
-					},
-				})
-				.then((response) => {
-					console.log(response);
-				});
-		} catch (error) {
-			console.error('오류 발생!');
-		}
-		setIsPostDeleteCheckModal(false);
-	};
-
-	const handleReportClick = () => {
-		console.log('댓글이 신고되었습니다.');
-		setIsReportModal(false);
-	};
 
 	const getCommentList = () => {
 		startTransition(async () => {
@@ -113,7 +56,6 @@ const ViewPost = () => {
 						const sortedComments = response.data.comments.sort((a, b) => {
 							return new Date(a.createdAt) - new Date(b.createdAt);
 						});
-						console.log(response.data);
 						setComments(sortedComments);
 					});
 			} catch (error) {
@@ -122,7 +64,7 @@ const ViewPost = () => {
 		});
 	};
 
-	const getMyProfilePic = async () => {
+	const getMyInfo = async () => {
 		try {
 			await axios
 				.get(`${API_URL}/user/myinfo`, {
@@ -132,22 +74,6 @@ const ViewPost = () => {
 				})
 				.then((response) => {
 					setMyProfilePic(response.data.user.image);
-					console.log(response.data);
-				});
-		} catch (error) {
-			console.error('오류 발생!', error.response || error);
-		}
-	};
-
-	const getMyAccountName = async () => {
-		try {
-			await axios
-				.get(`${API_URL}/user/myinfo`, {
-					headers: {
-						Authorization: `Bearer ${token}`,
-					},
-				})
-				.then((response) => {
 					setMyAccountName(response.data.user.accountname);
 				});
 		} catch (error) {
@@ -155,43 +81,63 @@ const ViewPost = () => {
 		}
 	};
 
+	const handleModalOpen = (e) => {
+		e.preventDefault();
+		setIsModal(true);
+	};
+
+	const handleModalClose = (e) => {
+		e.preventDefault();
+		// e.currentTarget 현재 handleModalClose가 부착된 요소
+		// e.target 내가 클릭한 자식 요소
+		if (e.target === e.currentTarget) {
+			setIsModal(false);
+			setIsCheckModal(false);
+		}
+	};
+
+	const handleCheckModal = (e) => {
+		e.preventDefault();
+		setIsCheckModal(true);
+	};
+
+	const accountLogout = (e) => {
+		e.preventDefault();
+		localStorage.removeItem('token');
+		navigate('/');
+	};
+
 	useEffect(() => {
 		const getApiData = async () => {
 			try {
 				await axios
-					.get(
-						// 게시물 리스트에서 받아오기 때문에 거기서 받아온 post id를 프롭스로 여기에 넘겨 주어야 함
-						// 현재는 임시 데이터 지정
-						`${API_URL}/post/${id}`,
-						{
-							headers: {
-								Authorization: `Bearer ${token}`,
-								'Content-type': 'application/json',
-							},
-						}
-					)
+					.get(`${API_URL}/post/${id}`, {
+						headers: {
+							Authorization: `Bearer ${token}`,
+							'Content-type': 'application/json',
+						},
+					})
 					.then((response) => {
 						setPostData(response.data.post);
-						console.log(response.data);
 					});
 			} catch (error) {
 				console.error('데이터를 불러오지 못했습니다!', error);
 			}
 		};
-		getMyAccountName();
 		getApiData();
 	}, [token, id]);
 
 	useEffect(() => {
-		getMyProfilePic();
+		getMyInfo();
 		if (postData) {
 			getCommentList();
 		}
+		setIsLoading(true);
 	}, [token, postData]);
 
 	const handleCommentUpload = async () => {
 		try {
-			const response = await axios.post(
+			await axios.post(
 				`${API_URL}/post/${postData.id}/comments`,
 				{
 					comment: {
@@ -213,33 +159,13 @@ const ViewPost = () => {
 		}
 	};
 
-	const formatCreatedAt = (createdAt) => {
-		const date = new Date(createdAt);
-		const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
-		return date.toLocaleDateString('ko-KR', options);
-	};
-
 	return (
 		<WrapperViewPost>
 			<NavbarWrap spaceBetween>
-				<Backspace />
-				<OptionModalTab></OptionModalTab>
+				<Backspace onClick={() => navigate(-1)} />
+				<OptionModalTab onClick={handleModalOpen}></OptionModalTab>
 			</NavbarWrap>
-			<PostView>
-				{postData && (
-					<Post
-						myProfileImg={postData.author.image}
-						username={postData.author.username}
-						accountname={postData.author.accountname}
-						content={postData.content}
-						image={postData.image}
-						heartCount={postData.heartCount}
-						commentCount={postData.commentCount}
-						createdAt={formatCreatedAt(postData.createdAt)}
-						handlePostModalOptionClick={handlePostModalOptionClick}
-					/>
-				)}
-			</PostView>
+			{isLoading && <PostView>{postData && <Post postId={id} />}</PostView>}
 			<CommentSection>
 				{comments.map((comment) => (
 					<Comment
@@ -266,34 +192,25 @@ const ViewPost = () => {
 					게시
 				</CommentUploadButton>
 			</UploadComment>
-			{isPostModal && (
-				<DarkBackground onClick={handlePostModalClose}>
+			{isModal && (
+				<DarkBackground onClick={handleModalClose}>
 					<ModalWrap>
-						<ModalText onClick={handlePostDeleteClick}>삭제</ModalText>
-						<ModalText onClick={handlePostEditClick}>수정</ModalText>
+						<ModalText>설정 및 개인정보</ModalText>
+						<ModalText onClick={handleCheckModal}>로그아웃</ModalText>
 					</ModalWrap>
 				</DarkBackground>
 			)}
-			{isPostDeleteCheckModal && (
-				<DarkBackground onClick={handlePostDeleteCheckModalClose}>
+			{isCheckModal && (
+				<DarkBackground onClick={handleModalClose}>
 					<CheckModalWrap>
-						<CheckMsg>게시글을 삭제하시겠어요?</CheckMsg>
+						<CheckMsg>로그아웃하시겠어요?</CheckMsg>
 						<CheckButtonWrap>
-							<CheckConfirm onClick={handlePostDeleteCheckModalClose}>
-								취소
-							</CheckConfirm>
-							<CheckConfirm check onClick={handlePostDeleteConfirmClick}>
-								삭제
-							</CheckConfirm>
+							<CheckLogout onClick={handleModalClose}>취소</CheckLogout>
+							<CheckLogout check onClick={accountLogout}>
+								로그아웃
+							</CheckLogout>
 						</CheckButtonWrap>
 					</CheckModalWrap>
-				</DarkBackground>
-			)}
-			{isReportModal && (
-				<DarkBackground onClick={() => setIsReportModal(false)}>
-					<ModalWrap>
-						<ModalText onClick={handleReportClick}>신고하기</ModalText>
-					</ModalWrap>
 				</DarkBackground>
 			)}
 		</WrapperViewPost>
