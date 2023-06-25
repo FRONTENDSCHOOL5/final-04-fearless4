@@ -48,6 +48,7 @@ export const Cat404Img = styled.img`
 `;
 
 export const HomeButton = styled.button`
+	font-family: 'Suit-Regular';
 	border: none;
 	border-radius: 44px;
 	height: 44px;

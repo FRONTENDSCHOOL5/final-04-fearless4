@@ -18,7 +18,8 @@ export const ProfileWrapper = styled.div`
 
 export const UserNickName = styled.h2`
 	font-size: 16px;
-	font-weight: 700;
+	font-family: 'Suit-Bold';
+	/* font-weight: 700; */
 	color: #000;
 `;
 
@@ -37,8 +38,9 @@ export const Intro = styled.span`
 
 export const FollowerNumber = styled.span`
 	display: block;
+	font-family: 'Suit-Bold';
 	font-size: 18px;
-	font-weight: 700;
+	/* font-weight: 700; */
 	color: ${({ followers }) => (followers === true ? `#000` : `#767676`)};
 `;
 

@@ -45,7 +45,7 @@ export const UserContent = styled.div`
 
 export const UserFollowNickName = styled.span`
 	font-size: 14px;
-	font-weight: 700;
+	font-family: 'Suit-Bold';
 `;
 
 export const UserFollowIntro = styled.span`
