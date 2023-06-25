@@ -8,7 +8,17 @@ export const MoblieWrap = styled.div`
 
 export const MoblieWidth = styled.div`
 	width: 390px;
+	height: 100vh;
 	position: relative;
+
+	box-shadow: 0 0 10px #e2e2e2;
+
+	overflow-y: scroll;
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+	&::-webkit-scrollbar {
+		display: none;
+	}
 `;
 
 export const MobileColor = styled.div`

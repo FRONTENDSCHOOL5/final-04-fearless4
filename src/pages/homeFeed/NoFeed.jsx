@@ -7,18 +7,19 @@ import { useNavigate } from 'react-router-dom';
 export default function NoFeed() {
 	const navigate = useNavigate();
 	return (
-		<HomeContainer>
-			<LogoContainer />
-			<Span>유저를 검색해 팔로우 해보세요!</Span>
-			<SearchBtn
-				onClick={() => {
-					navigate('/Search');
-				}}
-			>
-				검색하기
-			</SearchBtn>
-
+		<>
+			<HomeContainer>
+				<LogoContainer />
+				<Span>유저를 검색해 팔로우 해보세요!</Span>
+				<SearchBtn
+					onClick={() => {
+						navigate('/Search');
+					}}
+				>
+					검색하기
+				</SearchBtn>
+			</HomeContainer>
 			<BottomNavContainer />
-		</HomeContainer>
+		</>
 	);
 }
