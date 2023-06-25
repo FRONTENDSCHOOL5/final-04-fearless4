@@ -1,4 +1,5 @@
-import React, { useState, useEffect, startTransition } from 'react';
+import React, { useState, useEffect, startTransition, useContext } from 'react';
+import { PostDeleteContext } from './PostDeleteContext';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Post } from '../../components/post/post.style';
@@ -47,6 +48,7 @@ const ViewPost = () => {
 	const [isModal, setIsModal] = useState(false);
 	const [isCheckModal, setIsCheckModal] = useState(false);
 	const [showCommentToast, setShowCommentToast] = useState(false);
+	const [deletedPostId, setDeletedPostId] = useState(null);
 	const navigate = useNavigate();
 	const { id } = useParams();
 
@@ -190,7 +192,12 @@ const ViewPost = () => {
 				<Backspace onClick={() => navigate(-1)} />
 				<OptionModalTab onClick={handleModalOpen}></OptionModalTab>
 			</NavbarWrap>
-			{isLoading && <PostView>{postData && <Post postId={id} />}</PostView>}
+			{isLoading && (
+				<PostDeleteContext.Provider value={{ deletedPostId, setDeletedPostId }}>
+					{' '}
+					<PostView>{postData && <Post postId={id} />}</PostView>
+				</PostDeleteContext.Provider>
+			)}
 			<CommentSection>
 				{comments.map((comment) => (
 					<Comment
