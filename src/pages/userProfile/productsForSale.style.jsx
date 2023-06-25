@@ -36,6 +36,7 @@ export const Title = styled.h2`
 `;
 
 export const SortedButton = styled.button`
+	font-family: 'Suit-Regular';
 	margin-bottom: 20px;
 	border: none;
 	margin-left: 10px;
@@ -88,9 +89,10 @@ export const ProductName = styled.h3`
 `;
 
 export const ProductPrice = styled.span`
+	font-family: 'Suit-Regular';
 	display: block;
 	color: #81d8d0;
 	font-size: 12px;
-	font-weight: 700;
+	/* font-weight: 700; */
 	line-height: 15.02px;
 `;

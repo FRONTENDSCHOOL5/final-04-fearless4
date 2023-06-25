@@ -26,6 +26,7 @@ const Span = styled.span`
 `;
 
 const SearchBtn = styled.button`
+	font-family: 'Suit-Regular';
 	width: 120px;
 	height: 44px;
 	margin-top: 30px;
