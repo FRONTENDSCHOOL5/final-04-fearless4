@@ -55,6 +55,7 @@ export const ModalWrap = styled.div`
 `;
 
 export const ModalText = styled.button`
+	font-family: 'Suit-Regular';
 	border: 0;
 	background-color: transparent;
 	display: flex;
@@ -106,6 +107,7 @@ export const CheckButtonWrap = styled.div`
 `;
 
 export const CheckLogout = styled.button`
+	font-family: 'Suit-Regular';
 	display: flex;
 	width: 50%;
 	align-items: center;
@@ -128,6 +130,7 @@ export const CheckLogout = styled.button`
 `;
 
 export const CheckConfirm = styled.button`
+	font-family: 'Suit-Regular';
 	display: flex;
 	width: 50%;
 	align-items: center;

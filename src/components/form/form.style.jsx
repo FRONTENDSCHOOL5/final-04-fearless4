@@ -19,6 +19,7 @@ export const LabelStyle = styled.label`
 `;
 
 export const InputStyle = styled.input`
+	font-family: 'Suit-Regular';
 	border: none;
 	padding-bottom: 8px;
 	border-bottom: 1px solid #dbdbdb;
@@ -39,6 +40,7 @@ export const Incorrect = styled.span`
 `;
 
 export const Title = styled.h1`
+	font-family: 'Suit-Bold';
 	display: block;
 	text-align: center;
 	font-size: 24px;

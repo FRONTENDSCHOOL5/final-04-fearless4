@@ -25,8 +25,8 @@ export const HomeContainer = styled.div`
 	height: 90vh;
 	display: flex;
 	flex-direction: column;
-	/* justify-content: center;
-	align-items: center; */
+	justify-content: center;
+	align-items: center;
 	gap: 20px;
 	margin: 0 auto;
 `;
@@ -37,6 +37,7 @@ export const Span = styled.span`
 `;
 
 export const SearchBtn = styled.button`
+	font-family: 'Suit-Regular';
 	width: 120px;
 	height: 44px;
 	font-size: 14px;

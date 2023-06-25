@@ -108,6 +108,7 @@ export const ProfileImageComment = styled.img`
 `;
 
 export const CommentInputArea = styled.textarea`
+	font-family: 'Suit-Regular';
 	width: 260px;
 	resize: none;
 	border: none;
@@ -124,11 +125,12 @@ export const CommentInputArea = styled.textarea`
 `;
 
 export const CommentUploadButton = styled.button`
-	width: 80px;
+	font-family: 'Suit-Bold';
+	width: 40px;
 	border: none;
 	background-color: #fff;
 	color: #81d8d0;
 	cursor: pointer;
 	font-size: 14px;
-	font-weight: 700;
+	/* font-weight: 700; */
 `;

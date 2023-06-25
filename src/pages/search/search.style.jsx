@@ -8,6 +8,7 @@ export const SearchWrap = styled.div`
 `;
 
 export const SearchInput = styled.input`
+	font-family: 'Suit-Regular';
 	width: 100%;
 	padding: 8px 0;
 	margin-left: 20px;

@@ -5,6 +5,7 @@ import share from '../../assets/icon/share.svg';
 import UploadImage from '../../assets/icon/upload-image.svg';
 
 export const SocialLoginButton = styled.button`
+	font-family: 'Suit-Regular';
 	display: block;
 	width: 100%;
 	margin-top: 20px;
@@ -49,6 +50,7 @@ export const SocialLoginButton = styled.button`
 `;
 
 export const LoginButton = styled.button`
+	font-family: 'Suit-Regular';
 	font-size: 14px;
 	background-color: #81d8d0;
 	opacity: ${({ disabled }) => (disabled === true ? 0.3 : 1)};
@@ -64,6 +66,7 @@ export const LoginButton = styled.button`
 `;
 
 export const ProfileButton = styled.button`
+	font-family: 'Suit-Regular';
 	font-size: 14px;
 	font-weight: 500;
 	background-color: ${({ follow }) => (follow === true ? `#81d8d0` : `#fff`)};
@@ -83,6 +86,7 @@ export const ProfileButton = styled.button`
 `;
 
 export const ChatShare = styled.button`
+	font-family: 'Suit-Regular';
 	width: 34px;
 	height: 34px;
 	padding: 7px;
@@ -95,6 +99,7 @@ export const ChatShare = styled.button`
 `;
 
 export const FollowButton = styled.button`
+	font-family: 'Suit-Regular';
 	font-size: 12px;
 	font-weight: 500;
 	background-color: ${({ follow }) => (follow === false ? `#81d8d0` : `#fff`)};
@@ -109,6 +114,7 @@ export const FollowButton = styled.button`
 `;
 
 export const SaveButton = styled.button`
+	font-family: 'Suit-Regular';
 	border-radius: 32px;
 	color: rgba(255, 255, 255, 1);
 	width: 90px;
@@ -121,6 +127,7 @@ export const SaveButton = styled.button`
 `;
 
 export const ImageUploadButton = styled.button`
+	font-family: 'Suit-Regular';
 	background: url(${UploadImage});
 	width: 50px;
 	height: 50px;

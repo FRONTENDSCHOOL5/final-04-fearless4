@@ -27,6 +27,7 @@ export const UploadImageBtn = styled.img`
 `;
 
 export const InputStyle = styled.input`
+	font-family: 'Suit-Regular';
 	border: none;
 	border-bottom: 1px solid #dbdbdb;
 	font-size: 14px;

@@ -18,15 +18,10 @@ export default function Login() {
 	const modal = useRef(null);
 	const [isLoading, setIsLoading] = useState(true);
 
-	useEffect(() => {
-		if (!token) {
-			setTimeout(() => {
-				setIsLoading(false);
-			}, 2800);
-		}
-	}, [isLoading]);
-
 	const token = localStorage.getItem('token');
+	setTimeout(() => {
+		setIsLoading(false);
+	}, 2800);
 	if (token) {
 		navigate('/Homefeed');
 	}
