@@ -13,13 +13,15 @@ import {
 	UserContent,
 	UserFollowNickName,
 	UserFollowIntro,
+	ProfileWrap,
 } from '../follow/follow.style';
 import { BottomNavContainer } from '../../components/bottomnav/bottomnav.style';
 import ChatProfile from '../../assets/image/chatProfile.jpg';
+import { ProfileWrapper } from '../userProfile/userProfile.style';
 
 export default function ChatList() {
 	const Date = styled.span`
-		margin-left: auto;
+		margin-bottom: auto;
 		font-size: 10px;
 	`;
 
@@ -35,6 +37,11 @@ export default function ChatList() {
 		gap: 12px;
 		justify-content: space-between;
 		cursor: pointer;
+	`;
+
+	const ProfileWrap = styled.div`
+		display: flex;
+		gap: 12px;
 	`;
 
 	const navigate = useNavigate();
@@ -55,31 +62,36 @@ export default function ChatList() {
 						navigate('/chat2');
 					}}
 				>
-					<UserProfileImg>
-						<UserFollowImage src={Chatprofile2} />
-					</UserProfileImg>
-					<UserContent>
-						<UserFollowNickName>여행조아</UserFollowNickName>
-						<UserFollowIntro>
-							안녕하세요~ 올려주신 상품을 보다가 궁금한 점이 있어서 메시지
-							남깁니다...
-						</UserFollowIntro>
-					</UserContent>
+					<ProfileWrap>
+						<UserProfileImg>
+							<UserFollowImage src={Chatprofile2} />
+						</UserProfileImg>
+						<UserContent>
+							<UserFollowNickName>여행조아</UserFollowNickName>
+							<UserFollowIntro>
+								안녕하세요~ 올려주신 상품을 보다가 궁금한 점이 있어서 메시지
+								남깁니다...
+							</UserFollowIntro>
+						</UserContent>
+					</ProfileWrap>
+					<Date>23.06.20</Date>
 				</UserFlexWrap>
 				<UserFlexWrap
 					onClick={() => {
 						navigate('/chat');
 					}}
 				>
-					<UserProfileImg>
-						<UserFollowImage src={ChatProfile} />
-					</UserProfileImg>
-					<UserContent>
-						<UserFollowNickName>제주감귤마을</UserFollowNickName>
-						<UserFollowIntro>
-							안녕하세요! 판매중이신 상품들 중에...
-						</UserFollowIntro>
-					</UserContent>
+					<ProfileWrap>
+						<UserProfileImg>
+							<UserFollowImage src={ChatProfile} />
+						</UserProfileImg>
+						<UserContent>
+							<UserFollowNickName>제주감귤마을</UserFollowNickName>
+							<UserFollowIntro>
+								안녕하세요! 판매중이신 상품들 중에...
+							</UserFollowIntro>
+						</UserContent>
+					</ProfileWrap>
 					<Date>23.06.20</Date>
 				</UserFlexWrap>
 			</ChatWrap>

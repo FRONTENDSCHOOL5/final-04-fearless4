@@ -14,6 +14,7 @@ export const UserWrap = styled.div`
 	width: 100%;
 	display: flex;
 	align-items: center;
+	justify-content: space-between;
 `;
 
 export const UserFlexWrap = styled.div`
@@ -28,6 +29,7 @@ export const UserProfileImg = styled.div`
 	border-radius: 50%;
 	overflow: hidden;
 	cursor: pointer;
+	flex-shrink: 0;
 `;
 
 export const UserFollowImage = styled.img`

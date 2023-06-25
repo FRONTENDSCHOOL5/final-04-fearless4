@@ -93,7 +93,7 @@ export const UploadComment = styled.div`
 	background-color: #fff;
 	padding: 12px 16px;
 	border-top: 1px solid #dbdbdb;
-	position: fixed;
+	position: sticky;
 	bottom: 0;
 	display: flex;
 	align-items: center;
@@ -125,7 +125,7 @@ export const CommentInputArea = styled.textarea`
 `;
 
 export const CommentUploadButton = styled.button`
-	width: 40px;
+	width: 80px;
 	border: none;
 	background-color: #fff;
 	color: #81d8d0;

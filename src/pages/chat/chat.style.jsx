@@ -3,10 +3,9 @@ import styled from 'styled-components';
 export const HomeContainer = styled.div`
 	position: relative;
 	width: 100%;
-	height: 90vh;
+	height: 100vh;
 	display: flex;
 	flex-direction: column;
-	padding-top: 20px;
 	background-color: #f2f2f2;
 `;
 
@@ -17,7 +16,6 @@ export const Column = styled.div`
 export const MessageRow = styled.div`
 	display: flex;
 	align-items: center;
-	margin: 40px;
 `;
 
 export const MessageText = styled.div`
@@ -26,7 +24,12 @@ export const MessageText = styled.div`
 	border-radius: 10px 10px 10px 0px;
 	max-width: 240px;
 `;
-export const ChatBox = styled.div``;
+export const ChatBox = styled.div`
+	display: flex;
+	flex-direction: column;
+	padding: 10px;
+	gap: 20px;
+`;
 
 export const ChatText = styled.p`
 	width: fit-content;
@@ -43,7 +46,8 @@ export const ChatTextRight = styled.p`
 `;
 
 export const ChatImg = styled.img`
-	width: 300px;
+	border-radius: 10px 10px 0 10px;
+	width: 200px;
 `;
 
 export const MessageText2 = styled.div`
@@ -62,7 +66,6 @@ export const ProfileImg = styled.img`
 export const MessageRow2 = styled.div`
 	display: flex;
 	align-items: center;
-	margin: 40px;
 	justify-content: flex-end;
 `;
 
