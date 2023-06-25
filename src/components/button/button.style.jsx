@@ -8,7 +8,7 @@ export const SocialLoginButton = styled.button`
 	display: block;
 	width: 100%;
 	margin-top: 20px;
-	padding: 13px 87px;
+	padding: 8px;
 	font-size: 14px;
 	color: #767676;
 	background-color: #fff;

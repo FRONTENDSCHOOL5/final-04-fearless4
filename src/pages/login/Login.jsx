@@ -19,16 +19,17 @@ export default function Login() {
 	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
-		setTimeout(() => {
-			setIsLoading(false);
-		}, 2800);
-
-		const token = localStorage.getItem('token');
-
-		if (token) {
-			navigate('/Homefeed');
+		if (!token) {
+			setTimeout(() => {
+				setIsLoading(false);
+			}, 2800);
 		}
 	}, [isLoading]);
+
+	const token = localStorage.getItem('token');
+	if (token) {
+		navigate('/Homefeed');
+	}
 
 	const handleModal = (e) => {
 		if (e.target.id === 'wrap' || e.target.id === 'logo') {
