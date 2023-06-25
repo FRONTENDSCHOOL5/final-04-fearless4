@@ -2,15 +2,18 @@ import styled, { keyframes } from 'styled-components';
 
 const slideUp = keyframes`
 	from {
-		transform: translateY(100%);
+		left: 50%;
+		transform: translate(-50%, 100%);
 	}
 `;
 
 export const DarkBackground = styled.div`
-	position: absolute;
+	position: fixed;
 	display: flex;
 	top: 0;
 	left: 0;
+	right: 0;
+	bottom: 0;
 	background-color: rgba(0, 0, 0, 0.2);
 	width: 100%;
 	height: 100%;
@@ -19,9 +22,8 @@ export const DarkBackground = styled.div`
 `;
 
 export const ModalWrap = styled.div`
-	width: 100%;
+	width: 390px;
 	background-color: #fff;
-	margin-top: auto;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -29,7 +31,9 @@ export const ModalWrap = styled.div`
 	border-radius: 10px 10px 0 0;
 	box-sizing: border-box;
 	padding: 36px 20px 24px;
-	position: sticky;
+	position: fixed;
+	left: 50%;
+	transform: translateX(-50%);
 	bottom: 0;
 
 	animation-duration: 0.5s;
