@@ -24,8 +24,6 @@
 - 여행자들은 게시글 작성을 통해 여행에 대한 경험이나, 원하는 여행 상품 동행을 구할 수 있고, 댓글 기능을 통해 서로 소통하며 여행의 즐거움을 공유할 수 있습니다.
 - 여행상품 판매자들은 자신의 상품을 등록하고 홍보할 수 있습니다. 
 
-
-
 ## 3. Fearless 4 팀 소개 <img width="20" src = "https://github.com/starcradle101/starcradle101/assets/113353436/b707fb16-15ec-4e1a-8666-42f08a05be79"> 
 
 Hello, there! 저희는 4명의 Front-End 개발자로 구성된 **Fearless 4** 입니다.
@@ -75,4 +73,30 @@ remove      : 파일을 삭제하는 작업만 수행한 경우
 ```
 
 ### 브랜치 전략
-- GitHubFlow: 비교적 단순하고 직관적인 구조를 가지고 있어, 작은 규모의 단기간 프로젝트에 팀원들이 쉽게 학습하고 적용할 수 있어 이 전략을 선택하였습니다. 
+- GitHubFlow: 비교적 단순하고 직관적인 구조를 가지고 있어, 작은 규모의 단기간 프로젝트에 팀원들이 쉽게 학습하고 적용할 수 있어 이 전략을 선택하였습니다.
+
+## 7. 개발 환경
+1 ) 프론트엔드 기술<br><br>
+<img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white">
+<img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white">
+<img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
+<img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=black">
+<img src="https://img.shields.io/badge/styled components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white">
+
+2 ) 백엔드 기술<br><br>
+멋쟁이사자처럼 프론트엔드 스쿨에서 제공된 API 사용
+
+3 ) 도구 및 라이브러리<br><br>
+<img src="https://img.shields.io/badge/NPM-CB3837?style=for-the-badge&logo=NPM&logoColor=white">
+<img alt="Prettier" src="https://img.shields.io/badge/Prettier-F7B93E?style=for-the-badge&logo=prettier&logoColor=white"/>
+<img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white">
+<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white">
+<img src="https://img.shields.io/badge/Visual_Studio_Code-007ACC?style=for-the-badge&logo=visual-studio-code&logoColor=white"/> 
+
+4 ) 협업 및 프로젝트 관리<br><br>
+<img alt="Notion" src="https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=notion&logoColor=white"/>
+<img alt="Discord" src="https://img.shields.io/badge/Discord-7289DA?style=for-the-badge&logo=discord&logoColor=white"/>
+
+5 ) 디자인<br><br>
+<img alt="Figma" src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white"/>
+
