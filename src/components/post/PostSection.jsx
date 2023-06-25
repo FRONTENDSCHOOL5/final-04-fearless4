@@ -12,25 +12,28 @@ const PostSection = ({ accountname, listView }) => {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		const getPostList = async () => {
-			try {
-				const response = await axios.get(
-					`${API_URL}/post/${accountname}/userpost`,
-					{
-						headers: {
-							Authorization: `Bearer ${token}`,
-							'Content-type': 'application/json',
-						},
-					}
-				);
-				setPosts(response.data.post);
-				console.log(response);
-			} catch (error) {
-				console.error('데이터를 불러올 수 없습니다', error);
-			}
-		};
-		setIsLoading(true);
-		getPostList();
+		if (accountname) {
+			console.log('accountname: ', accountname);
+			const getPostList = async () => {
+				try {
+					const response = await axios.get(
+						`${API_URL}/post/${accountname}/userpost`,
+						{
+							headers: {
+								Authorization: `Bearer ${token}`,
+								'Content-type': 'application/json',
+							},
+						}
+					);
+					setPosts(response.data.post);
+					console.log(response);
+				} catch (error) {
+					console.error('데이터를 불러올 수 없습니다', error);
+				}
+			};
+			setIsLoading(true);
+			getPostList();
+		}
 	}, [accountname, token]);
 
 	return (
