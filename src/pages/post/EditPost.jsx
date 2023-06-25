@@ -12,7 +12,15 @@ import {
 	UploadButton,
 } from './writePost.style';
 import { Backspace, NavbarWrap } from '../../components/navbar/navbar.style';
+import {
+	ToastClose,
+	ToastContainer,
+	ToastIcon,
+	ToastMsg,
+	ToastMsgBold,
+} from '../../components/toast/toast.style';
 import { ImageUploadButton } from '../../components/button/button.style';
+import profilePic from '../../assets/image/profilePic.png';
 import { API_URL } from '../../api';
 
 const EditPost = () => {
@@ -20,6 +28,7 @@ const EditPost = () => {
 	const [myProfileImage, setMyProfileImage] = useState('');
 	const [text, setText] = useState('');
 	const [disabled, setDisabled] = useState(true);
+	const [showPostEditToast, setShowPostEditToast] = useState(false);
 	const inputRef = useRef(null);
 	const textarea = useRef();
 	const location = useLocation();
@@ -111,6 +120,10 @@ const EditPost = () => {
 		}
 	};
 
+	const handleImgError = (e) => {
+		e.target.src = profilePic;
+	};
+
 	const handleDeleteImage = () => {
 		setUploadImageUrl('');
 
@@ -148,14 +161,29 @@ const EditPost = () => {
 				data,
 				{ headers }
 			);
-			console.log(response);
-			console.log(response.data);
 
-			navigate(`/viewPost/${location.state.id}`);
+			setShowPostEditToast(true);
+			setTimeout(() => {
+				setShowPostEditToast(false);
+				navigate(`/viewPost/${location.state.id}`);
+			}, 1000);
 		} catch (error) {
 			console.error(error);
 		}
 	};
+
+	const PostEditToast = () => (
+		<>
+			{showPostEditToast && (
+				<ToastContainer>
+					<ToastIcon>🛠️</ToastIcon>
+					<ToastMsg>
+						<ToastMsgBold>게시글</ToastMsgBold>이 수정되었습니다.
+					</ToastMsg>
+				</ToastContainer>
+			)}
+		</>
+	);
 
 	return (
 		<WrapperWritePost>
@@ -167,7 +195,10 @@ const EditPost = () => {
 			</NavbarWrap>
 			<PostForm>
 				<TextForm>
-					<ProfileImageMini src={myProfileImage}></ProfileImageMini>
+					<ProfileImageMini
+						src={myProfileImage}
+						onError={handleImgError}
+					></ProfileImageMini>
 					<PostInputArea
 						ref={textarea}
 						placeholder='게시글 입력하기...'
@@ -194,6 +225,7 @@ const EditPost = () => {
 					onChange={handleImageInputChange}
 				/>
 			</ImageUploadButton>
+			<PostEditToast />
 		</WrapperWritePost>
 	);
 };

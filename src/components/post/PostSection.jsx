@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { PostDeleteContext } from '../../pages/post/PostDeleteContext';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Post } from './post.style';
@@ -6,6 +7,7 @@ import { GridView, GridItem } from './postAlbum.style';
 import { API_URL } from '../../api';
 
 const PostSection = ({ accountname, listView }) => {
+	const { deletedPostId } = useContext(PostDeleteContext);
 	const [posts, setPosts] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const token = localStorage.getItem('token');
@@ -34,7 +36,7 @@ const PostSection = ({ accountname, listView }) => {
 			setIsLoading(true);
 			getPostList();
 		}
-	}, [accountname, token]);
+	}, [accountname, token, deletedPostId]);
 
 	return (
 		<div>

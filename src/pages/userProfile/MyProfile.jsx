@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { PostDeleteContext } from '../post/PostDeleteContext';
 import { ProfileButton } from '../../components/button/button.style';
 import {
 	ProfileWrapper,
@@ -46,6 +47,7 @@ export default function UserProfile() {
 	const [profileIntro, setProfileIntro] = useState('');
 	const [isModal, setIsModal] = useState(false);
 	const [isCheckModal, setIsCheckModal] = useState(false);
+	const [deletedPostId, setDeletedPostId] = useState(null);
 
 	const url = API_URL;
 	const token = localStorage.getItem('token');
@@ -217,7 +219,14 @@ export default function UserProfile() {
 						</CheckModalWrap>
 					</DarkBackground>
 				)}
-				{isLoading && <PostList accountname={profileId}></PostList>}
+				{isLoading && (
+					<PostDeleteContext.Provider
+						value={{ deletedPostId, setDeletedPostId }}
+					>
+						{' '}
+						<PostList accountname={profileId}></PostList>
+					</PostDeleteContext.Provider>
+				)}
 				<BottomNavContainer></BottomNavContainer>
 			</ProfilePageWrapper>
 		</>
