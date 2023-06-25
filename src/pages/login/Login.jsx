@@ -11,7 +11,7 @@ import { useState } from 'react';
 import Splash from '../splash/Splash';
 import { useRef } from 'react';
 import HeartImg from '../../assets/image/heart-button.png';
-import LogoImg from '../../assets/image/travelchar_crop.png';
+import LogoImg from '../../assets/image/travelChar.png';
 
 export default function Login() {
 	const navigate = useNavigate();
@@ -32,7 +32,11 @@ export default function Login() {
 	}
 
 	const handleModal = (e) => {
-		if (e.target.id === 'wrap' || e.target.id === 'logo') {
+		if (
+			e.target.id === 'wrap' ||
+			e.target.id === 'logo' ||
+			e.target.id === 'heart'
+		) {
 			if (modal.current.classList.contains('modal-open')) {
 				modal.current.classList.remove('modal-open');
 			} else {
@@ -51,7 +55,7 @@ export default function Login() {
 			) : (
 				<Wrapper id='wrap' onClick={handleModal}>
 					<LogoWrapper>
-						<Heart src={HeartImg} />
+						<Heart id='heart' src={HeartImg} />
 						<Logo id='logo' src={LogoImg} />
 					</LogoWrapper>
 					<ButtonWrapper ref={modal}>

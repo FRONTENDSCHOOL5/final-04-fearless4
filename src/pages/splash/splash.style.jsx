@@ -2,6 +2,7 @@ import styled, { keyframes } from 'styled-components';
 
 export const Wrapper = styled.div`
 	background-color: #81d8d0;
+	overflow: hidden;
 	width: 100%;
 	height: 100%;
 	padding-top: 8%;
@@ -10,6 +11,7 @@ export const Wrapper = styled.div`
 
 export const SplashWrap = styled.div`
 	width: 100%;
+	height: 50vh;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;

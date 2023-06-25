@@ -4,7 +4,7 @@ export const WrapperLoginEmail = styled.div`
 	width: 100%;
 	gap: 20px;
 	margin: 0 auto;
-	padding: 54px 34px 0px 34px;
+	padding: 34px 34px 0px 34px;
 	box-sizing: border-box;
 `;
 
