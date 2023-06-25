@@ -1,5 +1,15 @@
 import styled from 'styled-components';
 
+export const HomeContainer = styled.div`
+	position: relative;
+	width: 100%;
+	height: 90vh;
+	display: flex;
+	flex-direction: column;
+	padding-top: 20px;
+	background-color: #f2f2f2;
+`;
+
 export const Column = styled.div`
 	flex: 1;
 `;
@@ -32,6 +42,10 @@ export const ChatTextRight = styled.p`
 	font-size: 15px;
 `;
 
+export const ChatImg = styled.img`
+	width: 300px;
+`;
+
 export const MessageText2 = styled.div`
 	background-color: #a6e3da;
 	padding: 10px 20px;
@@ -42,6 +56,7 @@ export const ProfileImg = styled.img`
 	width: 30px;
 	height: 30px;
 	margin-right: 20px;
+	border-radius: 50%;
 `;
 
 export const MessageRow2 = styled.div`
