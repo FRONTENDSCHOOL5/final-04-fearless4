@@ -136,8 +136,8 @@ export default function Search() {
 						</Wrapper>
 					);
 				})}
+				<BottomNavContainer />
 			</SearchWrap>
-			<BottomNavContainer />
 		</>
 	);
 }

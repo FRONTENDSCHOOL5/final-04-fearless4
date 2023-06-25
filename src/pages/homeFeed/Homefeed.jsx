@@ -5,7 +5,7 @@ import {
 	NavbarWrap,
 	TitleLogo,
 } from '../../components/navbar/navbar.style.jsx';
-import { SearchIcon } from '../homeFeed/homefeed.style.jsx';
+import { HomefeedWrap, SearchIcon } from '../homeFeed/homefeed.style.jsx';
 import { API_URL } from '../../api.js';
 import HomeFollower from './HomeFollower';
 import NoFeed from './NoFeed.jsx';
@@ -58,8 +58,10 @@ export default function Homefeed() {
 					alt='검색 아이콘'
 				/>
 			</NavbarWrap>
-			{followingFeed.length === 0 ? <NoFeed /> : post}
-			<BottomNavContainer home />
+			<HomefeedWrap>
+				{followingFeed.length === 0 ? <NoFeed /> : post}
+				<BottomNavContainer home />
+			</HomefeedWrap>
 		</>
 	);
 }

@@ -33,6 +33,7 @@ export const InputStyle = styled.input`
 `;
 
 export const Incorrect = styled.span`
+	box-sizing: border-box;
 	color: #eb5757;
 	font-size: 12px;
 `;

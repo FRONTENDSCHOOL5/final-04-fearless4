@@ -9,7 +9,6 @@ export const WrapAll = styled.div`
 export const Scroll = styled.div`
 	overflow-x: scroll;
 	overflow-y: hidden;
-	height: 100%;
 
 	::-webkit-scrollbar {
 		height: 10px;

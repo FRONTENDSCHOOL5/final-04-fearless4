@@ -19,7 +19,6 @@ export default function NoFeed() {
 					검색하기
 				</SearchBtn>
 			</HomeContainer>
-			<BottomNavContainer />
 		</>
 	);
 }

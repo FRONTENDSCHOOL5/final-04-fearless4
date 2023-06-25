@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const WrapperProfileSetup = styled.div`
 	width: 100%;
+	height: calc(100vh - 52px);
 	justify-content: center;
 	box-sizing: border-box;
 	padding: 26px 34px;

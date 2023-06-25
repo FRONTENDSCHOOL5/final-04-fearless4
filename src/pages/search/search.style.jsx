@@ -2,13 +2,14 @@ import styled from 'styled-components';
 
 export const SearchWrap = styled.div`
 	width: 100%;
-	padding: 60px 0;
+	height: 100vh;
+	background-color: #fff;
 	box-sizing: border-box;
 `;
 
 export const SearchInput = styled.input`
 	width: 100%;
-	height: 32px;
+	padding: 8px 0;
 	margin-left: 20px;
 	display: flex;
 	background: #f2f2f2;
