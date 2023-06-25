@@ -13,6 +13,7 @@ import {
 } from './writePost.style';
 import { Backspace, NavbarWrap } from '../../components/navbar/navbar.style';
 import { ImageUploadButton } from '../../components/button/button.style';
+import profilePic from '../../assets/image/profilePic.png';
 
 const WritePost = () => {
 	const token = localStorage.getItem('token');
@@ -120,6 +121,10 @@ const WritePost = () => {
 		handleResizeHeight();
 	};
 
+	const handleImgError = (e) => {
+		e.target.src = profilePic;
+	};
+
 	const handleSubmit = async () => {
 		const data = {
 			post: {
@@ -157,7 +162,10 @@ const WritePost = () => {
 			</NavbarWrap>
 			<PostForm>
 				<TextForm>
-					<ProfileImageMini src={myProfileImage}></ProfileImageMini>
+					<ProfileImageMini
+						src={myProfileImage}
+						onError={handleImgError}
+					></ProfileImageMini>
 					<PostInputArea
 						ref={textarea}
 						placeholder='게시글 입력하기...'

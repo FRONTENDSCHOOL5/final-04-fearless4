@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { PostDeleteContext } from '../../pages/post/PostDeleteContext';
 import axios from 'axios';
 import { API_URL } from '../../api';
 import styled from 'styled-components';
@@ -17,6 +18,13 @@ import {
 	CheckButtonWrap,
 	CheckConfirm,
 } from '../../components/modal/modal.style';
+import {
+	ToastClose,
+	ToastContainer,
+	ToastIcon,
+	ToastMsg,
+	ToastMsgBold,
+} from '../../components/toast/toast.style';
 import { useNavigate } from 'react-router-dom';
 
 export const Container = styled.div`
@@ -142,6 +150,7 @@ const formatCreatedAt = (createdAt) => {
 };
 
 export function Post({ postId }) {
+	const { setDeletedPostId } = useContext(PostDeleteContext);
 	const token = localStorage.getItem('token');
 	const currentUserAccountName = localStorage.getItem('userAccountName');
 	const [postData, setPostData] = useState(null);
@@ -151,6 +160,8 @@ export function Post({ postId }) {
 	const [isPostModal, setIsPostModal] = useState(false);
 	const [isPostDeleteCheckModal, setIsPostDeleteCheckModal] = useState(false);
 	const [isReportModal, setIsReportModal] = useState(false);
+	const [showPostDeleteToast, setShowPostDeleteToast] = useState(false);
+	const [showPostReportToast, setShowPostReportToast] = useState(false);
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -252,16 +263,49 @@ export function Post({ postId }) {
 				})
 				.then((response) => {
 					console.log(response);
+					setDeletedPostId(postData.id);
 				});
 		} catch (error) {
 			console.error('오류 발생!');
 		}
 		setIsPostDeleteCheckModal(false);
+		setShowPostDeleteToast(true);
+		setTimeout(() => {
+			setShowPostDeleteToast(false);
+		}, 1000);
 	};
+
 	const handleReportClick = () => {
-		console.log('댓글이 신고되었습니다.');
 		setIsReportModal(false);
+		setShowPostReportToast(true);
+		setTimeout(() => setShowPostReportToast(false), 1000);
 	};
+
+	const PostDeleteToast = () => (
+		<>
+			{showPostDeleteToast && (
+				<ToastContainer>
+					<ToastIcon>🗑️</ToastIcon>
+					<ToastMsg>
+						<ToastMsgBold>게시글</ToastMsgBold>이 삭제되었습니다.
+					</ToastMsg>
+				</ToastContainer>
+			)}
+		</>
+	);
+
+	const PostReportToast = () => (
+		<>
+			{showPostReportToast && (
+				<ToastContainer>
+					<ToastIcon>🚨</ToastIcon>
+					<ToastMsg>
+						<ToastMsgBold>게시글</ToastMsgBold>이 신고되었습니다.
+					</ToastMsg>
+				</ToastContainer>
+			)}
+		</>
+	);
 
 	return (
 		<>
@@ -273,10 +317,25 @@ export function Post({ postId }) {
 							alt='Profile Image'
 							className='profile_img'
 							onError={handleImgError}
+							onClick={() => {
+								currentUserAccountName === postData.author.accountname
+									? navigate('/myprofile')
+									: navigate('/userprofile', {
+											state: { accountname: postData.author.accountname },
+									  });
+							}}
 						/>
 						<RightCard>
 							<Top>
-								<UserDetails>
+								<UserDetails
+									onClick={() => {
+										currentUserAccountName === postData.author.accountname
+											? navigate('/myprofile')
+											: navigate('/userprofile', {
+													state: { accountname: postData.author.accountname },
+											  });
+									}}
+								>
 									<SpanName className='span-name'>
 										{postData.author.username}
 									</SpanName>
@@ -291,11 +350,12 @@ export function Post({ postId }) {
 								></Dot>
 							</Top>
 							<TextPost>{postData.content}</TextPost>
-							{postData.image && (
+							{postData.image && postData.image.trim() !== '' && (
 								<ImgBx>
 									<Cover src={postData.image} alt='업로드한 이미지' />
 								</ImgBx>
 							)}
+
 							<Icons>
 								<IconsImg
 									src={isHearted ? heartIconActive : heartIconInactive}
@@ -343,6 +403,8 @@ export function Post({ postId }) {
 					</ModalWrap>
 				</DarkBackground>
 			)}
+			<PostDeleteToast />
+			<PostReportToast />
 		</>
 	);
 }

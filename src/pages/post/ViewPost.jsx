@@ -1,4 +1,5 @@
-import React, { useState, useEffect, startTransition } from 'react';
+import React, { useState, useEffect, startTransition, useContext } from 'react';
+import { PostDeleteContext } from './PostDeleteContext';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Post } from '../../components/post/post.style';
@@ -25,6 +26,13 @@ import {
 	CheckButtonWrap,
 	CheckLogout,
 } from '../../components/modal/modal.style';
+import {
+	ToastContainer,
+	ToastIcon,
+	ToastMsg,
+	ToastMsgBold,
+} from '../../components/toast/toast.style';
+import profilePic from '../../assets/image/profilePic.png';
 import { Comment } from './Comment';
 import { API_URL } from '../../api';
 import { useNavigate } from 'react-router-dom';
@@ -39,6 +47,8 @@ const ViewPost = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isModal, setIsModal] = useState(false);
 	const [isCheckModal, setIsCheckModal] = useState(false);
+	const [showCommentToast, setShowCommentToast] = useState(false);
+	const [deletedPostId, setDeletedPostId] = useState(null);
 	const navigate = useNavigate();
 	const { id } = useParams();
 
@@ -88,8 +98,6 @@ const ViewPost = () => {
 
 	const handleModalClose = (e) => {
 		e.preventDefault();
-		// e.currentTarget 현재 handleModalClose가 부착된 요소
-		// e.target 내가 클릭한 자식 요소
 		if (e.target === e.currentTarget) {
 			setIsModal(false);
 			setIsCheckModal(false);
@@ -154,10 +162,29 @@ const ViewPost = () => {
 
 			setCommentContent('');
 			await getCommentList();
+			setShowCommentToast(true);
+			setTimeout(() => setShowCommentToast(false), 1000);
 		} catch (error) {
 			console.error('댓글을 업로드하지 못했습니다!', error.response.data);
 		}
 	};
+
+	const handleImgError = (e) => {
+		e.target.src = profilePic;
+	};
+
+	const CommentToast = () => (
+		<>
+			{showCommentToast && (
+				<ToastContainer>
+					<ToastIcon>😺</ToastIcon>
+					<ToastMsg>
+						<ToastMsgBold>댓글</ToastMsgBold>이 등록되었습니다.
+					</ToastMsg>
+				</ToastContainer>
+			)}
+		</>
+	);
 
 	return (
 		<WrapperViewPost>
@@ -165,7 +192,12 @@ const ViewPost = () => {
 				<Backspace onClick={() => navigate(-1)} />
 				<OptionModalTab onClick={handleModalOpen}></OptionModalTab>
 			</NavbarWrap>
-			{isLoading && <PostView>{postData && <Post postId={id} />}</PostView>}
+			{isLoading && (
+				<PostDeleteContext.Provider value={{ deletedPostId, setDeletedPostId }}>
+					{' '}
+					<PostView>{postData && <Post postId={id} />}</PostView>
+				</PostDeleteContext.Provider>
+			)}
 			<CommentSection>
 				{comments.map((comment) => (
 					<Comment
@@ -180,7 +212,10 @@ const ViewPost = () => {
 			</CommentSection>
 			<UploadComment>
 				{postData && (
-					<ProfileImageComment src={myProfilePic}></ProfileImageComment>
+					<ProfileImageComment
+						src={myProfilePic}
+						onError={handleImgError}
+					></ProfileImageComment>
 				)}
 				<CommentInputArea
 					placeholder='댓글 입력하기...'
@@ -213,6 +248,7 @@ const ViewPost = () => {
 					</CheckModalWrap>
 				</DarkBackground>
 			)}
+			<CommentToast />
 		</WrapperViewPost>
 	);
 };
