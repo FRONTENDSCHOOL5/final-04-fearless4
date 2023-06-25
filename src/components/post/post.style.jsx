@@ -6,6 +6,7 @@ import heartIconInactive from '../../assets/icon/icon-heart.svg';
 import heartIconActive from '../../assets/icon/icon-heart-active.svg';
 import messageIcon from '../../assets/icon/icon-message-circle.svg';
 import dotIcon from '../../assets/icon/icon- more-vertical.svg';
+import profilePic from '../../assets/image/profilePic.png';
 import { Link } from 'react-router-dom';
 import {
 	DarkBackground,
@@ -64,6 +65,7 @@ export const ProfileImg = styled.img`
 	border-radius: 50%;
 	margin-right: 12px;
 	display: block;
+	object-fit: cover;
 `;
 
 export const SpanName = styled.span`
@@ -210,6 +212,10 @@ export function Post({ postId }) {
 		}
 	};
 
+	const handleImgError = (e) => {
+		e.target.src = profilePic;
+	};
+
 	const handlePostModalOptionClick = () => {
 		postData.author.accountname === currentUserAccountName
 			? setIsPostModal(true)
@@ -266,6 +272,7 @@ export function Post({ postId }) {
 							src={postData.author.image}
 							alt='Profile Image'
 							className='profile_img'
+							onError={handleImgError}
 						/>
 						<RightCard>
 							<Top>

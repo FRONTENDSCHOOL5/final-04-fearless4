@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { NavbarWrap, TitleLogo } from '../../components/navbar/navbar.style.jsx';
+import {
+	NavbarWrap,
+	TitleLogo,
+} from '../../components/navbar/navbar.style.jsx';
 import { SearchIcon } from '../homeFeed/homefeed.style.jsx';
 import { API_URL } from '../../api.js';
 import HomeFollower from './HomeFollower';
@@ -35,18 +38,17 @@ export default function Homefeed() {
 
 	useEffect(() => {
 		if (followingFeed.length !== 0) {
-			followingFeed.map((item) => {
-				setPost((post) => {
-					return [...post, <HomeFollower key={item.id} data={item} />];
-				});
-			});
+			const newPosts = followingFeed.map((item) => (
+				<HomeFollower key={item.id} postId={item.id} />
+			));
+			setPost(newPosts);
 		}
 	}, [followingFeed]);
 
 	return (
 		<>
 			<NavbarWrap spaceBetween>
-				<TitleLogo/>
+				<TitleLogo />
 				<SearchIcon
 					onClick={() => {
 						navigate('/Search');
