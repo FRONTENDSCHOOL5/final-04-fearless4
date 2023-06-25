@@ -35,6 +35,22 @@ export const Title = styled.h2`
 	line-height: 20.03px;
 `;
 
+export const SortedButton = styled.button`
+	margin-bottom: 20px;
+	border: none;
+	margin-left: 10px;
+	border-radius: 44px;
+	padding: 6px 8px 6px 7px;
+	font-size: 13px;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+
+	&:hover {
+		background-color: #81d8d0;
+		color: white;
+	}
+`;
+
 export const ProductsContainer = styled.ul`
 	display: flex;
 	gap: 10px;
