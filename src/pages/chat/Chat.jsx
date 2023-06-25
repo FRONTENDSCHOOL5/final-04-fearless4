@@ -111,11 +111,9 @@ export default function Chat2() {
 					<Column>
 						<MessageRow2>
 							<Time>3:24</Time>
-							<MessageText2 style={{ backgroundColor: '#F2F2F2' }}>
-								<ChatTextRight>
-									<ChatImg src={VillageInItaly2} />
-								</ChatTextRight>
-							</MessageText2>
+							<ChatTextRight>
+								<ChatImg src={VillageInItaly2} />
+							</ChatTextRight>
 						</MessageRow2>
 					</Column>
 				</ChatBox>

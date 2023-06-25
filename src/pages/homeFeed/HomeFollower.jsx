@@ -1,11 +1,20 @@
 import React from 'react';
-import PostFeed from './Post';
+import { Post } from '../../components/post/post.style';
+import { BottomNavContainer } from '../../components/bottomnav/bottomnav.style';
 import styled from 'styled-components';
 
-export default function HomeFollower({ data }) {
+export const FeedListWrapper = styled.div`
+	width: 100%;
+	background-color: #fff;
+	box-sizing: border-box;
+`;
+
+export default function HomeFollower({ postId }) {
 	return (
 		<>
-			<PostFeed data={data} />
-		</> //Post.jsx로 data 전달
+			<FeedListWrapper>
+				<Post postId={postId} />
+			</FeedListWrapper>
+		</>
 	);
 }

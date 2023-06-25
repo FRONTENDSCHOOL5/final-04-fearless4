@@ -86,7 +86,7 @@ export default function ChatList() {
 							<UserFollowImage src={ChatProfile} />
 						</UserProfileImg>
 						<UserContent>
-							<UserFollowNickName>제주감귤마을</UserFollowNickName>
+							<UserFollowNickName>choi</UserFollowNickName>
 							<UserFollowIntro>
 								안녕하세요! 판매중이신 상품들 중에...
 							</UserFollowIntro>

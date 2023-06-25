@@ -196,7 +196,9 @@ export default function UserProfile() {
 					<ProductsForSale userAccountName={profile.user.accountname} />
 				)}
 				{isLoading && <PostList accountname={profileId}></PostList>}
+				<BottomNavContainer profile />
 			</ProfilePageWrapper>
+
 			{isModal && (
 				<DarkBackground onClick={handleModalClose}>
 					<ModalWrap>
@@ -218,7 +220,6 @@ export default function UserProfile() {
 					</CheckModalWrap>
 				</DarkBackground>
 			)}
-			<BottomNavContainer profile />
 		</>
 	);
 }

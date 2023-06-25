@@ -39,11 +39,10 @@ export default function Homefeed() {
 
 	useEffect(() => {
 		if (followingFeed.length !== 0) {
-			followingFeed.map((item) => {
-				setPost((post) => {
-					return [...post, <HomeFollower key={item.id} data={item} />];
-				});
-			});
+			const newPosts = followingFeed.map((item) => (
+				<HomeFollower key={item.id} postId={item.id} />
+			));
+			setPost(newPosts);
 		}
 	}, [followingFeed]);
 

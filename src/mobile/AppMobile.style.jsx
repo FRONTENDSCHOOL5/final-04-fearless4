@@ -10,6 +10,7 @@ export const MoblieWidth = styled.div`
 	width: 390px;
 	height: 100vh;
 	position: relative;
+	background-color: #fff;
 
 	box-shadow: 0 0 10px #e2e2e2;
 
