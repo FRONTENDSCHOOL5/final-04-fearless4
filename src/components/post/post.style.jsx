@@ -102,6 +102,7 @@ export const TextPost = styled.div`
 	font-size: 14px;
 	min-width: 200px;
 	white-space: pre-wrap;
+	line-height: 1.3em;
 `;
 
 export const ImgBx = styled.div`
