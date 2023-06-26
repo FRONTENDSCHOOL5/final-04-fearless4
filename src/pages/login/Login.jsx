@@ -3,7 +3,12 @@ import {
 	LoginJoin,
 	FlexWrapper,
 } from '../../components/loginJoin/loginJoin.style.jsx';
-import { Heart, Logo, LogoWrapper } from '../../components/logo/logo.style';
+import {
+	CatTailImg,
+	Heart,
+	LoginCat,
+	LogoWrapper,
+} from '../../components/logo/logo.style';
 import { Wrapper, ButtonWrapper } from './login.style';
 import { useNavigate } from 'react-router-dom';
 import React, { useEffect } from 'react';
@@ -11,7 +16,7 @@ import { useState } from 'react';
 import Splash from '../splash/Splash';
 import { useRef } from 'react';
 import HeartImg from '../../assets/image/heart-button.png';
-import LogoImg from '../../assets/image/travelChar.png';
+import LogoImg from '../../assets/image/travelChar_notail.png';
 import {
 	ToastClose,
 	ToastContainer,
@@ -20,6 +25,7 @@ import {
 	ToastMsgBold,
 } from '../../components/toast/toast.style';
 import { Helmet } from 'react-helmet';
+import CatTail from '../../assets/image/tail.png';
 
 export default function Login() {
 	const navigate = useNavigate();
@@ -79,7 +85,8 @@ export default function Login() {
 					<Wrapper id='wrap' onClick={handleModal}>
 						<LogoWrapper>
 							<Heart id='heart' src={HeartImg} />
-							<Logo id='logo' src={LogoImg} />
+							<LoginCat id='logo' src={LogoImg} />
+							<CatTailImg src={CatTail} />
 						</LogoWrapper>
 						<ButtonWrapper ref={modal}>
 							<SocialLoginButton
