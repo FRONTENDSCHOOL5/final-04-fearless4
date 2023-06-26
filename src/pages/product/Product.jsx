@@ -128,7 +128,7 @@ export default function Product() {
 			setShowToast(true);
 			setTimeout(() => {
 				navigate('/myProfile');
-			}, 3000);
+			}, 1000);
 		} catch (error) {
 			console.error(error.response);
 		}
