@@ -131,9 +131,9 @@ export const ImageUploadButton = styled.button`
 	background: url(${UploadImage});
 	width: 50px;
 	height: 50px;
-	position: fixed;
+	position: absolute;
 	border: 0;
 	bottom: 16px;
-	right: 28%;
+	right: 16px;
 	cursor: pointer;
 `;

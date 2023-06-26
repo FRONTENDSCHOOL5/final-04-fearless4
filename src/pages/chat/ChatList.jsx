@@ -13,11 +13,9 @@ import {
 	UserContent,
 	UserFollowNickName,
 	UserFollowIntro,
-	ProfileWrap,
 } from '../follow/follow.style';
 import { BottomNavContainer } from '../../components/bottomnav/bottomnav.style';
 import ChatProfile from '../../assets/image/chatProfile.jpg';
-import { ProfileWrapper } from '../userProfile/userProfile.style';
 
 export default function ChatList() {
 	const Date = styled.span`
@@ -27,7 +25,6 @@ export default function ChatList() {
 
 	const ChatWrap = styled.div`
 		width: 100%;
-		height: calc(100vh - 100px);
 	`;
 
 	const UserFlexWrap = styled.div`

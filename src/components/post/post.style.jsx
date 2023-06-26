@@ -67,7 +67,7 @@ export const UserDetails = styled.div`
 
 export const ProfileImg = styled.img`
 	position: relative;
-	min-width: 42px;
+	width: 42px;
 	height: 42px;
 	overflow: hidden;
 	border-radius: 50%;
