@@ -39,8 +39,9 @@ export default function ProductsForSaleEdit() {
 
 	// 전체 유효성 검사
 	const [isFormValid, setIsFormValid] = useState(false);
-
 	const [showToast, setShowToast] = useState(false);
+	const [showWrongExtensionToast, setShowWrongExtensionToast] = useState(false);
+	const [showSizeOverToast, setShowSizeOverToast] = useState(false);
 
 	const location = useLocation();
 	const navigate = useNavigate();
@@ -85,34 +86,23 @@ export default function ProductsForSaleEdit() {
 
 		if (imageFile) {
 			if (imageFile.size > maxImageSize) {
-				alert(
-					'이미지 크기가 너무 큽니다. \n10MB보다 작은 이미지를 업로드 해주세요!'
-				);
+				setShowSizeOverToast(true);
+				setTimeout(() => setShowSizeOverToast(false), 3000);
 				e.target.value = '';
 				return;
 			}
 
 			const fileExtension = '.' + imageFile.name.split('.').pop().toLowerCase();
 			if (!allowedExtensionsRegex.test(fileExtension)) {
-				alert(
-					'올바른 파일 확장자가 아닙니다!\n올바른 파일 확장자는 다음과 같습니다: .jpg, .gif, .png, .jpeg, .bmp, .tif, .heic'
-				);
+				setShowWrongExtensionToast(true);
+				setTimeout(() => setShowWrongExtensionToast(false), 3000);
 				e.target.value = '';
 				return;
 			}
 
 			const formData = new FormData();
-			const reader = new FileReader();
 
 			formData.append('image', imageFile);
-
-			reader.onloadend = () => {
-				setSelectedImage(reader.result);
-			};
-
-			if (imageFile) {
-				reader.readAsDataURL(imageFile);
-			}
 
 			try {
 				const res = await axios({
@@ -221,6 +211,32 @@ export default function ProductsForSaleEdit() {
 		);
 	};
 
+	const WrongExtensionToast = () => (
+		<>
+			{showWrongExtensionToast && (
+				<ToastContainer>
+					<ToastIcon>😵‍💫</ToastIcon>
+					<ToastMsg>
+						<ToastMsgBold>이미지</ToastMsgBold>만 업로드 해 주세요!
+					</ToastMsg>
+				</ToastContainer>
+			)}
+		</>
+	);
+
+	const SizeOverToast = () => (
+		<>
+			{showSizeOverToast && (
+				<ToastContainer>
+					<ToastIcon>😵</ToastIcon>
+					<ToastMsg>
+						<ToastMsgBold>10MB</ToastMsgBold>이하의 파일만 업로드 해 주세요!
+					</ToastMsg>
+				</ToastContainer>
+			)}
+		</>
+	);
+
 	return (
 		<>
 			<NavbarWrap spaceBetween>
@@ -286,6 +302,8 @@ export default function ProductsForSaleEdit() {
 						{salesLinkError && <Incorrect>{salesLinkError}</Incorrect>}
 					</InputList>
 				</InputWrap>
+				<WrongExtensionToast />
+				<SizeOverToast />
 			</ProductContainer>
 		</>
 	);
