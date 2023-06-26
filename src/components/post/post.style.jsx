@@ -255,6 +255,7 @@ export function Post({ postId }) {
 	const handlePostDeleteCheckModalClose = () => {
 		setIsPostDeleteCheckModal(false);
 	};
+
 	const handlePostDeleteConfirmClick = async () => {
 		try {
 			await axios
@@ -274,13 +275,16 @@ export function Post({ postId }) {
 		setShowPostDeleteToast(true);
 		setTimeout(() => {
 			setShowPostDeleteToast(false);
+			navigate('/profile/myProfile/');
 		}, 1000);
 	};
 
 	const handleReportClick = () => {
 		setIsReportModal(false);
 		setShowPostReportToast(true);
-		setTimeout(() => setShowPostReportToast(false), 1000);
+		setTimeout(() => {
+			setShowPostReportToast(false);
+		}, 1000);
 	};
 
 	const PostDeleteToast = () => (
