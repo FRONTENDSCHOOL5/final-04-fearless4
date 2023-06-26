@@ -211,7 +211,7 @@ export default function UserProfile() {
 						<PostList accountname={profileId}></PostList>
 					</PostDeleteContext.Provider>
 				)}
-				<BottomNavContainer></BottomNavContainer>
+				<BottomNavContainer profile />
 			</ProfilePageWrapper>
 
 			{isModal && (
