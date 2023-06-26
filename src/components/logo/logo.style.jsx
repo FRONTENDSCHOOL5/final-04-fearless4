@@ -18,20 +18,19 @@ export const Logo = styled.img`
 export const LoginCat = styled.img`
 	width: 380px;
 	position: absolute;
-	top: -100px;
-	left: 1%;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 	object-fit: cover;
-	cursor: pointer;
 	z-index: 2;
 `;
 
 export const Heart = styled.img`
 	width: 250px;
 	position: absolute;
-	top: -65%;
-	left: -18%;
+	top: -25%;
+	left: -15%;
 	transform: rotate(-30deg);
-	cursor: pointer;
 `;
 
 export const LogoText = styled.h1`
@@ -46,7 +45,10 @@ export const LogoWrapper = styled.div`
 	width: 350px;
 	min-height: 250px;
 	display: flex;
-	position: relative;
+	position: absolute;
+	top: 35%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 `;
 
 export const Text1 = styled.div`
@@ -84,8 +86,8 @@ const ShakingTail = keyframes`
 
 export const CatTailImg = styled.img`
 	position: absolute;
-	top: 10px;
-	left: 233px;
+	top: 42%;
+	left: 59%;
 	width: 48px;
 	z-index: 1;
 	animation: ${ShakingTail} 2s infinite;

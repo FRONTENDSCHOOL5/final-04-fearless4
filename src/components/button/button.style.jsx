@@ -8,7 +8,6 @@ export const SocialLoginButton = styled.button`
 	font-family: 'Suit-Regular';
 	display: block;
 	width: 100%;
-	margin-top: 20px;
 	padding: 8px;
 	font-size: 14px;
 	color: #767676;

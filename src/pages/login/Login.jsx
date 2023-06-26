@@ -88,6 +88,17 @@ export default function Login() {
 							<LoginCat id='logo' src={LogoImg} />
 							<CatTailImg src={CatTail} />
 						</LogoWrapper>
+						<span
+							style={{
+								fontFamily: 'MapoBackpacking',
+								marginTop: '-10px',
+								color: '#fff',
+								fontSize: '45px',
+								position: 'absolute',
+							}}
+						>
+							TravelUs
+						</span>
 						<ButtonWrapper ref={modal}>
 							<SocialLoginButton
 								borderColor={'#F2C94C'}

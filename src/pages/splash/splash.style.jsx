@@ -11,7 +11,7 @@ export const Wrapper = styled.div`
 
 export const SplashWrap = styled.div`
 	width: 100%;
-	height: 50vh;
+	height: 60vh;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -39,18 +39,11 @@ export const WavyCharWrap = styled.div`
 `;
 
 export const WavyChar = styled.span`
-	@font-face {
-		font-family: 'MapoBackpacking';
-		src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoBackpackingA.woff')
-			format('woff');
-		font-weight: normal;
-		font-style: normal;
-	}
+	font-family: 'MapoBackpacking';
 	display: inline-block;
 	color: white;
 	animation: ${WavyAnimation} 1s infinite;
 	animation-delay: calc(0.1s * var(--i));
-	font-family: 'MapoBackpacking';
 `;
 
 export const CatWrap = styled.div`
