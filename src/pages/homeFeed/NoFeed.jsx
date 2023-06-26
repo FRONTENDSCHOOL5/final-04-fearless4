@@ -1,6 +1,5 @@
 import React from 'react';
 import { HomeContainer, Span, SearchBtn } from '../homeFeed/homefeed.style.jsx';
-import { BottomNavContainer } from '../../components/bottomnav/bottomnav.style.jsx';
 import { LogoContainer } from '../../components/logo/logo.style';
 import { useNavigate } from 'react-router-dom';
 
