@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
 export const ToastContainer = styled.div`
-	position: fixed;
-	top: 50px;
-	right: 51px;
+	position: absolute;
+	top: 45px;
+	right: 20px;
 	border: 1px solid #dbdbdb;
 	padding: 6px;
 	border-radius: 3px;
