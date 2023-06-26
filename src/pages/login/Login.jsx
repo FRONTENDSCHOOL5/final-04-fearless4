@@ -19,6 +19,7 @@ import {
 	ToastMsg,
 	ToastMsgBold,
 } from '../../components/toast/toast.style';
+import { Helmet } from 'react-helmet';
 
 export default function Login() {
 	const navigate = useNavigate();
@@ -71,40 +72,45 @@ export default function Login() {
 	return (
 		<>
 			{!isLoading && !token === true ? (
-				<Wrapper id='wrap' onClick={handleModal}>
-					<LogoWrapper>
-						<Heart id='heart' src={HeartImg} />
-						<Logo id='logo' src={LogoImg} />
-					</LogoWrapper>
-					<ButtonWrapper ref={modal}>
-						<SocialLoginButton
-							borderColor={'#F2C94C'}
-							socialImage={'kakao'}
-							onClick={handleAlert}
-						>
-							카카오톡 계정으로 로그인
-						</SocialLoginButton>
-						<SocialLoginButton
-							borderColor={'#767676'}
-							socialImage={'google'}
-							onClick={handleAlert}
-						>
-							구글 계정으로 로그인
-						</SocialLoginButton>
-						<SocialLoginButton
-							borderColor={'#2D9CDB'}
-							socialImage={'facebook'}
-							onClick={handleAlert}
-						>
-							페이스북 계정으로 로그인
-						</SocialLoginButton>
-						<FlexWrapper>
-							<LoginJoin to='/account/login'>이메일로 로그인</LoginJoin>|
-							<LoginJoin to='/account/signup'>회원가입</LoginJoin>
-						</FlexWrapper>
-					</ButtonWrapper>
-					<NotAvailable />
-				</Wrapper>
+				<>
+					<Helmet>
+						<title>TravelUs | 소셜 로그인</title>
+					</Helmet>
+					<Wrapper id='wrap' onClick={handleModal}>
+						<LogoWrapper>
+							<Heart id='heart' src={HeartImg} />
+							<Logo id='logo' src={LogoImg} />
+						</LogoWrapper>
+						<ButtonWrapper ref={modal}>
+							<SocialLoginButton
+								borderColor={'#F2C94C'}
+								socialImage={'kakao'}
+								onClick={handleAlert}
+							>
+								카카오톡 계정으로 로그인
+							</SocialLoginButton>
+							<SocialLoginButton
+								borderColor={'#767676'}
+								socialImage={'google'}
+								onClick={handleAlert}
+							>
+								구글 계정으로 로그인
+							</SocialLoginButton>
+							<SocialLoginButton
+								borderColor={'#2D9CDB'}
+								socialImage={'facebook'}
+								onClick={handleAlert}
+							>
+								페이스북 계정으로 로그인
+							</SocialLoginButton>
+							<FlexWrapper>
+								<LoginJoin to='/account/login'>이메일로 로그인</LoginJoin>|
+								<LoginJoin to='/account/signup'>회원가입</LoginJoin>
+							</FlexWrapper>
+						</ButtonWrapper>
+						<NotAvailable />
+					</Wrapper>
+				</>
 			) : (
 				<Splash />
 			)}

@@ -22,6 +22,7 @@ import { API_URL } from '../../api';
 import useMyProfile from '../../hook/useMyProfile';
 import FollowUnknown from './FollowUnknown';
 import Loading from '../../components/loading/Loading';
+import { Helmet } from 'react-helmet';
 
 export default function Follwers() {
 	const [follower, setFollower] = useState([]);
@@ -87,6 +88,9 @@ export default function Follwers() {
 
 	return (
 		<>
+			<Helmet>
+				<title>TravelUs | 팔로잉</title>
+			</Helmet>
 			<NavbarWrap>
 				<Backspace
 					onClick={() => {

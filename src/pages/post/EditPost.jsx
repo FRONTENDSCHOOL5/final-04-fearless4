@@ -22,6 +22,7 @@ import {
 import { ImageUploadButton } from '../../components/button/button.style';
 import profilePic from '../../assets/image/profilePic.png';
 import { API_URL } from '../../api';
+import { Helmet } from 'react-helmet';
 
 const EditPost = () => {
 	const [uploadImageUrl, setUploadImageUrl] = useState('');
@@ -212,49 +213,54 @@ const EditPost = () => {
 	);
 
 	return (
-		<WrapperWritePost>
-			<NavbarWrap spaceBetween>
-				<Backspace onClick={() => navigate(-1)} />
-				<UploadButton disabled={disabled} onClick={handleSubmit}>
-					업로드
-				</UploadButton>
-			</NavbarWrap>
-			<PostForm>
-				<TextForm>
-					<ProfileImageMini
-						src={myProfileImage}
-						onError={handleImgError}
-					></ProfileImageMini>
-					<PostInputArea
-						ref={textarea}
-						placeholder='게시글 입력하기...'
-						name='post'
-						value={text}
-						rows={1}
-						onChange={handleTextChange}
-					></PostInputArea>
-				</TextForm>
+		<>
+			<Helmet>
+				<title>TravelUs | 게시글 수정</title>
+			</Helmet>
+			<WrapperWritePost>
+				<NavbarWrap spaceBetween>
+					<Backspace onClick={() => navigate(-1)} />
+					<UploadButton disabled={disabled} onClick={handleSubmit}>
+						업로드
+					</UploadButton>
+				</NavbarWrap>
+				<PostForm>
+					<TextForm>
+						<ProfileImageMini
+							src={myProfileImage}
+							onError={handleImgError}
+						></ProfileImageMini>
+						<PostInputArea
+							ref={textarea}
+							placeholder='게시글 입력하기...'
+							name='post'
+							value={text}
+							rows={1}
+							onChange={handleTextChange}
+						></PostInputArea>
+					</TextForm>
 
-				{uploadImageUrl && (
-					<ImagePreview
-						src={uploadImageUrl}
-						alt='Uploaded'
-						handleDeleteImage={handleDeleteImage}
+					{uploadImageUrl && (
+						<ImagePreview
+							src={uploadImageUrl}
+							alt='Uploaded'
+							handleDeleteImage={handleDeleteImage}
+						/>
+					)}
+				</PostForm>
+				<ImageUploadButton>
+					<ImageInput
+						ref={inputRef}
+						type='file'
+						accept='image/*'
+						onChange={handleImageInputChange}
 					/>
-				)}
-			</PostForm>
-			<ImageUploadButton>
-				<ImageInput
-					ref={inputRef}
-					type='file'
-					accept='image/*'
-					onChange={handleImageInputChange}
-				/>
-			</ImageUploadButton>
-			<PostEditToast />
-			<WrongExtensionToast />
-			<SizeOverToast />
-		</WrapperWritePost>
+				</ImageUploadButton>
+				<PostEditToast />
+				<WrongExtensionToast />
+				<SizeOverToast />
+			</WrapperWritePost>
+		</>
 	);
 };
 

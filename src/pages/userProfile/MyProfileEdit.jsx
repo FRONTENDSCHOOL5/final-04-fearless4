@@ -30,6 +30,7 @@ import {
 	ToastMsg,
 	ToastMsgBold,
 } from '../../components/toast/toast.style';
+import { Helmet } from 'react-helmet';
 
 export default function ProfileSetup() {
 	const [userName, setUserName] = useState('');
@@ -229,6 +230,9 @@ export default function ProfileSetup() {
 
 	return (
 		<>
+			<Helmet>
+				<title>TravelUs | 프로필 수정</title>
+			</Helmet>
 			<NavbarWrap spaceBetween>
 				<Backspace
 					onClick={() => {

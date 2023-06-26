@@ -12,6 +12,7 @@ import HomeFollower from './HomeFollower';
 import NoFeed from './NoFeed.jsx';
 import { BottomNavContainer } from '../../components/bottomnav/bottomnav.style';
 import Loading from '../../components/loading/Loading.jsx';
+import { Helmet } from 'react-helmet';
 export default function Homefeed() {
 	const url = API_URL;
 	const token = localStorage.getItem('token');
@@ -58,6 +59,9 @@ export default function Homefeed() {
 
 	return (
 		<>
+			<Helmet>
+				<title>TravelUs</title>
+			</Helmet>
 			<NavbarWrap spaceBetween>
 				<TitleLogo />
 				<SearchIcon

@@ -37,6 +37,7 @@ import {
 import UploadPic from '../../assets/image/profileImageUploadButton.png';
 import VillageInItaly2 from '../../assets/image/villageInItaly2.jpg';
 import ChatProfile from '../../assets/image/chatProfile.jpg';
+import { Helmet } from 'react-helmet';
 
 export default function Chat2() {
 	const navigate = useNavigate();
@@ -58,7 +59,10 @@ export default function Chat2() {
 	};
 
 	return (
-		<div>
+		<>
+			<Helmet>
+				<title>TravelUs | 채팅</title>
+			</Helmet>
 			<NavbarWrap spaceBetween>
 				<Backspace
 					onClick={() => {
@@ -143,6 +147,6 @@ export default function Chat2() {
 					</ModalWrap>
 				</DarkBackground>
 			)}
-		</div>
+		</>
 	);
 }

@@ -11,6 +11,7 @@ import { WrapperLoginEmail, SignUpContainer } from './loginEmail.style.jsx';
 import { LoginButton } from '../../components/button/button.style.jsx';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 export default function LoginEmail() {
 	const [emailValid, setEmailValid] = useState(false);
@@ -78,6 +79,9 @@ export default function LoginEmail() {
 
 	return (
 		<>
+			<Helmet>
+				<title>TravelUs | 로그인</title>
+			</Helmet>
 			<WrapperLoginEmail onSubmit={userLogin}>
 				<Title>로그인</Title>
 				<WrapForm>

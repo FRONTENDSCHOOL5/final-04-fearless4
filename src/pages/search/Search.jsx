@@ -17,6 +17,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 
 import ProfilePic from '../../assets/image/profilePic.png';
+import { Helmet } from 'react-helmet';
 
 export default function Search() {
 	const navigate = useNavigate();
@@ -79,6 +80,9 @@ export default function Search() {
 
 	return (
 		<>
+			<Helmet>
+				<title>TravelUs | 검색</title>
+			</Helmet>
 			<NavbarWrap spaceBetween>
 				<Backspace
 					onClick={() => {

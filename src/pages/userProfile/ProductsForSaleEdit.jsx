@@ -24,6 +24,7 @@ import {
 	ToastMsg,
 	ToastMsgBold,
 } from '../../components/toast/toast.style';
+import { Helmet } from 'react-helmet';
 
 export default function ProductsForSaleEdit() {
 	// 이미지 등록
@@ -238,6 +239,9 @@ export default function ProductsForSaleEdit() {
 
 	return (
 		<>
+			<Helmet>
+				<title>TravelUs | 상품 수정</title>
+			</Helmet>
 			<NavbarWrap spaceBetween>
 				<Backspace
 					onClick={() => {

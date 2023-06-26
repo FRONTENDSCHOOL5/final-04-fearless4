@@ -16,6 +16,7 @@ import {
 } from '../follow/follow.style';
 import { BottomNavContainer } from '../../components/bottomnav/bottomnav.style';
 import ChatProfile from '../../assets/image/chatProfile.jpg';
+import { Helmet } from 'react-helmet';
 
 export default function ChatList() {
 	const Date = styled.span`
@@ -45,6 +46,9 @@ export default function ChatList() {
 
 	return (
 		<>
+			<Helmet>
+				<title>TravelUs | 채팅</title>
+			</Helmet>
 			<NavbarWrap spaceBetween>
 				<Backspace
 					onClick={() => {
