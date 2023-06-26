@@ -1,4 +1,4 @@
-![image](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/2e6f629b-199c-4045-8ef2-1dc7462051b1)# TravelUs 🚌
+# TravelUs 🚌
 🔗[TravelUs 바로가기]()
 - ID: travelus_official@travelus.com
 - PW: 123123
