@@ -44,6 +44,7 @@ export const SortedButton = styled.button`
 	font-size: 13px;
 	cursor: pointer;
 	transition: background-color 0.3s ease;
+	margin-left: ${({ first }) => (first ? '1px' : '10px')};
 
 	&:hover {
 		background-color: #81d8d0;
@@ -56,6 +57,7 @@ export const ProductsContainer = styled.ul`
 	gap: 10px;
 	height: 100%;
 	padding-bottom: 20px;
+	margin-bottom: -30px;
 `;
 
 export const ProductList = styled.li`

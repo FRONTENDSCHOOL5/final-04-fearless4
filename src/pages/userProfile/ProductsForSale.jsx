@@ -206,8 +206,8 @@ export default function ProductsForSale({ userAccountName }) {
 			{resProd.length === 0 ? null : (
 				<WrapAll>
 					<Title>함께 떠나는 상품</Title>
-					<SortedButton onClick={handleShowAllProducts}>
-						🎁전체 상품
+					<SortedButton first onClick={handleShowAllProducts}>
+						# 전체 상품
 					</SortedButton>
 					<SortedButton onClick={handleShowRecommendedItems}>
 						🔥추천 상품
