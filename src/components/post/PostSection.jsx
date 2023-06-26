@@ -53,7 +53,7 @@ const PostSection = ({ accountname, listView }) => {
 									<GridItem
 										key={index}
 										image={post.image}
-										onClick={() => navigate(`/viewPost/${post.id}`)}
+										onClick={() => navigate(`/post/view/${post.id}`)}
 									/>
 								))}
 					</GridView>

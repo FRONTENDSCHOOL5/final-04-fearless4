@@ -110,7 +110,7 @@ export default function ProductsForSale({ userAccountName }) {
 		window.open(url, '_blank');
 	};
 	const goToProductEdit = () => {
-		navigate('/ProductsForSaleEdit', {
+		navigate('/product/edit', {
 			state: {
 				selectedProduct: selectedProduct,
 			},

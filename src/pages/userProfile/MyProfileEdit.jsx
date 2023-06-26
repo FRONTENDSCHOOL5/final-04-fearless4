@@ -193,7 +193,7 @@ export default function ProfileSetup() {
 			setShowProfileEditToast(true);
 			setTimeout(() => {
 				setShowProfileEditToast(false);
-				navigate('/myprofile');
+				navigate('../../myProfile');
 			}, 1000);
 		} catch (error) {
 			console.error('에러입니다.', error);
