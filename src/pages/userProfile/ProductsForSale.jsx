@@ -22,7 +22,6 @@ import {
 	ModalWrap,
 } from '../../components/modal/modal.style';
 import { useNavigate } from 'react-router-dom';
-import useMyProfile from '../../hook/useMyProfile';
 
 export default function ProductsForSale({ userAccountName }) {
 	const [productData, setProductData] = useState([]);
@@ -37,8 +36,7 @@ export default function ProductsForSale({ userAccountName }) {
 	console.log(accountname);
 	const url = API_URL;
 	const token = localStorage.getItem('token');
-	const data = useMyProfile();
-	const [isAllProductsShown, setIsAllProductsShown] = useState(true);
+	const data = localStorage.getItem('userAccountName');
 
 	useEffect(() => {
 		data && setMyProfile(data);
@@ -60,7 +58,7 @@ export default function ProductsForSale({ userAccountName }) {
 	}, [data]);
 
 	const handleModalOpen = (item) => {
-		if (accountname === myProfile.accountname) {
+		if (accountname === myProfile) {
 			setIsModal(true);
 			setIsUserModal(true);
 			setSelectedProduct(item);

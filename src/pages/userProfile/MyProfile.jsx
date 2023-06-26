@@ -194,6 +194,7 @@ export default function UserProfile() {
 						</>
 					)}
 				</ProfileWrapper>
+				{!isLoading && <Loading />}
 
 				{isLoading && (
 					<ProductsForSale userAccountName={profile.user.accountname} />
