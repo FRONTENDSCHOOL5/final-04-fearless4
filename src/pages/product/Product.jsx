@@ -55,7 +55,6 @@ export default function Product() {
 	async function handleImageInputChange(e) {
 		const formData = new FormData();
 		const imageFile = e.target.files[0];
-		console.log(imageFile);
 		formData.append('image', imageFile);
 		try {
 			const res = await axios({

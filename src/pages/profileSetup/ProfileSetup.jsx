@@ -23,7 +23,6 @@ import profileImageUploadButton from '../../assets/image/profileImageUploadButto
 
 const ProfileSetup = () => {
 	const location = useLocation();
-	console.log(location);
 	// eslint-disable-next-line no-restricted-globals
 	const email = location.state.email;
 	// eslint-disable-next-line no-restricted-globals
@@ -45,7 +44,6 @@ const ProfileSetup = () => {
 		}
 	}, [userName]);
 
-	console.log(userName, !notValidUserId, !idDuplication);
 	const handleImageInputChange = async (e) => {
 		const formData = new FormData();
 		const imageFile = e.target.files[0];
@@ -83,7 +81,6 @@ const ProfileSetup = () => {
 					},
 				})
 				.then((response) => {
-					console.log(response);
 					if (response.data.message === '이미 가입된 계정ID 입니다.') {
 						setIdDuplication(true);
 					} else if (
@@ -133,7 +130,6 @@ const ProfileSetup = () => {
 			})
 			.catch((error) => {
 				console.error(error.response.data.message);
-				console.log('오류 발생!');
 			});
 	};
 

@@ -15,7 +15,6 @@ const PostSection = ({ accountname, listView }) => {
 
 	useEffect(() => {
 		if (accountname) {
-			console.log('accountname: ', accountname);
 			const getPostList = async () => {
 				try {
 					const response = await axios.get(
@@ -28,7 +27,6 @@ const PostSection = ({ accountname, listView }) => {
 						}
 					);
 					setPosts(response.data.post);
-					console.log(response);
 				} catch (error) {
 					console.error('데이터를 불러올 수 없습니다', error);
 				}

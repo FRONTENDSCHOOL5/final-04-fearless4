@@ -64,7 +64,6 @@ export default function UserProfile() {
 			});
 			setIsLoading(true);
 			setProfile(res.data);
-			console.log(profile);
 		} catch (error) {
 			console.log('에러입니다', error);
 		}
@@ -98,7 +97,6 @@ export default function UserProfile() {
 						'Content-type': 'application/json',
 					},
 				});
-				console.log(res.data.profile.isfollow);
 				setIsFollow(true);
 			} catch (error) {
 				console.log('에러입니다', error);
@@ -113,7 +111,6 @@ export default function UserProfile() {
 						'Content-type': 'application/json',
 					},
 				});
-				console.log(res.data.profile.isfollow);
 				setIsFollow(false);
 			} catch (error) {
 				console.log('에러입니다', error);

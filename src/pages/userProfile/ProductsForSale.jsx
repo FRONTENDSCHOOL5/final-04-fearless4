@@ -34,7 +34,6 @@ export default function ProductsForSale({ userAccountName }) {
 	const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
 	const navigate = useNavigate();
 	const accountname = userAccountName;
-	console.log(accountname);
 	const url = API_URL;
 	const token = localStorage.getItem('token');
 	const data = useMyProfile();
@@ -51,7 +50,6 @@ export default function ProductsForSale({ userAccountName }) {
 					'Content-type': 'application/json',
 				},
 			});
-			// console.log(res);
 			setResProd(res.data.product);
 		}
 		if (data) {
@@ -67,7 +65,6 @@ export default function ProductsForSale({ userAccountName }) {
 		} else {
 			setIsModal(true);
 			setIsUserModal(false);
-			console.log(item);
 		}
 	};
 
@@ -95,7 +92,6 @@ export default function ProductsForSale({ userAccountName }) {
 						'Content-type': 'application/json',
 					},
 				});
-				// console.log(res);
 				setResProd((prevProducts) =>
 					prevProducts.filter((product) => product.id !== selectedProduct.id)
 				);

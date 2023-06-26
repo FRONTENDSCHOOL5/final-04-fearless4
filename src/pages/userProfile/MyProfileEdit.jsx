@@ -66,8 +66,6 @@ export default function ProfileSetup() {
 			: setDisabled(true);
 	}, [userId]);
 
-	// console.log(userName, !notValidUserId, !idDuplication);
-
 	const handleImageInputChange = async (e) => {
 		const allowedExtensionsRegex = /\.(jpg|gif|png|jpeg|bmp|tif|heic)$/i;
 		const maxImageSize = 10 * 1024 * 1024;
@@ -149,7 +147,6 @@ export default function ProfileSetup() {
 					userId === profileId ||
 					response.data.message === '사용 가능한 계정ID 입니다.'
 				) {
-					console.log(profileId);
 					setIdDuplication(false);
 					setDisabled(false);
 				} else if (response.data.message === '이미 가입된 계정ID 입니다.') {

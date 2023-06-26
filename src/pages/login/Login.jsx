@@ -21,7 +21,7 @@ export default function Login() {
 	const token = localStorage.getItem('token');
 	setTimeout(() => {
 		setIsLoading(false);
-	}, 2800);
+	}, 2700);
 
 	if (token) {
 		navigate('/Homefeed');
