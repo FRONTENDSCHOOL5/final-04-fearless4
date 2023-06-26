@@ -57,7 +57,7 @@ export const ProductsContainer = styled.ul`
 	gap: 10px;
 	height: 100%;
 	padding-bottom: 20px;
-	margin-bottom: -30px;
+	margin-bottom: -20px;
 `;
 
 export const ProductList = styled.li`
@@ -86,6 +86,7 @@ export const ProductName = styled.h3`
 	margin-top: 6px;
 	margin-bottom: 4px;
 	line-height: 17.53px;
+	white-space: nowrap;
 `;
 
 export const ProductPrice = styled.span`
@@ -93,6 +94,6 @@ export const ProductPrice = styled.span`
 	display: block;
 	color: #81d8d0;
 	font-size: 12px;
-	/* font-weight: 700; */
+	font-weight: 700;
 	line-height: 15.02px;
 `;
