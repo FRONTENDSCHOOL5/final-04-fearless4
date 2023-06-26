@@ -52,26 +52,59 @@ export default function Product() {
 		setIsFormValid(isFormValid);
 	}, [selectedImage, productNameError, productPrice, salesLinkError]);
 
-	async function handleImageInputChange(e) {
-		const formData = new FormData();
+	const handleImageInputChange = async (e) => {
+		const allowedExtensionsRegex = /\.(jpg|gif|png|jpeg|bmp|tif|heic)$/i;
+		const maxImageSize = 10 * 1024 * 1024;
 		const imageFile = e.target.files[0];
-		console.log(imageFile);
-		formData.append('image', imageFile);
-		try {
-			const res = await axios({
-				method: 'POST',
-				url: 'https://api.mandarin.weniv.co.kr/image/uploadfile/',
-				data: formData,
-				headers: {
-					'Content-type': 'multipart/form-data',
-				},
-			});
-			const imageUrl = 'https://api.mandarin.weniv.co.kr/' + res.data.filename;
-			setSelectedImage(imageUrl);
-		} catch (error) {
-			console.error(error);
+
+		if (imageFile) {
+			if (imageFile.size > maxImageSize) {
+				alert(
+					'이미지 크기가 너무 큽니다. \n10MB보다 작은 이미지를 업로드 해주세요!'
+				);
+				e.target.value = '';
+				return;
+			}
+			const fileExtension = '.' + imageFile.name.split('.').pop().toLowerCase();
+			if (!allowedExtensionsRegex.test(fileExtension)) {
+				alert(
+					'올바른 파일 확장자가 아닙니다!\n올바른 파일 확장자는 다음과 같습니다: .jpg, .gif, .png, .jpeg, .bmp, .tif, .heic'
+				);
+				e.target.value = '';
+				return;
+			}
+
+			const formData = new FormData();
+			const reader = new FileReader();
+
+			formData.append('image', imageFile);
+
+			reader.onloadend = () => {
+				setSelectedImage(reader.result);
+			};
+
+			if (imageFile) {
+				reader.readAsDataURL(imageFile);
+			}
+			try {
+				const res = await axios({
+					method: 'POST',
+					url: 'https://api.mandarin.weniv.co.kr/image/uploadfile/',
+					data: formData,
+					headers: {
+						'Content-type': 'multipart/form-data',
+					},
+				});
+				const imageUrl =
+					'https://api.mandarin.weniv.co.kr/' + res.data.filename;
+				setSelectedImage(imageUrl);
+			} catch (error) {
+				console.error(error);
+			}
+		} else {
+			e.target.value = '';
 		}
-	}
+	};
 
 	async function handleSaveButtonClick(e) {
 		const productData = {
@@ -96,6 +129,7 @@ export default function Product() {
 			setTimeout(() => {
 				navigate('../../profile/myProfile');
 			}, 3000);
+
 		} catch (error) {
 			console.error(error.response);
 		}
@@ -131,7 +165,7 @@ export default function Product() {
 		const salesLinkValue = e.target.value;
 		setSalesLink(salesLinkValue);
 		const urlPatterns =
-			/^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/i;
+			/^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)([a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?)$/i;
 
 		if (!urlPatterns.test(salesLinkValue)) {
 			setSalesLinkError('유효한 URL을 입력해주세요.');
