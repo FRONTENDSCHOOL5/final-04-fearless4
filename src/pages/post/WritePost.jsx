@@ -156,7 +156,7 @@ const WritePost = () => {
 			);
 
 			const id = response.data.post.id;
-			navigate(`/viewPost/${id}`);
+			navigate(`/post/view/${id}`);
 		} catch (error) {
 			console.error(error);
 		}

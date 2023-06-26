@@ -194,7 +194,7 @@ const ViewPost = () => {
 					onClick={() =>
 						postData.author.accountname !== currentUserAccountName
 							? navigate(-1)
-							: navigate('/myProfile')
+							: navigate('../../profile/myProfile')
 					}
 				/>
 				<OptionModalTab onClick={handleModalOpen}></OptionModalTab>

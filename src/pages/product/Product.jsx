@@ -94,7 +94,7 @@ export default function Product() {
 			});
 			setShowToast(true);
 			setTimeout(() => {
-				navigate('/myProfile');
+				navigate('../../profile/myProfile');
 			}, 3000);
 		} catch (error) {
 			console.error(error.response);

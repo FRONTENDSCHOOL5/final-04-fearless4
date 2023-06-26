@@ -56,7 +56,7 @@ export default function ChatList() {
 			<ChatWrap>
 				<UserFlexWrap
 					onClick={() => {
-						navigate('/chat2');
+						navigate('./여행조아');
 					}}
 				>
 					<ProfileWrap>
@@ -75,7 +75,7 @@ export default function ChatList() {
 				</UserFlexWrap>
 				<UserFlexWrap
 					onClick={() => {
-						navigate('/chat');
+						navigate('./choi');
 					}}
 				>
 					<ProfileWrap>

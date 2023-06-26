@@ -74,7 +74,7 @@ export default function LoginEmail() {
 	}
 
 	function GoToSignUp() {
-		navigate('/signup');
+		navigate('/account/signup');
 	}
 
 	return (
