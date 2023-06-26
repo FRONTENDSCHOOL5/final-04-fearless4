@@ -77,7 +77,6 @@ const ProfileSetup = () => {
 
 			// 유효성 검사를 통과한 경우에만 이미지 업로드 처리를 진행합니다.
 			const formData = new FormData();
-			const reader = new FileReader();
 
 			formData.append('image', imageFile);
 
