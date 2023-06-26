@@ -54,6 +54,7 @@ export const FollowerProfileImageComment = styled.img`
 	border-radius: 50%;
 	object-fit: cover;
 	align-self: flex-start;
+	cursor: pointer;
 `;
 
 export const CommentDetail = styled.div`
@@ -73,6 +74,7 @@ export const CommentFollower = styled.div`
 export const CommentFollowerName = styled.p`
 	font-size: 14px;
 	font-weight: 500;
+	cursor: pointer;
 `;
 export const CommentTime = styled.p`
 	font-size: 10px;
