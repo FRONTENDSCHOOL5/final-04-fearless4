@@ -74,6 +74,7 @@ export const ProfileImg = styled.img`
 	margin-right: 12px;
 	display: block;
 	object-fit: cover;
+	cursor: pointer;
 `;
 
 export const SpanName = styled.span`
@@ -100,6 +101,7 @@ export const TextPost = styled.div`
 	margin: 16px 0;
 	font-size: 14px;
 	min-width: 200px;
+	white-space: pre-wrap;
 `;
 
 export const ImgBx = styled.div`

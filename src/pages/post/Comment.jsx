@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
 import 'moment/locale/ko';
@@ -34,10 +35,12 @@ export const Comment = ({
 	reloadComments,
 	currentUsername,
 }) => {
+	const currentUserAccountName = localStorage.getItem('userAccountName');
 	const { author, createdAt, content, id } = comment;
 	const [isCommentModal, setIsCommentModal] = useState(false);
 	const [showDeleteToast, setShowDeleteToast] = useState(false);
 	const [showReportToast, setShowReportToast] = useState(false);
+	const navigate = useNavigate();
 
 	moment.locale('ko');
 	const fromNow = moment(createdAt).fromNow();
@@ -107,10 +110,27 @@ export const Comment = ({
 			<FollowerProfileImageComment
 				src={author.image}
 				onError={handleImgError}
+				onClick={() => {
+					currentUserAccountName === author.accountname
+						? navigate('/myprofile')
+						: navigate('/userprofile', {
+								state: { accountname: author.accountname },
+						  });
+				}}
 			></FollowerProfileImageComment>
 			<CommentDetail>
 				<CommentFollower>
-					<CommentFollowerName>{author.username}</CommentFollowerName>
+					<CommentFollowerName
+						onClick={() => {
+							currentUserAccountName === author.accountname
+								? navigate('/myprofile')
+								: navigate('/userprofile', {
+										state: { accountname: author.accountname },
+								  });
+						}}
+					>
+						{author.username}
+					</CommentFollowerName>
 					<CommentTime>{fromNow}</CommentTime>
 				</CommentFollower>
 
