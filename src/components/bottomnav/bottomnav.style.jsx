@@ -90,7 +90,7 @@ export function BottomNavContainer(props) {
 				/>
 				<span className='nav-text'>홈</span>
 			</NavLink>
-			<NavLink to='/chatlist'>
+			<NavLink to='/chat'>
 				<NavIcon
 					id='message'
 					src={
@@ -105,7 +105,7 @@ export function BottomNavContainer(props) {
 				/>
 				<span className='nav-text'>채팅</span>
 			</NavLink>
-			<NavLink to='/writePost'>
+			<NavLink to='/post/upload'>
 				<NavIcon
 					id='post'
 					src={
@@ -120,7 +120,7 @@ export function BottomNavContainer(props) {
 				/>
 				<span className='nav-text'>게시물 작성</span>
 			</NavLink>
-			<NavLink to='/myProfile'>
+			<NavLink to='/profile/myProfile'>
 				<NavIcon
 					id='profile'
 					src={

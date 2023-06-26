@@ -125,7 +125,7 @@ export default function Signup() {
 							type='button'
 							disabled={disabled}
 							onClick={() => {
-								navigate('/profileSetup', {
+								navigate('./profileSetup', {
 									state: { email: email, password: password },
 								});
 							}}

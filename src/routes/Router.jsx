@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
 
 const LoginEmail = lazy(() => import('../pages/loginEmail/LoginEmail'));
 const Splash = lazy(() => import('../pages/splash/Splash'));
@@ -33,31 +33,59 @@ export default function Router() {
 			<Suspense fallback={<Splash />}>
 				<Routes>
 					<Route path='/' element={<Login />} />
-					<Route path='/loginEmail' element={<LoginEmail />} />
-					<Route path='/signup' element={<Signup />} />
-					<Route path='/profileSetup' element={<ProfileSetup />} />
-					<Route path='/userProfile' element={<UserProfile />}></Route>
-					<Route
-						path='/productsForSaleEdit'
-						element={<ProductsForSaleEdit />}
-					></Route>
-					<Route path='/myProfile' element={<MyProfile />}></Route>
-					<Route path='/MyProfileEdit' element={<MyProfileEdit />}></Route>
-					<Route path='/followers' element={<Followers />}></Route>
-					<Route path='/followings' element={<Followings />}></Route>
-					<Route path='/Product' element={<Product />}></Route>
-					<Route path='/Homefeed' element={<Homefeed />}></Route>
-					<Route path='/writePost' element={<WritePost />}></Route>
-					<Route path='/viewPost/:id' element={<ViewPost />}></Route>
-
-					<Route path='/editPost' element={<EditPost />}></Route>
-
+					<Route path='/homefeed' element={<Homefeed />}></Route>
 					<Route path='/search' element={<Search />}></Route>
-					<Route path='/ChatList' element={<ChatList />}></Route>
-					<Route path='/Chat' element={<Chat />}></Route>
-					<Route path='/Chat2' element={<Chat2 />}></Route>
-					<Route path='/viewPost' element={<ViewPost />}></Route>
-					<Route path='/page404' element={<Page404 />}></Route>
+
+					<Route path='/account/' element={<Outlet />}>
+						<Route path='' element={<Page404 />} />
+						<Route path='*' element={<Page404 />} />
+						<Route path='login/' element={<LoginEmail />} />
+						<Route path='signup/' element={<Signup />} />
+						<Route path='signup/profileSetup/' element={<ProfileSetup />} />
+					</Route>
+
+					<Route path='/profile/' element={<Outlet />}>
+						<Route path='' element={<Page404 />} />
+						<Route path='*' element={<Page404 />} />
+						<Route path='userprofile/' element={<Outlet />}>
+							<Route path='' element={<UserProfile />} />
+							<Route path='*' element={<Page404 />} />
+							<Route path='follower/' element={<Followers />}></Route>
+							<Route path='following/' element={<Followings />}></Route>
+						</Route>
+
+						<Route path='myProfile/' element={<Outlet />}>
+							<Route path='' element={<MyProfile />} />
+							<Route path='*' element={<Page404 />} />
+							<Route path='follower/' element={<Followers />} />
+							<Route path='following/' element={<Followings />} />
+							<Route path='edit/' element={<MyProfileEdit />} />
+						</Route>
+					</Route>
+
+					<Route path='/product/' element={<Outlet />}>
+						<Route path='' element={<Page404 />} />
+						<Route path='*' element={<Page404 />} />
+						<Route path='upload/' element={<Product />} />
+						<Route path='edit/' element={<ProductsForSaleEdit />} />
+					</Route>
+
+					<Route path='/post/' element={<Outlet />}>
+						<Route path='' element={<Page404 />} />
+						<Route path='*' element={<Page404 />} />
+						<Route path='upload/' element={<WritePost />} />
+						<Route path='view/:id' element={<ViewPost />} />
+						<Route path='edit/' element={<EditPost />} />
+					</Route>
+
+					<Route path='/chat/' element={<Outlet />}>
+						<Route path='' element={<ChatList />} />
+						<Route path='*' element={<Page404 />} />
+						<Route path='room/choi' element={<Chat />} />
+						<Route path='room/여행조아' element={<Chat2 />} />
+					</Route>
+
+					<Route path='*' element={<Page404 />} />
 				</Routes>
 			</Suspense>
 		</BrowserRouter>
