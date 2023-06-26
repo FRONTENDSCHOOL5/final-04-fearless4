@@ -106,7 +106,7 @@ export default function ProductsForSale({ userAccountName }) {
 	};
 
 	const viewProductOnWebsite = () => {
-		const url = `https://${selectedProduct.link}`;
+		const url = `${selectedProduct.link}`;
 		window.open(url, '_blank');
 	};
 	const goToProductEdit = () => {
