@@ -169,9 +169,9 @@ final-04-fearless4
 └─ src
    ├─ App.js
    ├─ api.js
-	 ├─ GlobalStyle.jsx
-	 ├─ index.css
-	 ├─ index.js
+   ├─ GlobalStyle.jsx
+   ├─ index.css
+   ├─ index.js
    ├─ assets
    │  └─ image
    │  └─ icon
