@@ -37,6 +37,7 @@ import axios from 'axios';
 import { API_URL } from '../../api';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import ProductsForSale from './ProductsForSale';
+import Loading from '../../components/loading/Loading.jsx';
 export default function UserProfile() {
 	const location = useLocation();
 	const navigate = useNavigate();
@@ -212,6 +213,7 @@ export default function UserProfile() {
 						</>
 					)}
 				</ProfileWrapper>
+				{!isLoading && <Loading />}
 
 				<ProductsForSale userAccountName={accountname} />
 				{isLoading && (
