@@ -1,7 +1,7 @@
 import React from 'react';
 import Cat404 from '../../assets/image/cat404.png';
 import Snore from '../../assets/image/snore.png';
-import Baggage2 from '../../assets/image/baggage2.png';
+import Luggage from '../../assets/image/luggage.png';
 import Sign from '../../assets/image/sign.png';
 import {
 	AnimationWrap,
@@ -30,7 +30,7 @@ export default function Page404() {
 			</NotFoundText>
 			<CatWrap>
 				<Cat404Img src={Cat404} />
-				<LuggageImg src={Baggage2} />
+				<LuggageImg src={Luggage} />
 				<AnimationWrap>
 					<SnoreLargeImg src={Snore} />
 					<SnoreMediumImg src={Snore} />
