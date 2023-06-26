@@ -81,8 +81,8 @@ export default function Router() {
 					<Route path='/chat/' element={<Outlet />}>
 						<Route path='' element={<ChatList />} />
 						<Route path='*' element={<Page404 />} />
-						<Route path='room/choi' element={<Chat />} />
-						<Route path='room/여행조아' element={<Chat2 />} />
+						<Route path='choi/' element={<Chat />} />
+						<Route path='여행조아/' element={<Chat2 />} />
 					</Route>
 
 					<Route path='*' element={<Page404 />} />
