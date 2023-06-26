@@ -25,8 +25,6 @@ const Chat = lazy(() => import('../pages/chat/Chat'));
 const Chat2 = lazy(() => import('../pages/chat/Chat2'));
 const Page404 = lazy(() => import('../pages/page404/Page404'));
 
-const renderLoader = () => <span>로딩중...</span>;
-
 export default function Router() {
 	return (
 		<BrowserRouter basename=''>

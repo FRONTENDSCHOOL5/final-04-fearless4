@@ -19,13 +19,15 @@ export default function Login() {
 	const [isLoading, setIsLoading] = useState(true);
 
 	const token = localStorage.getItem('token');
-	setTimeout(() => {
-		setIsLoading(false);
-	}, 2800);
 
-	if (token) {
-		navigate('/Homefeed');
-	}
+	useEffect(() => {
+		const timeout = setTimeout(() => {
+			setIsLoading(false);
+			if (token && isLoading) {
+				navigate('/Homefeed');
+			}
+		}, 2800);
+	}, []);
 
 	const handleModal = (e) => {
 		if (
@@ -46,9 +48,7 @@ export default function Login() {
 	};
 	return (
 		<>
-			{isLoading === true ? (
-				<Splash />
-			) : (
+			{!isLoading && !token === true ? (
 				<Wrapper id='wrap' onClick={handleModal}>
 					<LogoWrapper>
 						<Heart id='heart' src={HeartImg} />
@@ -82,6 +82,8 @@ export default function Login() {
 						</FlexWrapper>
 					</ButtonWrapper>
 				</Wrapper>
+			) : (
+				<Splash />
 			)}
 		</>
 	);
