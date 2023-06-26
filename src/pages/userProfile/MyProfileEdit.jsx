@@ -204,6 +204,32 @@ export default function ProfileSetup() {
 		</>
 	);
 
+	const WrongExtensionToast = () => (
+		<>
+			{showWrongExtensionToast && (
+				<ToastContainer>
+					<ToastIcon>😵‍💫</ToastIcon>
+					<ToastMsg>
+						<ToastMsgBold>이미지</ToastMsgBold>만 업로드 해 주세요!
+					</ToastMsg>
+				</ToastContainer>
+			)}
+		</>
+	);
+
+	const SizeOverToast = () => (
+		<>
+			{showSizeOverToast && (
+				<ToastContainer>
+					<ToastIcon>😵</ToastIcon>
+					<ToastMsg>
+						<ToastMsgBold>10MB</ToastMsgBold>이하의 파일만 업로드 해 주세요!
+					</ToastMsg>
+				</ToastContainer>
+			)}
+		</>
+	);
+
 	return (
 		<>
 			<NavbarWrap spaceBetween>
@@ -275,6 +301,8 @@ export default function ProfileSetup() {
 					</FormElement>
 				</WrapForm>
 				<ProfileEditToast />
+				<WrongExtensionToast />
+				<SizeOverToast />
 			</WrapperProfileSetup>
 		</>
 	);
