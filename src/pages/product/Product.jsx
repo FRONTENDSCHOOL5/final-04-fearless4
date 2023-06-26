@@ -120,7 +120,7 @@ export default function Product() {
 			setShowToast(true);
 			setTimeout(() => {
 				navigate('../../profile/myProfile');
-			}, 3000);
+			}, 1000);
 		} catch (error) {
 			console.error(error.response);
 		}
@@ -156,7 +156,7 @@ export default function Product() {
 		const salesLinkValue = e.target.value;
 		setSalesLink(salesLinkValue);
 		const urlPatterns =
-			/^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)([a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?)$/i;
+			/^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)([a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,}(\/.*)?)$/i;
 
 		if (!urlPatterns.test(salesLinkValue)) {
 			setSalesLinkError('유효한 URL을 입력해주세요.');

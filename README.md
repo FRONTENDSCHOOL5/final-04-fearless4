@@ -51,7 +51,7 @@ Hello, there! 저희는 4명의 Front-End 개발자로 구성된 **Fearless 4** 
 #### 검색 페이지
 
 #### 채팅 페이지
-- 채팅 페이지 마크업업
+- 채팅 페이지 마크업
 
 ### 정준영
 #### 프로필 페이지
@@ -158,7 +158,55 @@ remove      : 파일을 삭제하는 작업만 수행한 경우
 <img alt="Figma" src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white"/>
 
 ## 8. 폴더 구조
-추가 예정
+```javascript
+final-04-fearless4
+│  
+├─ .gitignore
+├─ .prettierrc
+├─ package-lock.json
+├─ package.json
+├─ README.md
+└─ src
+   ├─ App.js
+   ├─ api.js
+   ├─ GlobalStyle.jsx
+   ├─ index.css
+   ├─ index.js
+   ├─ assets
+   │  └─ image
+   │  └─ icon
+   ├─ components
+   │  ├─ background
+   │  ├─ bottomnav
+   │  ├─ button
+   │  ├─ form
+   │  ├─ loading
+   │  ├─ loginJoin
+   │  ├─ logo
+   │  ├─ modal
+   │  ├─ navbar
+   │  ├─ post
+   │  ├─ toast
+   │  ├─ style
+   ├─ fonts
+   ├─ hook
+   ├─ mobile
+   ├─ pages
+   │  │  ├─ chat
+   │  │  ├─ follow
+   │  │  ├─ homeFeed
+   │  │  ├─ login
+   │  │  ├─ loginEmail
+   │  │  ├─ page404
+   │  │  ├─ post
+   │  │  ├─ product
+   │  │  ├─ profileSetup
+   │  │  ├─ search
+   │  │  ├─ splash
+   │  │  ├─ userProfile
+   ├─ routes
+```
+
 
 ## 9. 핵심 기능 
 추가 예정
