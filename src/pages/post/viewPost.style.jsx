@@ -26,7 +26,6 @@ export const PostView = styled.div`
 	width: 100%;
 	height: auto;
 	display: flex;
-	padding-top: 48px;
 	justify-content: center;
 	align-items: center;
 	border-bottom: 2px solid #dbdbdb;
@@ -55,6 +54,7 @@ export const FollowerProfileImageComment = styled.img`
 	border-radius: 50%;
 	object-fit: cover;
 	align-self: flex-start;
+	cursor: pointer;
 `;
 
 export const CommentDetail = styled.div`
@@ -74,6 +74,7 @@ export const CommentFollower = styled.div`
 export const CommentFollowerName = styled.p`
 	font-size: 14px;
 	font-weight: 500;
+	cursor: pointer;
 `;
 export const CommentTime = styled.p`
 	font-size: 10px;
@@ -85,10 +86,11 @@ export const CommentText = styled.p`
 	font-size: 14px;
 	color: #333333;
 	white-space: pre-line;
+	line-height: 1.3em;
 `;
 
 export const UploadComment = styled.div`
-	width: 100%;
+	width: 390px;
 	box-sizing: border-box;
 	background-color: #fff;
 	padding: 12px 16px;
@@ -109,6 +111,7 @@ export const ProfileImageComment = styled.img`
 `;
 
 export const CommentInputArea = styled.textarea`
+	font-family: 'Suit-Regular';
 	width: 260px;
 	resize: none;
 	border: none;
@@ -125,11 +128,12 @@ export const CommentInputArea = styled.textarea`
 `;
 
 export const CommentUploadButton = styled.button`
+	font-family: 'Suit-Bold';
 	width: 40px;
 	border: none;
 	background-color: #fff;
-
+	color: #81d8d0;
 	cursor: pointer;
 	font-size: 14px;
-	font-weight: 700;
+	/* font-weight: 700; */
 `;

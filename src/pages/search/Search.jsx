@@ -78,7 +78,7 @@ export default function Search() {
 	};
 
 	return (
-		<SearchWrap>
+		<>
 			<NavbarWrap spaceBetween>
 				<Backspace
 					onClick={() => {
@@ -91,53 +91,53 @@ export default function Search() {
 					value={keyword}
 				/>
 			</NavbarWrap>
-
-			{searchData.map((item) => {
-				return (
-					<Wrapper key={item.id}>
-						<UserWrap>
-							<UserFlexWrap>
-								<UserProfileImg>
-									<UserFollowImage
-										src={item.image}
-										onError={onErrorImg}
-										alt='유저 프로필 이미지입니다.'
+			<SearchWrap>
+				{searchData.map((item) => {
+					return (
+						<Wrapper key={item.id}>
+							<UserWrap>
+								<UserFlexWrap>
+									<UserProfileImg>
+										<UserFollowImage
+											src={item.image}
+											onError={onErrorImg}
+											alt='유저 프로필 이미지입니다.'
+											onClick={() => {
+												navigate('/userprofile', {
+													state: { accountname: item.accountname },
+												});
+											}}
+										/>
+									</UserProfileImg>
+									<UserContent
 										onClick={() => {
 											navigate('/userprofile', {
 												state: { accountname: item.accountname },
 											});
 										}}
-									/>
-								</UserProfileImg>
-								<UserContent
-									onClick={() => {
-										navigate('/userprofile', {
-											state: { accountname: item.accountname },
-										});
-									}}
-								>
-									<UserFollowNickName>
-										<SearchColor
-											user={item.username}
-											word={keyword}
-											type='username'
-										></SearchColor>
-									</UserFollowNickName>
-									<UserFollowIntro>
-										<SearchColor
-											user={`@${item.accountname}`}
-											word={keyword}
-											type='accountname'
-										/>
-									</UserFollowIntro>
-								</UserContent>
-							</UserFlexWrap>
-						</UserWrap>
-					</Wrapper>
-				);
-			})}
-
-			<BottomNavContainer />
-		</SearchWrap>
+									>
+										<UserFollowNickName>
+											<SearchColor
+												user={item.username}
+												word={keyword}
+												type='username'
+											></SearchColor>
+										</UserFollowNickName>
+										<UserFollowIntro>
+											<SearchColor
+												user={`@${item.accountname}`}
+												word={keyword}
+												type='accountname'
+											/>
+										</UserFollowIntro>
+									</UserContent>
+								</UserFlexWrap>
+							</UserWrap>
+						</Wrapper>
+					);
+				})}
+				<BottomNavContainer />
+			</SearchWrap>
+		</>
 	);
 }

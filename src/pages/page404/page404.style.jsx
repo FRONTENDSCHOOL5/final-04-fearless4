@@ -16,10 +16,15 @@ export const Page404Wrap = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	background-color: #81d8d0;
+	background-color: #fff;
 	width: 100%;
 	height: 100vh;
 	overflow: hidden;
+`;
+
+export const CatWrap = styled.div`
+	position: relative;
+	width: 450px;
 `;
 
 export const NotFoundSign = styled.img`
@@ -27,15 +32,8 @@ export const NotFoundSign = styled.img`
 `;
 
 export const NotFoundText = styled.p`
-	@font-face {
-		font-family: 'MapoBackpacking';
-		src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoBackpackingA.woff')
-			format('woff');
-		font-weight: normal;
-		font-style: normal;
-	}
-	font-family: 'MapoBackpacking';
-	color: red;
+	font-family: 'omyu_pretty';
+	color: #da3666;
 	font-weight: bold;
 	text-align: center;
 	font-size: 40px;
@@ -44,10 +42,12 @@ export const NotFoundText = styled.p`
 `;
 
 export const Cat404Img = styled.img`
-	margin-top: 80px;
+	width: 100%;
+	margin: 120px 0 0 10px;
 `;
 
 export const HomeButton = styled.button`
+	font-family: 'Suit-Regular';
 	border: none;
 	border-radius: 44px;
 	height: 44px;
@@ -55,11 +55,15 @@ export const HomeButton = styled.button`
 	font-size: 14px;
 	line-height: 14px;
 	cursor: pointer;
-	background-color: #ffff;
+	color: #fff;
+	background-color: #81d8d0;
 `;
 
 export const AnimationWrap = styled.div`
 	position: relative;
+	scale: 0.6;
+	top: -10px;
+	left: 90px;
 `;
 
 export const SnoreLargeImg = styled.img`
@@ -89,8 +93,8 @@ export const SnoreSmallImg = styled.img`
 `;
 
 export const LuggageImg = styled.img`
-	position: relative;
-	width: 240px;
-	top: -390px;
-	left: -170px;
+	position: absolute;
+	width: 120px;
+	top: 250px;
+	left: 170px;
 `;

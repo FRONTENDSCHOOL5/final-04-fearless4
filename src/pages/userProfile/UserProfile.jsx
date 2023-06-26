@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { PostDeleteContext } from '../post/PostDeleteContext.jsx';
 import { ChatShare, ProfileButton } from '../../components/button/button.style';
 import {
 	ProfileWrapper,
@@ -29,9 +30,10 @@ import {
 	CheckButtonWrap,
 	CheckLogout,
 } from '../../components/modal/modal.style';
-import { useState } from 'react';
+import PostList from '../../components/post/PostList';
+import { BottomNavContainer } from '../../components/bottomnav/bottomnav.style';
 import axios from 'axios';
-import { useEffect } from 'react';
+
 import { API_URL } from '../../api';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ProductsForSale from './ProductsForSale';
@@ -43,6 +45,7 @@ export default function UserProfile() {
 	const [isModal, setIsModal] = useState(false);
 	const [isCheckModal, setIsCheckModal] = useState(false);
 	const [isFollow, setIsFollow] = useState();
+	const [deletedPostId, setDeletedPostId] = useState(null);
 
 	const accountname = location.state.accountname;
 
@@ -146,16 +149,16 @@ export default function UserProfile() {
 
 	return (
 		<>
+			<NavbarWrap spaceBetween>
+				<Backspace
+					onClick={() => {
+						navigate(-1);
+					}}
+				/>
+				<OptionModalTab onClick={handleModalOpen} />
+			</NavbarWrap>
 			<ProfilePageWrapper>
 				<ProfileWrapper>
-					<NavbarWrap spaceBetween>
-						<Backspace
-							onClick={() => {
-								navigate(-1);
-							}}
-						/>
-						<OptionModalTab onClick={handleModalOpen} />
-					</NavbarWrap>
 					{isLoading && (
 						<>
 							<ProfileImgWrap>
@@ -211,28 +214,37 @@ export default function UserProfile() {
 				</ProfileWrapper>
 
 				<ProductsForSale userAccountName={accountname} />
-				{isModal && (
-					<DarkBackground onClick={handleModalClose}>
-						<ModalWrap>
-							<ModalText>설정 및 개인정보</ModalText>
-							<ModalText onClick={handleCheckModal}>로그아웃</ModalText>
-						</ModalWrap>
-					</DarkBackground>
-				)}
-				{isCheckModal && (
-					<DarkBackground onClick={handleModalClose}>
-						<CheckModalWrap>
-							<CheckMsg>로그아웃하시겠어요?</CheckMsg>
-							<CheckButtonWrap>
-								<CheckLogout onClick={handleModalClose}>취소</CheckLogout>
-								<CheckLogout check onClick={accountLogout}>
-									로그아웃
-								</CheckLogout>
-							</CheckButtonWrap>
-						</CheckModalWrap>
-					</DarkBackground>
+				{isLoading && (
+					<PostDeleteContext.Provider
+						value={{ deletedPostId, setDeletedPostId }}
+					>
+						{' '}
+						<PostList accountname={accountname}></PostList>
+					</PostDeleteContext.Provider>
 				)}
 			</ProfilePageWrapper>
+			{isModal && (
+				<DarkBackground onClick={handleModalClose}>
+					<ModalWrap>
+						<ModalText>설정 및 개인정보</ModalText>
+						<ModalText onClick={handleCheckModal}>로그아웃</ModalText>
+					</ModalWrap>
+				</DarkBackground>
+			)}
+			{isCheckModal && (
+				<DarkBackground onClick={handleModalClose}>
+					<CheckModalWrap>
+						<CheckMsg>로그아웃하시겠어요?</CheckMsg>
+						<CheckButtonWrap>
+							<CheckLogout onClick={handleModalClose}>취소</CheckLogout>
+							<CheckLogout check onClick={accountLogout}>
+								로그아웃
+							</CheckLogout>
+						</CheckButtonWrap>
+					</CheckModalWrap>
+				</DarkBackground>
+			)}
+			<BottomNavContainer profile />
 		</>
 	);
 }

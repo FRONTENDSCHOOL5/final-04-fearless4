@@ -4,18 +4,17 @@ import optionIcon from '../../assets/icon/option.svg';
 import Cat from '../../assets/image/cat.png';
 
 export const NavbarWrap = styled.div`
+	position: sticky;
 	width: 100%;
+	height: 50px;
 	display: flex;
 	align-items: center;
 	justify-content: ${({ spaceBetween }) =>
 		spaceBetween === true ? `space-between` : `initial`};
-	width: 100%;
 	padding: 12px;
 	box-sizing: border-box;
-	background-color: #fff;
-	position: fixed;
 	top: 0;
-	left: 0;
+	background-color: #fff;
 	border-bottom: solid 1px #dbdbdb;
 	z-index: 888;
 `;
@@ -47,25 +46,23 @@ export const TitleLogoWrap = styled.div`
 	display: flex;
 	align-items: center;
 	cursor: pointer;
-`
+`;
 
 export const TitleImg = styled.img`
 	width: 42px;
 	margin-right: -8px;
 	margin-left: ${({ ml }) => (ml === true ? '-15px' : 'initial')};
-`
+`;
 
 export const TitleColorMint = styled.span`
-	color: #81D8D0;
+	color: #81d8d0;
 `;
 
 export const TitleColorGray = styled.span`
 	color: #767676;
 `;
 
-
- export function TitleLogo () {
-	
+export function TitleLogo() {
 	return (
 		<TitleLogoWrap>
 			<TitleImg src={Cat} ml />
@@ -73,5 +70,5 @@ export const TitleColorGray = styled.span`
 			<TitleColorGray>ravel</TitleColorGray>
 			<TitleColorMint>Us</TitleColorMint>
 		</TitleLogoWrap>
-	)
- }
+	);
+}

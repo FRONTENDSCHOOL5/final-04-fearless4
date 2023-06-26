@@ -2,14 +2,13 @@ import styled from 'styled-components';
 
 export const WrapAll = styled.div`
 	background: white;
-	padding: 20px 0px 20px 20px;
-	border: 0.5px solid #dbdbdb;
+	box-sizing: border-box;
+	padding: 20px 20px 20px 20px;
 `;
 
 export const Scroll = styled.div`
 	overflow-x: scroll;
 	overflow-y: hidden;
-	height: 100%;
 
 	::-webkit-scrollbar {
 		height: 10px;
@@ -22,7 +21,7 @@ export const Scroll = styled.div`
 		height: 5px;
 	}
 
-	::webkit-scrollbar-track {
+	::-webkit-scrollbar-track {
 		background-color: transparent;
 		border-radius: 10px;
 	}
@@ -36,6 +35,7 @@ export const Title = styled.h2`
 `;
 
 export const SortedButton = styled.button`
+	font-family: 'Suit-Regular';
 	margin-bottom: 20px;
 	border: none;
 	margin-left: 10px;
@@ -60,7 +60,6 @@ export const ProductsContainer = styled.ul`
 
 export const ProductList = styled.li`
 	width: 140px;
-	height: 132px;
 	flex-shrink: 0;
 	list-style: none;
 	padding-bottom: 10px;
@@ -88,9 +87,10 @@ export const ProductName = styled.h3`
 `;
 
 export const ProductPrice = styled.span`
+	font-family: 'Suit-Regular';
 	display: block;
 	color: #81d8d0;
 	font-size: 12px;
-	font-weight: 700;
+	/* font-weight: 700; */
 	line-height: 15.02px;
 `;

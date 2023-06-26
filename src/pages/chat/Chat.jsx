@@ -1,15 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-
+import styled from 'styled-components';
 import {
 	ModalWrap,
 	ModalText,
 	DarkBackground,
-	CheckModalWrap,
-	CheckMsg,
-	CheckButtonWrap,
-	CheckLogout,
 } from '../../components/modal/modal.style';
 
 import {
@@ -22,7 +18,7 @@ import {
 	CommentInputArea,
 	CommentUploadButton,
 	ProfileImageComment,
-} from './../post/viewPost.style';
+} from '../post/viewPost.style';
 
 import {
 	ChatBox,
@@ -35,13 +31,14 @@ import {
 	ChatText,
 	ChatTextRight,
 	Time,
+	ChatImg,
+	HomeContainer,
 } from './chat.style';
-import ProfilePic from '../../assets/image/profilePic.png';
 import UploadPic from '../../assets/image/profileImageUploadButton.png';
+import VillageInItaly2 from '../../assets/image/villageInItaly2.jpg';
+import ChatProfile from '../../assets/image/chatProfile.jpg';
 
-import styled from 'styled-components';
-
-export default function Chat() {
+export default function Chat2() {
 	const navigate = useNavigate();
 	const [text, setText] = useState('');
 	const [isModal, setIsModal] = useState(false);
@@ -60,16 +57,6 @@ export default function Chat() {
 		}
 	};
 
-	const HomeContainer = styled.div`
-		position: relative;
-		width: 100%;
-		height: 90vh;
-		display: flex;
-		flex-direction: column;
-		padding-top: 20px;
-		background-color: #f2f2f2;
-	`;
-
 	return (
 		<div>
 			<NavbarWrap spaceBetween>
@@ -78,38 +65,55 @@ export default function Chat() {
 						navigate(-1);
 					}}
 				/>
-				애월읍 위니브 감귤농장 <OptionModalTab onClick={handleModalOpen} />
+				choi <OptionModalTab onClick={handleModalOpen} />
 			</NavbarWrap>
 			<HomeContainer>
 				<ChatBox>
 					<Column>
 						<MessageRow>
-							<ProfileImg src={ProfilePic} />
+							<ProfileImg src={ChatProfile} />
 							<MessageText>
 								<ChatText>
-									옷을 인생을 그러므로 없으면 것은 이상은 것은 우리의 위하여,
-									뿐이다. 이상의 청춘의 뼈 따뜻한 그들의 그와 약동하다. 대고,
-									못할 넣는 풍부하게 뛰노는 인생의 힘있다.
+									안녕하세요! 판매중이신 상품들 중에 친구들과 가기 좋은 곳이
+									어디있을까요? 친구들이랑 좋은 추억을 남기고 싶습니다.
 								</ChatText>
 							</MessageText>
-							<Time>4:30</Time>
+							<Time>3:20</Time>
 						</MessageRow>
 					</Column>
 					<Column>
 						<MessageRow>
-							<ProfileImg src={ProfilePic} />
+							<ProfileImg src={ChatProfile} />
 							<MessageText>
-								<ChatText>안녕하세요. 감귤 사고싶어요요요요요</ChatText>
+								<ChatText>
+									저희는 여행가서 이쁜 곳에서 사진 많이 찍고 싶어요~
+								</ChatText>
 							</MessageText>
-							<Time>4:30</Time>
+							<Time>3:20</Time>
 						</MessageRow>
 					</Column>
 					<Column>
 						<MessageRow2>
-							<Time>4:30</Time>
+							<Time>3:23</Time>
 							<MessageText2>
-								<ChatTextRight>네 말씀하세요.</ChatTextRight>
+								<ChatTextRight>
+									안녕하세요, 고객님! 혹시 이탈리아마을 어떠실까요? 가평에 있는
+									이탈리아 마을은 여권없이 떠나는 국내 유일의 이탈리아
+									테마파크입니다! 사진찍을 곳도 많고, 공연도 있어서 충분히 좋은
+									추억쌓으실 수 있습니다. 이외 추가 문의 있으시면 언제든지
+									문의주세요! 아래 사진은 이탈리아 마을에서 오시면 보실 수 있는
+									곳입니다~
+								</ChatTextRight>
 							</MessageText2>
+						</MessageRow2>
+					</Column>
+
+					<Column>
+						<MessageRow2>
+							<Time>3:24</Time>
+							<ChatTextRight>
+								<ChatImg src={VillageInItaly2} />
+							</ChatTextRight>
 						</MessageRow2>
 					</Column>
 				</ChatBox>

@@ -14,6 +14,7 @@ import {
 	SnoreLargeImg,
 	SnoreMediumImg,
 	SnoreSmallImg,
+	CatWrap,
 } from './page404.style';
 import { useNavigate } from 'react-router-dom';
 
@@ -27,7 +28,15 @@ export default function Page404() {
 				<br />
 				Page not Found
 			</NotFoundText>
-			<Cat404Img src={Cat404} />
+			<CatWrap>
+				<Cat404Img src={Cat404} />
+				<LuggageImg src={Baggage2} />
+				<AnimationWrap>
+					<SnoreLargeImg src={Snore} />
+					<SnoreMediumImg src={Snore} />
+					<SnoreSmallImg src={Snore} />
+				</AnimationWrap>
+			</CatWrap>
 			<HomeButton
 				onClick={() => {
 					navigate('/homeFeed');
@@ -35,14 +44,6 @@ export default function Page404() {
 			>
 				홈으로 돌아가기
 			</HomeButton>
-			<div>
-				<AnimationWrap>
-					<SnoreLargeImg src={Snore} />
-					<SnoreMediumImg src={Snore} />
-					<SnoreSmallImg src={Snore} />
-				</AnimationWrap>
-				<LuggageImg src={Baggage2} />
-			</div>
 		</Page404Wrap>
 	);
 }

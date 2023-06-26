@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 export const BottomNav = styled.div`
 	position: fixed;
 	bottom: 0;
-	width: 100%;
+	width: 390px;
 	height: 50px;
 	display: flex;
 	background-color: white;
@@ -123,7 +123,13 @@ export function BottomNavContainer(props) {
 			<NavLink to='/myProfile'>
 				<NavIcon
 					id='profile'
-					src={isProfileMouseOver ? profileIconFill : profileIcon}
+					src={
+						isProfileMouseOver
+							? profileIconFill
+							: props.profile === true
+							? profileIconFill
+							: profileIcon
+					}
 					onMouseOver={handleMouseOver}
 					onMouseOut={handleMouseOut}
 				/>

@@ -31,7 +31,7 @@ export const PostForm = styled.form`
 	width: 100%;
 	display: flex;
 	flex-direction: column;
-	padding: 68px 20px 26px 16px;
+	padding: 26px 20px 26px 16px;
 	box-sizing: border-box;
 	gap: 16px;
 `;
@@ -58,8 +58,9 @@ export const TextForm = styled.div`
 `;
 
 export const PostInputArea = styled.textarea`
-	padding-top: 15px;
+	font-family: 'Suit-Regular';
 	width: 100%;
+	padding-top: 15px;
 	resize: none;
 	border: none;
 	border-bottom: 1px solid #dbdbdb;
