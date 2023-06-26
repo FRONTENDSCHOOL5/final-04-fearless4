@@ -51,7 +51,7 @@ Hello, there! 저희는 4명의 Front-End 개발자로 구성된 **Fearless 4** 
 #### 검색 페이지
 
 #### 채팅 페이지
-- 채팅 페이지 마크업업
+- 채팅 페이지 마크업
 
 ### 정준영
 #### 프로필 페이지
@@ -174,7 +174,7 @@ final-04-fearless4
 	 ├─ index.js
    ├─ assets
    │  └─ image
-	 │	└─ icon
+   │  └─ icon
    ├─ components
    │  ├─ background
    │  ├─ bottomnav
