@@ -48,6 +48,14 @@ const WritePost = () => {
 		uploadImageUrl || text ? setDisabled(false) : setDisabled(true);
 	}, [uploadImageUrl, text]);
 
+	useEffect(() => {
+		handleResizeHeight();
+	}, [text]);
+
+	const handleTextChange = (e) => {
+		setText(e.target.value);
+	};
+
 	const handleImageInputChange = async (e) => {
 		const allowedExtensionsRegex = /\.(jpg|gif|png|jpeg|bmp|tif|heic)$/i;
 		const maxImageSize = 10 * 1024 * 1024;
@@ -112,13 +120,8 @@ const WritePost = () => {
 	};
 
 	const handleResizeHeight = () => {
-		textarea.current.style.height = 'auto';
-		textarea.current.style.height = `${textarea.current.scrollHeight}px`;
-	};
-
-	const handleTextChange = (e) => {
-		setText(e.target.value);
-		handleResizeHeight();
+		textarea.current.style.height = '0';
+		textarea.current.style.height = `${textarea.current.scrollHeight}` + 'px';
 	};
 
 	const handleImgError = (e) => {

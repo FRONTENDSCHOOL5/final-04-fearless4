@@ -59,8 +59,8 @@ export const TextForm = styled.div`
 
 export const PostInputArea = styled.textarea`
 	font-family: 'Suit-Regular';
-	padding-top: 15px;
 	width: 100%;
+	padding-top: 15px;
 	resize: none;
 	border: none;
 	border-bottom: 1px solid #dbdbdb;
