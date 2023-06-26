@@ -35,7 +35,7 @@ import { BottomNavContainer } from '../../components/bottomnav/bottomnav.style';
 import axios from 'axios';
 
 import { API_URL } from '../../api';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import ProductsForSale from './ProductsForSale';
 export default function UserProfile() {
 	const location = useLocation();
@@ -163,7 +163,7 @@ export default function UserProfile() {
 						<>
 							<ProfileImgWrap>
 								<FollowerWrap
-									to='/followers'
+									to='./follower'
 									state={{
 										accountname: accountname,
 									}}
@@ -182,7 +182,7 @@ export default function UserProfile() {
 								></ProfileImage>
 
 								<FollowerWrap
-									to='/followings'
+									to='./following'
 									state={{ accountname: accountname, token: token }}
 								>
 									<FollowerNumber>

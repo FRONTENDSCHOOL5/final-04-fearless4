@@ -39,6 +39,7 @@ import { useNavigate } from 'react-router-dom';
 
 const ViewPost = () => {
 	const token = localStorage.getItem('token');
+	const currentUserAccountName = localStorage.getItem('userAccountName');
 	const [postData, setPostData] = useState(null);
 	const [myProfilePic, setMyProfilePic] = useState('');
 	const [myAccountName, setMyAccountName] = useState('');
@@ -189,7 +190,13 @@ const ViewPost = () => {
 	return (
 		<WrapperViewPost>
 			<NavbarWrap spaceBetween>
-				<Backspace onClick={() => navigate(-1)} />
+				<Backspace
+					onClick={() =>
+						postData.author.accountname !== currentUserAccountName
+							? navigate(-1)
+							: navigate('../../profile/myProfile')
+					}
+				/>
 				<OptionModalTab onClick={handleModalOpen}></OptionModalTab>
 			</NavbarWrap>
 
