@@ -67,7 +67,7 @@ export const UserDetails = styled.div`
 
 export const ProfileImg = styled.img`
 	position: relative;
-	min-width: 42px;
+	width: 42px;
 	height: 42px;
 	overflow: hidden;
 	border-radius: 50%;
@@ -243,7 +243,7 @@ export function Post({ postId }) {
 	};
 	const handlePostEditClick = () => {
 		if (postData) {
-			navigate('/editPost', {
+			navigate('/post/edit', {
 				state: {
 					id: postData.id,
 					content: postData.content,
@@ -322,8 +322,8 @@ export function Post({ postId }) {
 							onError={handleImgError}
 							onClick={() => {
 								currentUserAccountName === postData.author.accountname
-									? navigate('/myprofile')
-									: navigate('/userprofile', {
+									? navigate('/profile/myprofile')
+									: navigate('/profile/userprofile', {
 											state: { accountname: postData.author.accountname },
 									  });
 							}}
@@ -333,8 +333,8 @@ export function Post({ postId }) {
 								<UserDetails
 									onClick={() => {
 										currentUserAccountName === postData.author.accountname
-											? navigate('/myprofile')
-											: navigate('/userprofile', {
+											? navigate('/profile/myprofile')
+											: navigate('/profile/userprofile', {
 													state: { accountname: postData.author.accountname },
 											  });
 									}}
@@ -366,7 +366,7 @@ export function Post({ postId }) {
 									onClick={handleHeartClick}
 								/>
 								<IconsSpan>{heartCount}</IconsSpan>
-								<Link to={`/viewPost/${postData.id}`}>
+								<Link to={`/post/view/${postData.id}`}>
 									<IconsImg src={messageIcon} alt='Message Icon' />
 								</Link>
 								<IconsSpan>{postData.commentCount}</IconsSpan>

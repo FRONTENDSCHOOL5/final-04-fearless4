@@ -112,8 +112,8 @@ export const Comment = ({
 				onError={handleImgError}
 				onClick={() => {
 					currentUserAccountName === author.accountname
-						? navigate('/myprofile')
-						: navigate('/userprofile', {
+						? navigate('../../profile/myprofile')
+						: navigate('../../profile/userprofile', {
 								state: { accountname: author.accountname },
 						  });
 				}}
@@ -123,8 +123,8 @@ export const Comment = ({
 					<CommentFollowerName
 						onClick={() => {
 							currentUserAccountName === author.accountname
-								? navigate('/myprofile')
-								: navigate('/userprofile', {
+								? navigate('../../profile/myprofile')
+								: navigate('../../profile/userprofile', {
 										state: { accountname: author.accountname },
 								  });
 						}}

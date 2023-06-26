@@ -119,8 +119,8 @@ export default function Follwers() {
 										<UserProfileImg
 											onClick={() => {
 												myAccountName === item.accountname
-													? navigate('/myprofile')
-													: navigate('/userprofile', {
+													? navigate('../../myprofile')
+													: navigate('../../userprofile', {
 															state: { accountname: item.accountname },
 													  });
 											}}
@@ -134,8 +134,8 @@ export default function Follwers() {
 										<UserContent
 											onClick={() => {
 												myAccountName === item.accountname
-													? navigate('/myprofile')
-													: navigate('/userprofile', {
+													? navigate('../../myprofile')
+													: navigate('../../userprofile', {
 															state: { accountname: item.accountname },
 													  });
 											}}

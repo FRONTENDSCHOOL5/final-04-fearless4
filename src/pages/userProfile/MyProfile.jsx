@@ -128,7 +128,7 @@ export default function UserProfile() {
 						<>
 							<ProfileImgWrap>
 								<FollowerWrap
-									to='/followers'
+									to='./follower'
 									state={{
 										accountname: profile.user.accountname,
 									}}
@@ -147,7 +147,7 @@ export default function UserProfile() {
 								></ProfileImage>
 
 								<FollowerWrap
-									to='/followings'
+									to='./following'
 									state={{
 										accountname: profile.user.accountname,
 									}}
@@ -167,7 +167,7 @@ export default function UserProfile() {
 								<ProfileButton
 									type='button'
 									onClick={() => {
-										navigate('/myprofileedit', {
+										navigate('./edit', {
 											state: {
 												token: token,
 												profileImage: profileImage,
@@ -185,7 +185,7 @@ export default function UserProfile() {
 									product
 									type='button'
 									onClick={() => {
-										navigate('/Product');
+										navigate('../../Product/upload');
 									}}
 								>
 									상품 등록

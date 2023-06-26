@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const SearchWrap = styled.div`
 	width: 100%;
-	height: 100vh;
+	padding-bottom: 50px;
 	background-color: #fff;
 	box-sizing: border-box;
 `;

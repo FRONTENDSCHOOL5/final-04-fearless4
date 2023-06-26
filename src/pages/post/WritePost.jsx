@@ -149,43 +149,45 @@ const WritePost = () => {
 			);
 
 			const id = response.data.post.id;
-			navigate(`/viewPost/${id}`);
+			navigate(`/post/view/${id}`);
 		} catch (error) {
 			console.error(error);
 		}
 	};
 
 	return (
-		<WrapperWritePost>
-			<NavbarWrap spaceBetween>
-				<Backspace onClick={() => navigate(-1)} />
-				<UploadButton disabled={disabled} onClick={handleSubmit}>
-					업로드
-				</UploadButton>
-			</NavbarWrap>
-			<PostForm>
-				<TextForm>
-					<ProfileImageMini
-						src={myProfileImage}
-						onError={handleImgError}
-					></ProfileImageMini>
-					<PostInputArea
-						ref={textarea}
-						placeholder='게시글 입력하기...'
-						name='post'
-						value={text}
-						rows={1}
-						onChange={handleTextChange}
-					></PostInputArea>
-				</TextForm>
-				{uploadImageUrl && (
-					<ImagePreview
-						src={uploadImageUrl}
-						alt='Uploaded'
-						handleDeleteImage={handleDeleteImage}
-					/>
-				)}
-			</PostForm>
+		<>
+			<WrapperWritePost>
+				<NavbarWrap spaceBetween>
+					<Backspace onClick={() => navigate(-1)} />
+					<UploadButton disabled={disabled} onClick={handleSubmit}>
+						업로드
+					</UploadButton>
+				</NavbarWrap>
+				<PostForm>
+					<TextForm>
+						<ProfileImageMini
+							src={myProfileImage}
+							onError={handleImgError}
+						></ProfileImageMini>
+						<PostInputArea
+							ref={textarea}
+							placeholder='게시글 입력하기...'
+							name='post'
+							value={text}
+							rows={1}
+							onChange={handleTextChange}
+						></PostInputArea>
+					</TextForm>
+					{uploadImageUrl && (
+						<ImagePreview
+							src={uploadImageUrl}
+							alt='Uploaded'
+							handleDeleteImage={handleDeleteImage}
+						/>
+					)}
+				</PostForm>
+			</WrapperWritePost>
 			<ImageUploadButton>
 				<ImageInput
 					ref={inputRef}
@@ -194,7 +196,7 @@ const WritePost = () => {
 					onChange={handleImageInputChange}
 				/>
 			</ImageUploadButton>
-		</WrapperWritePost>
+		</>
 	);
 };
 
