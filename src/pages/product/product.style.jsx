@@ -61,7 +61,6 @@ export const BgBtnCover = styled.div`
 	width: 100%;
 	width: 322px;
 	height: 204px;
-	padding: 10px;
 	border-radius: 10px;
 	background-color: rgba(242, 242, 242, 1);
 	border: 0.5px solid #dbdbdb;

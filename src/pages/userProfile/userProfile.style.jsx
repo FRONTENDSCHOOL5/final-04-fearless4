@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 export const ProfilePageWrapper = styled.div`
 	background-color: #f2f2f2;
-	height: calc(100vh - 50px - 36px);
+
 	display: flex;
 	flex-direction: column;
 	gap: 12px;
