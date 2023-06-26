@@ -36,8 +36,6 @@ export default function Signup() {
 
 	useEffect(() => {
 		const result = valid.test(email);
-		console.log(result);
-		console.log(userEmail);
 		setValidEmail(result);
 	}, [email]);
 
@@ -68,7 +66,6 @@ export default function Signup() {
 					},
 				});
 				const successRes = res.data;
-				console.log(res);
 				if (successRes.message === '사용 가능한 이메일 입니다.') {
 					emailAlertMsg.current.textContent = '*' + successRes.message;
 					setValidEmail(true);

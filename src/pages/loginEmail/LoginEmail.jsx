@@ -55,7 +55,6 @@ export default function LoginEmail() {
 				},
 			});
 			const successRes = res.data;
-			console.log(successRes);
 			if (successRes.user) {
 				// 요청이 성공하고, user 속성이 존재하는 경우 localStorage에 'token'이라는 키로 저장한다.
 				const token = successRes.user['token'];

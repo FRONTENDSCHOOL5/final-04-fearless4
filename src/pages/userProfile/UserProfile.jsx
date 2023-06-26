@@ -37,6 +37,7 @@ import axios from 'axios';
 import { API_URL } from '../../api';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import ProductsForSale from './ProductsForSale';
+import Loading from '../../components/loading/Loading.jsx';
 export default function UserProfile() {
 	const location = useLocation();
 	const navigate = useNavigate();
@@ -64,7 +65,6 @@ export default function UserProfile() {
 			});
 			setIsLoading(true);
 			setProfile(res.data);
-			console.log(profile);
 		} catch (error) {
 			console.log('에러입니다', error);
 		}
@@ -98,7 +98,6 @@ export default function UserProfile() {
 						'Content-type': 'application/json',
 					},
 				});
-				console.log(res.data.profile.isfollow);
 				setIsFollow(true);
 			} catch (error) {
 				console.log('에러입니다', error);
@@ -113,7 +112,6 @@ export default function UserProfile() {
 						'Content-type': 'application/json',
 					},
 				});
-				console.log(res.data.profile.isfollow);
 				setIsFollow(false);
 			} catch (error) {
 				console.log('에러입니다', error);
@@ -212,6 +210,7 @@ export default function UserProfile() {
 						</>
 					)}
 				</ProfileWrapper>
+				{!isLoading && <Loading />}
 
 				<ProductsForSale userAccountName={accountname} />
 				{isLoading && (

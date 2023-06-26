@@ -12,20 +12,29 @@ import Splash from '../splash/Splash';
 import { useRef } from 'react';
 import HeartImg from '../../assets/image/heart-button.png';
 import LogoImg from '../../assets/image/travelChar.png';
+import {
+	ToastClose,
+	ToastContainer,
+	ToastIcon,
+	ToastMsg,
+	ToastMsgBold,
+} from '../../components/toast/toast.style';
 
 export default function Login() {
 	const navigate = useNavigate();
 	const modal = useRef(null);
 	const [isLoading, setIsLoading] = useState(true);
+	const [showNotAvailable, setShowNotAvailable] = useState(false);
 
 	const token = localStorage.getItem('token');
-	setTimeout(() => {
-		setIsLoading(false);
-	}, 2800);
-
-	if (token) {
-		navigate('/Homefeed');
-	}
+	useEffect(() => {
+		const timeout = setTimeout(() => {
+			setIsLoading(false);
+			if (token && isLoading) {
+				navigate('/Homefeed');
+			}
+		}, 2700);
+	}, []);
 
 	const handleModal = (e) => {
 		if (
@@ -42,13 +51,26 @@ export default function Login() {
 	};
 
 	const handleAlert = (e) => {
-		alert('해당 기능은 구현중에 있습니다!\n로그인 및 회원가입을 해주세요!');
+		setShowNotAvailable(true);
+		setTimeout(() => setShowNotAvailable(false), 3000);
 	};
+
+	const NotAvailable = () => (
+		<>
+			{showNotAvailable && (
+				<ToastContainer>
+					<ToastMsg>
+						<ToastMsgBold>현재</ToastMsgBold> 지원하지 않는 기능입니다! <br />{' '}
+						이메일로 로그인 또는 회원가입을 진행해 주세요.
+					</ToastMsg>
+				</ToastContainer>
+			)}
+		</>
+	);
+
 	return (
 		<>
-			{isLoading === true ? (
-				<Splash />
-			) : (
+			{!isLoading && !token === true ? (
 				<Wrapper id='wrap' onClick={handleModal}>
 					<LogoWrapper>
 						<Heart id='heart' src={HeartImg} />
@@ -81,7 +103,10 @@ export default function Login() {
 							<LoginJoin to='/account/signup'>회원가입</LoginJoin>
 						</FlexWrapper>
 					</ButtonWrapper>
+					<NotAvailable />
 				</Wrapper>
+			) : (
+				<Splash />
 			)}
 		</>
 	);

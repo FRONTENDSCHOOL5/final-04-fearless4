@@ -265,7 +265,6 @@ export function Post({ postId }) {
 					},
 				})
 				.then((response) => {
-					console.log(response);
 					setDeletedPostId(postData.id);
 				});
 		} catch (error) {

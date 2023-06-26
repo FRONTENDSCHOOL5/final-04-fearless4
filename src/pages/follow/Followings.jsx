@@ -45,13 +45,11 @@ export default function Follwers() {
 				},
 			});
 			setIsLoading(true);
-			// console.log(res.data);
 			const updateFollowing = res.data.map((item) => ({
 				...item,
 				isFollow: item.isfollow,
 			}));
 			setFollower(updateFollowing);
-			console.log(follower);
 		} catch (error) {
 			console.log('에러입니다', error);
 		}
@@ -60,7 +58,6 @@ export default function Follwers() {
 	useEffect(() => {
 		followerData();
 		data && setMyAccountName(data.accountname);
-		console.log(myAccountName);
 	}, [data]);
 
 	const handleFollowChange = async (index, accountname, e) => {
@@ -79,7 +76,6 @@ export default function Follwers() {
 			const updateFollowing = [...follower];
 			updateFollowing[index].isFollow = !follower[index].isFollow;
 			setFollower(updateFollowing);
-			console.log(follower[index].isFollow);
 		} catch (error) {
 			console.log('에러입니다', error);
 		}
@@ -107,7 +103,6 @@ export default function Follwers() {
 									<UserFlexWrap>
 										<UserProfileImg
 											onClick={() => {
-												console.log(myAccountName);
 												myAccountName === item.accountname
 													? navigate('../../myprofile')
 													: navigate('../../userprofile', {
