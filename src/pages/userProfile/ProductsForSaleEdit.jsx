@@ -156,13 +156,8 @@ export default function ProductsForSaleEdit() {
 			console.log(res);
 			setShowToast(true);
 			setTimeout(() => {
-<<<<<<< HEAD
-				navigate('/myProfile');
-			}, 1000);
-=======
 				navigate('/profile/myProfile');
 			}, 3000);
->>>>>>> 2572ecd6a0991c6827d048e1b00be93b0eb74e6a
 		} catch (error) {
 			console.error(error.response);
 		}
