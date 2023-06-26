@@ -28,7 +28,7 @@ export const PostView = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	border-bottom: 5px solid #dbdbdb;
+	border-bottom: 2px solid #dbdbdb;
 	box-sizing: border-box;
 `;
 
@@ -86,6 +86,7 @@ export const CommentText = styled.p`
 	font-size: 14px;
 	color: #333333;
 	white-space: pre-line;
+	line-height: 1.3em;
 `;
 
 export const UploadComment = styled.div`
