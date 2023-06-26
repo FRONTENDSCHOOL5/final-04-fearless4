@@ -147,7 +147,7 @@ export default function ProductsForSaleEdit() {
 			setShowToast(true);
 			setTimeout(() => {
 				navigate('/profile/myProfile');
-			}, 3000);
+			}, 1000);
 		} catch (error) {
 			console.error(error.response);
 		}
