@@ -94,7 +94,8 @@ export const SnoreSmallImg = styled.img`
 
 export const LuggageImg = styled.img`
 	position: absolute;
-	width: 120px;
-	top: 250px;
-	left: 170px;
+	width: 140px;
+	top: 245px;
+	left: 160px;
+	transform: rotate(20deg);
 `;

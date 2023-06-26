@@ -29,6 +29,8 @@ const EditPost = () => {
 	const [text, setText] = useState('');
 	const [disabled, setDisabled] = useState(true);
 	const [showPostEditToast, setShowPostEditToast] = useState(false);
+	const [showWrongExtensionToast, setShowWrongExtensionToast] = useState(false);
+	const [showSizeOverToast, setShowSizeOverToast] = useState(false);
 	const inputRef = useRef(null);
 	const textarea = useRef();
 	const location = useLocation();
@@ -72,18 +74,16 @@ const EditPost = () => {
 
 		if (imageFile) {
 			if (imageFile.size > maxImageSize) {
-				alert(
-					'이미지 크기가 너무 큽니다.\n10MB보다 작은 이미지를 업로드 해 주세요!'
-				);
+				setShowSizeOverToast(true);
+				setTimeout(() => setShowSizeOverToast(false), 3000);
 				e.target.value = ''; // 파일 선택 창을 비웁니다.
 				return;
 			}
 
 			const fileExtension = '.' + imageFile.name.split('.').pop().toLowerCase();
 			if (!allowedExtensionsRegex.test(fileExtension)) {
-				alert(
-					'올바른 파일 확장자가 아닙니다!\n올바른 파일 확장자는 다음과 같습니다: .jpg, .gif, .png, .jpeg, .bmp, .tif, .heic'
-				);
+				setShowWrongExtensionToast(true);
+				setTimeout(() => setShowWrongExtensionToast(false), 3000);
 				e.target.value = ''; // 파일 선택 창을 비웁니다.
 				return;
 			}
@@ -165,7 +165,7 @@ const EditPost = () => {
 			setShowPostEditToast(true);
 			setTimeout(() => {
 				setShowPostEditToast(false);
-				navigate(`/viewPost/${location.state.id}`);
+				navigate(`/post/view/${location.state.id}`);
 			}, 1000);
 		} catch (error) {
 			console.error(error);
@@ -179,6 +179,32 @@ const EditPost = () => {
 					<ToastIcon>🛠️</ToastIcon>
 					<ToastMsg>
 						<ToastMsgBold>게시글</ToastMsgBold>이 수정되었습니다.
+					</ToastMsg>
+				</ToastContainer>
+			)}
+		</>
+	);
+
+	const WrongExtensionToast = () => (
+		<>
+			{showWrongExtensionToast && (
+				<ToastContainer>
+					<ToastIcon>😵‍💫</ToastIcon>
+					<ToastMsg>
+						<ToastMsgBold>이미지</ToastMsgBold>만 업로드 해 주세요!
+					</ToastMsg>
+				</ToastContainer>
+			)}
+		</>
+	);
+
+	const SizeOverToast = () => (
+		<>
+			{showSizeOverToast && (
+				<ToastContainer>
+					<ToastIcon>😵</ToastIcon>
+					<ToastMsg>
+						<ToastMsgBold>10MB</ToastMsgBold>이하의 파일만 업로드 해 주세요!
 					</ToastMsg>
 				</ToastContainer>
 			)}
@@ -226,6 +252,8 @@ const EditPost = () => {
 				/>
 			</ImageUploadButton>
 			<PostEditToast />
+			<WrongExtensionToast />
+			<SizeOverToast />
 		</WrapperWritePost>
 	);
 };

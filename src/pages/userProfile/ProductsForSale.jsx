@@ -22,7 +22,6 @@ import {
 	ModalWrap,
 } from '../../components/modal/modal.style';
 import { useNavigate } from 'react-router-dom';
-import useMyProfile from '../../hook/useMyProfile';
 
 export default function ProductsForSale({ userAccountName }) {
 	const [productData, setProductData] = useState([]);
@@ -36,8 +35,7 @@ export default function ProductsForSale({ userAccountName }) {
 	const accountname = userAccountName;
 	const url = API_URL;
 	const token = localStorage.getItem('token');
-	const data = useMyProfile();
-	const [isAllProductsShown, setIsAllProductsShown] = useState(true);
+	const data = localStorage.getItem('userAccountName');
 
 	useEffect(() => {
 		data && setMyProfile(data);
@@ -58,7 +56,7 @@ export default function ProductsForSale({ userAccountName }) {
 	}, [data]);
 
 	const handleModalOpen = (item) => {
-		if (accountname === myProfile.accountname) {
+		if (accountname === myProfile) {
 			setIsModal(true);
 			setIsUserModal(true);
 			setSelectedProduct(item);
@@ -102,7 +100,7 @@ export default function ProductsForSale({ userAccountName }) {
 	};
 
 	const viewProductOnWebsite = () => {
-		const url = `https://${selectedProduct.link}`;
+		const url = `${selectedProduct.link}`;
 		window.open(url, '_blank');
 	};
 	const goToProductEdit = () => {
@@ -202,8 +200,8 @@ export default function ProductsForSale({ userAccountName }) {
 			{resProd.length === 0 ? null : (
 				<WrapAll>
 					<Title>함께 떠나는 상품</Title>
-					<SortedButton onClick={handleShowAllProducts}>
-						🎁전체 상품
+					<SortedButton first onClick={handleShowAllProducts}>
+						# 전체 상품
 					</SortedButton>
 					<SortedButton onClick={handleShowRecommendedItems}>
 						🔥추천 상품

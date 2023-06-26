@@ -40,6 +40,8 @@ export default function ProfileSetup() {
 	const [notValidUserId, setNotValidUserId] = useState(false);
 	const [disabled, setDisabled] = useState(true);
 	const [showProfileEditToast, setShowProfileEditToast] = useState(false);
+	const [showWrongExtensionToast, setShowWrongExtensionToast] = useState(false);
+	const [showSizeOverToast, setShowSizeOverToast] = useState(false);
 	const location = useLocation();
 	const navigate = useNavigate();
 	const url = API_URL;
@@ -69,24 +71,20 @@ export default function ProfileSetup() {
 	const handleImageInputChange = async (e) => {
 		const allowedExtensionsRegex = /\.(jpg|gif|png|jpeg|bmp|tif|heic)$/i;
 		const maxImageSize = 10 * 1024 * 1024;
-		const formData = new FormData();
 		const imageFile = e.target.files[0];
-		formData.append('image', imageFile);
 
 		if (imageFile) {
 			if (imageFile.size > maxImageSize) {
-				alert(
-					'이미지 크기가 너무 큽니다.\n10MB보다 작은 이미지를 업로드 해 주세요!'
-				);
+				setShowSizeOverToast(true);
+				setTimeout(() => setShowSizeOverToast(false), 3000);
 				e.target.value = ''; // 파일 선택 창을 비웁니다.
 				return;
 			}
 
 			const fileExtension = '.' + imageFile.name.split('.').pop().toLowerCase();
 			if (!allowedExtensionsRegex.test(fileExtension)) {
-				alert(
-					'올바른 파일 확장자가 아닙니다!\n올바른 파일 확장자는 다음과 같습니다: .jpg, .gif, .png, .jpeg, .bmp, .tif, .heic'
-				);
+				setShowWrongExtensionToast(true);
+				setTimeout(() => setShowWrongExtensionToast(false), 3000);
 				e.target.value = ''; // 파일 선택 창을 비웁니다.
 				return;
 			}
@@ -96,14 +94,6 @@ export default function ProfileSetup() {
 			const reader = new FileReader();
 
 			formData.append('image', imageFile);
-
-			reader.onloadend = () => {
-				setSelectedImage(reader.result);
-			};
-
-			if (imageFile) {
-				reader.readAsDataURL(imageFile);
-			}
 
 			try {
 				const response = await axios.post(
@@ -211,6 +201,32 @@ export default function ProfileSetup() {
 		</>
 	);
 
+	const WrongExtensionToast = () => (
+		<>
+			{showWrongExtensionToast && (
+				<ToastContainer>
+					<ToastIcon>😵‍💫</ToastIcon>
+					<ToastMsg>
+						<ToastMsgBold>이미지</ToastMsgBold>만 업로드 해 주세요!
+					</ToastMsg>
+				</ToastContainer>
+			)}
+		</>
+	);
+
+	const SizeOverToast = () => (
+		<>
+			{showSizeOverToast && (
+				<ToastContainer>
+					<ToastIcon>😵</ToastIcon>
+					<ToastMsg>
+						<ToastMsgBold>10MB</ToastMsgBold>이하의 파일만 업로드 해 주세요!
+					</ToastMsg>
+				</ToastContainer>
+			)}
+		</>
+	);
+
 	return (
 		<>
 			<NavbarWrap spaceBetween>
@@ -282,6 +298,8 @@ export default function ProfileSetup() {
 					</FormElement>
 				</WrapForm>
 				<ProfileEditToast />
+				<WrongExtensionToast />
+				<SizeOverToast />
 			</WrapperProfileSetup>
 		</>
 	);

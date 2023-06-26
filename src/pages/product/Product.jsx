@@ -41,6 +41,8 @@ export default function Product() {
 	const token = localStorage.getItem('token');
 
 	const [showToast, setShowToast] = useState(false);
+	const [showWrongExtensionToast, setShowWrongExtensionToast] = useState(false);
+	const [showSizeOverToast, setShowSizeOverToast] = useState(false);
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -52,25 +54,48 @@ export default function Product() {
 		setIsFormValid(isFormValid);
 	}, [selectedImage, productNameError, productPrice, salesLinkError]);
 
-	async function handleImageInputChange(e) {
-		const formData = new FormData();
+	const handleImageInputChange = async (e) => {
+		const allowedExtensionsRegex = /\.(jpg|gif|png|jpeg|bmp|tif|heic)$/i;
+		const maxImageSize = 10 * 1024 * 1024;
 		const imageFile = e.target.files[0];
-		formData.append('image', imageFile);
-		try {
-			const res = await axios({
-				method: 'POST',
-				url: 'https://api.mandarin.weniv.co.kr/image/uploadfile/',
-				data: formData,
-				headers: {
-					'Content-type': 'multipart/form-data',
-				},
-			});
-			const imageUrl = 'https://api.mandarin.weniv.co.kr/' + res.data.filename;
-			setSelectedImage(imageUrl);
-		} catch (error) {
-			console.error(error);
+		if (imageFile) {
+			if (imageFile.size > maxImageSize) {
+				setShowSizeOverToast(true);
+				setTimeout(() => setShowSizeOverToast(false), 3000);
+				e.target.value = '';
+				return;
+			}
+			const fileExtension = '.' + imageFile.name.split('.').pop().toLowerCase();
+			if (!allowedExtensionsRegex.test(fileExtension)) {
+				setShowWrongExtensionToast(true);
+				setTimeout(() => setShowWrongExtensionToast(false), 3000);
+				e.target.value = '';
+				return;
+			}
+
+			const formData = new FormData();
+
+			formData.append('image', imageFile);
+
+			try {
+				const res = await axios({
+					method: 'POST',
+					url: 'https://api.mandarin.weniv.co.kr/image/uploadfile/',
+					data: formData,
+					headers: {
+						'Content-type': 'multipart/form-data',
+					},
+				});
+				const imageUrl =
+					'https://api.mandarin.weniv.co.kr/' + res.data.filename;
+				setSelectedImage(imageUrl);
+			} catch (error) {
+				console.error(error);
+			}
+		} else {
+			e.target.value = '';
 		}
-	}
+	};
 
 	async function handleSaveButtonClick(e) {
 		const productData = {
@@ -130,7 +155,7 @@ export default function Product() {
 		const salesLinkValue = e.target.value;
 		setSalesLink(salesLinkValue);
 		const urlPatterns =
-			/^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/i;
+			/^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)([a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?)$/i;
 
 		if (!urlPatterns.test(salesLinkValue)) {
 			setSalesLinkError('유효한 URL을 입력해주세요.');
@@ -157,6 +182,32 @@ export default function Product() {
 			</>
 		);
 	};
+
+	const WrongExtensionToast = () => (
+		<>
+			{showWrongExtensionToast && (
+				<ToastContainer>
+					<ToastIcon>😵‍💫</ToastIcon>
+					<ToastMsg>
+						<ToastMsgBold>이미지</ToastMsgBold>만 업로드 해 주세요!
+					</ToastMsg>
+				</ToastContainer>
+			)}
+		</>
+	);
+
+	const SizeOverToast = () => (
+		<>
+			{showSizeOverToast && (
+				<ToastContainer>
+					<ToastIcon>😵</ToastIcon>
+					<ToastMsg>
+						<ToastMsgBold>10MB</ToastMsgBold>이하의 파일만 업로드 해 주세요!
+					</ToastMsg>
+				</ToastContainer>
+			)}
+		</>
+	);
 
 	return (
 		<>
@@ -223,6 +274,8 @@ export default function Product() {
 						{salesLinkError && <Incorrect>{salesLinkError}</Incorrect>}
 					</InputList>
 				</InputWrap>
+				<WrongExtensionToast />
+				<SizeOverToast />
 			</ProductContainer>
 		</>
 	);
