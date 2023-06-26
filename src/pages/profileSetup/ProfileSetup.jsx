@@ -20,6 +20,13 @@ import {
 } from './profileSetup.style.jsx';
 import profilePic from '../../assets/image/profilePic.png';
 import profileImageUploadButton from '../../assets/image/profileImageUploadButton.png';
+import {
+	ToastClose,
+	ToastContainer,
+	ToastIcon,
+	ToastMsg,
+	ToastMsgBold,
+} from '../../components/toast/toast.style';
 
 const ProfileSetup = () => {
 	const location = useLocation();
@@ -35,6 +42,8 @@ const ProfileSetup = () => {
 	const [idDuplication, setIdDuplication] = useState(false);
 	const [notValidUserId, setNotValidUserId] = useState(false);
 	const [disabled, setDisabled] = useState(true);
+	const [showWrongExtensionToast, setShowWrongExtensionToast] = useState(false);
+	const [showSizeOverToast, setShowSizeOverToast] = useState(false);
 	const navigate = useNavigate();
 
 	// 테스트용 주석
@@ -45,27 +54,50 @@ const ProfileSetup = () => {
 		}
 	}, [userName]);
 
-	console.log(userName, !notValidUserId, !idDuplication);
 	const handleImageInputChange = async (e) => {
-		const formData = new FormData();
+		const allowedExtensionsRegex = /\.(jpg|gif|png|jpeg|bmp|tif|heic)$/i;
+		const maxImageSize = 10 * 1024 * 1024;
 		const imageFile = e.target.files[0];
-		formData.append('image', imageFile);
 
-		try {
-			const response = await axios.post(
-				'https://api.mandarin.weniv.co.kr/image/uploadfile/',
-				formData
-			);
+		if (imageFile) {
+			if (imageFile.size > maxImageSize) {
+				setShowSizeOverToast(true);
+				setTimeout(() => setShowSizeOverToast(false), 3000);
+				e.target.value = '';
+				return;
+			}
 
-			const imageUrl =
-				'https://api.mandarin.weniv.co.kr/' + response.data.filename;
+			const fileExtension = '.' + imageFile.name.split('.').pop().toLowerCase();
+			if (!allowedExtensionsRegex.test(fileExtension)) {
+				setShowWrongExtensionToast(true);
+				setTimeout(() => setShowWrongExtensionToast(false), 3000);
+				e.target.value = '';
+				return;
+			}
 
-			setSelectedImage(imageUrl);
-		} catch (error) {
-			console.error(error.response.data);
+			// 유효성 검사를 통과한 경우에만 이미지 업로드 처리를 진행합니다.
+			const formData = new FormData();
+			const reader = new FileReader();
+
+			formData.append('image', imageFile);
+
+			try {
+				const response = await axios.post(
+					'https://api.mandarin.weniv.co.kr/image/uploadfile/',
+					formData
+				);
+
+				const imageUrl =
+					'https://api.mandarin.weniv.co.kr/' + response.data.filename;
+
+				setSelectedImage(imageUrl);
+			} catch (error) {
+				console.error(error.response.data);
+			}
+		} else {
+			e.target.value = ''; // 파일 선택 창을 비웁니다.
 		}
 	};
-
 	const validateUserId = async () => {
 		if (!userId || /^[A-Za-z0-9._]+$/.test(userId)) {
 			setNotValidUserId(false);
@@ -137,6 +169,32 @@ const ProfileSetup = () => {
 			});
 	};
 
+	const WrongExtensionToast = () => (
+		<>
+			{showWrongExtensionToast && (
+				<ToastContainer>
+					<ToastIcon>😵‍💫</ToastIcon>
+					<ToastMsg>
+						<ToastMsgBold>이미지</ToastMsgBold>만 업로드 해 주세요!
+					</ToastMsg>
+				</ToastContainer>
+			)}
+		</>
+	);
+
+	const SizeOverToast = () => (
+		<>
+			{showSizeOverToast && (
+				<ToastContainer>
+					<ToastIcon>😵</ToastIcon>
+					<ToastMsg>
+						<ToastMsgBold>10MB</ToastMsgBold>이하의 파일만 업로드 해 주세요!
+					</ToastMsg>
+				</ToastContainer>
+			)}
+		</>
+	);
+
 	return (
 		<WrapperProfileSetup>
 			<Title mb>프로필 설정</Title>
@@ -198,6 +256,8 @@ const ProfileSetup = () => {
 
 				<LoginButton disabled={disabled}>트래블어스 시작하기</LoginButton>
 			</WrapForm>
+			<WrongExtensionToast />
+			<SizeOverToast />
 		</WrapperProfileSetup>
 	);
 };
