@@ -26,10 +26,9 @@ export const PostView = styled.div`
 	width: 100%;
 	height: auto;
 	display: flex;
-	padding-top: 48px;
 	justify-content: center;
 	align-items: center;
-	border-bottom: 2px solid #dbdbdb;
+	border-bottom: 5px solid #dbdbdb;
 	box-sizing: border-box;
 `;
 
@@ -88,7 +87,7 @@ export const CommentText = styled.p`
 `;
 
 export const UploadComment = styled.div`
-	width: 100%;
+	width: 390px;
 	box-sizing: border-box;
 	background-color: #fff;
 	padding: 12px 16px;
@@ -109,6 +108,7 @@ export const ProfileImageComment = styled.img`
 `;
 
 export const CommentInputArea = styled.textarea`
+	font-family: 'Suit-Regular';
 	width: 260px;
 	resize: none;
 	border: none;
@@ -125,11 +125,12 @@ export const CommentInputArea = styled.textarea`
 `;
 
 export const CommentUploadButton = styled.button`
+	font-family: 'Suit-Bold';
 	width: 40px;
 	border: none;
 	background-color: #fff;
 	color: #81d8d0;
 	cursor: pointer;
 	font-size: 14px;
-	font-weight: 700;
+	/* font-weight: 700; */
 `;

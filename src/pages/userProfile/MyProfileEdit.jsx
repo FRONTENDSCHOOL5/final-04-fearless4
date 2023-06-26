@@ -23,6 +23,13 @@ import {
 	Backspace,
 	NavbarWrap,
 } from '../../components/navbar/navbar.style.jsx';
+import {
+	ToastClose,
+	ToastContainer,
+	ToastIcon,
+	ToastMsg,
+	ToastMsgBold,
+} from '../../components/toast/toast.style';
 
 export default function ProfileSetup() {
 	const [userName, setUserName] = useState('');
@@ -32,6 +39,7 @@ export default function ProfileSetup() {
 	const [idDuplication, setIdDuplication] = useState(false);
 	const [notValidUserId, setNotValidUserId] = useState(false);
 	const [disabled, setDisabled] = useState(true);
+	const [showProfileEditToast, setShowProfileEditToast] = useState(false);
 	const location = useLocation();
 	const navigate = useNavigate();
 	const url = API_URL;
@@ -182,15 +190,32 @@ export default function ProfileSetup() {
 				},
 			});
 			console.log(response.data);
-			navigate('/myprofile');
+			setShowProfileEditToast(true);
+			setTimeout(() => {
+				setShowProfileEditToast(false);
+				navigate('/myprofile');
+			}, 1000);
 		} catch (error) {
 			console.error('에러입니다.', error);
 			console.log('오류 발생!');
 		}
 	};
 
+	const ProfileEditToast = () => (
+		<>
+			{showProfileEditToast && (
+				<ToastContainer>
+					<ToastIcon>😆</ToastIcon>
+					<ToastMsg>
+						<ToastMsgBold>프로필</ToastMsgBold>이 수정되었습니다.
+					</ToastMsg>
+				</ToastContainer>
+			)}
+		</>
+	);
+
 	return (
-		<WrapperProfileSetup>
+		<>
 			<NavbarWrap spaceBetween>
 				<Backspace
 					onClick={() => {
@@ -201,64 +226,66 @@ export default function ProfileSetup() {
 					저장
 				</SaveButton>
 			</NavbarWrap>
+			<WrapperProfileSetup>
+				<WrapForm>
+					<Upload>
+						<ImageInput
+							type='file'
+							accept='image/*'
+							onChange={handleImageInputChange}
+						/>
+						<ProfileImage
+							src={selectedImage || profileImg || profilePic}
+							alt=''
+						/>{' '}
+						<ImageButton src={profileImageUploadButton} alt='' />
+					</Upload>
 
-			<WrapForm>
-				<Upload>
-					<ImageInput
-						type='file'
-						accept='image/*'
-						onChange={handleImageInputChange}
-					/>
-					<ProfileImage
-						src={selectedImage || profileImg || profilePic}
-						alt=''
-					/>{' '}
-					<ImageButton src={profileImageUploadButton} alt='' />
-				</Upload>
+					<FormElement>
+						<LabelStyle htmlFor='user-name'>사용자 이름</LabelStyle>
+						<InputStyle
+							type='text'
+							name=''
+							placeholder='2~10자 이내여야 합니다.'
+							value={userName}
+							onChange={(e) => setUserName(e.target.value)}
+						/>
+					</FormElement>
 
-				<FormElement>
-					<LabelStyle htmlFor='user-name'>사용자 이름</LabelStyle>
-					<InputStyle
-						type='text'
-						name=''
-						placeholder='2~10자 이내여야 합니다.'
-						value={userName}
-						onChange={(e) => setUserName(e.target.value)}
-					/>
-				</FormElement>
+					<FormElement>
+						<LabelStyle htmlFor='user-id'>계정 ID</LabelStyle>
+						<InputStyle
+							type='text'
+							id='user-id'
+							value={userId}
+							onChange={(e) => setUserId(e.target.value)}
+							onBlur={validateUserId}
+							placeholder='영문, 숫자, 특수문자(.),(_)만 사용 가능합니다.'
+							pattern='^[A-Za-z0-9._]+$'
+						/>
+						{notValidUserId && (
+							<Incorrect>
+								*영문, 숫자, 밑줄 및 마침표만 사용할 수 있습니다.
+							</Incorrect>
+						)}
+						{idDuplication && (
+							<Incorrect>*이미 사용중인 계정 ID입니다.</Incorrect>
+						)}
+					</FormElement>
 
-				<FormElement>
-					<LabelStyle htmlFor='user-id'>계정 ID</LabelStyle>
-					<InputStyle
-						type='text'
-						id='user-id'
-						value={userId}
-						onChange={(e) => setUserId(e.target.value)}
-						onBlur={validateUserId}
-						placeholder='영문, 숫자, 특수문자(.),(_)만 사용 가능합니다.'
-						pattern='^[A-Za-z0-9._]+$'
-					/>
-					{notValidUserId && (
-						<Incorrect>
-							*영문, 숫자, 밑줄 및 마침표만 사용할 수 있습니다.
-						</Incorrect>
-					)}
-					{idDuplication && (
-						<Incorrect>*이미 사용중인 계정 ID입니다.</Incorrect>
-					)}
-				</FormElement>
-
-				<FormElement>
-					<LabelStyle htmlFor='user-intro'>소개</LabelStyle>
-					<InputStyle
-						type='text'
-						name=''
-						placeholder='자신에 대해서 소개해 주세요!'
-						value={intro}
-						onChange={(e) => setIntro(e.target.value)}
-					/>
-				</FormElement>
-			</WrapForm>
-		</WrapperProfileSetup>
+					<FormElement>
+						<LabelStyle htmlFor='user-intro'>소개</LabelStyle>
+						<InputStyle
+							type='text'
+							name=''
+							placeholder='자신에 대해서 소개해 주세요!'
+							value={intro}
+							onChange={(e) => setIntro(e.target.value)}
+						/>
+					</FormElement>
+				</WrapForm>
+				<ProfileEditToast />
+			</WrapperProfileSetup>
+		</>
 	);
 }

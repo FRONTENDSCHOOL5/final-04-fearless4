@@ -2,22 +2,27 @@ import styled, { keyframes } from 'styled-components';
 
 const slideUp = keyframes`
 	from {
-		transform: translateY(200px);
+		left: 50%;
+		transform: translate(-50%, 100%);
 	}
 `;
 
 export const DarkBackground = styled.div`
 	position: fixed;
+	display: flex;
 	top: 0;
 	left: 0;
+	right: 0;
+	bottom: 0;
 	background-color: rgba(0, 0, 0, 0.2);
 	width: 100%;
 	height: 100%;
 	z-index: 999;
+	overflow: hidden;
 `;
 
 export const ModalWrap = styled.div`
-	width: 100%;
+	width: 390px;
 	background-color: #fff;
 	display: flex;
 	flex-direction: column;
@@ -27,8 +32,9 @@ export const ModalWrap = styled.div`
 	box-sizing: border-box;
 	padding: 36px 20px 24px;
 	position: fixed;
+	left: 50%;
+	transform: translateX(-50%);
 	bottom: 0;
-	left: 0;
 
 	animation-duration: 0.5s;
 	animation-timing-function: ease-out;
@@ -49,6 +55,7 @@ export const ModalWrap = styled.div`
 `;
 
 export const ModalText = styled.button`
+	font-family: 'Suit-Regular';
 	border: 0;
 	background-color: transparent;
 	display: flex;
@@ -100,6 +107,7 @@ export const CheckButtonWrap = styled.div`
 `;
 
 export const CheckLogout = styled.button`
+	font-family: 'Suit-Regular';
 	display: flex;
 	width: 50%;
 	align-items: center;
@@ -122,6 +130,7 @@ export const CheckLogout = styled.button`
 `;
 
 export const CheckConfirm = styled.button`
+	font-family: 'Suit-Regular';
 	display: flex;
 	width: 50%;
 	align-items: center;

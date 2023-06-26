@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
 export const ProductContainer = styled.div`
-	padding: 78px 34px 0px 34px;
+	height: calc(100vh - 52px);
+	padding: 26px 34px;
 	box-sizing: border-box;
 	display: flex;
 	flex-direction: column;
@@ -26,6 +27,7 @@ export const UploadImageBtn = styled.img`
 `;
 
 export const InputStyle = styled.input`
+	font-family: 'Suit-Regular';
 	border: none;
 	border-bottom: 1px solid #dbdbdb;
 	font-size: 14px;
@@ -59,6 +61,7 @@ export const BgBtnCover = styled.div`
 	width: 100%;
 	width: 322px;
 	height: 204px;
+	padding: 10px;
 	border-radius: 10px;
 	background-color: rgba(242, 242, 242, 1);
 	border: 0.5px solid #dbdbdb;

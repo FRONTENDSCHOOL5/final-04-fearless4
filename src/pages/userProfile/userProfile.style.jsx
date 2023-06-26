@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 export const ProfilePageWrapper = styled.div`
 	background-color: #f2f2f2;
+	height: calc(100vh - 50px - 36px);
 	display: flex;
 	flex-direction: column;
 	gap: 12px;
@@ -12,13 +13,14 @@ export const ProfileWrapper = styled.div`
 	width: 100%;
 	position: relative;
 	box-sizing: border-box;
-	padding: 78px 60px 26px 60px;
+	padding: 26px 60px;
 	background-color: #fff;
 `;
 
 export const UserNickName = styled.h2`
 	font-size: 16px;
-	font-weight: 700;
+	font-family: 'Suit-Bold';
+	/* font-weight: 700; */
 	color: #000;
 `;
 
@@ -37,8 +39,9 @@ export const Intro = styled.span`
 
 export const FollowerNumber = styled.span`
 	display: block;
+	font-family: 'Suit-Bold';
 	font-size: 18px;
-	font-weight: 700;
+	/* font-weight: 700; */
 	color: ${({ followers }) => (followers === true ? `#000` : `#767676`)};
 `;
 

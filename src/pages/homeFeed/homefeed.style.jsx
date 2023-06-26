@@ -1,6 +1,11 @@
 import styled from 'styled-components';
 import searchIcon from '../../assets/icon/icon-search.svg';
 
+export const HomefeedWrap = styled.div`
+	width: 100%;
+	height: 100%;
+`;
+
 export const NavTitle = styled.span`
 	font-size: 18px;
 	font-weight: bold;
@@ -32,6 +37,7 @@ export const Span = styled.span`
 `;
 
 export const SearchBtn = styled.button`
+	font-family: 'Suit-Regular';
 	width: 120px;
 	height: 44px;
 	font-size: 14px;
