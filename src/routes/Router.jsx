@@ -1,7 +1,7 @@
 import React, { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import LoginEmail from '../pages/loginEmail/LoginEmail';
 
+const LoginEmail = lazy(() => import('../pages/loginEmail/LoginEmail'));
 const Splash = lazy(() => import('../pages/splash/Splash'));
 const Login = lazy(() => import('../pages/login/Login'));
 const ProfileSetup = lazy(() => import('../pages/profileSetup/ProfileSetup'));

@@ -31,7 +31,7 @@ export const PostForm = styled.form`
 	width: 100%;
 	display: flex;
 	flex-direction: column;
-	padding: 68px 20px 26px 16px;
+	padding: 26px 20px 26px 16px;
 	box-sizing: border-box;
 	gap: 16px;
 `;

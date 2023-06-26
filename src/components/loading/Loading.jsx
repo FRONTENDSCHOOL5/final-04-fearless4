@@ -10,5 +10,5 @@ const Loaded = styled.img`
 `;
 
 export default function Loading() {
-	return <Loaded src={Load} alt='로딩중' width='10%' />;
+	return <Loaded src={Load} alt='로딩중' width='20%' />;
 }

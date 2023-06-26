@@ -178,7 +178,6 @@ const WritePost = () => {
 						onChange={handleTextChange}
 					></PostInputArea>
 				</TextForm>
-
 				{uploadImageUrl && (
 					<ImagePreview
 						src={uploadImageUrl}

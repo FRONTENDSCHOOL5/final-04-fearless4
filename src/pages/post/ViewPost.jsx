@@ -192,6 +192,7 @@ const ViewPost = () => {
 				<Backspace onClick={() => navigate(-1)} />
 				<OptionModalTab onClick={handleModalOpen}></OptionModalTab>
 			</NavbarWrap>
+
 			{isLoading && (
 				<PostDeleteContext.Provider value={{ deletedPostId, setDeletedPostId }}>
 					{' '}

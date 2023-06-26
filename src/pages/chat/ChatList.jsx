@@ -8,48 +8,46 @@ import {
 } from '../../components/navbar/navbar.style';
 import Chatprofile2 from '../../assets/image/chatProfile2.jpg';
 import {
-	UserWrap,
 	UserProfileImg,
 	UserFollowImage,
 	UserContent,
 	UserFollowNickName,
 	UserFollowIntro,
+	ProfileWrap,
 } from '../follow/follow.style';
 import { BottomNavContainer } from '../../components/bottomnav/bottomnav.style';
 import ChatProfile from '../../assets/image/chatProfile.jpg';
+import { ProfileWrapper } from '../userProfile/userProfile.style';
 
 export default function ChatList() {
 	const Date = styled.span`
-		margin-left: auto;
+		margin-bottom: auto;
 		font-size: 10px;
 	`;
-	const Wrapper = styled.div`
+
+	const ChatWrap = styled.div`
 		width: 100%;
-		box-sizing: border-box;
-		padding: 60px 16px 0px 24px;
-		display: flex;
-		flex-direction: column;
-	`;
-	const Wrapper2 = styled.div`
-		width: 100%;
-		box-sizing: border-box;
-		padding: 30px 16px 0px 24px;
-		display: flex;
-		flex-direction: column;
+		height: calc(100vh - 100px);
 	`;
 
 	const UserFlexWrap = styled.div`
 		display: flex;
+		padding: 12px 16px;
 		align-items: center;
 		gap: 12px;
 		justify-content: space-between;
 		cursor: pointer;
 	`;
 
+	const ProfileWrap = styled.div`
+		display: flex;
+		gap: 12px;
+	`;
+
 	const navigate = useNavigate();
 
 	return (
-		<div>
+		<>
 			<NavbarWrap spaceBetween>
 				<Backspace
 					onClick={() => {
@@ -58,13 +56,13 @@ export default function ChatList() {
 				/>
 				<OptionModalTab />
 			</NavbarWrap>
-			<Wrapper>
-				<UserWrap
+			<ChatWrap>
+				<UserFlexWrap
 					onClick={() => {
 						navigate('/chat2');
 					}}
 				>
-					<UserFlexWrap>
+					<ProfileWrap>
 						<UserProfileImg>
 							<UserFollowImage src={Chatprofile2} />
 						</UserProfileImg>
@@ -75,17 +73,15 @@ export default function ChatList() {
 								남깁니다...
 							</UserFollowIntro>
 						</UserContent>
-					</UserFlexWrap>
-					<Date>23.06.23</Date>
-				</UserWrap>
-			</Wrapper>
-			<Wrapper2>
-				<UserWrap
+					</ProfileWrap>
+					<Date>23.06.20</Date>
+				</UserFlexWrap>
+				<UserFlexWrap
 					onClick={() => {
 						navigate('/chat');
 					}}
 				>
-					<UserFlexWrap>
+					<ProfileWrap>
 						<UserProfileImg>
 							<UserFollowImage src={ChatProfile} />
 						</UserProfileImg>
@@ -95,11 +91,11 @@ export default function ChatList() {
 								안녕하세요! 판매중이신 상품들 중에...
 							</UserFollowIntro>
 						</UserContent>
-					</UserFlexWrap>
+					</ProfileWrap>
 					<Date>23.06.20</Date>
-				</UserWrap>
-			</Wrapper2>
+				</UserFlexWrap>
+			</ChatWrap>
 			<BottomNavContainer message />
-		</div>
+		</>
 	);
 }

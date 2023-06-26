@@ -36,6 +36,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { API_URL } from '../../api';
 import ProductsForSale from './ProductsForSale';
+import Loading from '../../components/loading/Loading';
 
 export default function UserProfile() {
 	const navigate = useNavigate();
@@ -113,17 +114,16 @@ export default function UserProfile() {
 
 	return (
 		<>
+			<NavbarWrap spaceBetween>
+				<Backspace
+					onClick={() => {
+						navigate(-1);
+					}}
+				/>
+				<OptionModalTab onClick={handleModalOpen} />
+			</NavbarWrap>
 			<ProfilePageWrapper>
 				<ProfileWrapper>
-					<NavbarWrap spaceBetween>
-						<Backspace
-							onClick={() => {
-								navigate(-1);
-							}}
-						/>
-						<OptionModalTab onClick={handleModalOpen} />
-					</NavbarWrap>
-
 					{isLoading && (
 						<>
 							<ProfileImgWrap>
@@ -198,27 +198,6 @@ export default function UserProfile() {
 				{isLoading && (
 					<ProductsForSale userAccountName={profile.user.accountname} />
 				)}
-				{isModal && (
-					<DarkBackground onClick={handleModalClose}>
-						<ModalWrap>
-							<ModalText>설정 및 개인정보</ModalText>
-							<ModalText onClick={handleCheckModal}>로그아웃</ModalText>
-						</ModalWrap>
-					</DarkBackground>
-				)}
-				{isCheckModal && (
-					<DarkBackground onClick={handleModalClose}>
-						<CheckModalWrap>
-							<CheckMsg>로그아웃하시겠어요?</CheckMsg>
-							<CheckButtonWrap>
-								<CheckLogout onClick={handleModalClose}>취소</CheckLogout>
-								<CheckLogout check onClick={accountLogout}>
-									로그아웃
-								</CheckLogout>
-							</CheckButtonWrap>
-						</CheckModalWrap>
-					</DarkBackground>
-				)}
 				{isLoading && (
 					<PostDeleteContext.Provider
 						value={{ deletedPostId, setDeletedPostId }}
@@ -229,6 +208,28 @@ export default function UserProfile() {
 				)}
 				<BottomNavContainer></BottomNavContainer>
 			</ProfilePageWrapper>
+
+			{isModal && (
+				<DarkBackground onClick={handleModalClose}>
+					<ModalWrap>
+						<ModalText>설정 및 개인정보</ModalText>
+						<ModalText onClick={handleCheckModal}>로그아웃</ModalText>
+					</ModalWrap>
+				</DarkBackground>
+			)}
+			{isCheckModal && (
+				<DarkBackground onClick={handleModalClose}>
+					<CheckModalWrap>
+						<CheckMsg>로그아웃하시겠어요?</CheckMsg>
+						<CheckButtonWrap>
+							<CheckLogout onClick={handleModalClose}>취소</CheckLogout>
+							<CheckLogout check onClick={accountLogout}>
+								로그아웃
+							</CheckLogout>
+						</CheckButtonWrap>
+					</CheckModalWrap>
+				</DarkBackground>
+			)}
 		</>
 	);
 }
