@@ -6,7 +6,6 @@ import styled from 'styled-components';
 export const FeedListWrapper = styled.div`
 	width: 100%;
 	background-color: #fff;
-	padding: 50px 0px 50px 0px;
 	box-sizing: border-box;
 `;
 
@@ -16,7 +15,6 @@ export default function HomeFollower({ postId }) {
 			<FeedListWrapper>
 				<Post postId={postId} />
 			</FeedListWrapper>
-			<BottomNavContainer />
 		</>
 	);
 }

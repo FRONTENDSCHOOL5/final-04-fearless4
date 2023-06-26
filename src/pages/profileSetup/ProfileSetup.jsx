@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {
 	Title,
@@ -35,6 +35,7 @@ const ProfileSetup = () => {
 	const [idDuplication, setIdDuplication] = useState(false);
 	const [notValidUserId, setNotValidUserId] = useState(false);
 	const [disabled, setDisabled] = useState(true);
+	const navigate = useNavigate();
 
 	// 테스트용 주석
 
@@ -128,6 +129,7 @@ const ProfileSetup = () => {
 			})
 			.then((response) => {
 				console.log(response.data);
+				navigate('/');
 			})
 			.catch((error) => {
 				console.error(error.response.data.message);

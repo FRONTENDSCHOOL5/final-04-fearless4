@@ -4,18 +4,17 @@ import optionIcon from '../../assets/icon/option.svg';
 import Cat from '../../assets/image/cat.png';
 
 export const NavbarWrap = styled.div`
+	position: sticky;
 	width: 100%;
+	height: 50px;
 	display: flex;
 	align-items: center;
 	justify-content: ${({ spaceBetween }) =>
 		spaceBetween === true ? `space-between` : `initial`};
-	width: 100%;
 	padding: 12px;
 	box-sizing: border-box;
-	background-color: #fff;
-	position: fixed;
 	top: 0;
-	left: 0;
+	background-color: #fff;
 	border-bottom: solid 1px #dbdbdb;
 	z-index: 888;
 `;

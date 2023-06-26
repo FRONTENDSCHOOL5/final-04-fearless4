@@ -59,7 +59,7 @@ export default function Chat() {
 	};
 
 	return (
-		<div>
+		<>
 			<NavbarWrap spaceBetween>
 				<Backspace
 					onClick={() => {
@@ -112,27 +112,15 @@ export default function Chat() {
 					<Column>
 						<MessageRow2>
 							<Time>4:31</Time>
-							<MessageText2 style={{ backgroundColor: '#F2F2F2' }}>
-								<ChatTextRight>
-									<ChatImg src={Alpaca} />
-								</ChatTextRight>
-							</MessageText2>
+
+							<ChatTextRight>
+								<ChatImg src={Alpaca} />
+							</ChatTextRight>
 						</MessageRow2>
 					</Column>
 				</ChatBox>
 			</HomeContainer>
-			<UploadComment>
-				{<ProfileImageComment src={UploadPic}></ProfileImageComment>}
-				<CommentInputArea
-					placeholder='메세지 입력하기...'
-					rows={1}
-					value={text}
-					onChange={(e) => setText(e.target.value)}
-				></CommentInputArea>
-				<CommentUploadButton style={{ color: text ? '#81d8d0' : '#c4c4c4' }}>
-					전송
-				</CommentUploadButton>
-			</UploadComment>
+
 			{isModal && (
 				<DarkBackground onClick={handleModalClose}>
 					<ModalWrap>
@@ -146,6 +134,20 @@ export default function Chat() {
 					</ModalWrap>
 				</DarkBackground>
 			)}
-		</div>
+			<>
+				<UploadComment>
+					{<ProfileImageComment src={UploadPic}></ProfileImageComment>}
+					<CommentInputArea
+						placeholder='메세지 입력하기...'
+						rows={1}
+						value={text}
+						onChange={(e) => setText(e.target.value)}
+					></CommentInputArea>
+					<CommentUploadButton style={{ color: text ? '#81d8d0' : '#c4c4c4' }}>
+						전송
+					</CommentUploadButton>
+				</UploadComment>
+			</>
+		</>
 	);
 }

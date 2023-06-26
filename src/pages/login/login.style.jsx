@@ -2,7 +2,7 @@ import styled, { keyframes } from 'styled-components';
 
 export const Wrapper = styled.div`
 	background-color: #81d8d0;
-	min-width: 420px;
+	width: 390px;
 	height: 100vh;
 	display: flex;
 	flex-direction: column;
@@ -15,8 +15,8 @@ export const Wrapper = styled.div`
 export const ButtonWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
-	width: 100%;
-	padding: 30px 34px 20px 34px;
+	width: 390px;
+	padding: 10px 20px 10px 20px;
 	background-color: #ffff;
 	border-radius: 20px 20px 0 0;
 	position: fixed;

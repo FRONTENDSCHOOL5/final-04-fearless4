@@ -3,19 +3,19 @@ import LogoImg from '../../assets/image/travelchar_crop.png';
 import HeartImg from '../../assets/image/heart-button.png';
 
 export const Logo = styled.img`
-	width: 250px;
+	width: 300px;
 	position: absolute;
-	top: 50%;
+	top: 20%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 	object-fit: cover;
 `;
 
 export const Heart = styled.img`
-	width: 100px;
+	width: 250px;
 	position: absolute;
-	top: 10%;
-	left: 10%;
+	top: -65%;
+	left: -18%;
 	transform: rotate(-30deg);
 `;
 
@@ -28,13 +28,10 @@ export const LogoText = styled.h1`
 `;
 
 export const LogoWrapper = styled.div`
-	width: 250px;
+	width: 350px;
 	min-height: 250px;
 	display: flex;
 	position: relative;
-	background-color: white;
-	overflow: hidden;
-	border-radius: 50%;
 `;
 
 export function LogoContainer() {
