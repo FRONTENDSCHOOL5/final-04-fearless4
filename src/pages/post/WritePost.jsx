@@ -11,6 +11,13 @@ import {
 	TextForm,
 	UploadButton,
 } from './writePost.style';
+import {
+	ToastClose,
+	ToastContainer,
+	ToastIcon,
+	ToastMsg,
+	ToastMsgBold,
+} from '../../components/toast/toast.style';
 import { Backspace, NavbarWrap } from '../../components/navbar/navbar.style';
 import { ImageUploadButton } from '../../components/button/button.style';
 import profilePic from '../../assets/image/profilePic.png';
@@ -21,6 +28,8 @@ const WritePost = () => {
 	const [myProfileImage, setMyProfileImage] = useState('');
 	const [text, setText] = useState('');
 	const [disabled, setDisabled] = useState(true);
+	const [showWrongExtensionToast, setShowWrongExtensionToast] = useState(false);
+	const [showSizeOverToast, setShowSizeOverToast] = useState(false);
 	const inputRef = useRef(null);
 	const textarea = useRef();
 	const navigate = useNavigate();
@@ -63,19 +72,17 @@ const WritePost = () => {
 
 		if (imageFile) {
 			if (imageFile.size > maxImageSize) {
-				alert(
-					'이미지 크기가 너무 큽니다.\n10MB보다 작은 이미지를 업로드 해 주세요!'
-				);
-				e.target.value = ''; // 파일 선택 창을 비웁니다.
+				setShowSizeOverToast(true);
+				setTimeout(() => setShowSizeOverToast(false), 3000);
+				e.target.value = '';
 				return;
 			}
 
 			const fileExtension = '.' + imageFile.name.split('.').pop().toLowerCase();
 			if (!allowedExtensionsRegex.test(fileExtension)) {
-				alert(
-					'올바른 파일 확장자가 아닙니다!\n올바른 파일 확장자는 다음과 같습니다: .jpg, .gif, .png, .jpeg, .bmp, .tif, .heic'
-				);
-				e.target.value = ''; // 파일 선택 창을 비웁니다.
+				setShowWrongExtensionToast(true);
+				setTimeout(() => setShowWrongExtensionToast(false), 3000);
+				e.target.value = '';
 				return;
 			}
 
@@ -155,6 +162,32 @@ const WritePost = () => {
 		}
 	};
 
+	const WrongExtensionToast = () => (
+		<>
+			{showWrongExtensionToast && (
+				<ToastContainer>
+					<ToastIcon>😵‍💫</ToastIcon>
+					<ToastMsg>
+						<ToastMsgBold>이미지</ToastMsgBold>만 업로드 해 주세요!
+					</ToastMsg>
+				</ToastContainer>
+			)}
+		</>
+	);
+
+	const SizeOverToast = () => (
+		<>
+			{showSizeOverToast && (
+				<ToastContainer>
+					<ToastIcon>😵</ToastIcon>
+					<ToastMsg>
+						<ToastMsgBold>10MB</ToastMsgBold>이하의 파일만 업로드 해 주세요!
+					</ToastMsg>
+				</ToastContainer>
+			)}
+		</>
+	);
+
 	return (
 		<>
 			<WrapperWritePost>
@@ -196,6 +229,8 @@ const WritePost = () => {
 					onChange={handleImageInputChange}
 				/>
 			</ImageUploadButton>
+			<WrongExtensionToast />
+			<SizeOverToast />
 		</>
 	);
 };
