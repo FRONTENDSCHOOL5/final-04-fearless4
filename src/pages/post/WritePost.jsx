@@ -21,6 +21,7 @@ import {
 import { Backspace, NavbarWrap } from '../../components/navbar/navbar.style';
 import { ImageUploadButton } from '../../components/button/button.style';
 import profilePic from '../../assets/image/profilePic.png';
+import { Helmet } from 'react-helmet';
 
 const WritePost = () => {
 	const token = localStorage.getItem('token');
@@ -190,6 +191,9 @@ const WritePost = () => {
 
 	return (
 		<>
+			<Helmet>
+				<title>TravelUs | 게시글 작성</title>
+			</Helmet>
 			<WrapperWritePost>
 				<NavbarWrap spaceBetween>
 					<Backspace onClick={() => navigate(-1)} />

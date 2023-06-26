@@ -37,6 +37,7 @@ import { useNavigate } from 'react-router-dom';
 import { API_URL } from '../../api';
 import ProductsForSale from './ProductsForSale';
 import Loading from '../../components/loading/Loading';
+import { Helmet } from 'react-helmet';
 
 export default function UserProfile() {
 	const navigate = useNavigate();
@@ -114,6 +115,9 @@ export default function UserProfile() {
 
 	return (
 		<>
+			<Helmet>
+				<title>TravelUs | 프로필</title>
+			</Helmet>
 			<NavbarWrap spaceBetween>
 				<Backspace
 					onClick={() => {

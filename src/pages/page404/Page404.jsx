@@ -17,33 +17,40 @@ import {
 	CatWrap,
 } from './page404.style';
 import { useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 export default function Page404() {
 	const navigate = useNavigate();
 	return (
-		<Page404Wrap>
-			<NotFoundSign src={Sign} />
-			<NotFoundText>
-				404
-				<br />
-				Page not Found
-			</NotFoundText>
-			<CatWrap>
-				<Cat404Img src={Cat404} />
-				<LuggageImg src={Luggage} />
-				<AnimationWrap>
-					<SnoreLargeImg src={Snore} />
-					<SnoreMediumImg src={Snore} />
-					<SnoreSmallImg src={Snore} />
-				</AnimationWrap>
-			</CatWrap>
-			<HomeButton
-				onClick={() => {
-					navigate('/homeFeed');
-				}}
-			>
-				홈으로 돌아가기
-			</HomeButton>
-		</Page404Wrap>
+		<>
+			<Helmet>
+				<title>TravelUs | 오류</title>
+			</Helmet>
+
+			<Page404Wrap>
+				<NotFoundSign src={Sign} />
+				<NotFoundText>
+					404
+					<br />
+					Page not Found
+				</NotFoundText>
+				<CatWrap>
+					<Cat404Img src={Cat404} />
+					<LuggageImg src={Luggage} />
+					<AnimationWrap>
+						<SnoreLargeImg src={Snore} />
+						<SnoreMediumImg src={Snore} />
+						<SnoreSmallImg src={Snore} />
+					</AnimationWrap>
+				</CatWrap>
+				<HomeButton
+					onClick={() => {
+						navigate('/homeFeed');
+					}}
+				>
+					홈으로 돌아가기
+				</HomeButton>
+			</Page404Wrap>
+		</>
 	);
 }

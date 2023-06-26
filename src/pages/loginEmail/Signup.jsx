@@ -12,6 +12,7 @@ import { LoginButton } from '../../components/button/button.style.jsx';
 import { API_URL, exptext } from '../../api.js';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 export default function Signup() {
 	const url = API_URL;
@@ -85,6 +86,9 @@ export default function Signup() {
 
 	return (
 		<>
+			<Helmet>
+				<title>TravelUs | 회원가입</title>
+			</Helmet>
 			<WrapperLoginEmail>
 				<Title>이메일로 회원가입</Title>
 				<WrapForm>
