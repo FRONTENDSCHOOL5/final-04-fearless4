@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 export const ProductContainer = styled.div`
-	height: calc(100vh - 52px);
 	padding: 26px 34px;
 	box-sizing: border-box;
 	display: flex;
@@ -58,7 +57,6 @@ export const BgBtnInputStyle = styled(InputStyle)`
 export const BgBtnCover = styled.div`
 	position: absolute;
 	top: 31px;
-	width: 100%;
 	width: 322px;
 	height: 204px;
 	border-radius: 10px;
