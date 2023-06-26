@@ -143,7 +143,6 @@ export default function ProductsForSaleEdit() {
 					'Content-type': 'application/json',
 				},
 			});
-			console.log(res);
 			setShowToast(true);
 			setTimeout(() => {
 				navigate('/profile/myProfile');

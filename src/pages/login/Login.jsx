@@ -27,14 +27,13 @@ export default function Login() {
 	const [showNotAvailable, setShowNotAvailable] = useState(false);
 
 	const token = localStorage.getItem('token');
-
 	useEffect(() => {
 		const timeout = setTimeout(() => {
 			setIsLoading(false);
 			if (token && isLoading) {
 				navigate('/Homefeed');
 			}
-		}, 2800);
+		}, 2700);
 	}, []);
 
 	const handleModal = (e) => {

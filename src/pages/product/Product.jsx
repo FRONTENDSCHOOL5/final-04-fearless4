@@ -58,7 +58,6 @@ export default function Product() {
 		const allowedExtensionsRegex = /\.(jpg|gif|png|jpeg|bmp|tif|heic)$/i;
 		const maxImageSize = 10 * 1024 * 1024;
 		const imageFile = e.target.files[0];
-
 		if (imageFile) {
 			if (imageFile.size > maxImageSize) {
 				setShowSizeOverToast(true);

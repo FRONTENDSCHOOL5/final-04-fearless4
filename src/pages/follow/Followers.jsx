@@ -47,7 +47,6 @@ export default function Follwers() {
 			});
 			setIsLoading(true);
 			setFollower(res.data);
-			console.log(res.data);
 		} catch (error) {
 			console.log('에러입니다', error);
 		}
@@ -56,7 +55,6 @@ export default function Follwers() {
 	useEffect(() => {
 		followerData();
 		data && setMyAccountName(data.accountname);
-		console.log(myAccountName);
 	}, [isFollow, data]);
 
 	const handleFollowChange = async (isfollow, accountname, e) => {
@@ -71,9 +69,7 @@ export default function Follwers() {
 						'Content-type': 'application/json',
 					},
 				});
-				// console.log(res.data.profile);
 				setIsFollow(res.data.profile);
-				// console.log(isfollow);
 			} catch (error) {
 				console.log('에러입니다', error);
 			}
@@ -88,8 +84,6 @@ export default function Follwers() {
 					},
 				});
 				setIsFollow(res.data.profile);
-				// console.log(res);
-				// console.log(isfollow);
 			} catch (error) {
 				console.log('에러입니다', error);
 			}
