@@ -63,6 +63,7 @@ export default function ProductsForSale({ userAccountName }) {
 		} else {
 			setIsModal(true);
 			setIsUserModal(false);
+			setSelectedProduct(item);
 		}
 	};
 
