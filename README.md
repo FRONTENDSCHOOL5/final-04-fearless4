@@ -66,7 +66,7 @@ Hello, there! 저희는 4명의 Front-End 개발자로 구성된 **Fearless 4** 
 - 팔로워 목록 페이지
 
 #### 기타
-- 모바일 뷰 제작
+- 모바일 뷰 추가
 - 라우터 및 페이지 경로 관리
 
 ### 최사라
@@ -110,7 +110,7 @@ Hello, there! 저희는 4명의 Front-End 개발자로 구성된 **Fearless 4** 
 | :------: | :----: | :---------: |
 |![댓글](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/d99d06ac-b2ef-447b-9588-546d62a47f88)|![상품등록](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/8f6bfb40-6d93-41c2-b6dd-126c6fea9847)|    ![상품정렬](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/5c42c78f-8ce4-4007-b89b-adfade68ebb6)    |
 
-| 로그아웃 | 토스트 | 게시글 삭제 |
+| 로그아웃 | 토스트 | 팔로우 |
 | :------: | :----: | :---------: |
 |  ![logout](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/108723143/ad6ded95-2146-4534-b5f7-2e0c42fa5b8d)    |  ![toast_Animation](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/113747290/1cec5164-8e40-43a3-bbbe-472be1d7bc9d)|   ![팔로우](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/dbb2f2bd-16de-4dcb-9c5c-cbd386825905)|
 
@@ -277,6 +277,9 @@ final-04-fearless4
 ### 김소연 
 
 ### 정준영
+- 안녕하세요. F4조 정준영입니다!
+프로젝트를 시작하기 전까지는 제 자신이 아직 많이 부족하다고 느꼈는데, 팀원들과 함께 프로젝트를 하면서, 제 자신이 생각보다 멋사에서 많이 성장하였다고 느끼게 되었고, 부족한 부분은 저희 팀원분들이 많이 채워주셨습니다!
+저희 조 팀원분들과 회고조 그리고 멋사 여러분께 감사드립니다!
 
 ### 최사라
 
