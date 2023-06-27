@@ -101,7 +101,7 @@ Hello, there! 저희는 4명의 Front-End 개발자로 구성된 **Fearless 4** 
 
 | 채팅 | 프로필 | 프로필 수정 |
 | :--: | :----: | :---------: |
-| gif  |  gif   |     gif     |
+| ![chatting_Animation](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/113747290/fa13ce1c-afac-402d-a0fa-ee5917f66707) | ![profile_Animation](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/113747290/ad2aa292-6bc8-4526-bac7-3131be74c222) | ![profileEdit_Animation](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/113747290/5b4a2da2-24d7-4f78-a7f0-739673c6661c) |
 
 | 게시글 등록 | 게시글 수정 | 게시글 삭제 |
 | :---------: | :---------: | :---------: |
@@ -260,7 +260,8 @@ final-04-fearless4
  타이머는 재설정되어, 마지막 입력 이후 일정 시간이 경과되어야 찾고자 하는 계정명이 보여집니다.
 
 #### bottomnav 아이콘 선택 시 애니메이션 효과
-![navbarbottom_Animation](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/113747290/4a4749fa-e8e1-4e0d-8385-67a8a209df86)
+![navbarbottom_Animation](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/113747290/40863d17-edca-4a04-9185-167d3e419e01)
+
 
 - 다른 페이지로 이동할 때, 사용자가 현재 본인이 선택한 아이콘에 대해 시각적으로 인식 할 수 있어 가고자 하는 페이지를 탐색하는데 도움을 주고, 사용자가 더욱 즐겁게 앱 또는 웹 사이트를 탐색할 수 있도록 해당 기능을 추가하였습니다.
 - 다른 페이지를 이동하기 위해 사용자가 bottomnav에서 아이콘을 선택하면 아이콘의 색 변화와 360도 회전하는 애니메이션 효과가 적용됩니다.
