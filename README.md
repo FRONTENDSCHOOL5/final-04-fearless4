@@ -108,7 +108,7 @@ Hello, there! 저희는 4명의 Front-End 개발자로 구성된 **Fearless 4** 
 
 | 게시글 댓글 | 상품 등록 | 상품 정렬 |
 | :------: | :----: | :---------: |
-|![댓글](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/d99d06ac-b2ef-447b-9588-546d62a47f88)|![상품등록](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/8f6bfb40-6d93-41c2-b6dd-126c6fea9847)|     gif     |
+|![댓글](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/d99d06ac-b2ef-447b-9588-546d62a47f88)|![상품등록](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/8f6bfb40-6d93-41c2-b6dd-126c6fea9847)|    ![상품정렬](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/5c42c78f-8ce4-4007-b89b-adfade68ebb6)    |
 
 | 로그아웃 | 토스트 | 게시글 삭제 |
 | :------: | :----: | :---------: |
