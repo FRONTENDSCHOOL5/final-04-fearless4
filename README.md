@@ -109,11 +109,12 @@ Hello, there! 저희는 4명의 Front-End 개발자로 구성된 **Fearless 4** 
 
 | 게시글 댓글 | 상품 등록 | 상품 정렬 |
 | :------: | :----: | :---------: |
-|![댓글](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/d99d06ac-b2ef-447b-9588-546d62a47f88)|![상품등록](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/8f6bfb40-6d93-41c2-b6dd-126c6fea9847)|    ![상품정렬](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/5c42c78f-8ce4-4007-b89b-adfade68ebb6)    |
+|![댓글](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/d99d06ac-b2ef-447b-9588-546d62a47f88)|![상품등록](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/64fe1806-a58e-445f-9a2d-8d1fa1492d8f)| ![상품정렬](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/12cb1272-5e04-4c77-bd2f-ae98bfb0607a)
+
 
 | 로그아웃 | 토스트 | 팔로우 |
 | :------: | :----: | :---------: |
-|  ![logout](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/108723143/ad6ded95-2146-4534-b5f7-2e0c42fa5b8d)    |  ![toast_Animation](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/113747290/1cec5164-8e40-43a3-bbbe-472be1d7bc9d)|   ![팔로우](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/dbb2f2bd-16de-4dcb-9c5c-cbd386825905)|
+|  ![logout](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/108723143/ad6ded95-2146-4534-b5f7-2e0c42fa5b8d)    |![토스트](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/0a4c6e31-64ad-43fd-be02-0435ac0cdc79)|   ![팔로우](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/dbb2f2bd-16de-4dcb-9c5c-cbd386825905)|
 
 ## 5. 프로젝트 목표
 1. 리액트 사용법을 익히고 실력 향상시키기
