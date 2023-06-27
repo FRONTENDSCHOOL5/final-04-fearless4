@@ -248,7 +248,8 @@ final-04-fearless4
 - 또한, 사용자들이 추천이나 할인 상품을 보다가 전체 상품을 보고 싶을 때, # 전체 상품 버튼을 누르면 처음처럼 전체 상품 목록을 볼 수 있습니다.
 
 #### 검색 디바운스 기능 
-![search_Animation](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/113747290/9393301e-f86b-464c-ae25-c372c2094738)
+![search_Animation](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/108723143/a7cc0ec2-288b-4aad-9f89-2836fa8be62c)
+
 
 - 불필요한 검색 요청의 수를 제어함으로써 서버 부하를 감소시키기 위해 해당 기능을 추가하였습니다. 즉, 사용자가 검색어를 입력하는 동안 실시간으로 관련 검색어를 보여주면서도, 불필요한 요청을 최소화하여 사이트의 성능과 사용자 경험을 향상시킵니다.
 - 사용자가 계정 검색에서 입력할 때마다 바로 검색 요청이 보내지지 않고, 일정 시간 동안 입력이 없을 때에만 요청이 보내집니다.
