@@ -112,7 +112,7 @@ Hello, there! 저희는 4명의 Front-End 개발자로 구성된 **Fearless 4** 
 
 | 로그아웃 | 토스트 | 게시글 삭제 |
 | :------: | :----: | :---------: |
-|   gif    |  gif   |     gif     |
+|  ![logout](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/108723143/ad6ded95-2146-4534-b5f7-2e0c42fa5b8d)    |  gif   |     gif     |
 
 ## 5. 프로젝트 목표
 1. 리액트 사용법을 익히고 실력 향상시키기
