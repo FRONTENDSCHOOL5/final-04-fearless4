@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import HeartImg from '../../assets/image/heart-button.png';
 import LogoImgCat from '../../assets/image/catNoFeed.png';
 
@@ -15,13 +15,22 @@ export const Logo = styled.img`
 	}
 `;
 
+export const LoginCat = styled.img`
+	width: 380px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	object-fit: cover;
+	z-index: 2;
+`;
+
 export const Heart = styled.img`
 	width: 250px;
 	position: absolute;
-	top: -65%;
-	left: -18%;
+	top: -25%;
+	left: -15%;
 	transform: rotate(-30deg);
-	cursor: pointer;
 `;
 
 export const LogoText = styled.h1`
@@ -36,7 +45,10 @@ export const LogoWrapper = styled.div`
 	width: 350px;
 	min-height: 250px;
 	display: flex;
-	position: relative;
+	position: absolute;
+	top: 35%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 `;
 
 export const Text1 = styled.div`
@@ -52,6 +64,34 @@ export const Text2 = styled.div`
 	top: 180px;
 	z-index: 2;
 	left: 140px;
+`;
+
+const ShakingTail = keyframes`
+	0% {
+		transform: rotate(0deg);
+	}
+	25% {
+		transform: rotate(8deg);
+	}
+	50% {
+		transform: rotate(0deg);
+	}
+	75% {
+		transform: rotate(8deg);
+	}
+	100% {
+		transform: rotate(0deg);
+	}
+`;
+
+export const CatTailImg = styled.img`
+	position: absolute;
+	top: 42%;
+	left: 59%;
+	width: 48px;
+	z-index: 1;
+	animation: ${ShakingTail} 2s infinite;
+	animation-timing-function: ease-in-out;
 `;
 
 export function LogoContainer() {
