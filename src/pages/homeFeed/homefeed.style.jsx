@@ -33,6 +33,7 @@ export const HomeContainer = styled.div`
 
 export const Span = styled.span`
 	font-size: 14px;
+	margin-top: -30px;
 	color: #767676;
 `;
 

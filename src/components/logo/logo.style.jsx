@@ -5,13 +5,14 @@ import LogoImgCat from '../../assets/image/catNoFeed.png';
 export const Logo = styled.img`
 	width: 300px;
 	position: absolute;
-	top: 5%;
-	left: 10%;
+	top: 50%;
+	left: 55%;
+	transform: translate(-50%, -50%);
 	object-fit: cover;
 	cursor: pointer;
 	transition: transform 0.3s ease-in-out;
 	&:hover {
-		transform: rotate(45deg);
+		transform: translate(-50%, -50%) rotate(45deg);
 	}
 `;
 
@@ -25,10 +26,18 @@ export const LoginCat = styled.img`
 	z-index: 2;
 `;
 
+export const Heart2 = styled.img`
+	width: 250px;
+	position: absolute;
+	top: -40%;
+	left: -25%;
+	transform: rotate(-30deg);
+`;
+
 export const Heart = styled.img`
 	width: 250px;
 	position: absolute;
-	top: -25%;
+	top: -40%;
 	left: -15%;
 	transform: rotate(-30deg);
 `;
@@ -44,26 +53,18 @@ export const LogoText = styled.h1`
 export const LogoWrapper = styled.div`
 	width: 350px;
 	min-height: 250px;
+	margin-top: -100px;
+	margin-bottom: 50px;
 	display: flex;
-	position: absolute;
-	top: 35%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-`;
-
-export const Text1 = styled.div`
-	position: absolute;
-	top: -80px;
-	left: 28px;
-	z-index: 2;
-	transform: rotate(-30deg);
+	text-align: center;
+	justify-content: center;
+	position: relative;
 `;
 
 export const Text2 = styled.div`
 	position: absolute;
-	top: 180px;
+	top: 90%;
 	z-index: 2;
-	left: 140px;
 `;
 
 const ShakingTail = keyframes`
@@ -97,9 +98,8 @@ export const CatTailImg = styled.img`
 export function LogoContainer() {
 	return (
 		<LogoWrapper>
-			<Text1>여행 좋다냥</Text1>
 			<Text2>click me!</Text2>
-			<Heart src={HeartImg} />
+			<Heart2 src={HeartImg} />
 			<Logo src={LogoImgCat} />
 		</LogoWrapper>
 	);

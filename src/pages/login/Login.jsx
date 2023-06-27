@@ -9,7 +9,7 @@ import {
 	LoginCat,
 	LogoWrapper,
 } from '../../components/logo/logo.style';
-import { Wrapper, ButtonWrapper } from './login.style';
+import { Wrapper, ButtonWrapper, TravelUsSpan } from './login.style';
 import { useNavigate } from 'react-router-dom';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
@@ -87,18 +87,8 @@ export default function Login() {
 							<Heart id='heart' src={HeartImg} />
 							<LoginCat id='logo' src={LogoImg} />
 							<CatTailImg src={CatTail} />
+							<TravelUsSpan>TravelUs</TravelUsSpan>
 						</LogoWrapper>
-						<span
-							style={{
-								fontFamily: 'MapoBackpacking',
-								marginTop: '-10px',
-								color: '#fff',
-								fontSize: '45px',
-								position: 'absolute',
-							}}
-						>
-							TravelUs
-						</span>
 						<ButtonWrapper ref={modal}>
 							<SocialLoginButton
 								borderColor={'#F2C94C'}

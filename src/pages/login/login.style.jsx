@@ -25,6 +25,7 @@ export const ButtonWrapper = styled.div`
 	position: fixed;
 	bottom: 0;
 	box-sizing: border-box;
+	z-index: 22;
 
 	transition: 0.7s;
 	transform: translate3d(0, 0, 0);
@@ -32,4 +33,14 @@ export const ButtonWrapper = styled.div`
 	&.modal-open {
 		transform: translate3d(0, 100%, 0);
 	}
+`;
+
+export const TravelUsSpan = styled.span`
+	font-family: 'MapoBackpacking';
+	color: #fff;
+	font-size: 45px;
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 `;
