@@ -112,8 +112,7 @@ Hello, there! 저희는 4명의 Front-End 개발자로 구성된 **Fearless 4** 
 
 | 로그아웃 | 토스트 | 게시글 삭제 |
 | :------: | :----: | :---------: |
-|  ![logout](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/108723143/ad6ded95-2146-4534-b5f7-2e0c42fa5b8d)    |  ![toast_Animation](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/113747290/1cec5164-8e40-43a3-bbbe-472be1d7bc9d)
-   |     gif     |
+|  ![logout](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/108723143/ad6ded95-2146-4534-b5f7-2e0c42fa5b8d)    |  ![toast_Animation](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/113747290/1cec5164-8e40-43a3-bbbe-472be1d7bc9d)|   ![팔로우](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/dbb2f2bd-16de-4dcb-9c5c-cbd386825905)|
 
 ## 5. 프로젝트 목표
 1. 리액트 사용법을 익히고 실력 향상시키기
