@@ -38,7 +38,6 @@ Hello, there! 저희는 4명의 Front-End 개발자로 구성된 **Fearless 4** 
 |**강동훈**|**김소연**|**정준영**|**최사라** |
 | :------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------: |
 | <img width="180" alt="강동훈_profile_img" src="https://github.com/starcradle101/starcradle101/assets/113353436/707efb89-2344-4f79-8080-d3947767a7c5"> | <img width="180"  alt="김소연_profile_img" src="https://github.com/starcradle101/starcradle101/assets/113353436/f3f0197d-2969-4ecf-b907-42b8bc31ade9"> | <img width="180" alt="정준영_profile_img" src="https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/108723143/834d1075-10cf-4eee-8688-f86e8fdb83d1"> | <img width="180" alt="최사라_profile_img" src="https://github.com/starcradle101/starcradle101/assets/113353436/db3243c5-1d3b-4010-8547-dabd0034d7eb" > |
-
 | [starcradle101](https://github.com/starcradle101) | [sy412](https://github.com/sy412) | [DayTeaJun](https://github.com/DayTeaJun) | [developer-sala](https://github.com/developer-sala) |
 | 팀장 | 팀원 | 팀원 | 팀원 |
 
@@ -106,7 +105,7 @@ Hello, there! 저희는 4명의 Front-End 개발자로 구성된 **Fearless 4** 
 
 | 게시글 등록 | 게시글 수정 | 게시글 삭제 |
 | :---------: | :---------: | :---------: |
-|     gif     |     gif     |     gif     |
+|     ![postupload](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/108723143/90cefbfc-346d-4cc0-b26b-789b73f80661)     |     gif     |     gif     |
 
 | 로그아웃 | 토스트 | 게시글 삭제 |
 | :------: | :----: | :---------: |
