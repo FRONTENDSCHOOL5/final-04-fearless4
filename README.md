@@ -14,6 +14,7 @@
 8. [폴더 구조](#8.-폴더 구조)
 9. [핵심 기능]()
 10. [프로젝트 소감]()
+11. 출처()
 
 ## 1. TravelUs 서비스 소개
 서비스명 TravelUs는 "Travel"과 "Us"의 합성어로, 함께 여행하자는 의미를 담고 있습니다.
@@ -282,5 +283,32 @@ final-04-fearless4
 저희 조 팀원분들과 회고조 그리고 멋사 여러분께 감사드립니다!
 
 ### 최사라
+
+## 11. 출처 
+이미지 출처
+- Splash 화면<br>
+https://kr.freepik.com/free-photo/view-of-adorable-3d-cat_45138557.htm#page=2&query=3d%20cat&position=4&from_view=search&track=ais<br>
+https://kr.freepik.com/free-psd/travel-luggage-icon-isolated-3d-render-illustration_34151495.htm#query=3d%20BAGGAGE&position=13&from_view=search&track=ais<br>
+
+- 로그인 화면<br>
+https://kr.freepik.com/free-photo/view-of-adorable-3d-cat_45138557.htm#page=2&query=3d%20cat&position=4&from_view=search&track=ais<br>
+https://kr.freepik.com/free-photo/love-button-notification-alert-on-chat-speech-bubble-notice-reminder-3d-cartoon-illustration_27654463.htm#query=3d%20heart&position=24&from_view=search&track=ais<br>
+
+- 채팅 화면<br>
+https://kr.freepik.com/free-psd/3d-illustration-of-person-with-long-hair_27470372.htm#query=3d%20profile&position=4&from_view=search&track=ais<br>
+https://kr.freepik.com/free-photo/cute-woman-hold-hands-gesture-to-empty-spec-business-woman-concept-on-pink-background-3d-rendering_25694156.htm#query=3d%20kid&position=25&from_view=search&track=ais
+
+- 404화면<br>
+https://kr.freepik.com/free-photo/view-of-adorable-3d-cat_45138556.htm#query=3d%20cat&position=43&from_view=search&track=ais<br>
+https://kr.freepik.com/free-photo/reminder-popup-bell-notification-alert-or-alarm-icon-sign-or-symbol-for-application-website-ui-on-purple-background-3d-rendering-illustration_24598564.htm#query=3d%20alert&position=5&from_view=search&track=ais
+
+- 기본 프로필 설정 화면<br> 
+https://kr.freepik.com/free-vector/3d-cartoon-young-woman-smiling-in-circle-frame-character-illustration-vector-design_24325541.htm#query=3d%20kid&position=10&from_view=search&track=ais
+
+- 팔로우한 유저가가 없는 경우<br>
+https://kr.freepik.com/free-photo/view-of-adorable-3d-cat_45138550.htm#query=3d%20cat&position=8&from_view=search&track=ais
+
+- 팔로잉한 유저가 없는 경우<br> 
+https://kr.freepik.com/free-photo/view-of-adorable-3d-cats_45138596.htm#page=2&query=3d%20cat&position=10&from_view=search&track=ais
 
 
