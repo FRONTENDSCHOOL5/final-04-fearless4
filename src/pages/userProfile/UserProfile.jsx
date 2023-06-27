@@ -66,6 +66,7 @@ export default function UserProfile() {
 			});
 			setIsLoading(true);
 			setProfile(res.data);
+			console.log(res);
 		} catch (error) {
 			console.log('에러입니다', error);
 		}
@@ -195,7 +196,7 @@ export default function UserProfile() {
 							</ProfileImgWrap>
 
 							<UserWrap>
-								<UserNickName>{profile.profile.accountname}</UserNickName>
+								<UserNickName>{profile.profile.username}</UserNickName>
 								<UserEmail>@ {profile.profile.accountname}</UserEmail>
 								<Intro>{profile.profile.intro}</Intro>
 							</UserWrap>
