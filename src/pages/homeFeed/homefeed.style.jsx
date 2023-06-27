@@ -3,6 +3,7 @@ import searchIcon from '../../assets/icon/icon-search.svg';
 
 export const HomefeedWrap = styled.div`
 	width: 100%;
+	padding-bottom: 20px;
 	height: 100%;
 `;
 
