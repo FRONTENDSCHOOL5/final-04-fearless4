@@ -40,7 +40,7 @@ export default function Login() {
 			if (token && isLoading) {
 				navigate('/Homefeed');
 			}
-		}, 2700);
+		}, 2600);
 	}, []);
 
 	const handleModal = (e) => {
