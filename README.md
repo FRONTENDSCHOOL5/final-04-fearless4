@@ -114,7 +114,7 @@ Hello, there! 저희는 4명의 Front-End 개발자로 구성된 **Fearless 4** 
 
 | 로그아웃 | 토스트 | 팔로우 |
 | :------: | :----: | :---------: |
-|  ![logout](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/108723143/ad6ded95-2146-4534-b5f7-2e0c42fa5b8d)    |![토스트](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/0a4c6e31-64ad-43fd-be02-0435ac0cdc79)|   ![팔로우](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/dbb2f2bd-16de-4dcb-9c5c-cbd386825905)|
+| ![로그아웃](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/d2a55943-cfe4-4a45-bbee-8bb4be702c1d) |![토스트](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/0a4c6e31-64ad-43fd-be02-0435ac0cdc79)|   ![팔로우](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/dbb2f2bd-16de-4dcb-9c5c-cbd386825905)|
 
 ## 5. 프로젝트 목표
 1. 리액트 사용법을 익히고 실력 향상시키기
@@ -277,6 +277,8 @@ final-04-fearless4
 ### 강동훈
 
 ### 김소연 
+프로젝트 경험을 통해 고민해보고 차근차근 하는 연습을 한 것 같고 혼자였다면 절대 하지 못한 경험을 한 것 같습니다!
+무엇보다 좋은 팀원분들 덕분에 많이 배운 것 같고 저도 얼른 성장해 도움이 될 수 있도록 노력하겠습니다~!!!! fearless4 팀원분들 감사합니다~!!👍🥹👍
 
 ### 정준영
 - 안녕하세요. F4조 정준영입니다!
