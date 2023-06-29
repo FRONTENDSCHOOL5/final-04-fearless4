@@ -1,5 +1,5 @@
 # 1번 리뷰 (정준영)
-* 페이지 링크 : [Followings.jsx](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/blob/main/src/pages/follow/Followings.jsx)
+페이지 링크 - [Followings.jsx](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/blob/main/src/pages/follow/Followings.jsx)
 
 ✅ 범위 : 27 - 153 line
 
@@ -40,7 +40,7 @@ false이거나 true일 때 마다 서버와 통신을 하고 바뀐 isFollow 부
 
 
 # 2번 리뷰 (강동훈)
-* 페이지 링크 - [post.style.jsx](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/blob/main/src/components/post/post.style.jsx#L171)
+페이지 링크 - [post.style.jsx](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/blob/main/src/components/post/post.style.jsx#L171)
 
 ✅ 범위:
 - post.style.jsx 파일 155 ~ 288
@@ -119,7 +119,7 @@ false이거나 true일 때 마다 서버와 통신을 하고 바뀐 isFollow 부
 
 # 3번 리뷰 (김소연)
 
-페이지링크 :  [Search.jsx](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/blob/main/src/pages/search/Search.jsx)
+페이지 링크 -  [Search.jsx](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/blob/main/src/pages/search/Search.jsx)
 
 ✅ 범위 : Search.jsx
 
@@ -166,7 +166,7 @@ const SearchColor = ({ user, word, type }) => {
 
 
 # 4번 리뷰 (최사라)
-페이지 링크 - [ProductsForSale.jsx][(https://github.com/FRONTENDSCHOOL5/final-04-fearless4/blob/main/src/pages/userProfile/ProductsForSale.jsx)
+페이지 링크 - [ProductsForSale.jsx](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/blob/main/src/pages/userProfile/ProductsForSale.jsx)
 
 ✅ 범위: 
 - ProductsForSale.jsx파일 115 ~ 217 line
