@@ -206,12 +206,31 @@ const handleShowDiscountedItems = () => {
 
 🙋🏻‍♂️ 코드 리뷰에서 궁금한 점: 
 - 전체 상품, 추천 상품, 할인 상품 버튼을 선택할 때 해당 요건에 맞는 상품이 화면에 보여는 코드가 다 중복이 되는데요, 혹시 중복된 코드를 줄이거나 코드를 개선할 수 있는 방법이 있을까요?
+```jsx
+		const products = discountedProducts.map((item) => (
+			<ProductList
+				key={item.id}
+				onClick={() => {
+					handleModalOpen(item);
+				}}
+			>
+				<ProductImg
+					src={item.itemImage}
+					alt={`${item.itemName}의 상품 이미지`}
+				/>
+				<ProductName>{item.itemName}</ProductName>
+				<ProductPrice>{item.price.toLocaleString()}원</ProductPrice>
+			</ProductList>
+		));
+		setProductData(products);
+	};
+```
 
 
 # 5번 리뷰 (최사라) 
 페이지 링크 -<br> 
-상품 등록(https://github.com/FRONTENDSCHOOL5/final-04-fearless4/blob/main/src/pages/userProfile/MyProfile.jsx) → 버튼 누르면 이동하는 상품등록 페이지[Product.jsx](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/blob/main/src/pages/product/Product.jsx)<br><br>
-상품 수정(https://github.com/FRONTENDSCHOOL5/final-04-fearless4/blob/main/src/pages/userProfile/ProductsForSale.jsx) → 버튼 누르면 이동하는 상품수정 페이지[ProductsForSaleEdit](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/blob/main/src/pages/userProfile/ProductsForSaleEdit.jsx)
+상품 등록[MyProfile.jsx](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/blob/main/src/pages/userProfile/MyProfile.jsx) → 버튼 누르면 이동하는 상품등록 페이지[Product.jsx](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/blob/main/src/pages/product/Product.jsx)<br><br>
+상품 수정[ProductsForSale](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/blob/main/src/pages/userProfile/ProductsForSale.jsx) → 버튼 누르면 이동하는 상품수정 페이지[ProductsForSaleEdit](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/blob/main/src/pages/userProfile/ProductsForSaleEdit.jsx)
 
 ✅ 범위: 
 - MyProfile.jsx 파일 195 line 상품등록 버튼 → Product.jsx파일 이동 : Product.jsx 49 - 286 line 
