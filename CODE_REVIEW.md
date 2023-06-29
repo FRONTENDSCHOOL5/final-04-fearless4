@@ -116,4 +116,49 @@ false이거나 true일 때 마다 서버와 통신을 하고 바뀐 isFollow 부
 - 중복된 코드의 사용은 없는지, 컴포넌트의 이름이나 변수의 이름에 알아보기 어려운 것은 없는지, 어떻게 하면 axios 요청을 조금 더 공통적으로 보낼 수 있는지가 궁금합니다.
 
 
+# 3번 리뷰 (김소연)
 
+✅ 페이지링크 :  [Search.jsx](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/blob/main/src/pages/search/Search.jsx)
+
+✅ 범위 : Search.jsx
+
+✅ 전체 개요
+>React를 사용한 검색 기능을 구현한 컴포넌트입니다. 주요 기능은 키워드를 입력하여 사용자를 검색하고, 검색 결과를 보여주는 것입니다.
+
+✅ 기능 내용
+  
+>입력한 검색어를 서버로 전송하여 해당 키워드를 포함하는 사용자를 검색합니다.
+  
+```jsx
+48번 line
+useEffect(() => {
+		if (debounceValue.length > 0) {
+			const getSearch = async () => {
+				
+```
+>검색 결과에서 사용자의 프로필 이미지, 닉네임, 계정 이름을 보여줍니다.
+```jsx
+99번 line
+{searchData.map((item) => {
+					return (
+						<Wrapper key={item.id}>
+				
+```
+>검색 결과에서 검색어와 일치하는 부분을 강조하여 표시하는 SearchColor 컴포넌트가 있습니다.
+```jsx
+69번 line
+const SearchColor = ({ user, word, type }) => {
+		return user.includes(word) ? (
+			<div type={type}>
+				{user.split(word)[0]}
+				<span style={{ color: '#A6E3DA' }}>{debounceValue}</span>
+				{user.split(word)[1]}
+			</div>
+		) : (
+			<div type={type}>{user}</div>
+		);
+	};
+```
+
+✅ 코드 리뷰에서 질문 드릴 점 
+>검색 기능은 보완이 필요해보인다는 피드백을 받았는데, 어떤식으로 코드 리팩토링을 하면 좋을지 감이 안잡혀서 조언해주시면 감사하겠습니다 !!
