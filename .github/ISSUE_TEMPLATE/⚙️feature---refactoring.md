@@ -1,6 +1,6 @@
 ---
-name: "⚙️FEATURE"
-about: Feature 작업 사항을 입력해주세요.
+name: "⚙️FEATURE & Refactoring"
+about: Feature 작업 사항 혹은 Refactoring 과정을 입력해주세요.
 title: ''
 labels: ''
 assignees: ''
