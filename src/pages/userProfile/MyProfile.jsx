@@ -33,7 +33,7 @@ import {
 } from '../../components/modal/modal.style';
 import { BottomNavContainer } from '../../components/bottomnav/bottomnav.style';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { API_URL } from '../../api';
 import ProductsForSale from './ProductsForSale';
 import Loading from '../../components/loading/Loading';
@@ -53,6 +53,9 @@ export default function UserProfile() {
 
 	const url = API_URL;
 	const token = localStorage.getItem('token');
+
+	const accountUsername = useParams().accountUsername;
+	console.log(accountUsername);
 
 	const profileData = async () => {
 		try {
