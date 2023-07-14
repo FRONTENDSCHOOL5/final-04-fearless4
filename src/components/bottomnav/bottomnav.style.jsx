@@ -49,8 +49,6 @@ export function BottomNavContainer(props) {
 	const [isPostMouseOver, setIsPostMouseOver] = useState(false);
 	const [isProfileMouseOver, setIsProfileMouseOver] = useState(false);
 
-	const accountUsername = localStorage.getItem('userAccountName');
-
 	const handleMouseOver = (e) => {
 		if (e.target.id === 'home') {
 			setIsHomeMouseOver(true);
@@ -122,7 +120,7 @@ export function BottomNavContainer(props) {
 				/>
 				<span className='nav-text'>게시물 작성</span>
 			</NavLink>
-			<NavLink to={`/profile/myProfile/${accountUsername}`}>
+			<NavLink to={'/profile/myProfile/'}>
 				<NavIcon
 					id='profile'
 					src={

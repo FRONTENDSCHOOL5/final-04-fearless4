@@ -326,9 +326,7 @@ export function Post({ postId }) {
 							onClick={() => {
 								currentUserAccountName === postData.author.accountname
 									? navigate('/profile/myprofile')
-									: navigate('/profile/userprofile', {
-											state: { accountname: postData.author.accountname },
-									  });
+									: navigate(`/profile/${postData.author.accountname}`);
 							}}
 						/>
 						<RightCard>
@@ -337,9 +335,7 @@ export function Post({ postId }) {
 									onClick={() => {
 										currentUserAccountName === postData.author.accountname
 											? navigate('/profile/myprofile')
-											: navigate('/profile/userprofile', {
-													state: { accountname: postData.author.accountname },
-											  });
+											: navigate(`/profile/${postData.author.accountname}`);
 									}}
 								>
 									<SpanName className='span-name'>
