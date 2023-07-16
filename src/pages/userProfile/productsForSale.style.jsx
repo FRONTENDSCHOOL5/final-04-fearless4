@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const WrapAll = styled.div`
 	background: white;
@@ -50,6 +50,12 @@ export const SortedButton = styled.button`
 		background-color: #81d8d0;
 		color: white;
 	}
+	${({ selected }) =>
+		selected &&
+		css`
+			background-color: #81d8d0;
+			color: #fff;
+		`}
 `;
 
 export const ProductsContainer = styled.ul`

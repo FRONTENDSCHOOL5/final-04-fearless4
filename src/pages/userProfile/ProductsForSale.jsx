@@ -31,6 +31,7 @@ export default function ProductsForSale({ userAccountName }) {
 	const [selectedProduct, setSelectedProduct] = useState(null);
 	const [myProfile, setMyProfile] = useState();
 	const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+	const [selectedButton, setSelectedButton] = useState(0);
 	const navigate = useNavigate();
 	const accountname = userAccountName;
 	const url = API_URL;
@@ -201,13 +202,32 @@ export default function ProductsForSale({ userAccountName }) {
 			{resProd.length === 0 ? null : (
 				<WrapAll>
 					<Title>함께 떠나는 상품</Title>
-					<SortedButton first onClick={handleShowAllProducts}>
+					<SortedButton
+						first
+						onClick={() => {
+							setSelectedButton(0);
+							handleShowAllProducts();
+						}}
+						selected={selectedButton === 0}
+					>
 						# 전체 상품
 					</SortedButton>
-					<SortedButton onClick={handleShowRecommendedItems}>
+					<SortedButton
+						onClick={() => {
+							setSelectedButton(1);
+							handleShowRecommendedItems();
+						}}
+						selected={selectedButton === 1}
+					>
 						🔥추천 상품
 					</SortedButton>
-					<SortedButton onClick={handleShowDiscountedItems}>
+					<SortedButton
+						onClick={() => {
+							setSelectedButton(2);
+							handleShowDiscountedItems();
+						}}
+						selected={selectedButton === 2}
+					>
 						🤑할인 상품
 					</SortedButton>
 					<Scroll>
