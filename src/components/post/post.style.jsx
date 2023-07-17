@@ -19,7 +19,6 @@ import {
 	CheckConfirm,
 } from '../../components/modal/modal.style';
 import {
-	ToastClose,
 	ToastContainer,
 	ToastIcon,
 	ToastMsg,
