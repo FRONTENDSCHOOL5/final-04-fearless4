@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { PostDeleteContext } from '../../pages/post/PostDeleteContext';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Post } from './post.style';
+import { Post } from '../../components/post/Post';
 import { GridView, GridItem } from './postAlbum.style';
 import { API_URL } from '../../api';
 
