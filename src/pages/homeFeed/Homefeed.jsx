@@ -13,6 +13,8 @@ import NoFeed from './NoFeed.jsx';
 import { BottomNavContainer } from '../../components/bottomnav/bottomnav.style';
 import Loading from '../../components/loading/Loading.jsx';
 import { Helmet } from 'react-helmet';
+import useIntersect from '../../hook/useIntersect.js'; //추가
+
 export default function Homefeed() {
 	const url = API_URL;
 	const token = localStorage.getItem('token');
@@ -22,26 +24,37 @@ export default function Homefeed() {
 	const [deletedPostId, setDeletedPostId] = useState(null);
 	const navigate = useNavigate();
 
+	const [hasNextPage, setHasNextPage] = useState(true);
+
+	const ref = useIntersect((entry, observer) => {
+		observer.unobserve(entry.target);
+		if (hasNextPage && !isLoading) {
+			getDatas();
+		}
+	});
+
 	useEffect(() => {
-		const homeFeedData = async () => {
-			try {
-				setPost([]);
-				const res = await axios({
-					method: 'GET',
-					url: `${url}/post/feed/?limit=infinity`,
-					headers: {
-						Authorization: `Bearer ${token}`,
-						'Content-type': 'application/json',
-					},
-				});
-				setFollowingFeed(res.data.posts);
-				setIsLoading(true);
-			} catch (error) {
-				console.log('에러입니다', error);
-			}
-		};
-		homeFeedData();
-	}, [url]);
+		if (!hasNextPage) return;
+		getDatas();
+	}, []);
+
+	const getDatas = async () => {
+		try {
+			setPost([]);
+			const res = await axios({
+				method: 'GET',
+				url: `${url}/post/feed/?limit=infinity`,
+				headers: {
+					Authorization: `Bearer ${token}`,
+					'Content-type': 'application/json',
+				},
+			});
+			setFollowingFeed(res.data.posts);
+			setIsLoading(true);
+		} catch (error) {
+			console.log('에러입니다', error);
+		}
+	};
 
 	useEffect(() => {
 		if (followingFeed.length !== 0) {
