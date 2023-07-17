@@ -113,29 +113,8 @@ export default function ProductsForSale({ userAccountName }) {
 		});
 	};
 
-	useEffect(() => {
-		if (resProd.length !== 0) {
-			const product = resProd.map((item) => (
-				<ProductList
-					key={item.id}
-					onClick={() => {
-						handleModalOpen(item);
-					}}
-				>
-					<ProductImg
-						src={item.itemImage}
-						alt={`${item.itemName}의 상품 이미지`}
-					/>
-					<ProductName>{item.itemName}</ProductName>
-					<ProductPrice>{item.price.toLocaleString()}원</ProductPrice>
-				</ProductList>
-			));
-			setProductData(product);
-		}
-	}, [resProd]);
-
-	const handleShowAllProducts = () => {
-		const products = resProd.map((item) => (
+	const createProductList = (items) => {
+		return items.map((item) => (
 			<ProductList
 				key={item.id}
 				onClick={() => {
@@ -150,6 +129,17 @@ export default function ProductsForSale({ userAccountName }) {
 				<ProductPrice>{item.price.toLocaleString()}원</ProductPrice>
 			</ProductList>
 		));
+	};
+
+	useEffect(() => {
+		if (resProd.length !== 0) {
+			const product = createProductList(resProd);
+			setProductData(product);
+		}
+	}, [resProd]);
+
+	const handleShowAllProducts = () => {
+		const products = createProductList(resProd);
 		setProductData(products);
 	};
 
@@ -157,21 +147,7 @@ export default function ProductsForSale({ userAccountName }) {
 		const recommendedProducts = resProd.filter((item) =>
 			item.itemName.includes('[추천]')
 		);
-		const products = recommendedProducts.map((item) => (
-			<ProductList
-				key={item.id}
-				onClick={() => {
-					handleModalOpen(item);
-				}}
-			>
-				<ProductImg
-					src={item.itemImage}
-					alt={`${item.itemName}의 상품 이미지`}
-				/>
-				<ProductName>{item.itemName}</ProductName>
-				<ProductPrice>{item.price.toLocaleString()}원</ProductPrice>
-			</ProductList>
-		));
+		const products = createProductList(recommendedProducts);
 		setProductData(products);
 	};
 
@@ -179,21 +155,7 @@ export default function ProductsForSale({ userAccountName }) {
 		const discountedProducts = resProd.filter((item) =>
 			item.itemName.includes('[할인]')
 		);
-		const products = discountedProducts.map((item) => (
-			<ProductList
-				key={item.id}
-				onClick={() => {
-					handleModalOpen(item);
-				}}
-			>
-				<ProductImg
-					src={item.itemImage}
-					alt={`${item.itemName}의 상품 이미지`}
-				/>
-				<ProductName>{item.itemName}</ProductName>
-				<ProductPrice>{item.price.toLocaleString()}원</ProductPrice>
-			</ProductList>
-		));
+		const products = createProductList(discountedProducts);
 		setProductData(products);
 	};
 
