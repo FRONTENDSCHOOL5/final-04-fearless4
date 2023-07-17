@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
 	Backspace,
 	NavbarTitle,
@@ -27,11 +27,12 @@ import { Helmet } from 'react-helmet';
 export default function Follwers() {
 	const [follower, setFollower] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
-	const [isFollow, setIsFollow] = useState();
 	const [myAccountName, setMyAccountName] = useState(false);
 	const location = useLocation();
 	const navigate = useNavigate();
 	const accountname = location.state.accountname;
+	const follow = location.state.follow;
+	console.log(follow);
 	const token = localStorage.getItem('token');
 	const url = API_URL;
 	const data = useMyProfile();
@@ -40,14 +41,18 @@ export default function Follwers() {
 		try {
 			const res = await axios({
 				method: 'GET',
-				url: `${url}/profile/${accountname}/follower/?limit=infinity`,
+				url: `${url}/profile/${accountname}/${follow}/?limit=infinity`,
 				headers: {
 					Authorization: `Bearer ${token}`,
 					'Content-type': 'application/json',
 				},
 			});
 			setIsLoading(true);
-			setFollower(res.data);
+			const updateFollowing = res.data.map((item) => ({
+				...item,
+				isFollow: item.isfollow,
+			}));
+			setFollower(updateFollowing);
 		} catch (error) {
 			console.log('에러입니다', error);
 		}
@@ -56,38 +61,26 @@ export default function Follwers() {
 	useEffect(() => {
 		followerData();
 		data && setMyAccountName(data.accountname);
-	}, [isFollow, data]);
+	}, [data]);
 
-	const handleFollowChange = async (isfollow, accountname, e) => {
+	const handleFollowChange = async (index, accountname, e) => {
 		e.preventDefault();
-		if (isfollow === false) {
-			try {
-				const res = await axios({
-					method: 'POST',
-					url: `${url}/profile/${accountname}/follow`,
-					headers: {
-						Authorization: `Bearer ${token}`,
-						'Content-type': 'application/json',
-					},
-				});
-				setIsFollow(res.data.profile);
-			} catch (error) {
-				console.log('에러입니다', error);
-			}
-		} else {
-			try {
-				const res = await axios({
-					method: 'DELETE',
-					url: `${url}/profile/${accountname}/unfollow`,
-					headers: {
-						Authorization: `Bearer ${token}`,
-						'Content-type': 'application/json',
-					},
-				});
-				setIsFollow(res.data.profile);
-			} catch (error) {
-				console.log('에러입니다', error);
-			}
+		try {
+			const res = await axios({
+				method: follower[index].isFollow ? 'DELETE' : 'POST',
+				url: `${url}/profile/${accountname}/${
+					follower[index].isFollow ? 'unfollow' : 'follow'
+				}`,
+				headers: {
+					Authorization: `Bearer ${token}`,
+					'Content-type': 'application/json',
+				},
+			});
+			const updateFollowing = [...follower];
+			updateFollowing[index].isFollow = !follower[index].isFollow;
+			setFollower(updateFollowing);
+		} catch (error) {
+			console.log('에러입니다', error);
 		}
 	};
 
@@ -98,7 +91,9 @@ export default function Follwers() {
 	return (
 		<>
 			<Helmet>
-				<title>TravelUs | 팔로워</title>
+				<title>{`TravelUs | ${
+					follow === 'follower' ? '팔로워' : '팔로잉'
+				}`}</title>
 			</Helmet>
 			<NavbarWrap>
 				<Backspace
@@ -106,18 +101,20 @@ export default function Follwers() {
 						navigate(-1);
 					}}
 				/>
-				<NavbarTitle>Followers</NavbarTitle>
+				<NavbarTitle>{`${
+					follow === 'follower' ? 'Followers' : 'Followings'
+				}`}</NavbarTitle>
 			</NavbarWrap>
 			<Wrapper>
 				{isLoading && myAccountName && follower.length !== 0
-					? follower.map((item) => {
+					? follower.map((item, index) => {
 							return (
 								<UserWrap key={item._id}>
 									<UserFlexWrap>
 										<UserProfileImg
 											onClick={() => {
 												myAccountName === item.accountname
-													? navigate(`../../myprofile`)
+													? navigate('../../myprofile')
 													: navigate(`../../${item.accountname}`);
 											}}
 										>
@@ -140,12 +137,12 @@ export default function Follwers() {
 									</UserFlexWrap>
 									{!(myAccountName === item.accountname) && (
 										<FollowButton
-											follow={item.isfollow === false ? false : true}
+											follow={item.isFollow}
 											onClick={(e) => {
-												handleFollowChange(item.isfollow, item.accountname, e);
+												handleFollowChange(index, item.accountname, e);
 											}}
 										>
-											{item.isfollow === true ? '취소' : '팔로우'}
+											{item.isFollow === true ? '취소' : '팔로우'}
 										</FollowButton>
 									)}
 								</UserWrap>

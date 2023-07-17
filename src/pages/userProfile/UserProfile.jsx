@@ -170,6 +170,7 @@ export default function UserProfile() {
 									to='./follower'
 									state={{
 										accountname: accountname,
+										follow: 'follower',
 									}}
 								>
 									<FollowerNumber followers>
@@ -187,7 +188,11 @@ export default function UserProfile() {
 
 								<FollowerWrap
 									to='./following'
-									state={{ accountname: accountname, token: token }}
+									state={{
+										accountname: accountname,
+										token: token,
+										follow: 'following',
+									}}
 								>
 									<FollowerNumber>
 										{profile.profile.followingCount}

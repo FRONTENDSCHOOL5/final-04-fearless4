@@ -12,8 +12,7 @@ const ProductsForSaleEdit = lazy(() =>
 );
 const MyProfile = lazy(() => import('../pages/userProfile/MyProfile'));
 const MyProfileEdit = lazy(() => import('../pages/userProfile/MyProfileEdit'));
-const Followers = lazy(() => import('../pages/follow/Followers'));
-const Followings = lazy(() => import('../pages/follow/Followings'));
+const Follow = lazy(() => import('../pages/follow/Follow'));
 const Product = lazy(() => import('../pages/product/Product'));
 const Homefeed = lazy(() => import('../pages/homeFeed/Homefeed'));
 const WritePost = lazy(() => import('../pages/post/WritePost'));
@@ -48,15 +47,15 @@ export default function Router() {
 						<Route path=':accountUsername' element={<Outlet />}>
 							<Route path='' element={<UserProfile />} />
 							<Route path='*' element={<Page404 />} />
-							<Route path='follower/' element={<Followers />}></Route>
-							<Route path='following/' element={<Followings />}></Route>
+							<Route path='follower/' element={<Follow />}></Route>
+							<Route path='following/' element={<Follow />}></Route>
 						</Route>
 
 						<Route path='myProfile/' element={<Outlet />}>
 							<Route path='' element={<MyProfile />} />
 							<Route path='*' element={<Page404 />} />
-							<Route path='follower/' element={<Followers />} />
-							<Route path='following/' element={<Followings />} />
+							<Route path='follower/' element={<Follow />} />
+							<Route path='following/' element={<Follow />} />
 							<Route path='edit/' element={<MyProfileEdit />} />
 						</Route>
 					</Route>
