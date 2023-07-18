@@ -35,12 +35,11 @@ import { BottomNavContainer } from '../../components/bottomnav/bottomnav.style';
 import axios from 'axios';
 
 import { API_URL } from '../../api';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import ProductsForSale from './ProductsForSale';
 import Loading from '../../components/loading/Loading.jsx';
 import { Helmet } from 'react-helmet';
 export default function UserProfile() {
-	const location = useLocation();
 	const navigate = useNavigate();
 	const [profile, setProfile] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
