@@ -64,59 +64,42 @@ export function Post({ postId }) {
 	const [showPostReportToast, setShowPostReportToast] = useState(false);
 	const navigate = useNavigate();
 
+	const postInstance = axios.create({
+		baseURL: `${API_URL}/post/`, // 중복되는 baseURL 부분입니다.
+		headers: {
+			Authorization: `Bearer ${token}`, // 중복되는 헤더 부분입니다.
+			'Content-Type': 'application/json',
+		},
+	});
+
 	useEffect(() => {
 		const getpostData = async () => {
 			try {
-				await axios
-					.get(`${API_URL}/post/${postId}`, {
-						headers: {
-							Authorization: `Bearer ${token}`,
-							'Content-type': 'application/json',
-						},
-					})
-					.then((response) => {
-						setIsLoading(true);
-						setPostData(response.data.post);
-						setIsHearted(response.data.post.hearted);
-						setHeartCount(response.data.post.heartCount);
-					});
+				await postInstance.get(`${postId}`).then((response) => {
+					setIsLoading(true);
+					setPostData(response.data.post);
+					setIsHearted(response.data.post.hearted);
+					setHeartCount(response.data.post.heartCount);
+				});
 			} catch (error) {
 				console.error('데이터를 불러오지 못했습니다!', error);
 			}
 		};
 		getpostData();
-	}, [token, postId]);
+	}, [postInstance, postId]);
 
 	const handleHeartClick = async () => {
 		try {
 			if (!isHearted) {
-				await axios
-					.post(
-						`${API_URL}/post/${postId}/heart`,
-						{},
-						{
-							headers: {
-								Authorization: `Bearer ${token}`,
-								'Content-type': 'application/json',
-							},
-						}
-					)
-					.then((response) => {
-						setIsHearted(true);
-						setHeartCount(response.data.post.heartCount);
-					});
+				await postInstance.post(`${postId}/heart`).then((response) => {
+					setIsHearted(true);
+					setHeartCount(response.data.post.heartCount);
+				});
 			} else {
-				await axios
-					.delete(`${API_URL}/post/${postId}/unheart`, {
-						headers: {
-							Authorization: `Bearer ${token}`,
-							'Content-Type': 'application/json',
-						},
-					})
-					.then((response) => {
-						setIsHearted(false);
-						setHeartCount(response.data.post.heartCount);
-					});
+				await postInstance.delete(`${postId}/unheart`).then((response) => {
+					setIsHearted(false);
+					setHeartCount(response.data.post.heartCount);
+				});
 			}
 		} catch (error) {
 			console.error('오류 발생!');
@@ -155,16 +138,9 @@ export function Post({ postId }) {
 
 	const handlePostDeleteConfirmClick = async () => {
 		try {
-			await axios
-				.delete(`${API_URL}/post/${postData.id}`, {
-					headers: {
-						Authorization: `Bearer ${token}`,
-						'Content-Type': 'application/json',
-					},
-				})
-				.then((response) => {
-					setDeletedPostId(postData.id);
-				});
+			await postInstance.delete(`${postId}`).then((response) => {
+				setDeletedPostId(postData.id);
+			});
 		} catch (error) {
 			console.error('오류 발생!');
 		}
