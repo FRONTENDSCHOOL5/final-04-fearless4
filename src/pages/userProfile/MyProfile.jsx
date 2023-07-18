@@ -55,7 +55,6 @@ export default function UserProfile() {
 	const token = localStorage.getItem('token');
 
 	const accountUsername = useParams().accountUsername;
-	console.log(accountUsername);
 
 	const profileData = async () => {
 		try {

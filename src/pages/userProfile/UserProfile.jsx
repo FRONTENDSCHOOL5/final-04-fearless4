@@ -50,7 +50,6 @@ export default function UserProfile() {
 	const [deletedPostId, setDeletedPostId] = useState(null);
 
 	const accountname = useParams().accountUsername;
-	console.log(accountname);
 
 	const url = API_URL;
 	const token = localStorage.getItem('token');
@@ -67,7 +66,6 @@ export default function UserProfile() {
 			});
 			setIsLoading(true);
 			setProfile(res.data);
-			// console.log(res);
 		} catch (error) {
 			console.log('에러입니다', error);
 		}
