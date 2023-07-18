@@ -120,7 +120,7 @@ export function BottomNavContainer(props) {
 				/>
 				<span className='nav-text'>게시물 작성</span>
 			</NavLink>
-			<NavLink to='/profile/myProfile'>
+			<NavLink to={'/profile/myProfile/'}>
 				<NavIcon
 					id='profile'
 					src={

@@ -113,9 +113,7 @@ export const Comment = ({
 				onClick={() => {
 					currentUserAccountName === author.accountname
 						? navigate('../../profile/myprofile')
-						: navigate('../../profile/userprofile', {
-								state: { accountname: author.accountname },
-						  });
+						: navigate(`../../profile/${author.accountname}`);
 				}}
 			></FollowerProfileImageComment>
 			<CommentDetail>
@@ -124,9 +122,7 @@ export const Comment = ({
 						onClick={() => {
 							currentUserAccountName === author.accountname
 								? navigate('../../profile/myprofile')
-								: navigate('../../profile/userprofile', {
-										state: { accountname: author.accountname },
-								  });
+								: navigate(`../../profile/${author.accountname}`);
 						}}
 					>
 						{author.username}
