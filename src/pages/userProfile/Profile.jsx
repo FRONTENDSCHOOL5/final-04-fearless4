@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { PostDeleteContext } from '../post/PostDeleteContext.jsx';
-import { ChatShare, ProfileButton } from '../../components/button/button.style';
+import {
+	ChatShare,
+	ProfileButton,
+} from '../../components/button/button.style.jsx';
 import {
 	ProfileWrapper,
 	Intro,
@@ -13,14 +16,14 @@ import {
 	UserWrap,
 	ProfileButtonWrap,
 	ProfilePageWrapper,
-} from './userProfile.style';
-import { ProfileImage } from '../profileSetup/profileSetup.style';
+} from './userProfile.style.jsx';
+import { ProfileImage } from '../profileSetup/profileSetup.style.jsx';
 import profilePic from '../../assets/image/profilePic.png';
 import {
 	Backspace,
 	NavbarWrap,
 	OptionModalTab,
-} from '../../components/navbar/navbar.style';
+} from '../../components/navbar/navbar.style.jsx';
 import {
 	ModalWrap,
 	ModalText,
@@ -29,24 +32,32 @@ import {
 	CheckMsg,
 	CheckButtonWrap,
 	CheckLogout,
-} from '../../components/modal/modal.style';
-import PostList from '../../components/post/PostList';
-import { BottomNavContainer } from '../../components/bottomnav/bottomnav.style';
+} from '../../components/modal/modal.style.jsx';
+import PostList from '../../components/post/PostList.jsx';
+import { BottomNavContainer } from '../../components/bottomnav/bottomnav.style.jsx';
 import axios from 'axios';
 
-import { API_URL } from '../../api';
+import { API_URL } from '../../api.js';
 import { useNavigate, useParams } from 'react-router-dom';
-import ProductsForSale from './ProductsForSale';
+import ProductsForSale from './ProductsForSale.jsx';
 import Loading from '../../components/loading/Loading.jsx';
 import { Helmet } from 'react-helmet';
 export default function UserProfile() {
 	const navigate = useNavigate();
 	const [profile, setProfile] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
+
+	const [profileImage, setProfileImage] = useState('');
+	const [profileName, setProfileName] = useState('');
+	const [profileId, setProfileId] = useState('');
+	const [profileIntro, setProfileIntro] = useState('');
+
 	const [isModal, setIsModal] = useState(false);
 	const [isCheckModal, setIsCheckModal] = useState(false);
 	const [isFollow, setIsFollow] = useState();
 	const [deletedPostId, setDeletedPostId] = useState(null);
+
+	const myaccountname = localStorage.getItem('userAccountName');
 
 	const accountname = useParams().accountUsername;
 
@@ -65,6 +76,7 @@ export default function UserProfile() {
 			});
 			setIsLoading(true);
 			setProfile(res.data);
+			console.log(res.data);
 		} catch (error) {
 			console.log('에러입니다', error);
 		}
@@ -72,13 +84,20 @@ export default function UserProfile() {
 
 	useEffect(() => {
 		profileData();
-	}, [isFollow]);
+	}, [isFollow, accountname]);
 
 	useEffect(() => {
 		if (isLoading === true) {
 			profile.profile.isfollow === true
 				? setIsFollow(true)
 				: setIsFollow(false);
+
+			if (myaccountname === accountname) {
+				setProfileImage(profile.image);
+				setProfileId(profile.accountname);
+				setProfileName(profile.username);
+				setProfileIntro(profile.intro);
+			}
 		}
 	}, [isLoading]);
 
@@ -199,17 +218,47 @@ export default function UserProfile() {
 								<Intro>{profile.profile.intro}</Intro>
 							</UserWrap>
 
-							<ProfileButtonWrap>
-								<ChatShare type='button' chatting />
-								<ProfileButton
-									follow={isFollow === true ? false : true}
-									type='button'
-									onClick={handleFollowChange}
-								>
-									{isFollow === true ? '팔로우 취소' : '팔로우'}
-								</ProfileButton>
-								<ChatShare type='button' />
-							</ProfileButtonWrap>
+							{myaccountname === accountname ? (
+								<ProfileButtonWrap>
+									<ProfileButton
+										type='button'
+										onClick={() => {
+											navigate('./edit', {
+												state: {
+													profileImage: profileImage,
+													profileId: profileId,
+													profileName: profileName,
+													profileIntro: profileIntro,
+												},
+											});
+										}}
+									>
+										프로필 수정
+									</ProfileButton>
+
+									<ProfileButton
+										product
+										type='button'
+										onClick={() => {
+											navigate('../../Product/upload');
+										}}
+									>
+										상품 등록
+									</ProfileButton>
+								</ProfileButtonWrap>
+							) : (
+								<ProfileButtonWrap>
+									<ChatShare type='button' chatting />
+									<ProfileButton
+										follow={isFollow === true ? false : true}
+										type='button'
+										onClick={handleFollowChange}
+									>
+										{isFollow === true ? '팔로우 취소' : '팔로우'}
+									</ProfileButton>
+									<ChatShare type='button' />
+								</ProfileButtonWrap>
+							)}
 						</>
 					)}
 				</ProfileWrapper>
