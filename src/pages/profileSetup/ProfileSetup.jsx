@@ -147,7 +147,10 @@ const ProfileSetup = () => {
 				password: password,
 				accountname: userId,
 				intro: intro,
-				image: selectedImage,
+				image:
+					selectedImage === ''
+						? 'https://api.mandarin.weniv.co.kr/1689555394412.png'
+						: selectedImage,
 			},
 		};
 

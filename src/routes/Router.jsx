@@ -45,7 +45,7 @@ export default function Router() {
 					<Route path='/profile/' element={<Outlet />}>
 						<Route path='' element={<Page404 />} />
 						<Route path='*' element={<Page404 />} />
-						<Route path='userprofile/' element={<Outlet />}>
+						<Route path=':accountUsername' element={<Outlet />}>
 							<Route path='' element={<UserProfile />} />
 							<Route path='*' element={<Page404 />} />
 							<Route path='follower/' element={<Followers />}></Route>

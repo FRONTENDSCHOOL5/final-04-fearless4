@@ -189,6 +189,10 @@ export default function ProfileSetup() {
 		}
 	};
 
+	const handleImgError = (e) => {
+		e.target.src = profilePic;
+	};
+
 	const ProfileEditToast = () => (
 		<>
 			{showProfileEditToast && (
@@ -253,6 +257,7 @@ export default function ProfileSetup() {
 						/>
 						<ProfileImage
 							src={selectedImage || profileImg || profilePic}
+							onError={handleImgError}
 							alt=''
 						/>{' '}
 						<ImageButton src={profileImageUploadButton} alt='' />
