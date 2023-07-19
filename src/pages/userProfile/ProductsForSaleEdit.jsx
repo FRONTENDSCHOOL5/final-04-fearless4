@@ -8,6 +8,8 @@ import {
 	InputStyle,
 	InputWrap,
 	ProductContainer,
+	RadioCover,
+	RadioInput,
 	Upload,
 	UploadImage,
 	UploadImageBtn,
@@ -29,6 +31,8 @@ import { Helmet } from 'react-helmet';
 export default function ProductsForSaleEdit() {
 	// 이미지 등록
 	const [selectedImage, setSelectedImage] = useState('');
+	// 상품 분류 선택
+	const [category, setCategory] = useState('일반');
 	// 상품명 입력
 	const [productName, setProductName] = useState('');
 	const [productNameError, setProductNameError] = useState('');
@@ -126,9 +130,16 @@ export default function ProductsForSaleEdit() {
 	};
 
 	async function handleSaveButtonClick(e) {
+		const updatedCategory = category !== '일반' ? '[' + category + ']' : '';
+		const updatedItemName = productName.replace(/^\[[^\]]*\]\s*/, '');
+		const itemName = updatedCategory + ' ' + updatedItemName;
+
+		// if (category !== '일반') {
+		// 	itemName = '[' + category + ']' + ' ' + productName;
+		// }
 		const productData = {
 			product: {
-				itemName: productName,
+				itemName: itemName,
 				price: parseInt(productPrice.replace(/[₩,]/g, '')),
 				link: salesLink,
 				itemImage: selectedImage,
@@ -272,6 +283,41 @@ export default function ProductsForSaleEdit() {
 					</BgBtnCover>
 				</Upload>
 				<InputWrap>
+					<div>
+						<LabelStyle>상품 분류</LabelStyle>
+						<RadioCover>
+							<label>
+								<RadioInput
+									type='radio'
+									name='option'
+									value='normal'
+									checked={category === '일반'}
+									onChange={() => setCategory('일반')}
+								/>
+								일반
+							</label>
+							<label>
+								<RadioInput
+									type='radio'
+									name='option'
+									value='recommendation'
+									checked={category === '추천'}
+									onChange={() => setCategory('추천')}
+								/>
+								추천
+							</label>
+							<label>
+								<RadioInput
+									type='radio'
+									name='option'
+									value='discount'
+									checked={category === '할인'}
+									onChange={() => setCategory('할인')}
+								/>
+								할인
+							</label>
+						</RadioCover>
+					</div>
 					<InputList>
 						<LabelStyle htmlFor='product-name'>상품명</LabelStyle>
 						<InputStyle
