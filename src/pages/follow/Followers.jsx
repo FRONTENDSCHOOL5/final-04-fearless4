@@ -117,10 +117,8 @@ export default function Follwers() {
 										<UserProfileImg
 											onClick={() => {
 												myAccountName === item.accountname
-													? navigate('../../myprofile')
-													: navigate('../../userprofile', {
-															state: { accountname: item.accountname },
-													  });
+													? navigate(`../../myprofile`)
+													: navigate(`../../${item.accountname}`);
 											}}
 										>
 											<UserFollowImage
@@ -133,9 +131,7 @@ export default function Follwers() {
 											onClick={() => {
 												myAccountName === item.accountname
 													? navigate('../../myprofile')
-													: navigate('../../userprofile', {
-															state: { accountname: item.accountname },
-													  });
+													: navigate(`../../${item.accountname}`);
 											}}
 										>
 											<UserFollowNickName>{item.username}</UserFollowNickName>

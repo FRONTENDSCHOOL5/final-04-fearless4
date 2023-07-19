@@ -35,12 +35,11 @@ import { BottomNavContainer } from '../../components/bottomnav/bottomnav.style';
 import axios from 'axios';
 
 import { API_URL } from '../../api';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import ProductsForSale from './ProductsForSale';
 import Loading from '../../components/loading/Loading.jsx';
 import { Helmet } from 'react-helmet';
 export default function UserProfile() {
-	const location = useLocation();
 	const navigate = useNavigate();
 	const [profile, setProfile] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
@@ -49,7 +48,7 @@ export default function UserProfile() {
 	const [isFollow, setIsFollow] = useState();
 	const [deletedPostId, setDeletedPostId] = useState(null);
 
-	const accountname = location.state.accountname;
+	const accountname = useParams().accountUsername;
 
 	const url = API_URL;
 	const token = localStorage.getItem('token');
@@ -66,7 +65,6 @@ export default function UserProfile() {
 			});
 			setIsLoading(true);
 			setProfile(res.data);
-			console.log(res);
 		} catch (error) {
 			console.log('에러입니다', error);
 		}

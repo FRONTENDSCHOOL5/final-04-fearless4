@@ -107,17 +107,13 @@ export default function Search() {
 											onError={onErrorImg}
 											alt='유저 프로필 이미지입니다.'
 											onClick={() => {
-												navigate('/profile/userprofile', {
-													state: { accountname: item.accountname },
-												});
+												navigate(`/profile/${item.accountname}`);
 											}}
 										/>
 									</UserProfileImg>
 									<UserContent
 										onClick={() => {
-											navigate('/profile/userprofile', {
-												state: { accountname: item.accountname },
-											});
+											navigate(`/profile/${item.accountname}`);
 										}}
 									>
 										<UserFollowNickName>
