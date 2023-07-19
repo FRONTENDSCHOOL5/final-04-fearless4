@@ -182,13 +182,7 @@ export default function UserProfile() {
 					{isLoading && (
 						<>
 							<ProfileImgWrap>
-								<FollowerWrap
-									to='./follower'
-									state={{
-										accountname: accountname,
-										follow: 'follower',
-									}}
-								>
+								<FollowerWrap to='./follower'>
 									<FollowerNumber followers>
 										{profile.profile.followerCount}
 									</FollowerNumber>
@@ -202,14 +196,7 @@ export default function UserProfile() {
 									alt=''
 								></ProfileImage>
 
-								<FollowerWrap
-									to='./following'
-									state={{
-										accountname: accountname,
-										token: token,
-										follow: 'following',
-									}}
-								>
+								<FollowerWrap to='./following'>
 									<FollowerNumber>
 										{profile.profile.followingCount}
 									</FollowerNumber>

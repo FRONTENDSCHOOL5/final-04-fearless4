@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
 	Backspace,
 	NavbarTitle,
@@ -28,11 +28,9 @@ export default function Follwers() {
 	const [follower, setFollower] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
 	const [myAccountName, setMyAccountName] = useState(false);
-	const location = useLocation();
 	const navigate = useNavigate();
-	const accountname = location.state.accountname;
-	const follow = location.state.follow;
-	console.log(follow);
+	const accountname = useParams().accountUsername;
+	const follow = useParams().follow;
 	const token = localStorage.getItem('token');
 	const url = API_URL;
 	const data = useMyProfile();
@@ -65,6 +63,9 @@ export default function Follwers() {
 
 	const handleFollowChange = async (index, accountname, e) => {
 		e.preventDefault();
+		const updateFollowing = [...follower];
+		updateFollowing[index].isFollow = !follower[index].isFollow;
+		setFollower(updateFollowing);
 		try {
 			const res = await axios({
 				method: follower[index].isFollow ? 'DELETE' : 'POST',
@@ -76,9 +77,6 @@ export default function Follwers() {
 					'Content-type': 'application/json',
 				},
 			});
-			const updateFollowing = [...follower];
-			updateFollowing[index].isFollow = !follower[index].isFollow;
-			setFollower(updateFollowing);
 		} catch (error) {
 			console.log('에러입니다', error);
 		}
