@@ -93,10 +93,10 @@ export default function UserProfile() {
 				: setIsFollow(false);
 
 			if (myaccountname === accountname) {
-				setProfileImage(profile.image);
-				setProfileId(profile.accountname);
-				setProfileName(profile.username);
-				setProfileIntro(profile.intro);
+				setProfileImage(profile.profile.image);
+				setProfileId(profile.profile.accountname);
+				setProfileName(profile.profile.username);
+				setProfileIntro(profile.profile.intro);
 			}
 		}
 	}, [isLoading]);
