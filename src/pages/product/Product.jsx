@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Backspace, NavbarWrap } from '../../components/navbar/navbar.style';
+import { SaveButton } from '../../components/button/button.style';
 import {
 	BgBtnCover,
 	BgBtnInputStyle,
@@ -15,9 +16,9 @@ import {
 } from './product.style';
 import { Incorrect, LabelStyle } from '../../components/form/form.style';
 import UploadButton from '../../assets/image/profileImageUploadButton.png';
-import { SaveButton } from '../../components/button/button.style';
+import { API_URL } from '../../api';
 import axios from 'axios';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import {
 	ToastClose,
 	ToastContainer,
@@ -44,12 +45,31 @@ export default function Product() {
 
 	// 전체 유효성 검사
 	const [isFormValid, setIsFormValid] = useState(false);
-	const token = localStorage.getItem('token');
 
 	const [showToast, setShowToast] = useState(false);
 	const [showWrongExtensionToast, setShowWrongExtensionToast] = useState(false);
 	const [showSizeOverToast, setShowSizeOverToast] = useState(false);
+
+	const location = useLocation();
 	const navigate = useNavigate();
+	const url = API_URL;
+	const token = localStorage.getItem('token');
+	const selectedProduct = location.state?.selectedProduct || null;
+
+	useEffect(() => {
+		// 상품 수정 페이지로 들어온 경우
+		if (selectedProduct) {
+			setSelectedImage(selectedProduct.itemImage);
+			setProductPrice(
+				selectedProduct.price.toLocaleString('ko-KR', {
+					style: 'currency',
+					currency: 'KRW',
+				})
+			);
+			setProductName(selectedProduct.itemName);
+			setSalesLink(selectedProduct.link);
+		}
+	}, [selectedProduct]);
 
 	useEffect(() => {
 		const isFormValid =
@@ -69,12 +89,12 @@ export default function Product() {
 		);
 	};
 
-	async function handleSaveButtonClick(e) {
-		let itemName = productName;
+	const handleSaveButtonClick = async (e) => {
+		// 등록 또는 수정 처리
+		const updatedCategory = category !== '일반' ? '[' + category + ']' : '';
+		const updatedItemName = productName.replace(/^\[[^\]]*\]\s*/, '');
+		const itemName = updatedCategory + ' ' + updatedItemName;
 
-		if (category !== '일반') {
-			itemName = '[' + category + ']' + ' ' + productName;
-		}
 		const productData = {
 			product: {
 				itemName: itemName,
@@ -84,15 +104,28 @@ export default function Product() {
 			},
 		};
 		try {
-			const res = await axios({
-				method: 'POST',
-				url: 'https://api.mandarin.weniv.co.kr/product',
-				data: productData,
-				headers: {
-					Authorization: `Bearer ${token}`,
-					'Content-type': 'application/json',
-				},
-			});
+			// 상품 등록인지 수정인지 확인하여 API 호출 분기 처리
+			if (selectedProduct) {
+				const res = await axios({
+					method: 'POST',
+					url: 'https://api.mandarin.weniv.co.kr/product',
+					data: productData,
+					headers: {
+						Authorization: `Bearer ${token}`,
+						'Content-type': 'application/json',
+					},
+				});
+			} else {
+				const res = await axios({
+					method: 'POST',
+					url: `${url}/product`,
+					data: productData,
+					headers: {
+						Authorization: `Bearer ${token}`,
+						'Content-type': 'application/json',
+					},
+				});
+			}
 			setShowToast(true);
 			setTimeout(() => {
 				navigate('../../profile/myProfile');
@@ -100,7 +133,7 @@ export default function Product() {
 		} catch (error) {
 			console.error(error.response);
 		}
-	}
+	};
 
 	function handleProductNameChange(e) {
 		const productNameValue = e.target.value;
