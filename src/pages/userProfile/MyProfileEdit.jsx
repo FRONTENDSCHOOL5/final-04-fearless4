@@ -24,7 +24,6 @@ import {
 	NavbarWrap,
 } from '../../components/navbar/navbar.style.jsx';
 import {
-	ToastClose,
 	ToastContainer,
 	ToastIcon,
 	ToastMsg,

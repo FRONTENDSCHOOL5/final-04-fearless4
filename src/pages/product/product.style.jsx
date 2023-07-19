@@ -85,3 +85,26 @@ export const UploadImage = styled.img`
 	border-radius: 10px;
 	object-fit: cover;
 `;
+
+export const RadioCover = styled.div`
+	margin-top: 14px;
+	display: flex;
+	gap: 10px;
+	color: #767676;
+	font-size: 14px;
+	margin-left: -4px;
+`;
+
+export const RadioInput = styled.input`
+	appearance: none;
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	border: 0.5px solid #505050;
+	outline: none;
+
+	&:checked {
+		background-color: #81d8d0;
+		border: none;
+	}
+`;
