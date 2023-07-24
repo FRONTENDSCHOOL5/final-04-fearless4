@@ -19,58 +19,59 @@ import { FollowButton } from '../../components/button/button.style';
 import axios from 'axios';
 import userNoneProfile from '../../assets/image/profilePic.png';
 import { API_URL } from '../../api';
-import useMyProfile from '../../hook/useMyProfile';
 import FollowUnknown from './FollowUnknown';
 import Loading from '../../components/loading/Loading';
 import { Helmet } from 'react-helmet';
+import {
+	QueryClient,
+	useMutation,
+	useQuery,
+	useQueryClient,
+} from '@tanstack/react-query';
 
 export default function Follwers() {
-	const [follower, setFollower] = useState([]);
-	const [isLoading, setIsLoading] = useState(false);
-	const [myAccountName, setMyAccountName] = useState(false);
 	const navigate = useNavigate();
 	const accountname = useParams().accountUsername;
 	const follow = useParams().follow;
 	const token = localStorage.getItem('token');
+	const myAccountName = localStorage.getItem('userAccountName');
 	const url = API_URL;
-	const data = useMyProfile();
-
-	const followerData = async () => {
-		try {
-			const res = await axios({
-				method: 'GET',
-				url: `${url}/profile/${accountname}/${follow}/?limit=infinity`,
-				headers: {
-					Authorization: `Bearer ${token}`,
-					'Content-type': 'application/json',
-				},
-			});
-			setIsLoading(true);
-			const updateFollowing = res.data.map((item) => ({
-				...item,
-				isFollow: item.isfollow,
-			}));
-			setFollower(updateFollowing);
-		} catch (error) {
-			console.log('에러입니다', error);
-		}
-	};
+	const queryClient = useQueryClient();
 
 	useEffect(() => {
-		followerData();
-		data && setMyAccountName(data.accountname);
-	}, [data]);
+		queryClient.resetQueries();
+	}, []);
 
-	const handleFollowChange = async (index, accountname, e) => {
-		e.preventDefault();
-		const updateFollowing = [...follower];
-		updateFollowing[index].isFollow = !follower[index].isFollow;
-		setFollower(updateFollowing);
+	const { data, isLoading, isError, error } = useQuery(
+		['followData'],
+		async () => {
+			try {
+				const res = await axios({
+					method: 'GET',
+					url: `${url}/profile/${accountname}/${follow}/?limit=infinity`,
+					headers: {
+						Authorization: `Bearer ${token}`,
+						'Content-type': 'application/json',
+					},
+				});
+				const updateFollowing = res.data.map((item) => ({
+					...item,
+					isFollow: item.isfollow,
+				}));
+				return updateFollowing;
+			} catch (error) {
+				console.error(error);
+			}
+		}
+	);
+
+	const followPost = async (accountname, index) => {
+		console.log(accountname, index);
 		try {
 			const res = await axios({
-				method: follower[index].isFollow ? 'DELETE' : 'POST',
+				method: data[0].isFollow ? 'DELETE' : 'POST',
 				url: `${url}/profile/${accountname}/${
-					follower[index].isFollow ? 'unfollow' : 'follow'
+					data[0].isFollow ? 'unfollow' : 'follow'
 				}`,
 				headers: {
 					Authorization: `Bearer ${token}`,
@@ -78,8 +79,21 @@ export default function Follwers() {
 				},
 			});
 		} catch (error) {
-			console.log('에러입니다', error);
+			console.error('에러입니다', error);
 		}
+	};
+
+	const FollowMutation = useMutation(followPost, {
+		onSuccess: () => {
+			queryClient.invalidateQueries('followData');
+		},
+		onError: () => {
+			console.error('실패');
+		},
+	});
+
+	const handleFollowChange = (accountname, index) => {
+		FollowMutation.mutate(accountname, index);
 	};
 
 	const handleImgError = (e) => {
@@ -104,16 +118,14 @@ export default function Follwers() {
 				}`}</NavbarTitle>
 			</NavbarWrap>
 			<Wrapper>
-				{isLoading && myAccountName && follower.length !== 0
-					? follower.map((item, index) => {
+				{!isLoading && data.length !== 0
+					? data.map((item, index) => {
 							return (
 								<UserWrap key={item._id}>
 									<UserFlexWrap>
 										<UserProfileImg
 											onClick={() => {
-												myAccountName === item.accountname
-													? navigate('../../myprofile')
-													: navigate(`../../${item.accountname}`);
+												navigate(`../../${item.accountname}`);
 											}}
 										>
 											<UserFollowImage
@@ -124,9 +136,7 @@ export default function Follwers() {
 										</UserProfileImg>
 										<UserContent
 											onClick={() => {
-												myAccountName === item.accountname
-													? navigate('../../myprofile')
-													: navigate(`../../${item.accountname}`);
+												navigate(`../../${item.accountname}`);
 											}}
 										>
 											<UserFollowNickName>{item.username}</UserFollowNickName>
@@ -135,9 +145,10 @@ export default function Follwers() {
 									</UserFlexWrap>
 									{!(myAccountName === item.accountname) && (
 										<FollowButton
+											type='button'
 											follow={item.isFollow}
-											onClick={(e) => {
-												handleFollowChange(index, item.accountname, e);
+											onClick={() => {
+												handleFollowChange(item.accountname, index);
 											}}
 										>
 											{item.isFollow === true ? '취소' : '팔로우'}
@@ -146,10 +157,10 @@ export default function Follwers() {
 								</UserWrap>
 							);
 					  })
-					: isLoading &&
+					: !isLoading &&
 					  myAccountName &&
-					  (!follower || follower.length === 0) && <FollowUnknown />}
-				{!isLoading && <Loading />}
+					  (!data || data.length === 0) && <FollowUnknown />}
+				{isLoading && <Loading />}
 			</Wrapper>
 		</>
 	);
