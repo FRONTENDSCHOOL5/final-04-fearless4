@@ -15,7 +15,7 @@ import {
 	UserWrap,
 	Wrapper,
 } from './follow.style';
-import { FollowButton } from '../../components/button/button.style';
+import { FollowButton, MoreButton } from '../../components/button/button.style';
 import axios from 'axios';
 import userNoneProfile from '../../assets/image/profilePic.png';
 import { API_URL } from '../../api';
@@ -30,6 +30,7 @@ import {
 } from '@tanstack/react-query';
 
 export default function Follwers() {
+	const [view, setView] = useState(1);
 	const navigate = useNavigate();
 	const accountname = useParams().accountUsername;
 	const follow = useParams().follow;
@@ -37,10 +38,6 @@ export default function Follwers() {
 	const myAccountName = localStorage.getItem('userAccountName');
 	const url = API_URL;
 	const queryClient = useQueryClient();
-
-	useEffect(() => {
-		queryClient.resetQueries();
-	}, []);
 
 	const { data, isLoading, isError, error } = useQuery(
 		['followData'],
@@ -54,24 +51,26 @@ export default function Follwers() {
 						'Content-type': 'application/json',
 					},
 				});
-				const updateFollowing = res.data.map((item) => ({
-					...item,
-					isFollow: item.isfollow,
-				}));
-				return updateFollowing;
+				return res.data;
 			} catch (error) {
 				console.error(error);
 			}
 		}
 	);
 
-	const followPost = async (accountname, index) => {
-		console.log(accountname, index);
+	const followResult = data?.slice(0, view * 6);
+
+	const handleClickMore = () => {
+		setView(view + 1);
+	};
+
+	const followPost = async (accountname) => {
+		const userFollow = data.find((el) => el.accountname === accountname);
 		try {
 			const res = await axios({
-				method: data[0].isFollow ? 'DELETE' : 'POST',
+				method: userFollow.isfollow ? 'DELETE' : 'POST',
 				url: `${url}/profile/${accountname}/${
-					data[0].isFollow ? 'unfollow' : 'follow'
+					userFollow.isfollow ? 'unfollow' : 'follow'
 				}`,
 				headers: {
 					Authorization: `Bearer ${token}`,
@@ -92,8 +91,8 @@ export default function Follwers() {
 		},
 	});
 
-	const handleFollowChange = (accountname, index) => {
-		FollowMutation.mutate(accountname, index);
+	const handleFollowChange = (accountname) => {
+		FollowMutation.mutate(accountname);
 	};
 
 	const handleImgError = (e) => {
@@ -118,8 +117,8 @@ export default function Follwers() {
 				}`}</NavbarTitle>
 			</NavbarWrap>
 			<Wrapper>
-				{!isLoading && data.length !== 0
-					? data.map((item, index) => {
+				{!isLoading && followResult.length !== 0
+					? followResult.map((item, index) => {
 							return (
 								<UserWrap key={item._id}>
 									<UserFlexWrap>
@@ -146,12 +145,12 @@ export default function Follwers() {
 									{!(myAccountName === item.accountname) && (
 										<FollowButton
 											type='button'
-											follow={item.isFollow}
+											follow={item.isfollow}
 											onClick={() => {
-												handleFollowChange(item.accountname, index);
+												handleFollowChange(item.accountname);
 											}}
 										>
-											{item.isFollow === true ? '취소' : '팔로우'}
+											{item.isfollow === true ? '취소' : '팔로우'}
 										</FollowButton>
 									)}
 								</UserWrap>
@@ -161,6 +160,11 @@ export default function Follwers() {
 					  myAccountName &&
 					  (!data || data.length === 0) && <FollowUnknown />}
 				{isLoading && <Loading />}
+				{followResult?.length % (view * 6) < 12 && data.length > 6 && (
+					<MoreButton type='button' onClick={handleClickMore}>
+						더보기
+					</MoreButton>
+				)}
 			</Wrapper>
 		</>
 	);

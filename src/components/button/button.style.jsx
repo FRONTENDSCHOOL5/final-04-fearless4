@@ -136,3 +136,17 @@ export const ImageUploadButton = styled.button`
 	right: 16px;
 	cursor: pointer;
 `;
+
+export const MoreButton = styled.button`
+	width: 150px;
+	font-size: 16px;
+	font-weight: 500;
+	color: white;
+	font-family: 'Suit-Regular';
+	background-color: #81d8d0;
+	padding: 6px;
+	margin: 0 auto;
+	border: none;
+	border-radius: 10px;
+	cursor: pointer;
+`;
