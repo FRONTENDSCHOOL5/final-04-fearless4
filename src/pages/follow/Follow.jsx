@@ -160,7 +160,7 @@ export default function Follwers() {
 					  myAccountName &&
 					  (!data || data.length === 0) && <FollowUnknown />}
 				{isLoading && <Loading />}
-				{followResult?.length % (view * 6) < 12 && data.length > 6 && (
+				{followResult?.length % (view * 6) < 6 && data.length > 6 && (
 					<MoreButton type='button' onClick={handleClickMore}>
 						더보기
 					</MoreButton>
