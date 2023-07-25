@@ -197,22 +197,14 @@ export function Post({ postId }) {
 							className='profile_img'
 							onError={handleImgError}
 							onClick={() => {
-								currentUserAccountName === postData.author.accountname
-									? navigate('/profile/myprofile')
-									: navigate('/profile/userprofile', {
-											state: { accountname: postData.author.accountname },
-									  });
+								navigate(`../profile/${postData.author.accountname}`);
 							}}
 						/>
 						<RightCard>
 							<Top>
 								<UserDetails
 									onClick={() => {
-										currentUserAccountName === postData.author.accountname
-											? navigate('/profile/myprofile')
-											: navigate('/profile/userprofile', {
-													state: { accountname: postData.author.accountname },
-											  });
+										navigate(`../profile/${postData.author.accountname}`);
 									}}
 								>
 									<SpanName className='span-name'>
