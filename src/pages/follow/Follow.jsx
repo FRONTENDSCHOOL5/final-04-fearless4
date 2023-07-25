@@ -22,55 +22,59 @@ import { API_URL } from '../../api';
 import FollowUnknown from './FollowUnknown';
 import Loading from '../../components/loading/Loading';
 import { Helmet } from 'react-helmet';
-import {
-	QueryClient,
-	useMutation,
-	useQuery,
-	useQueryClient,
-} from '@tanstack/react-query';
 
 export default function Follwers() {
 	const [view, setView] = useState(1);
+	const [follower, setFollower] = useState([]);
+	const [isLoading, setIsLoading] = useState(false);
 	const navigate = useNavigate();
 	const accountname = useParams().accountUsername;
 	const follow = useParams().follow;
 	const token = localStorage.getItem('token');
 	const myAccountName = localStorage.getItem('userAccountName');
 	const url = API_URL;
-	const queryClient = useQueryClient();
 
-	const { data, isLoading, isError, error } = useQuery(
-		['followData'],
-		async () => {
-			try {
-				const res = await axios({
-					method: 'GET',
-					url: `${url}/profile/${accountname}/${follow}/?limit=infinity`,
-					headers: {
-						Authorization: `Bearer ${token}`,
-						'Content-type': 'application/json',
-					},
-				});
-				return res.data;
-			} catch (error) {
-				console.error(error);
-			}
+	const followerData = async () => {
+		try {
+			const res = await axios({
+				method: 'GET',
+				url: `${url}/profile/${accountname}/${follow}/?limit=infinity`,
+				headers: {
+					Authorization: `Bearer ${token}`,
+					'Content-type': 'application/json',
+				},
+			});
+			setIsLoading(true);
+			const updateFollowing = res.data.map((item) => ({
+				...item,
+				isFollow: item.isfollow,
+			}));
+			setFollower(updateFollowing);
+		} catch (error) {
+			console.log('에러입니다', error);
 		}
-	);
+	};
 
-	const followResult = data?.slice(0, view * 6);
+	useEffect(() => {
+		followerData();
+	}, []);
+
+	const followResult = follower?.slice(0, view * 6);
 
 	const handleClickMore = () => {
 		setView(view + 1);
 	};
 
-	const followPost = async (accountname) => {
-		const userFollow = data.find((el) => el.accountname === accountname);
+	const handleFollowChange = async (index, accountname, e) => {
+		e.preventDefault();
+		const updateFollowing = [...follower];
+		updateFollowing[index].isFollow = !follower[index].isFollow;
+		setFollower(updateFollowing);
 		try {
 			const res = await axios({
-				method: userFollow.isfollow ? 'DELETE' : 'POST',
+				method: follower[index].isFollow ? 'DELETE' : 'POST',
 				url: `${url}/profile/${accountname}/${
-					userFollow.isfollow ? 'unfollow' : 'follow'
+					follower[index].isFollow ? 'unfollow' : 'follow'
 				}`,
 				headers: {
 					Authorization: `Bearer ${token}`,
@@ -78,21 +82,8 @@ export default function Follwers() {
 				},
 			});
 		} catch (error) {
-			console.error('에러입니다', error);
+			console.log('에러입니다', error);
 		}
-	};
-
-	const FollowMutation = useMutation(followPost, {
-		onSuccess: () => {
-			queryClient.invalidateQueries('followData');
-		},
-		onError: () => {
-			console.error('실패');
-		},
-	});
-
-	const handleFollowChange = (accountname) => {
-		FollowMutation.mutate(accountname);
 	};
 
 	const handleImgError = (e) => {
@@ -117,7 +108,7 @@ export default function Follwers() {
 				}`}</NavbarTitle>
 			</NavbarWrap>
 			<Wrapper>
-				{!isLoading && followResult.length !== 0
+				{isLoading && followResult.length !== 0
 					? followResult.map((item, index) => {
 							return (
 								<UserWrap key={item._id}>
@@ -145,22 +136,22 @@ export default function Follwers() {
 									{!(myAccountName === item.accountname) && (
 										<FollowButton
 											type='button'
-											follow={item.isfollow}
-											onClick={() => {
-												handleFollowChange(item.accountname);
+											follow={item.isFollow}
+											onClick={(e) => {
+												handleFollowChange(index, item.accountname, e);
 											}}
 										>
-											{item.isfollow === true ? '취소' : '팔로우'}
+											{item.isFollow === true ? '취소' : '팔로우'}
 										</FollowButton>
 									)}
 								</UserWrap>
 							);
 					  })
-					: !isLoading &&
+					: isLoading &&
 					  myAccountName &&
-					  (!data || data.length === 0) && <FollowUnknown />}
-				{isLoading && <Loading />}
-				{followResult?.length % (view * 6) < 6 && data.length > 6 && (
+					  (!follower || follower.length === 0) && <FollowUnknown />}
+				{!isLoading && <Loading />}
+				{followResult?.length % (view * 6) < 6 && follower?.length > 6 && (
 					<MoreButton type='button' onClick={handleClickMore}>
 						더보기
 					</MoreButton>
