@@ -31,6 +31,7 @@ export default function ProductsForSale({ userAccountName }) {
 	const [selectedProduct, setSelectedProduct] = useState(null);
 	const [myProfile, setMyProfile] = useState();
 	const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+	const [selectedButton, setSelectedButton] = useState(0);
 	const navigate = useNavigate();
 	const accountname = userAccountName;
 	const url = API_URL;
@@ -105,36 +106,15 @@ export default function ProductsForSale({ userAccountName }) {
 		window.open(url, '_blank');
 	};
 	const goToProductEdit = () => {
-		navigate('/product/edit', {
+		navigate('/product/upload', {
 			state: {
 				selectedProduct: selectedProduct,
 			},
 		});
 	};
 
-	useEffect(() => {
-		if (resProd.length !== 0) {
-			const product = resProd.map((item) => (
-				<ProductList
-					key={item.id}
-					onClick={() => {
-						handleModalOpen(item);
-					}}
-				>
-					<ProductImg
-						src={item.itemImage}
-						alt={`${item.itemName}의 상품 이미지`}
-					/>
-					<ProductName>{item.itemName}</ProductName>
-					<ProductPrice>{item.price.toLocaleString()}원</ProductPrice>
-				</ProductList>
-			));
-			setProductData(product);
-		}
-	}, [resProd]);
-
-	const handleShowAllProducts = () => {
-		const products = resProd.map((item) => (
+	const createProductList = (items) => {
+		return items.map((item) => (
 			<ProductList
 				key={item.id}
 				onClick={() => {
@@ -149,6 +129,17 @@ export default function ProductsForSale({ userAccountName }) {
 				<ProductPrice>{item.price.toLocaleString()}원</ProductPrice>
 			</ProductList>
 		));
+	};
+
+	useEffect(() => {
+		if (resProd.length !== 0) {
+			const product = createProductList(resProd);
+			setProductData(product);
+		}
+	}, [resProd]);
+
+	const handleShowAllProducts = () => {
+		const products = createProductList(resProd);
 		setProductData(products);
 	};
 
@@ -156,21 +147,7 @@ export default function ProductsForSale({ userAccountName }) {
 		const recommendedProducts = resProd.filter((item) =>
 			item.itemName.includes('[추천]')
 		);
-		const products = recommendedProducts.map((item) => (
-			<ProductList
-				key={item.id}
-				onClick={() => {
-					handleModalOpen(item);
-				}}
-			>
-				<ProductImg
-					src={item.itemImage}
-					alt={`${item.itemName}의 상품 이미지`}
-				/>
-				<ProductName>{item.itemName}</ProductName>
-				<ProductPrice>{item.price.toLocaleString()}원</ProductPrice>
-			</ProductList>
-		));
+		const products = createProductList(recommendedProducts);
 		setProductData(products);
 	};
 
@@ -178,21 +155,7 @@ export default function ProductsForSale({ userAccountName }) {
 		const discountedProducts = resProd.filter((item) =>
 			item.itemName.includes('[할인]')
 		);
-		const products = discountedProducts.map((item) => (
-			<ProductList
-				key={item.id}
-				onClick={() => {
-					handleModalOpen(item);
-				}}
-			>
-				<ProductImg
-					src={item.itemImage}
-					alt={`${item.itemName}의 상품 이미지`}
-				/>
-				<ProductName>{item.itemName}</ProductName>
-				<ProductPrice>{item.price.toLocaleString()}원</ProductPrice>
-			</ProductList>
-		));
+		const products = createProductList(discountedProducts);
 		setProductData(products);
 	};
 
@@ -201,13 +164,32 @@ export default function ProductsForSale({ userAccountName }) {
 			{resProd.length === 0 ? null : (
 				<WrapAll>
 					<Title>함께 떠나는 상품</Title>
-					<SortedButton first onClick={handleShowAllProducts}>
+					<SortedButton
+						first
+						onClick={() => {
+							setSelectedButton(0);
+							handleShowAllProducts();
+						}}
+						selected={selectedButton === 0}
+					>
 						# 전체 상품
 					</SortedButton>
-					<SortedButton onClick={handleShowRecommendedItems}>
+					<SortedButton
+						onClick={() => {
+							setSelectedButton(1);
+							handleShowRecommendedItems();
+						}}
+						selected={selectedButton === 1}
+					>
 						🔥추천 상품
 					</SortedButton>
-					<SortedButton onClick={handleShowDiscountedItems}>
+					<SortedButton
+						onClick={() => {
+							setSelectedButton(2);
+							handleShowDiscountedItems();
+						}}
+						selected={selectedButton === 2}
+					>
 						🤑할인 상품
 					</SortedButton>
 					<Scroll>
