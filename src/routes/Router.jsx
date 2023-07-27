@@ -7,9 +7,6 @@ const Login = lazy(() => import('../pages/login/Login'));
 const ProfileSetup = lazy(() => import('../pages/profileSetup/ProfileSetup'));
 const Signup = lazy(() => import('../pages/loginEmail/Signup'));
 const Profile = lazy(() => import('../pages/userProfile/Profile'));
-const ProductsForSaleEdit = lazy(() =>
-	import('../pages/userProfile/ProductsForSaleEdit')
-);
 const MyProfileEdit = lazy(() => import('../pages/userProfile/MyProfileEdit'));
 const Follow = lazy(() => import('../pages/follow/Follow'));
 const Product = lazy(() => import('../pages/product/Product'));
@@ -55,7 +52,6 @@ export default function Router() {
 						<Route path='' element={<Page404 />} />
 						<Route path='*' element={<Page404 />} />
 						<Route path='upload/' element={<Product />} />
-						<Route path='edit/' element={<ProductsForSaleEdit />} />
 					</Route>
 
 					<Route path='/post/' element={<Outlet />}>
