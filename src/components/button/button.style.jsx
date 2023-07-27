@@ -106,10 +106,12 @@ export const FollowButton = styled.button`
 	width: 60px;
 	height: 30px;
 	padding: 0 11px;
+	margin-left: 12px;
 	color: ${({ follow }) => (follow === false ? `#fff` : `#767676`)};
 	border-radius: 30px;
 	border: ${({ follow }) => (follow === false ? `none` : `solid 1px #DBDBDB`)};
 	cursor: pointer;
+	flex-shrink: 0;
 `;
 
 export const SaveButton = styled.button`

@@ -193,7 +193,7 @@ export default function Follwers() {
 				{!isLoading && <Loading />}
 				{hasNextPage && (
 					<>
-						{<LoadingText>Loading...</LoadingText>}
+						{/* {<LoadingText>Loading...</LoadingText>} */}
 
 						<ScrollRef ref={ref}></ScrollRef>
 					</>
