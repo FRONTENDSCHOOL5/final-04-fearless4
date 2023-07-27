@@ -25,8 +25,6 @@ import Loading from '../../components/loading/Loading';
 import { Helmet } from 'react-helmet';
 import { useInView } from 'react-intersection-observer';
 
-let skip = 0;
-
 export default function Follwers() {
 	const [follower, setFollower] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
@@ -38,6 +36,7 @@ export default function Follwers() {
 	const url = API_URL;
 	const [ref, inView] = useInView();
 	const [hasNextPage, setHasNextPage] = useState(true);
+	const [skip, setSkip] = useState(0);
 
 	const followerData = async () => {
 		try {
@@ -54,24 +53,20 @@ export default function Follwers() {
 				...item,
 				isFollow: item.isfollow,
 			}));
+			// updateFollowing.length >= 10
+			// 	? setHasNextPage(true)
+			// 	: setHasNextPage(false);
 			setFollower([...follower, ...updateFollowing]);
-			updateFollowing.length >= 10
-				? setHasNextPage(true)
-				: setHasNextPage(false);
+			setSkip((prev) => prev + 10);
+			console.log(follower);
 		} catch (error) {
 			console.log('에러입니다', error);
 		}
-		skip += 10;
 	};
 	console.log(follower);
 	useEffect(() => {
 		inView && followerData();
 	}, [inView]);
-
-	useEffect(() => {
-		skip = 0;
-		followerData();
-	}, []);
 
 	const handleFollowChange = async (index, accountname, e) => {
 		e.preventDefault();
@@ -190,18 +185,17 @@ export default function Follwers() {
 											</FollowButton>
 										)}
 									</UserWrap>
-									{hasNextPage && (
-										<>
-											{!isLoading && <Loading />}
-											<ScrollRef ref={ref}></ScrollRef>
-										</>
-									)}
 								</>
 							);
 					  })
 					: isLoading &&
 					  (!follower || follower.length === 0) && <FollowUnknown />}
 				{/* {!isLoading && <Loading />} */}
+				{
+					<>
+						<ScrollRef ref={ref}></ScrollRef>
+					</>
+				}
 			</Wrapper>
 		</>
 	);
