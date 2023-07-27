@@ -6,6 +6,7 @@ import {
 	NavbarWrap,
 } from '../../components/navbar/navbar.style';
 import {
+	ScrollRef,
 	UserContent,
 	UserFlexWrap,
 	UserFollowImage,
@@ -22,9 +23,11 @@ import { API_URL } from '../../api';
 import FollowUnknown from './FollowUnknown';
 import Loading from '../../components/loading/Loading';
 import { Helmet } from 'react-helmet';
+import { useInView } from 'react-intersection-observer';
+
+let skip = 0;
 
 export default function Follwers() {
-	const [view, setView] = useState(1);
 	const [follower, setFollower] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
 	const navigate = useNavigate();
@@ -33,12 +36,14 @@ export default function Follwers() {
 	const token = localStorage.getItem('token');
 	const myAccountName = localStorage.getItem('userAccountName');
 	const url = API_URL;
+	const [ref, inView] = useInView();
+	const [hasNextPage, setHasNextPage] = useState(true);
 
 	const followerData = async () => {
 		try {
 			const res = await axios({
 				method: 'GET',
-				url: `${url}/profile/${accountname}/${follow}/?limit=infinity`,
+				url: `${url}/profile/${accountname}/${follow}/?limit=10&skip=${skip}`,
 				headers: {
 					Authorization: `Bearer ${token}`,
 					'Content-type': 'application/json',
@@ -49,21 +54,24 @@ export default function Follwers() {
 				...item,
 				isFollow: item.isfollow,
 			}));
-			setFollower(updateFollowing);
+			setFollower([...follower, ...updateFollowing]);
+			updateFollowing.length >= 10
+				? setHasNextPage(true)
+				: setHasNextPage(false);
 		} catch (error) {
 			console.log('에러입니다', error);
 		}
+		skip += 10;
 	};
+	console.log(follower);
+	useEffect(() => {
+		inView && followerData();
+	}, [inView]);
 
 	useEffect(() => {
+		skip = 0;
 		followerData();
 	}, []);
-
-	const followResult = follower?.slice(0, view * 6);
-
-	const handleClickMore = () => {
-		setView(view + 1);
-	};
 
 	const handleFollowChange = async (index, accountname, e) => {
 		e.preventDefault();
@@ -72,15 +80,16 @@ export default function Follwers() {
 		setFollower(updateFollowing);
 		try {
 			const res = await axios({
-				method: follower[index].isFollow ? 'DELETE' : 'POST',
+				method: !follower[index].isFollow ? 'DELETE' : 'POST',
 				url: `${url}/profile/${accountname}/${
-					follower[index].isFollow ? 'unfollow' : 'follow'
+					!follower[index].isFollow ? 'unfollow' : 'follow'
 				}`,
 				headers: {
 					Authorization: `Bearer ${token}`,
 					'Content-type': 'application/json',
 				},
 			});
+			console.log(res);
 		} catch (error) {
 			console.log('에러입니다', error);
 		}
@@ -108,9 +117,9 @@ export default function Follwers() {
 				}`}</NavbarTitle>
 			</NavbarWrap>
 			<Wrapper>
-				{isLoading && followResult.length !== 0
-					? followResult.map((item, index) => {
-							return (
+				{isLoading && follower.length !== 0
+					? follower.map((item, index) => {
+							return follower.length - 1 !== index ? (
 								<UserWrap key={item._id}>
 									<UserFlexWrap>
 										<UserProfileImg
@@ -145,17 +154,54 @@ export default function Follwers() {
 										</FollowButton>
 									)}
 								</UserWrap>
+							) : (
+								<>
+									<UserWrap key={item._id}>
+										<UserFlexWrap>
+											<UserProfileImg
+												onClick={() => {
+													navigate(`../../${item.accountname}`);
+												}}
+											>
+												<UserFollowImage
+													src={item.image}
+													onError={handleImgError}
+													alt='유저 프로필 이미지입니다.'
+												/>
+											</UserProfileImg>
+											<UserContent
+												onClick={() => {
+													navigate(`../../${item.accountname}`);
+												}}
+											>
+												<UserFollowNickName>{item.username}</UserFollowNickName>
+												<UserFollowIntro>{item.intro}</UserFollowIntro>
+											</UserContent>
+										</UserFlexWrap>
+										{!(myAccountName === item.accountname) && (
+											<FollowButton
+												type='button'
+												follow={item.isFollow}
+												onClick={(e) => {
+													handleFollowChange(index, item.accountname, e);
+												}}
+											>
+												{item.isFollow === true ? '취소' : '팔로우'}
+											</FollowButton>
+										)}
+									</UserWrap>
+									{hasNextPage && (
+										<>
+											{!isLoading && <Loading />}
+											<ScrollRef ref={ref}></ScrollRef>
+										</>
+									)}
+								</>
 							);
 					  })
 					: isLoading &&
-					  myAccountName &&
 					  (!follower || follower.length === 0) && <FollowUnknown />}
-				{!isLoading && <Loading />}
-				{followResult?.length % (view * 6) < 6 && follower?.length > 6 && (
-					<MoreButton type='button' onClick={handleClickMore}>
-						더보기
-					</MoreButton>
-				)}
+				{/* {!isLoading && <Loading />} */}
 			</Wrapper>
 		</>
 	);

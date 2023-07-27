@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Wrapper = styled.div`
 	width: 100%;
 	box-sizing: border-box;
-	padding: 24px 16px;
+	padding: 8px 16px;
 	display: flex;
 	flex-direction: column;
 	gap: 16px;
@@ -52,4 +52,9 @@ export const UserFollowNickName = styled.span`
 export const UserFollowIntro = styled.span`
 	font-size: 12px;
 	font-weight: 400;
+`;
+
+export const ScrollRef = styled.div`
+	width: 100%;
+	height: 10px;
 `;
