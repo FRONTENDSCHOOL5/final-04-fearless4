@@ -107,8 +107,8 @@ export default function Product() {
 			// 상품 등록인지 수정인지 확인하여 API 호출 분기 처리
 			if (selectedProduct) {
 				const res = await axios({
-					method: 'POST',
-					url: 'https://api.mandarin.weniv.co.kr/product',
+					method: 'PUT',
+					url: `${url}/product/${selectedProduct.id}`,
 					data: productData,
 					headers: {
 						Authorization: `Bearer ${token}`,
