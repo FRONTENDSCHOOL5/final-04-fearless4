@@ -6,6 +6,7 @@ import {
 	NavbarWrap,
 } from '../../components/navbar/navbar.style';
 import {
+	LoadingText,
 	ScrollRef,
 	UserContent,
 	UserFlexWrap,
@@ -35,8 +36,8 @@ export default function Follwers() {
 	const myAccountName = localStorage.getItem('userAccountName');
 	const url = API_URL;
 	const [ref, inView] = useInView();
-	const [hasNextPage, setHasNextPage] = useState(true);
 	const [skip, setSkip] = useState(0);
+	const [hasNextPage, setHasNextPage] = useState(true);
 
 	const followerData = async () => {
 		try {
@@ -53,20 +54,19 @@ export default function Follwers() {
 				...item,
 				isFollow: item.isfollow,
 			}));
-			// updateFollowing.length >= 10
-			// 	? setHasNextPage(true)
-			// 	: setHasNextPage(false);
+			updateFollowing.length >= 10
+				? setHasNextPage(true)
+				: setHasNextPage(false);
 			setFollower([...follower, ...updateFollowing]);
 			setSkip((prev) => prev + 10);
-			console.log(follower);
 		} catch (error) {
 			console.log('에러입니다', error);
 		}
 	};
-	console.log(follower);
+
 	useEffect(() => {
 		inView && followerData();
-	}, [inView]);
+	}, [inView, isLoading]);
 
 	const handleFollowChange = async (index, accountname, e) => {
 		e.preventDefault();
@@ -190,12 +190,14 @@ export default function Follwers() {
 					  })
 					: isLoading &&
 					  (!follower || follower.length === 0) && <FollowUnknown />}
-				{/* {!isLoading && <Loading />} */}
-				{
+				{!isLoading && <Loading />}
+				{hasNextPage && (
 					<>
+						{<LoadingText>Loading...</LoadingText>}
+
 						<ScrollRef ref={ref}></ScrollRef>
 					</>
-				}
+				)}
 			</Wrapper>
 		</>
 	);

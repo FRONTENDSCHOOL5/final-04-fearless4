@@ -58,3 +58,14 @@ export const ScrollRef = styled.div`
 	width: 100%;
 	height: 10px;
 `;
+
+export const LoadingText = styled.span`
+	display: block;
+	width: 100%;
+	margin: 0 auto;
+
+	font-family: 'SUIT-Bold';
+	font-size: 16px;
+	text-align: center;
+	color: black;
+`;
