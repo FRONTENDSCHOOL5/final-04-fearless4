@@ -193,7 +193,7 @@ export default function UserProfile() {
 									style={{ width: '110px', height: '110px' }}
 									src={profile.profile.image}
 									onError={handleImgError}
-									alt=''
+									alt={`${profile.profile.accountname}의 프로필입니다.`}
 								></ProfileImage>
 
 								<FollowerWrap to='./following'>

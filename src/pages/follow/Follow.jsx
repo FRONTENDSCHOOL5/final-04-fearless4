@@ -64,6 +64,8 @@ export default function Follwers() {
 		}
 	};
 
+	console.log(follower);
+
 	useEffect(() => {
 		inView && followerData();
 	}, [inView, isLoading]);
@@ -125,7 +127,7 @@ export default function Follwers() {
 											<UserFollowImage
 												src={item.image}
 												onError={handleImgError}
-												alt='유저 프로필 이미지입니다.'
+												alt={`${item.username} 프로필 이미지입니다.`}
 											/>
 										</UserProfileImg>
 										<UserContent
