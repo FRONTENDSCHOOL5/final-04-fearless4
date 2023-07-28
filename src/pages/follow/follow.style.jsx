@@ -3,10 +3,10 @@ import styled from 'styled-components';
 export const Wrapper = styled.div`
 	width: 100%;
 	box-sizing: border-box;
-	padding: 24px 16px;
+	padding: 16px 16px;
 	display: flex;
 	flex-direction: column;
-	gap: 16px;
+	gap: 22px;
 `;
 
 export const UserWrap = styled.div`
@@ -52,4 +52,25 @@ export const UserFollowNickName = styled.span`
 export const UserFollowIntro = styled.span`
 	font-size: 12px;
 	font-weight: 400;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 1;
+	-webkit-box-orient: vertical;
+`;
+
+export const ScrollRef = styled.div`
+	width: 100%;
+	height: 5px;
+`;
+
+export const LoadingText = styled.span`
+	display: block;
+	width: 100%;
+	margin: 0 auto;
+
+	font-family: 'SUIT-Bold';
+	font-size: 16px;
+	text-align: center;
+	color: black;
 `;

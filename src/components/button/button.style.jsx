@@ -74,7 +74,9 @@ export const ProfileButton = styled.button`
 	padding: 8px 0;
 	color: ${({ follow }) => (follow === true ? `#fff` : `#767676`)};
 	border-radius: 30px;
-	border: ${({ follow }) => (follow === true ? `none` : `solid 1px #DBDBDB`)};
+	border: ${({ follow }) =>
+		follow === true ? `solid 1px transparent` : `solid 1px #DBDBDB;`};
+
 	cursor: pointer;
 
 	&:hover {
@@ -106,10 +108,12 @@ export const FollowButton = styled.button`
 	width: 60px;
 	height: 30px;
 	padding: 0 11px;
+	margin-left: 12px;
 	color: ${({ follow }) => (follow === false ? `#fff` : `#767676`)};
 	border-radius: 30px;
 	border: ${({ follow }) => (follow === false ? `none` : `solid 1px #DBDBDB`)};
 	cursor: pointer;
+	flex-shrink: 0;
 `;
 
 export const SaveButton = styled.button`
@@ -134,5 +138,19 @@ export const ImageUploadButton = styled.button`
 	border: 0;
 	bottom: 16px;
 	right: 16px;
+	cursor: pointer;
+`;
+
+export const MoreButton = styled.button`
+	width: 150px;
+	font-size: 16px;
+	font-weight: 500;
+	color: white;
+	font-family: 'Suit-Regular';
+	background-color: #81d8d0;
+	padding: 6px;
+	margin: 0 auto;
+	border: none;
+	border-radius: 10px;
 	cursor: pointer;
 `;
