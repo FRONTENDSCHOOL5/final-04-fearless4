@@ -99,7 +99,7 @@ export default function UserProfile() {
 				setProfileIntro(profile.profile.intro);
 			}
 		}
-	}, [isLoading]);
+	}, [isLoading, profileImage]);
 
 	const handleImgError = (e) => {
 		e.target.src = profilePic;
