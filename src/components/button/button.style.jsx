@@ -74,7 +74,9 @@ export const ProfileButton = styled.button`
 	padding: 8px 0;
 	color: ${({ follow }) => (follow === true ? `#fff` : `#767676`)};
 	border-radius: 30px;
-	border: ${({ follow }) => (follow === true ? `none` : `solid 1px #DBDBDB`)};
+	border: ${({ follow }) =>
+		follow === true ? `solid 1px transparent` : `solid 1px #DBDBDB;`};
+
 	cursor: pointer;
 
 	&:hover {
