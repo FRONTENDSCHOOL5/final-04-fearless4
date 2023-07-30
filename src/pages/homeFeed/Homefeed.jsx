@@ -36,7 +36,7 @@ export default function Homefeed() {
 		isLoading,
 		fetchNextPage,
 	} = useInfiniteQuery(
-		'getFeedPosts',
+		['getFeedPosts'],
 		({ pageParam = count.current }) => getHomefeed(pageParam),
 		{
 			getNextPageParam: (lastPage) => lastPage.nextPage + 10,
@@ -62,19 +62,18 @@ export default function Homefeed() {
 			},
 		});
 		// setFollowingFeed(res.data.posts);
-		const { posts } = res.data;
+		const { posts } = res.data.posts;
 
 		return {
 			data: posts,
 			nextPage: pageParam,
-			isLast: posts.length % 10 !== 0,
+			isLast: !res.data.next,
 		};
 	};
 
 	useEffect(() => {
 		if (followingFeed && followingFeed.length !== 0) {
 			setPost([]);
-
 			const newPosts = followingFeed.map((item) => (
 				<PostDeleteContext.Provider
 					key={item.id}

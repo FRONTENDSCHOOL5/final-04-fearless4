@@ -4,12 +4,8 @@
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
-<<<<<<< HEAD
-    "@tanstack/react-query": "^4.32.0",
-=======
     "@tanstack/react-query": "^4.29.25",
     "@tanstack/react-query-devtools": "^4.29.25",
->>>>>>> 0b9b4f0d1bb75df9fdc0d5f69e830bf927b6f8cb
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
