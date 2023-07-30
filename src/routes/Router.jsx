@@ -6,14 +6,9 @@ const Splash = lazy(() => import('../pages/splash/Splash'));
 const Login = lazy(() => import('../pages/login/Login'));
 const ProfileSetup = lazy(() => import('../pages/profileSetup/ProfileSetup'));
 const Signup = lazy(() => import('../pages/loginEmail/Signup'));
-const UserProfile = lazy(() => import('../pages/userProfile/UserProfile'));
-const ProductsForSaleEdit = lazy(() =>
-	import('../pages/userProfile/ProductsForSaleEdit')
-);
-const MyProfile = lazy(() => import('../pages/userProfile/MyProfile'));
+const Profile = lazy(() => import('../pages/userProfile/Profile'));
 const MyProfileEdit = lazy(() => import('../pages/userProfile/MyProfileEdit'));
-const Followers = lazy(() => import('../pages/follow/Followers'));
-const Followings = lazy(() => import('../pages/follow/Followings'));
+const Follow = lazy(() => import('../pages/follow/Follow'));
 const Product = lazy(() => import('../pages/product/Product'));
 const Homefeed = lazy(() => import('../pages/homeFeed/Homefeed'));
 const WritePost = lazy(() => import('../pages/post/WritePost'));
@@ -46,17 +41,9 @@ export default function Router() {
 						<Route path='' element={<Page404 />} />
 						<Route path='*' element={<Page404 />} />
 						<Route path=':accountUsername' element={<Outlet />}>
-							<Route path='' element={<UserProfile />} />
+							<Route path='' element={<Profile />} />
 							<Route path='*' element={<Page404 />} />
-							<Route path='follower/' element={<Followers />}></Route>
-							<Route path='following/' element={<Followings />}></Route>
-						</Route>
-
-						<Route path='myProfile/' element={<Outlet />}>
-							<Route path='' element={<MyProfile />} />
-							<Route path='*' element={<Page404 />} />
-							<Route path='follower/' element={<Followers />} />
-							<Route path='following/' element={<Followings />} />
+							<Route path=':follow/' element={<Follow />}></Route>
 							<Route path='edit/' element={<MyProfileEdit />} />
 						</Route>
 					</Route>
@@ -65,7 +52,6 @@ export default function Router() {
 						<Route path='' element={<Page404 />} />
 						<Route path='*' element={<Page404 />} />
 						<Route path='upload/' element={<Product />} />
-						<Route path='edit/' element={<ProductsForSaleEdit />} />
 					</Route>
 
 					<Route path='/post/' element={<Outlet />}>
