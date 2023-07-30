@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { PostDeleteContext } from '../post/PostDeleteContext.jsx';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -13,51 +13,68 @@ import NoFeed from './NoFeed.jsx';
 import { BottomNavContainer } from '../../components/bottomnav/bottomnav.style';
 import Loading from '../../components/loading/Loading.jsx';
 import { Helmet } from 'react-helmet';
-import useIntersect from '../../hook/useIntersect.js'; //추가
+
+import { useInfiniteQuery } from '@tanstack/react-query'; //react-query
+import { useInView } from 'react-intersection-observer'; //라이브러리
 
 export default function Homefeed() {
 	const url = API_URL;
 	const token = localStorage.getItem('token');
-	const [followingFeed, setFollowingFeed] = useState([]);
 	const [post, setPost] = useState([]);
-	const [isLoading, setIsLoading] = useState(false);
+	// const [isLoading, setIsLoading] = useState(false);
 	const [deletedPostId, setDeletedPostId] = useState(null);
 	const navigate = useNavigate();
+	// const [followingFeed, setFollowingFeed] = useState([]);
 
 	const [hasNextPage, setHasNextPage] = useState(true);
 
-	const ref = useIntersect((entry, observer) => {
-		observer.unobserve(entry.target);
-		if (hasNextPage && !isLoading) {
-			getDatas();
-		}
-	});
+	const [ref, inView] = useInView();
+	const count = useRef(0);
 
+	const {
+		data: followingFeed,
+		isLoading,
+		fetchNextPage,
+	} = useInfiniteQuery(
+		'getFeedPosts',
+		({ pageParam = count.current }) => getHomefeed(pageParam),
+		{
+			getNextPageParam: (lastPage) => lastPage.nextPage + 10,
+		}
+	);
+	// inView가 true 일때만 실행
 	useEffect(() => {
-		if (!hasNextPage) return;
-		getDatas();
-	}, []);
-
-	const getDatas = async () => {
-		try {
-			setPost([]);
-			const res = await axios({
-				method: 'GET',
-				url: `${url}/post/feed/?limit=infinity`,
-				headers: {
-					Authorization: `Bearer ${token}`,
-					'Content-type': 'application/json',
-				},
-			});
-			setFollowingFeed(res.data.posts);
-			setIsLoading(true);
-		} catch (error) {
-			console.log('에러입니다', error);
+		if (inView && !followingFeed?.pages[count.current].isLast) {
+			count.current += 1;
+			fetchNextPage();
 		}
+	}, [inView]);
+
+	// 지정한 타겟 div가 화면에 보일 때 마다 서버에 요청
+	const getHomefeed = async (pageParam) => {
+		// setPost([]);
+		const res = await axios({
+			method: 'GET',
+			url: `${url}/post/feed/?limit=10&skip=${pageParam}`,
+			headers: {
+				Authorization: `Bearer ${token}`,
+				'Content-type': 'application/json',
+			},
+		});
+		// setFollowingFeed(res.data.posts);
+		const { posts } = res.data;
+
+		return {
+			data: posts,
+			nextPage: pageParam,
+			isLast: posts.length % 10 !== 0,
+		};
 	};
 
 	useEffect(() => {
-		if (followingFeed.length !== 0) {
+		if (followingFeed && followingFeed.length !== 0) {
+			setPost([]);
+
 			const newPosts = followingFeed.map((item) => (
 				<PostDeleteContext.Provider
 					key={item.id}
@@ -85,9 +102,13 @@ export default function Homefeed() {
 				/>
 			</NavbarWrap>
 			<HomefeedWrap>
-				{followingFeed.length !== 0
+				{followingFeed && followingFeed.length !== 0
 					? post
-					: isLoading && (!post || followingFeed.length === 0) && <NoFeed />}
+					: isLoading &&
+					  (!post || (followingFeed && followingFeed.length === 0)) && (
+							<NoFeed />
+					  )}
+				<div ref={ref} />
 				<BottomNavContainer home />
 				{!isLoading && <Loading />}
 			</HomefeedWrap>
