@@ -1,5 +1,5 @@
 import React from 'react';
-import { Post } from '../../components/post/post.style';
+import { Post } from '../../components/post/Post';
 import { BottomNavContainer } from '../../components/bottomnav/bottomnav.style';
 import styled from 'styled-components';
 
