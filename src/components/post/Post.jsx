@@ -62,6 +62,7 @@ export function Post({ postId }) {
 	const [isReportModal, setIsReportModal] = useState(false);
 	const [showPostDeleteToast, setShowPostDeleteToast] = useState(false);
 	const [showPostReportToast, setShowPostReportToast] = useState(false);
+	const [showAPIErrorToast, setShowAPIErrorToast] = useState(false);
 	const navigate = useNavigate();
 
 	const postInstance = axios.create({
@@ -82,7 +83,10 @@ export function Post({ postId }) {
 					setHeartCount(response.data.post.heartCount);
 				});
 			} catch (error) {
-				console.error('데이터를 불러오지 못했습니다!', error);
+				setShowAPIErrorToast(true);
+				setTimeout(() => {
+					setShowAPIErrorToast(false);
+				}, 1000);
 			}
 		};
 		getpostData();
@@ -102,7 +106,10 @@ export function Post({ postId }) {
 				});
 			}
 		} catch (error) {
-			console.error('오류 발생!');
+			setShowAPIErrorToast(true);
+			setTimeout(() => {
+				setShowAPIErrorToast(false);
+			}, 1000);
 		}
 	};
 
@@ -142,7 +149,10 @@ export function Post({ postId }) {
 				setDeletedPostId(postData.id);
 			});
 		} catch (error) {
-			console.error('오류 발생!');
+			setShowAPIErrorToast(true);
+			setTimeout(() => {
+				setShowAPIErrorToast(false);
+			}, 1000);
 		}
 		setIsPostDeleteCheckModal(false);
 		setShowPostDeleteToast(true);
@@ -273,6 +283,12 @@ export function Post({ postId }) {
 						<ModalText onClick={handleReportClick}>신고하기</ModalText>
 					</ModalWrap>
 				</DarkBackground>
+			)}
+			{showAPIErrorToast && (
+				<ToastContainer>
+					<ToastIcon>🚨</ToastIcon>
+					<ToastMsg>존재하지 않는 게시글입니다.</ToastMsg>
+				</ToastContainer>
 			)}
 			<PostDeleteToast />
 			<PostReportToast />
