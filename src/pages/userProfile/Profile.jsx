@@ -35,33 +35,26 @@ import {
 } from '../../components/modal/modal.style.jsx';
 import PostList from '../../components/post/PostList.jsx';
 import { BottomNavContainer } from '../../components/bottomnav/bottomnav.style.jsx';
-import axios from 'axios';
-
-import { API_URL } from '../../api.js';
 import { useNavigate, useParams } from 'react-router-dom';
 import ProductsForSale from './ProductsForSale.jsx';
 import Loading from '../../components/loading/Loading.jsx';
 import { Helmet } from 'react-helmet';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getUserInfo } from '../../api/profileApi.js';
+import { delUnFollow, getUserInfo, postFollow } from '../../api/profileApi.js';
 export default function UserProfile() {
 	const navigate = useNavigate();
-
 	const [isModal, setIsModal] = useState(false);
 	const [isCheckModal, setIsCheckModal] = useState(false);
 	const [deletedPostId, setDeletedPostId] = useState(null);
-
 	const myaccountname = localStorage.getItem('userAccountName');
 	const accountname = useParams().accountUsername;
-	const url = API_URL;
-	const token = localStorage.getItem('token');
-
 	const queryClient = useQueryClient();
 
 	const { data: profile, isLoading } = useQuery(
+		// 매개변수 accountname 값이 변경될 때 마다 재요청
 		['profileData', accountname],
 		() => getUserInfo(accountname),
-		{ refetchOnWindowFocus: true }
+		{ enabled: !!accountname }
 	);
 
 	const handleImgError = (e) => {
@@ -70,36 +63,23 @@ export default function UserProfile() {
 
 	const handleFollowChange = async (e) => {
 		e.preventDefault();
-		if (profile.isfollow === false) {
-			try {
-				const res = await axios({
-					method: 'POST',
-					url: `${url}/profile/${accountname}/follow`,
-					headers: {
-						Authorization: `Bearer ${token}`,
-						'Content-type': 'application/json',
-					},
-				});
-			} catch (error) {
-				console.log('에러입니다', error);
-			}
+		if (profile.isfollow) {
+			delFollowMutaion.mutate(accountname);
 		} else {
-			try {
-				const res = await axios({
-					method: 'DELETE',
-					url: `${url}/profile/${accountname}/unfollow`,
-					headers: {
-						Authorization: `Bearer ${token}`,
-						'Content-type': 'application/json',
-					},
-				});
-			} catch (error) {
-				console.log('에러입니다', error);
-			}
+			postFollowMutaion.mutate(accountname);
 		}
 	};
 
-	const FollowMutation = useMutation(handleFollowChange, {
+	const delFollowMutaion = useMutation(delUnFollow, {
+		onSuccess: () => {
+			queryClient.invalidateQueries('profileData');
+		},
+		onError: () => {
+			console.error('실패');
+		},
+	});
+
+	const postFollowMutaion = useMutation(postFollow, {
 		onSuccess: () => {
 			queryClient.invalidateQueries('profileData');
 		},
@@ -213,7 +193,7 @@ export default function UserProfile() {
 									<ProfileButton
 										follow={profile.isfollow === true ? false : true}
 										type='button'
-										onClick={FollowMutation.mutate}
+										onClick={(e) => handleFollowChange(e)}
 									>
 										{profile.isfollow === true ? '팔로우 취소' : '팔로우'}
 									</ProfileButton>
