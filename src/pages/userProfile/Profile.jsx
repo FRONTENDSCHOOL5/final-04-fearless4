@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState } from 'react';
 import { PostDeleteContext } from '../post/PostDeleteContext.jsx';
 import {
 	ChatShare,
@@ -16,7 +16,7 @@ import {
 	UserWrap,
 	ProfileButtonWrap,
 	ProfilePageWrapper,
-} from './userProfile.style.jsx';
+} from './Profile.style.jsx';
 import { ProfileImage } from '../profileSetup/profileSetup.style.jsx';
 import profilePic from '../../assets/image/profilePic.png';
 import {
@@ -129,80 +129,78 @@ export default function UserProfile() {
 				<OptionModalTab onClick={handleModalOpen} />
 			</NavbarWrap>
 			<ProfilePageWrapper>
-				<ProfileWrapper>
-					{!isLoading && (
-						<>
-							<ProfileImgWrap>
-								<FollowerWrap to='./follower'>
-									<FollowerNumber followers>
-										{profile.followerCount}
-									</FollowerNumber>
-									<Follower>followers</Follower>
-								</FollowerWrap>
+				{!isLoading && (
+					<ProfileWrapper>
+						<ProfileImgWrap>
+							<FollowerWrap to='./follower'>
+								<FollowerNumber followers>
+									{profile.followerCount}
+								</FollowerNumber>
+								<Follower>followers</Follower>
+							</FollowerWrap>
 
-								<ProfileImage
-									style={{ width: '110px', height: '110px' }}
-									src={profile.image}
-									onError={handleImgError}
-									alt={`${profile.accountname}의 프로필입니다.`}
-								></ProfileImage>
+							<ProfileImage
+								style={{ width: '110px', height: '110px' }}
+								src={profile.image}
+								onError={handleImgError}
+								alt={`${profile.accountname}의 프로필입니다.`}
+							></ProfileImage>
 
-								<FollowerWrap to='./following'>
-									<FollowerNumber>{profile.followingCount}</FollowerNumber>
-									<Follower>followings</Follower>
-								</FollowerWrap>
-							</ProfileImgWrap>
+							<FollowerWrap to='./following'>
+								<FollowerNumber>{profile.followingCount}</FollowerNumber>
+								<Follower>followings</Follower>
+							</FollowerWrap>
+						</ProfileImgWrap>
 
-							<UserWrap>
-								<UserNickName>{profile.username}</UserNickName>
-								<UserEmail>@ {profile.accountname}</UserEmail>
-								<Intro>{profile.intro}</Intro>
-							</UserWrap>
+						<UserWrap>
+							<UserNickName>{profile.username}</UserNickName>
+							<UserEmail>@ {profile.accountname}</UserEmail>
+							<Intro>{profile.intro}</Intro>
+						</UserWrap>
 
-							{myaccountname === accountname ? (
-								<ProfileButtonWrap>
-									<ProfileButton
-										type='button'
-										onClick={() => {
-											navigate('./edit', {
-												state: {
-													profileImage: profile.image,
-													profileId: profile.accountname,
-													profileName: profile.username,
-													profileIntro: profile.intro,
-												},
-											});
-										}}
-									>
-										프로필 수정
-									</ProfileButton>
+						{myaccountname === accountname ? (
+							<ProfileButtonWrap>
+								<ProfileButton
+									type='button'
+									onClick={() => {
+										navigate('./edit', {
+											state: {
+												profileImage: profile.image,
+												profileId: profile.accountname,
+												profileName: profile.username,
+												profileIntro: profile.intro,
+											},
+										});
+									}}
+								>
+									프로필 수정
+								</ProfileButton>
 
-									<ProfileButton
-										product
-										type='button'
-										onClick={() => {
-											navigate('../../Product/upload');
-										}}
-									>
-										상품 등록
-									</ProfileButton>
-								</ProfileButtonWrap>
-							) : (
-								<ProfileButtonWrap>
-									<ChatShare type='button' chatting />
-									<ProfileButton
-										follow={profile.isfollow === true ? false : true}
-										type='button'
-										onClick={(e) => handleFollowChange(e)}
-									>
-										{profile.isfollow === true ? '팔로우 취소' : '팔로우'}
-									</ProfileButton>
-									<ChatShare type='button' />
-								</ProfileButtonWrap>
-							)}
-						</>
-					)}
-				</ProfileWrapper>
+								<ProfileButton
+									product
+									type='button'
+									onClick={() => {
+										navigate('../../Product/upload');
+									}}
+								>
+									상품 등록
+								</ProfileButton>
+							</ProfileButtonWrap>
+						) : (
+							<ProfileButtonWrap>
+								<ChatShare type='button' chatting />
+								<ProfileButton
+									follow={profile.isfollow === true ? false : true}
+									type='button'
+									onClick={(e) => handleFollowChange(e)}
+								>
+									{profile.isfollow === true ? '팔로우 취소' : '팔로우'}
+								</ProfileButton>
+								<ChatShare type='button' />
+							</ProfileButtonWrap>
+						)}
+					</ProfileWrapper>
+				)}
 				{isLoading && <Loading />}
 
 				<ProductsForSale userAccountName={accountname} />
