@@ -30,7 +30,7 @@ export default function ProductCard({ item, handleCard, handleModal }) {
 			<ProductPrice style={{ marginLeft: '10px', marginTop: '8px' }}>
 				{item.price.toLocaleString()}원
 			</ProductPrice>
-			<ProductCardClose onClick={() => handleCard(false)}>
+			<ProductCardClose onClick={(boolean) => handleCard(false)}>
 				<CloseIconImg src={closeIcon} alt='닫기' />
 				<CloseIconText>닫기</CloseIconText>
 			</ProductCardClose>
