@@ -42,12 +42,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import ProductsForSale from './ProductsForSale.jsx';
 import Loading from '../../components/loading/Loading.jsx';
 import { Helmet } from 'react-helmet';
-import {
-	useMutation,
-	useQueries,
-	useQuery,
-	useQueryClient,
-} from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { getUserInfo } from '../../api/profileApi.js';
 export default function UserProfile() {
 	const navigate = useNavigate();
 
@@ -62,25 +58,11 @@ export default function UserProfile() {
 
 	const queryClient = useQueryClient();
 
-	const { data, isLoading } = useQuery(
+	const { data: profile, isLoading } = useQuery(
 		['profileData', accountname],
-		async () => {
-			try {
-				const res = await axios({
-					method: 'GET',
-					url: `${url}/profile/${accountname}`,
-					headers: {
-						Authorization: `Bearer ${token}`,
-						'Content-type': 'application/json',
-					},
-				});
-				return res.data;
-			} catch (error) {
-				console.error(error);
-			}
-		}
+		() => getUserInfo(accountname),
+		{ refetchOnWindowFocus: true }
 	);
-	console.log(data);
 
 	const handleImgError = (e) => {
 		e.target.src = profilePic;
@@ -88,7 +70,7 @@ export default function UserProfile() {
 
 	const handleFollowChange = async (e) => {
 		e.preventDefault();
-		if (data.profile.isfollow === false) {
+		if (profile.isfollow === false) {
 			try {
 				const res = await axios({
 					method: 'POST',
@@ -173,28 +155,28 @@ export default function UserProfile() {
 							<ProfileImgWrap>
 								<FollowerWrap to='./follower'>
 									<FollowerNumber followers>
-										{data.profile.followerCount}
+										{profile.followerCount}
 									</FollowerNumber>
 									<Follower>followers</Follower>
 								</FollowerWrap>
 
 								<ProfileImage
 									style={{ width: '110px', height: '110px' }}
-									src={data.profile.image}
+									src={profile.image}
 									onError={handleImgError}
-									alt={`${data.profile.accountname}의 프로필입니다.`}
+									alt={`${profile.accountname}의 프로필입니다.`}
 								></ProfileImage>
 
 								<FollowerWrap to='./following'>
-									<FollowerNumber>{data.profile.followingCount}</FollowerNumber>
+									<FollowerNumber>{profile.followingCount}</FollowerNumber>
 									<Follower>followings</Follower>
 								</FollowerWrap>
 							</ProfileImgWrap>
 
 							<UserWrap>
-								<UserNickName>{data.profile.username}</UserNickName>
-								<UserEmail>@ {data.profile.accountname}</UserEmail>
-								<Intro>{data.profile.intro}</Intro>
+								<UserNickName>{profile.username}</UserNickName>
+								<UserEmail>@ {profile.accountname}</UserEmail>
+								<Intro>{profile.intro}</Intro>
 							</UserWrap>
 
 							{myaccountname === accountname ? (
@@ -204,10 +186,10 @@ export default function UserProfile() {
 										onClick={() => {
 											navigate('./edit', {
 												state: {
-													profileImage: data.profile.image,
-													profileId: data.profile.accountname,
-													profileName: data.profile.username,
-													profileIntro: data.profile.intro,
+													profileImage: profile.image,
+													profileId: profile.accountname,
+													profileName: profile.username,
+													profileIntro: profile.intro,
 												},
 											});
 										}}
@@ -229,11 +211,11 @@ export default function UserProfile() {
 								<ProfileButtonWrap>
 									<ChatShare type='button' chatting />
 									<ProfileButton
-										follow={data.profile.isfollow === true ? false : true}
+										follow={profile.isfollow === true ? false : true}
 										type='button'
 										onClick={FollowMutation.mutate}
 									>
-										{data.profile.isfollow === true ? '팔로우 취소' : '팔로우'}
+										{profile.isfollow === true ? '팔로우 취소' : '팔로우'}
 									</ProfileButton>
 									<ChatShare type='button' />
 								</ProfileButtonWrap>

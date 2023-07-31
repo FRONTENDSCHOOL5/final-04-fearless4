@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 export const API_URL = 'https://api.mandarin.weniv.co.kr';
 
 // 로그인용 인스턴스
@@ -25,7 +27,7 @@ export const accessInstance = axios.create({
 });
 
 // 요청 인터셉터 추가, 요청 보내기전에 token을 넣음
-accessInstance.intercptors.request.use((config) => {
+accessInstance.interceptors.request.use((config) => {
 	if (!config.headers.Authorization) {
 		config.headers = {
 			...config.headers,
