@@ -42,19 +42,25 @@ import { useNavigate, useParams } from 'react-router-dom';
 import ProductsForSale from './ProductsForSale.jsx';
 import Loading from '../../components/loading/Loading.jsx';
 import { Helmet } from 'react-helmet';
-import { useQueries, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+	useMutation,
+	useQueries,
+	useQuery,
+	useQueryClient,
+} from '@tanstack/react-query';
 export default function UserProfile() {
 	const navigate = useNavigate();
 
 	const [isModal, setIsModal] = useState(false);
 	const [isCheckModal, setIsCheckModal] = useState(false);
-	const [isFollow, setIsFollow] = useState();
 	const [deletedPostId, setDeletedPostId] = useState(null);
 
 	const myaccountname = localStorage.getItem('userAccountName');
 	const accountname = useParams().accountUsername;
 	const url = API_URL;
 	const token = localStorage.getItem('token');
+
+	const queryClient = useQueryClient();
 
 	const { data, isLoading } = useQuery(['profileData'], async () => {
 		try {
@@ -73,57 +79,49 @@ export default function UserProfile() {
 	});
 	console.log(data);
 
-	// useEffect(() => {
-	// 	if (isLoading === true) {
-	// 		profile.profile.isfollow === true
-	// 			? setIsFollow(true)
-	// 			: setIsFollow(false);
-
-	// 		if (myaccountname === accountname) {
-	// 			setProfileImage(profile.profile.image);
-	// 			setProfileId(profile.profile.accountname);
-	// 			setProfileName(profile.profile.username);
-	// 			setProfileIntro(profile.profile.intro);
-	// 		}
-	// 	}
-	// }, [isLoading, profileImage]);
-
 	const handleImgError = (e) => {
 		e.target.src = profilePic;
 	};
 
-	// const handleFollowChange = async (e) => {
-	// 	e.preventDefault();
-	// 	if (isFollow === false) {
-	// 		try {
-	// 			const res = await axios({
-	// 				method: 'POST',
-	// 				url: `${url}/profile/${accountname}/follow`,
-	// 				headers: {
-	// 					Authorization: `Bearer ${token}`,
-	// 					'Content-type': 'application/json',
-	// 				},
-	// 			});
-	// 			setIsFollow(true);
-	// 		} catch (error) {
-	// 			console.log('에러입니다', error);
-	// 		}
-	// 	} else {
-	// 		try {
-	// 			const res = await axios({
-	// 				method: 'DELETE',
-	// 				url: `${url}/profile/${accountname}/unfollow`,
-	// 				headers: {
-	// 					Authorization: `Bearer ${token}`,
-	// 					'Content-type': 'application/json',
-	// 				},
-	// 			});
-	// 			setIsFollow(false);
-	// 		} catch (error) {
-	// 			console.log('에러입니다', error);
-	// 		}
-	// 	}
-	// };
+	const handleFollowChange = async (e) => {
+		e.preventDefault();
+		if (data.profile.isfollow === false) {
+			try {
+				const res = await axios({
+					method: 'POST',
+					url: `${url}/profile/${accountname}/follow`,
+					headers: {
+						Authorization: `Bearer ${token}`,
+						'Content-type': 'application/json',
+					},
+				});
+			} catch (error) {
+				console.log('에러입니다', error);
+			}
+		} else {
+			try {
+				const res = await axios({
+					method: 'DELETE',
+					url: `${url}/profile/${accountname}/unfollow`,
+					headers: {
+						Authorization: `Bearer ${token}`,
+						'Content-type': 'application/json',
+					},
+				});
+			} catch (error) {
+				console.log('에러입니다', error);
+			}
+		}
+	};
+
+	const FollowMutation = useMutation(handleFollowChange, {
+		onSuccess: () => {
+			queryClient.invalidateQueries('profileData');
+		},
+		onError: () => {
+			console.error('실패');
+		},
+	});
 
 	const handleModalOpen = (e) => {
 		e.preventDefault();
@@ -200,16 +198,16 @@ export default function UserProfile() {
 								<ProfileButtonWrap>
 									<ProfileButton
 										type='button'
-										// onClick={() => {
-										// 	navigate('./edit', {
-										// 		state: {
-										// 			profileImage: profileImage,
-										// 			profileId: profileId,
-										// 			profileName: profileName,
-										// 			profileIntro: profileIntro,
-										// 		},
-										// 	});
-										// }}
+										onClick={() => {
+											navigate('./edit', {
+												state: {
+													profileImage: data.profile.image,
+													profileId: data.profile.accountname,
+													profileName: data.profile.username,
+													profileIntro: data.profile.intro,
+												},
+											});
+										}}
 									>
 										프로필 수정
 									</ProfileButton>
@@ -228,11 +226,11 @@ export default function UserProfile() {
 								<ProfileButtonWrap>
 									<ChatShare type='button' chatting />
 									<ProfileButton
-										follow={isFollow === true ? false : true}
+										follow={data.profile.isfollow === true ? false : true}
 										type='button'
-										// onClick={handleFollowChange}
+										onClick={FollowMutation.mutate}
 									>
-										{isFollow === true ? '팔로우 취소' : '팔로우'}
+										{data.profile.isfollow === true ? '팔로우 취소' : '팔로우'}
 									</ProfileButton>
 									<ChatShare type='button' />
 								</ProfileButtonWrap>
