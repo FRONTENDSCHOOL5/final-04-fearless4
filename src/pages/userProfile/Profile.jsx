@@ -42,15 +42,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import ProductsForSale from './ProductsForSale.jsx';
 import Loading from '../../components/loading/Loading.jsx';
 import { Helmet } from 'react-helmet';
+import { useQueries, useQuery, useQueryClient } from '@tanstack/react-query';
 export default function UserProfile() {
 	const navigate = useNavigate();
-	const [profile, setProfile] = useState([]);
-	const [isLoading, setIsLoading] = useState(false);
-
-	const [profileImage, setProfileImage] = useState('');
-	const [profileName, setProfileName] = useState('');
-	const [profileId, setProfileId] = useState('');
-	const [profileIntro, setProfileIntro] = useState('');
 
 	const [isModal, setIsModal] = useState(false);
 	const [isCheckModal, setIsCheckModal] = useState(false);
@@ -58,13 +52,11 @@ export default function UserProfile() {
 	const [deletedPostId, setDeletedPostId] = useState(null);
 
 	const myaccountname = localStorage.getItem('userAccountName');
-
 	const accountname = useParams().accountUsername;
-
 	const url = API_URL;
 	const token = localStorage.getItem('token');
 
-	const profileData = async () => {
+	const { data, isLoading } = useQuery(['profileData'], async () => {
 		try {
 			const res = await axios({
 				method: 'GET',
@@ -74,69 +66,64 @@ export default function UserProfile() {
 					'Content-type': 'application/json',
 				},
 			});
-			setIsLoading(true);
-			setProfile(res.data);
-			console.log(res.data);
+			return res.data;
 		} catch (error) {
-			console.log('에러입니다', error);
+			console.error(error);
 		}
-	};
+	});
+	console.log(data);
 
-	useEffect(() => {
-		profileData();
-	}, [isFollow, accountname]);
+	// useEffect(() => {
+	// 	if (isLoading === true) {
+	// 		profile.profile.isfollow === true
+	// 			? setIsFollow(true)
+	// 			: setIsFollow(false);
 
-	useEffect(() => {
-		if (isLoading === true) {
-			profile.profile.isfollow === true
-				? setIsFollow(true)
-				: setIsFollow(false);
-
-			if (myaccountname === accountname) {
-				setProfileImage(profile.profile.image);
-				setProfileId(profile.profile.accountname);
-				setProfileName(profile.profile.username);
-				setProfileIntro(profile.profile.intro);
-			}
-		}
-	}, [isLoading, profileImage]);
+	// 		if (myaccountname === accountname) {
+	// 			setProfileImage(profile.profile.image);
+	// 			setProfileId(profile.profile.accountname);
+	// 			setProfileName(profile.profile.username);
+	// 			setProfileIntro(profile.profile.intro);
+	// 		}
+	// 	}
+	// }, [isLoading, profileImage]);
 
 	const handleImgError = (e) => {
 		e.target.src = profilePic;
 	};
 
-	const handleFollowChange = async (e) => {
-		e.preventDefault();
-		if (isFollow === false) {
-			try {
-				const res = await axios({
-					method: 'POST',
-					url: `${url}/profile/${accountname}/follow`,
-					headers: {
-						Authorization: `Bearer ${token}`,
-						'Content-type': 'application/json',
-					},
-				});
-				setIsFollow(true);
-			} catch (error) {
-				console.log('에러입니다', error);
-			}
-		} else {
-			try {
-				const res = await axios({
-					method: 'DELETE',
-					url: `${url}/profile/${accountname}/unfollow`,
-					headers: {
-						Authorization: `Bearer ${token}`,
-						'Content-type': 'application/json',
-					},
-				});
-				setIsFollow(false);
-			} catch (error) {
-				console.log('에러입니다', error);
-			}
-		}
-	};
+	// const handleFollowChange = async (e) => {
+	// 	e.preventDefault();
+	// 	if (isFollow === false) {
+	// 		try {
+	// 			const res = await axios({
+	// 				method: 'POST',
+	// 				url: `${url}/profile/${accountname}/follow`,
+	// 				headers: {
+	// 					Authorization: `Bearer ${token}`,
+	// 					'Content-type': 'application/json',
+	// 				},
+	// 			});
+	// 			setIsFollow(true);
+	// 		} catch (error) {
+	// 			console.log('에러입니다', error);
+	// 		}
+	// 	} else {
+	// 		try {
+	// 			const res = await axios({
+	// 				method: 'DELETE',
+	// 				url: `${url}/profile/${accountname}/unfollow`,
+	// 				headers: {
+	// 					Authorization: `Bearer ${token}`,
+	// 					'Content-type': 'application/json',
+	// 				},
+	// 			});
+	// 			setIsFollow(false);
+	// 		} catch (error) {
+	// 			console.log('에러입니다', error);
+	// 		}
+	// 	}
+	// };
 
 	const handleModalOpen = (e) => {
 		e.preventDefault();
@@ -147,6 +134,7 @@ export default function UserProfile() {
 		e.preventDefault();
 		// e.currentTarget 현재 handleModalClose가 부착된 요소
 		// e.target 내가 클릭한 자식 요소
+		console.log(e.target, e.currentTarget);
 		if (e.target === e.currentTarget) {
 			setIsModal(false);
 			setIsCheckModal(false);
@@ -179,51 +167,49 @@ export default function UserProfile() {
 			</NavbarWrap>
 			<ProfilePageWrapper>
 				<ProfileWrapper>
-					{isLoading && (
+					{!isLoading && (
 						<>
 							<ProfileImgWrap>
 								<FollowerWrap to='./follower'>
 									<FollowerNumber followers>
-										{profile.profile.followerCount}
+										{data.profile.followerCount}
 									</FollowerNumber>
 									<Follower>followers</Follower>
 								</FollowerWrap>
 
 								<ProfileImage
 									style={{ width: '110px', height: '110px' }}
-									src={profile.profile.image}
+									src={data.profile.image}
 									onError={handleImgError}
-									alt={`${profile.profile.accountname}의 프로필입니다.`}
+									alt={`${data.profile.accountname}의 프로필입니다.`}
 								></ProfileImage>
 
 								<FollowerWrap to='./following'>
-									<FollowerNumber>
-										{profile.profile.followingCount}
-									</FollowerNumber>
+									<FollowerNumber>{data.profile.followingCount}</FollowerNumber>
 									<Follower>followings</Follower>
 								</FollowerWrap>
 							</ProfileImgWrap>
 
 							<UserWrap>
-								<UserNickName>{profile.profile.username}</UserNickName>
-								<UserEmail>@ {profile.profile.accountname}</UserEmail>
-								<Intro>{profile.profile.intro}</Intro>
+								<UserNickName>{data.profile.username}</UserNickName>
+								<UserEmail>@ {data.profile.accountname}</UserEmail>
+								<Intro>{data.profile.intro}</Intro>
 							</UserWrap>
 
 							{myaccountname === accountname ? (
 								<ProfileButtonWrap>
 									<ProfileButton
 										type='button'
-										onClick={() => {
-											navigate('./edit', {
-												state: {
-													profileImage: profileImage,
-													profileId: profileId,
-													profileName: profileName,
-													profileIntro: profileIntro,
-												},
-											});
-										}}
+										// onClick={() => {
+										// 	navigate('./edit', {
+										// 		state: {
+										// 			profileImage: profileImage,
+										// 			profileId: profileId,
+										// 			profileName: profileName,
+										// 			profileIntro: profileIntro,
+										// 		},
+										// 	});
+										// }}
 									>
 										프로필 수정
 									</ProfileButton>
@@ -244,7 +230,7 @@ export default function UserProfile() {
 									<ProfileButton
 										follow={isFollow === true ? false : true}
 										type='button'
-										onClick={handleFollowChange}
+										// onClick={handleFollowChange}
 									>
 										{isFollow === true ? '팔로우 취소' : '팔로우'}
 									</ProfileButton>
@@ -254,10 +240,10 @@ export default function UserProfile() {
 						</>
 					)}
 				</ProfileWrapper>
-				{!isLoading && <Loading />}
+				{isLoading && <Loading />}
 
 				<ProductsForSale userAccountName={accountname} />
-				{isLoading && (
+				{!isLoading && (
 					<PostDeleteContext.Provider
 						value={{ deletedPostId, setDeletedPostId }}
 					>
