@@ -2,7 +2,7 @@ import React, { useState, useEffect, startTransition, useContext } from 'react';
 import { PostDeleteContext } from './PostDeleteContext';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { Post } from '../../components/post/post.style';
+import { Post } from '../../components/post/Post';
 import {
 	Backspace,
 	NavbarWrap,
@@ -33,7 +33,7 @@ import {
 	ToastMsgBold,
 } from '../../components/toast/toast.style';
 import profilePic from '../../assets/image/profilePic.png';
-import { Comment } from './Comment';
+import { Comment } from '../../components/post/Comment';
 import { API_URL } from '../../api';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
