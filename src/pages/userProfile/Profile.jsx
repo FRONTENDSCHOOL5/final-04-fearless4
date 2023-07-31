@@ -62,21 +62,24 @@ export default function UserProfile() {
 
 	const queryClient = useQueryClient();
 
-	const { data, isLoading } = useQuery(['profileData'], async () => {
-		try {
-			const res = await axios({
-				method: 'GET',
-				url: `${url}/profile/${accountname}`,
-				headers: {
-					Authorization: `Bearer ${token}`,
-					'Content-type': 'application/json',
-				},
-			});
-			return res.data;
-		} catch (error) {
-			console.error(error);
+	const { data, isLoading } = useQuery(
+		['profileData', accountname],
+		async () => {
+			try {
+				const res = await axios({
+					method: 'GET',
+					url: `${url}/profile/${accountname}`,
+					headers: {
+						Authorization: `Bearer ${token}`,
+						'Content-type': 'application/json',
+					},
+				});
+				return res.data;
+			} catch (error) {
+				console.error(error);
+			}
 		}
-	});
+	);
 	console.log(data);
 
 	const handleImgError = (e) => {
