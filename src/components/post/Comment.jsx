@@ -12,19 +12,14 @@ import {
 	CommentTime,
 	CommentText,
 	OptionModalTabComment,
-} from './viewPost.style';
+} from '../../pages/post/viewPost.style';
+import { ModalWrap, ModalText, DarkBackground } from '../modal/modal.style';
 import {
-	ModalWrap,
-	ModalText,
-	DarkBackground,
-} from '../../components/modal/modal.style';
-import {
-	ToastClose,
 	ToastContainer,
 	ToastIcon,
 	ToastMsg,
 	ToastMsgBold,
-} from '../../components/toast/toast.style';
+} from '../toast/toast.style';
 import profilePic from '../../assets/image/profilePic.png';
 import { API_URL } from '../../api';
 
