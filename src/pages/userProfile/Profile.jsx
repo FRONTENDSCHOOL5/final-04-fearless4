@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PostDeleteContext } from '../post/PostDeleteContext.jsx';
 import {
 	ChatShare,
@@ -41,6 +41,7 @@ import Loading from '../../components/loading/Loading.jsx';
 import { Helmet } from 'react-helmet';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { delUnFollow, getUserInfo, postFollow } from '../../api/profileApi.js';
+import Page404 from '../page404/Page404.jsx';
 export default function UserProfile() {
 	const navigate = useNavigate();
 	const [isModal, setIsModal] = useState(false);
@@ -50,12 +51,22 @@ export default function UserProfile() {
 	const accountname = useParams().accountUsername;
 	const queryClient = useQueryClient();
 
-	const { data: profile, isLoading } = useQuery(
+	const {
+		data: profile,
+		isLoading,
+		error,
+	} = useQuery(
 		// 매개변수 accountname 값이 변경될 때 마다 재요청
 		['profileData', accountname],
 		() => getUserInfo(accountname),
-		{ enabled: !!accountname }
+		{ enabled: !!accountname },
+		{ retry: 0 },
+		{ refetchOnWindowFocus: false }
 	);
+
+	// if (error) {
+	// 	navigate('../../profile');
+	// }
 
 	const handleImgError = (e) => {
 		e.target.src = profilePic;
@@ -128,8 +139,8 @@ export default function UserProfile() {
 				/>
 				<OptionModalTab onClick={handleModalOpen} />
 			</NavbarWrap>
-			<ProfilePageWrapper>
-				{!isLoading && (
+			{!isLoading && profile ? (
+				<ProfilePageWrapper>
 					<ProfileWrapper>
 						<ProfileImgWrap>
 							<FollowerWrap to='./follower'>
@@ -200,19 +211,22 @@ export default function UserProfile() {
 							</ProfileButtonWrap>
 						)}
 					</ProfileWrapper>
-				)}
-				{isLoading && <Loading />}
 
-				<ProductsForSale userAccountName={accountname} />
-				{!isLoading && (
-					<PostDeleteContext.Provider
-						value={{ deletedPostId, setDeletedPostId }}
-					>
-						{' '}
-						<PostList accountname={accountname}></PostList>
-					</PostDeleteContext.Provider>
-				)}
-			</ProfilePageWrapper>
+					{isLoading && <Loading />}
+
+					<ProductsForSale userAccountName={accountname} />
+					{!isLoading && (
+						<PostDeleteContext.Provider
+							value={{ deletedPostId, setDeletedPostId }}
+						>
+							{' '}
+							<PostList accountname={accountname}></PostList>
+						</PostDeleteContext.Provider>
+					)}
+				</ProfilePageWrapper>
+			) : (
+				<Page404 />
+			)}
 			{isModal && (
 				<DarkBackground onClick={handleModalClose}>
 					<ModalWrap>
