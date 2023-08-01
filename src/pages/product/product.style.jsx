@@ -108,3 +108,12 @@ export const RadioInput = styled.input`
 		border: none;
 	}
 `;
+
+export const ProductPrice = styled.span`
+	font-family: 'Suit-Regular';
+	display: block;
+	color: #81d8d0;
+	font-size: 12px;
+	font-weight: 700;
+	line-height: 15.02px;
+`;
