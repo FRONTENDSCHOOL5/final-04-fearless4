@@ -51,22 +51,13 @@ export default function UserProfile() {
 	const accountname = useParams().accountUsername;
 	const queryClient = useQueryClient();
 
-	const {
-		data: profile,
-		isLoading,
-		error,
-	} = useQuery(
+	const { data: profile, isLoading } = useQuery(
 		// 매개변수 accountname 값이 변경될 때 마다 재요청
 		['profileData', accountname],
 		() => getUserInfo(accountname),
-		{ enabled: !!accountname },
-		{ retry: 0 },
-		{ refetchOnWindowFocus: false }
+		{ keepPreviousData: true }
+		// { enabled: !!accountname }
 	);
-
-	// if (error) {
-	// 	navigate('../../profile');
-	// }
 
 	const handleImgError = (e) => {
 		e.target.src = profilePic;
@@ -225,7 +216,7 @@ export default function UserProfile() {
 					)}
 				</ProfilePageWrapper>
 			) : (
-				<Page404 />
+				!isLoading && !profile && <Page404 />
 			)}
 			{isModal && (
 				<DarkBackground onClick={handleModalClose}>
