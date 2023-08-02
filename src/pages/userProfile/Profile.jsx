@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { PostDeleteContext } from '../post/PostDeleteContext.jsx';
 import {
 	ChatShare,
@@ -40,7 +40,12 @@ import ProductsForSale from './ProductsForSale.jsx';
 import Loading from '../../components/loading/Loading.jsx';
 import { Helmet } from 'react-helmet';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { delUnFollow, getUserInfo, postFollow } from '../../api/profileApi.js';
+import {
+	delUnFollow,
+	getMyInfo,
+	getUserInfo,
+	postFollow,
+} from '../../api/profileApi.js';
 import Page404 from '../page404/Page404.jsx';
 export default function UserProfile() {
 	const navigate = useNavigate();
@@ -54,14 +59,8 @@ export default function UserProfile() {
 	const { data: profile, isLoading } = useQuery(
 		// 매개변수 accountname 값이 변경될 때 마다 재요청
 		['profileData', accountname],
-		() => getUserInfo(accountname),
-		{ keepPreviousData: true }
-		// { enabled: !!accountname }
+		() => (accountname ? getUserInfo(accountname) : getMyInfo())
 	);
-
-	const handleImgError = (e) => {
-		e.target.src = profilePic;
-	};
 
 	const handleFollowChange = async (e) => {
 		e.preventDefault();
@@ -93,6 +92,10 @@ export default function UserProfile() {
 	const handleModalOpen = (e) => {
 		e.preventDefault();
 		setIsModal(true);
+	};
+
+	const handleImgError = (e) => {
+		e.target.src = profilePic;
 	};
 
 	const handleModalClose = (e) => {
@@ -134,7 +137,9 @@ export default function UserProfile() {
 				<ProfilePageWrapper>
 					<ProfileWrapper>
 						<ProfileImgWrap>
-							<FollowerWrap to='./follower'>
+							<FollowerWrap
+								to={accountname ? './follower' : `./${myaccountname}/follower`}
+							>
 								<FollowerNumber followers>
 									{profile.followerCount}
 								</FollowerNumber>
@@ -148,7 +153,11 @@ export default function UserProfile() {
 								alt={`${profile.accountname}의 프로필입니다.`}
 							></ProfileImage>
 
-							<FollowerWrap to='./following'>
+							<FollowerWrap
+								to={
+									accountname ? './following' : `./${myaccountname}/following`
+								}
+							>
 								<FollowerNumber>{profile.followingCount}</FollowerNumber>
 								<Follower>followings</Follower>
 							</FollowerWrap>
@@ -160,7 +169,7 @@ export default function UserProfile() {
 							<Intro>{profile.intro}</Intro>
 						</UserWrap>
 
-						{myaccountname === accountname ? (
+						{!accountname ? (
 							<ProfileButtonWrap>
 								<ProfileButton
 									type='button'
@@ -205,13 +214,17 @@ export default function UserProfile() {
 
 					{isLoading && <Loading />}
 
-					<ProductsForSale userAccountName={accountname} />
+					<ProductsForSale
+						userAccountName={!accountname ? myaccountname : accountname}
+					/>
 					{!isLoading && (
 						<PostDeleteContext.Provider
 							value={{ deletedPostId, setDeletedPostId }}
 						>
 							{' '}
-							<PostList accountname={accountname}></PostList>
+							<PostList
+								accountname={!accountname ? myaccountname : accountname}
+							></PostList>
 						</PostDeleteContext.Provider>
 					)}
 				</ProfilePageWrapper>

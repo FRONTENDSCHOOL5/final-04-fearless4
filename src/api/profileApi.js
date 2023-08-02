@@ -9,6 +9,16 @@ export const getUserInfo = async (accountname) => {
 	}
 };
 
+export const getMyInfo = async () => {
+	try {
+		const res = await accessInstance.get('/user/myinfo');
+		console.log(res.data.user);
+		return res.data.user;
+	} catch (error) {
+		console.error(error);
+	}
+};
+
 export const postFollow = async (accountname) => {
 	try {
 		const res = await accessInstance.post(`/profile/${accountname}/follow`);
