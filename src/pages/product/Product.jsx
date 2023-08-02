@@ -19,15 +19,13 @@ import UploadButton from '../../assets/image/profileImageUploadButton.png';
 import { API_URL } from '../../api';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router';
-import {
-	ToastClose,
-	ToastContainer,
-	ToastIcon,
-	ToastMsg,
-	ToastMsgBold,
-} from '../../components/toast/toast.style';
 import { Helmet } from 'react-helmet';
 import imageValidation from '../../imageValidation';
+import {
+	Toast,
+	WrongExtensionToast,
+	SizeOverToast,
+} from '../../components/toast/imageToast';
 
 export default function Product() {
 	// 이미지 등록
@@ -174,50 +172,9 @@ export default function Product() {
 		}
 	}
 
-	const Toast = () => {
-		const handleCloseToast = () => {
-			setShowToast(false);
-		};
-		return (
-			<>
-				{showToast && (
-					<ToastContainer>
-						<ToastIcon>😺</ToastIcon>
-						<ToastMsg>
-							<ToastMsgBold>상품</ToastMsgBold>이 등록되었습니다.
-						</ToastMsg>
-						<ToastClose onClick={handleCloseToast}>X</ToastClose>
-					</ToastContainer>
-				)}
-			</>
-		);
+	const handleCloseToast = () => {
+		setShowToast(false);
 	};
-
-	const WrongExtensionToast = () => (
-		<>
-			{showWrongExtensionToast && (
-				<ToastContainer>
-					<ToastIcon>😵‍💫</ToastIcon>
-					<ToastMsg>
-						<ToastMsgBold>이미지</ToastMsgBold>만 업로드 해 주세요!
-					</ToastMsg>
-				</ToastContainer>
-			)}
-		</>
-	);
-
-	const SizeOverToast = () => (
-		<>
-			{showSizeOverToast && (
-				<ToastContainer>
-					<ToastIcon>😵</ToastIcon>
-					<ToastMsg>
-						<ToastMsgBold>10MB</ToastMsgBold>이하의 파일만 업로드 해 주세요!
-					</ToastMsg>
-				</ToastContainer>
-			)}
-		</>
-	);
 
 	return (
 		<>
@@ -233,7 +190,7 @@ export default function Product() {
 				<SaveButton disabled={!isFormValid} onClick={handleSaveButtonClick}>
 					저장
 				</SaveButton>
-				<Toast />
+				<Toast showToast={showToast} handleCloseToast={handleCloseToast} />
 			</NavbarWrap>
 
 			<ProductContainer>
@@ -322,8 +279,10 @@ export default function Product() {
 						{salesLinkError && <Incorrect>{salesLinkError}</Incorrect>}
 					</InputList>
 				</InputWrap>
-				<WrongExtensionToast />
-				<SizeOverToast />
+				<WrongExtensionToast
+					showWrongExtensionToast={showWrongExtensionToast}
+				/>
+				<SizeOverToast showSizeOverToast={showSizeOverToast} />
 			</ProductContainer>
 		</>
 	);
