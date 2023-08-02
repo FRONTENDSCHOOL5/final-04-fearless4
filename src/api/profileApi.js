@@ -1,4 +1,4 @@
-import { accessInstance } from './axiosInstance';
+import { accessInstance, instance } from './axiosInstance';
 
 export const getUserInfo = async (accountname) => {
 	try {
@@ -22,5 +22,22 @@ export const delUnFollow = async (accountname) => {
 		const res = await accessInstance.delete(`/profile/${accountname}/unfollow`);
 	} catch (error) {
 		console.error(error);
+	}
+};
+
+export const postAccountValid = async (accountname) => {
+	try {
+		const res = await instance.post('/user/accountnamevalid/', accountname);
+		return res.data.message;
+	} catch (error) {
+		console.error(error);
+	}
+};
+
+export const putProfileEdit = async (accountname) => {
+	try {
+		const res = await accessInstance.put('/user/', accountname);
+	} catch (error) {
+		console.error('에러입니다.', error);
 	}
 };

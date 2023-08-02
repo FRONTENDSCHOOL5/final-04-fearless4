@@ -31,6 +31,9 @@ import {
 } from '../../components/toast/toast.style';
 import { Helmet } from 'react-helmet';
 import imageValidation from '../../imageValidation.js';
+import { accessInstance, instance } from '../../api/axiosInstance.js';
+import { useMutation } from '@tanstack/react-query';
+import { postAccountValid, putProfileEdit } from '../../api/profileApi.js';
 
 export default function ProfileSetup() {
 	const [userName, setUserName] = useState('');
@@ -45,8 +48,6 @@ export default function ProfileSetup() {
 	const [showSizeOverToast, setShowSizeOverToast] = useState(false);
 	const location = useLocation();
 	const navigate = useNavigate();
-	const url = API_URL;
-	const token = localStorage.getItem('token');
 	const profileId = useParams().accountUsername;
 	const profileName = location.state.profileName;
 	const profileIntro = location.state.profileIntro;
@@ -78,41 +79,44 @@ export default function ProfileSetup() {
 		);
 	};
 
+	const postValidMutation = useMutation(postAccountValid, {
+		onSuccess: (data) => {
+			if (userId === profileId || data === '사용 가능한 계정ID 입니다.') {
+				setIdDuplication(false);
+				setDisabled(false);
+			} else if (data === '이미 가입된 계정ID 입니다.') {
+				setIdDuplication(true);
+				setDisabled(true);
+			}
+		},
+		onError: () => {
+			console.error('실패');
+		},
+	});
+
+	const putProfileEditMutation = useMutation(putProfileEdit, {
+		onSuccess: () => {
+			setShowProfileEditToast(true);
+			setTimeout(() => {
+				setShowProfileEditToast(false);
+				localStorage.setItem('userAccountName', userId);
+				navigate(`../../${userId}`);
+			}, 1000);
+		},
+		onError: () => {
+			console.error('실패');
+		},
+	});
+
 	const validateUserId = async () => {
 		if (!userId || /^[A-Za-z0-9._]+$/.test(userId)) {
 			setNotValidUserId(false);
-
 			const data = {
 				user: {
 					accountname: userId,
 				},
 			};
-
-			try {
-				const response = await axios.post(
-					`${url}/user/accountnamevalid/`,
-					data,
-					{
-						headers: {
-							'Content-Type': 'application/json',
-						},
-					}
-				);
-				if (
-					userId === profileId ||
-					response.data.message === '사용 가능한 계정ID 입니다.'
-				) {
-					setIdDuplication(false);
-					setDisabled(false);
-				} else if (response.data.message === '이미 가입된 계정ID 입니다.') {
-					setIdDuplication(true);
-					setDisabled(true);
-				} else {
-					console.log('접근 불가');
-				}
-			} catch (error) {
-				console.error('에러입니다.', error);
-			}
+			postValidMutation.mutate(data);
 		} else {
 			setNotValidUserId(true);
 			setIdDuplication(false);
@@ -134,24 +138,7 @@ export default function ProfileSetup() {
 			},
 		};
 
-		try {
-			const response = await axios.put(`${url}/user/`, data, {
-				headers: {
-					Authorization: `Bearer ${token}`,
-					'Content-Type': 'application/json',
-				},
-			});
-			console.log(response.data);
-			setShowProfileEditToast(true);
-			setTimeout(() => {
-				setShowProfileEditToast(false);
-				localStorage.setItem('userAccountName', userId);
-				navigate(`../../${userId}`);
-			}, 1000);
-		} catch (error) {
-			console.error('에러입니다.', error);
-			console.log('오류 발생!');
-		}
+		putProfileEditMutation.mutate(data);
 	};
 
 	const handleImgError = (e) => {
