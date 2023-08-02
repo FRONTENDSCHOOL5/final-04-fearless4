@@ -18,7 +18,7 @@ import {
 import { API_URL } from '../../api.js';
 import profilePic from '../../assets/image/profilePic.png';
 import profileImageUploadButton from '../../assets/image/profileImageUploadButton.png';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
 	Backspace,
 	NavbarWrap,
@@ -30,6 +30,7 @@ import {
 	ToastMsgBold,
 } from '../../components/toast/toast.style';
 import { Helmet } from 'react-helmet';
+import imageValidation from '../../imageValidation.js';
 
 export default function ProfileSetup() {
 	const [userName, setUserName] = useState('');
@@ -46,7 +47,7 @@ export default function ProfileSetup() {
 	const navigate = useNavigate();
 	const url = API_URL;
 	const token = localStorage.getItem('token');
-	const profileId = location.state.profileId;
+	const profileId = useParams().accountUsername;
 	const profileName = location.state.profileName;
 	const profileIntro = location.state.profileIntro;
 	const profileImg = location.state.profileImage;
@@ -68,49 +69,13 @@ export default function ProfileSetup() {
 			: setDisabled(true);
 	}, [userId]);
 
-	const handleImageInputChange = async (e) => {
-		const allowedExtensionsRegex = /\.(jpg|gif|png|jpeg|bmp|tif|heic)$/i;
-		const maxImageSize = 10 * 1024 * 1024;
-		const imageFile = e.target.files[0];
-
-		if (imageFile) {
-			if (imageFile.size > maxImageSize) {
-				setShowSizeOverToast(true);
-				setTimeout(() => setShowSizeOverToast(false), 3000);
-				e.target.value = ''; // 파일 선택 창을 비웁니다.
-				return;
-			}
-
-			const fileExtension = '.' + imageFile.name.split('.').pop().toLowerCase();
-			if (!allowedExtensionsRegex.test(fileExtension)) {
-				setShowWrongExtensionToast(true);
-				setTimeout(() => setShowWrongExtensionToast(false), 3000);
-				e.target.value = ''; // 파일 선택 창을 비웁니다.
-				return;
-			}
-
-			// 유효성 검사를 통과한 경우에만 이미지 업로드 처리를 진행합니다.
-			const formData = new FormData();
-			const reader = new FileReader();
-
-			formData.append('image', imageFile);
-
-			try {
-				const response = await axios.post(
-					'https://api.mandarin.weniv.co.kr/image/uploadfile/',
-					formData
-				);
-
-				const imageUrl =
-					'https://api.mandarin.weniv.co.kr/' + response.data.filename;
-
-				setSelectedImage(imageUrl);
-			} catch (error) {
-				console.error(error.response.data);
-			}
-		} else {
-			e.target.value = ''; // 파일 선택 창을 비웁니다.
-		}
+	const handleImageInputChange = (e) => {
+		imageValidation(
+			e,
+			setSelectedImage,
+			setShowSizeOverToast,
+			setShowWrongExtensionToast
+		);
 	};
 
 	const validateUserId = async () => {
@@ -180,7 +145,8 @@ export default function ProfileSetup() {
 			setShowProfileEditToast(true);
 			setTimeout(() => {
 				setShowProfileEditToast(false);
-				navigate('../../myProfile');
+				localStorage.setItem('userAccountName', userId);
+				navigate(`../../${userId}`);
 			}, 1000);
 		} catch (error) {
 			console.error('에러입니다.', error);

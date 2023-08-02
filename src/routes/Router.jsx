@@ -1,5 +1,6 @@
 import React, { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
+import ProductCard from '../pages/product/ProductCard';
 
 const LoginEmail = lazy(() => import('../pages/loginEmail/LoginEmail'));
 const Splash = lazy(() => import('../pages/splash/Splash'));
@@ -52,6 +53,8 @@ export default function Router() {
 						<Route path='' element={<Page404 />} />
 						<Route path='*' element={<Page404 />} />
 						<Route path='upload/' element={<Product />} />
+						<Route path='edit/' element={<Product />} />
+						<Route path='detail/' element={<ProductCard />} />
 					</Route>
 
 					<Route path='/post/' element={<Outlet />}>
