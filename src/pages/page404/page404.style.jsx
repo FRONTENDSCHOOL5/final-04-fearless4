@@ -13,6 +13,9 @@ export const SnoringAnimation = keyframes`
 `;
 
 export const Page404Wrap = styled.div`
+	position: absolute;
+	top: 0;
+	left: 0;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -51,6 +54,7 @@ export const HomeButton = styled.button`
 	border: none;
 	border-radius: 44px;
 	height: 44px;
+	margin-top: -45px;
 	padding: 15px;
 	font-size: 14px;
 	line-height: 14px;
