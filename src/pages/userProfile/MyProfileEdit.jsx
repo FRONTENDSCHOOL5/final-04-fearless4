@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import {
 	WrapForm,
 	InputStyle,
@@ -15,7 +14,6 @@ import {
 	LabelStyle,
 	ImageInput,
 } from './myProfileEdit.style.jsx';
-import { API_URL } from '../../api.js';
 import profilePic from '../../assets/image/profilePic.png';
 import profileImageUploadButton from '../../assets/image/profileImageUploadButton.png';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -31,7 +29,6 @@ import {
 } from '../../components/toast/toast.style';
 import { Helmet } from 'react-helmet';
 import imageValidation from '../../imageValidation.js';
-import { accessInstance, instance } from '../../api/axiosInstance.js';
 import { useMutation } from '@tanstack/react-query';
 import { postAccountValid, putProfileEdit } from '../../api/profileApi.js';
 
