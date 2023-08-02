@@ -21,6 +21,7 @@ import {
 	ModalWrap,
 } from '../../components/modal/modal.style';
 import ProductCard from '../product/ProductCard';
+import noProduct from '../../assets/image/noProduct.png';
 import axios from 'axios';
 import { API_URL } from '../../api.js';
 import { useNavigate } from 'react-router-dom';
@@ -76,12 +77,14 @@ export default function ProductsForSale({ userAccountName }) {
 	const createProductList = (items) => {
 		return items.map((item) => (
 			<ProductList
+				className='cursor'
 				key={item.id}
 				onClick={() => {
 					handleModalOpen(item);
 				}}
 			>
 				<ProductImg
+					className='hover'
 					src={item.itemImage}
 					alt={`${item.itemName}의 상품 이미지`}
 				/>
@@ -217,7 +220,17 @@ export default function ProductsForSale({ userAccountName }) {
 						🤑할인 상품
 					</SortedButton>
 					<Scroll>
-						<ProductsContainer>{productData}</ProductsContainer>
+						<ProductsContainer>
+							{productData.length > 0 ? (
+								productData
+							) : (
+								<ProductList>
+									<ProductImg src={noProduct} />
+									<ProductName>해당하는 상품이 없습니다</ProductName>
+									<ProductPrice>x</ProductPrice>
+								</ProductList>
+							)}
+						</ProductsContainer>
 					</Scroll>
 				</WrapAll>
 			)}
