@@ -40,7 +40,11 @@ export const delUnFollow = async (accountname) => {
 
 export const postAccountValid = async (accountname) => {
 	try {
-		const res = await instance.post('/user/accountnamevalid/', accountname);
+		const res = await instance.post(`/user/accountnamevalid/`, {
+			user: {
+				accountname: accountname,
+			},
+		});
 		return res.data.message;
 	} catch (error) {
 		console.error(error);

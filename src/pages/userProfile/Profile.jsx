@@ -21,6 +21,9 @@ import { BottomNavContainer } from '../../components/bottomnav/bottomnav.style.j
 import ProductsForSale from './ProductsForSale.jsx';
 import { Helmet } from 'react-helmet';
 import { useNavigate, useParams } from 'react-router-dom';
+import Page404 from '../page404/Page404.jsx';
+import { useQuery } from '@tanstack/react-query';
+import { postAccountValid } from '../../api/profileApi.js';
 export default function UserProfile() {
 	const [isModal, setIsModal] = useState(false);
 	const [isCheckModal, setIsCheckModal] = useState(false);
@@ -28,6 +31,14 @@ export default function UserProfile() {
 	const myaccountname = localStorage.getItem('userAccountName');
 	const accountname = useParams().accountUsername;
 	const navigate = useNavigate();
+
+	const { data: isUser, isLoading } = useQuery(
+		['isUserData', accountname],
+		() =>
+			accountname
+				? postAccountValid(accountname)
+				: postAccountValid(myaccountname)
+	);
 
 	const handleModalOpen = (e) => {
 		e.preventDefault();
@@ -69,19 +80,30 @@ export default function UserProfile() {
 				/>
 				<OptionModalTab onClick={handleModalOpen} />
 			</NavbarWrap>
-			<ProfilePageWrapper>
-				<ProfileCard />
+			{!isLoading && isUser === '이미 가입된 계정ID 입니다.' ? (
+				<>
+					<ProfilePageWrapper>
+						<ProfileCard />
 
-				<ProductsForSale
-					userAccountName={!accountname ? myaccountname : accountname}
-				/>
-				<PostDeleteContext.Provider value={{ deletedPostId, setDeletedPostId }}>
-					{' '}
-					<PostList
-						accountname={!accountname ? myaccountname : accountname}
-					></PostList>
-				</PostDeleteContext.Provider>
-			</ProfilePageWrapper>
+						<ProductsForSale
+							userAccountName={!accountname ? myaccountname : accountname}
+						/>
+						<PostDeleteContext.Provider
+							value={{ deletedPostId, setDeletedPostId }}
+						>
+							{' '}
+							<PostList
+								accountname={!accountname ? myaccountname : accountname}
+							></PostList>
+						</PostDeleteContext.Provider>
+					</ProfilePageWrapper>
+				</>
+			) : (
+				!isLoading &&
+				isUser !== '이미 가입된 계정ID 입니다.' && (
+					<Page404 message='User not Found' />
+				)
+			)}
 
 			{isModal && (
 				<DarkBackground onClick={handleModalClose}>
