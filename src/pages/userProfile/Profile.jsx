@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PostDeleteContext } from '../post/PostDeleteContext.jsx';
 import {
 	ChatShare,
@@ -16,7 +16,7 @@ import {
 	UserWrap,
 	ProfileButtonWrap,
 	ProfilePageWrapper,
-} from './userProfile.style.jsx';
+} from './Profile.style.jsx';
 import { ProfileImage } from '../profileSetup/profileSetup.style.jsx';
 import profilePic from '../../assets/image/profilePic.png';
 import {
@@ -35,71 +35,29 @@ import {
 } from '../../components/modal/modal.style.jsx';
 import PostList from '../../components/post/PostList.jsx';
 import { BottomNavContainer } from '../../components/bottomnav/bottomnav.style.jsx';
-import axios from 'axios';
-
-import { API_URL } from '../../api.js';
 import { useNavigate, useParams } from 'react-router-dom';
 import ProductsForSale from './ProductsForSale.jsx';
 import Loading from '../../components/loading/Loading.jsx';
 import { Helmet } from 'react-helmet';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { delUnFollow, getUserInfo, postFollow } from '../../api/profileApi.js';
+import Page404 from '../page404/Page404.jsx';
 export default function UserProfile() {
 	const navigate = useNavigate();
-	const [profile, setProfile] = useState([]);
-	const [isLoading, setIsLoading] = useState(false);
-
-	const [profileImage, setProfileImage] = useState('');
-	const [profileName, setProfileName] = useState('');
-	const [profileId, setProfileId] = useState('');
-	const [profileIntro, setProfileIntro] = useState('');
-
 	const [isModal, setIsModal] = useState(false);
 	const [isCheckModal, setIsCheckModal] = useState(false);
-	const [isFollow, setIsFollow] = useState();
 	const [deletedPostId, setDeletedPostId] = useState(null);
-
 	const myaccountname = localStorage.getItem('userAccountName');
-
 	const accountname = useParams().accountUsername;
+	const queryClient = useQueryClient();
 
-	const url = API_URL;
-	const token = localStorage.getItem('token');
-
-	const profileData = async () => {
-		try {
-			const res = await axios({
-				method: 'GET',
-				url: `${url}/profile/${accountname}`,
-				headers: {
-					Authorization: `Bearer ${token}`,
-					'Content-type': 'application/json',
-				},
-			});
-			setIsLoading(true);
-			setProfile(res.data);
-			console.log(res.data);
-		} catch (error) {
-			console.log('에러입니다', error);
-		}
-	};
-
-	useEffect(() => {
-		profileData();
-	}, [isFollow, accountname]);
-
-	useEffect(() => {
-		if (isLoading === true) {
-			profile.profile.isfollow === true
-				? setIsFollow(true)
-				: setIsFollow(false);
-
-			if (myaccountname === accountname) {
-				setProfileImage(profile.profile.image);
-				setProfileId(profile.profile.accountname);
-				setProfileName(profile.profile.username);
-				setProfileIntro(profile.profile.intro);
-			}
-		}
-	}, [isLoading]);
+	const { data: profile, isLoading } = useQuery(
+		// 매개변수 accountname 값이 변경될 때 마다 재요청
+		['profileData', accountname],
+		() => getUserInfo(accountname),
+		{ keepPreviousData: true }
+		// { enabled: !!accountname }
+	);
 
 	const handleImgError = (e) => {
 		e.target.src = profilePic;
@@ -107,36 +65,30 @@ export default function UserProfile() {
 
 	const handleFollowChange = async (e) => {
 		e.preventDefault();
-		if (isFollow === false) {
-			try {
-				const res = await axios({
-					method: 'POST',
-					url: `${url}/profile/${accountname}/follow`,
-					headers: {
-						Authorization: `Bearer ${token}`,
-						'Content-type': 'application/json',
-					},
-				});
-				setIsFollow(true);
-			} catch (error) {
-				console.log('에러입니다', error);
-			}
+		if (profile.isfollow) {
+			delFollowMutaion.mutate(accountname);
 		} else {
-			try {
-				const res = await axios({
-					method: 'DELETE',
-					url: `${url}/profile/${accountname}/unfollow`,
-					headers: {
-						Authorization: `Bearer ${token}`,
-						'Content-type': 'application/json',
-					},
-				});
-				setIsFollow(false);
-			} catch (error) {
-				console.log('에러입니다', error);
-			}
+			postFollowMutaion.mutate(accountname);
 		}
 	};
+
+	const delFollowMutaion = useMutation(delUnFollow, {
+		onSuccess: () => {
+			queryClient.invalidateQueries('profileData');
+		},
+		onError: () => {
+			console.error('실패');
+		},
+	});
+
+	const postFollowMutaion = useMutation(postFollow, {
+		onSuccess: () => {
+			queryClient.invalidateQueries('profileData');
+		},
+		onError: () => {
+			console.error('실패');
+		},
+	});
 
 	const handleModalOpen = (e) => {
 		e.preventDefault();
@@ -147,6 +99,7 @@ export default function UserProfile() {
 		e.preventDefault();
 		// e.currentTarget 현재 handleModalClose가 부착된 요소
 		// e.target 내가 클릭한 자식 요소
+		console.log(e.target, e.currentTarget);
 		if (e.target === e.currentTarget) {
 			setIsModal(false);
 			setIsCheckModal(false);
@@ -177,95 +130,94 @@ export default function UserProfile() {
 				/>
 				<OptionModalTab onClick={handleModalOpen} />
 			</NavbarWrap>
-			<ProfilePageWrapper>
-				<ProfileWrapper>
-					{isLoading && (
-						<>
-							<ProfileImgWrap>
-								<FollowerWrap to='./follower'>
-									<FollowerNumber followers>
-										{profile.profile.followerCount}
-									</FollowerNumber>
-									<Follower>followers</Follower>
-								</FollowerWrap>
+			{!isLoading && profile ? (
+				<ProfilePageWrapper>
+					<ProfileWrapper>
+						<ProfileImgWrap>
+							<FollowerWrap to='./follower'>
+								<FollowerNumber followers>
+									{profile.followerCount}
+								</FollowerNumber>
+								<Follower>followers</Follower>
+							</FollowerWrap>
 
-								<ProfileImage
-									style={{ width: '110px', height: '110px' }}
-									src={profile.profile.image}
-									onError={handleImgError}
-									alt={`${profile.profile.accountname}의 프로필입니다.`}
-								></ProfileImage>
+							<ProfileImage
+								style={{ width: '110px', height: '110px' }}
+								src={profile.image}
+								onError={handleImgError}
+								alt={`${profile.accountname}의 프로필입니다.`}
+							></ProfileImage>
 
-								<FollowerWrap to='./following'>
-									<FollowerNumber>
-										{profile.profile.followingCount}
-									</FollowerNumber>
-									<Follower>followings</Follower>
-								</FollowerWrap>
-							</ProfileImgWrap>
+							<FollowerWrap to='./following'>
+								<FollowerNumber>{profile.followingCount}</FollowerNumber>
+								<Follower>followings</Follower>
+							</FollowerWrap>
+						</ProfileImgWrap>
 
-							<UserWrap>
-								<UserNickName>{profile.profile.username}</UserNickName>
-								<UserEmail>@ {profile.profile.accountname}</UserEmail>
-								<Intro>{profile.profile.intro}</Intro>
-							</UserWrap>
+						<UserWrap>
+							<UserNickName>{profile.username}</UserNickName>
+							<UserEmail>@ {profile.accountname}</UserEmail>
+							<Intro>{profile.intro}</Intro>
+						</UserWrap>
 
-							{myaccountname === accountname ? (
-								<ProfileButtonWrap>
-									<ProfileButton
-										type='button'
-										onClick={() => {
-											navigate('./edit', {
-												state: {
-													profileImage: profileImage,
-													profileId: profileId,
-													profileName: profileName,
-													profileIntro: profileIntro,
-												},
-											});
-										}}
-									>
-										프로필 수정
-									</ProfileButton>
+						{myaccountname === accountname ? (
+							<ProfileButtonWrap>
+								<ProfileButton
+									type='button'
+									onClick={() => {
+										navigate('./edit', {
+											state: {
+												profileImage: profile.image,
+												profileId: profile.accountname,
+												profileName: profile.username,
+												profileIntro: profile.intro,
+											},
+										});
+									}}
+								>
+									프로필 수정
+								</ProfileButton>
 
-									<ProfileButton
-										product
-										type='button'
-										onClick={() => {
-											navigate('../../Product/upload');
-										}}
-									>
-										상품 등록
-									</ProfileButton>
-								</ProfileButtonWrap>
-							) : (
-								<ProfileButtonWrap>
-									<ChatShare type='button' chatting />
-									<ProfileButton
-										follow={isFollow === true ? false : true}
-										type='button'
-										onClick={handleFollowChange}
-									>
-										{isFollow === true ? '팔로우 취소' : '팔로우'}
-									</ProfileButton>
-									<ChatShare type='button' />
-								</ProfileButtonWrap>
-							)}
-						</>
+								<ProfileButton
+									product
+									type='button'
+									onClick={() => {
+										navigate('../../Product/upload');
+									}}
+								>
+									상품 등록
+								</ProfileButton>
+							</ProfileButtonWrap>
+						) : (
+							<ProfileButtonWrap>
+								<ChatShare type='button' chatting />
+								<ProfileButton
+									follow={profile.isfollow === true ? false : true}
+									type='button'
+									onClick={(e) => handleFollowChange(e)}
+								>
+									{profile.isfollow === true ? '팔로우 취소' : '팔로우'}
+								</ProfileButton>
+								<ChatShare type='button' />
+							</ProfileButtonWrap>
+						)}
+					</ProfileWrapper>
+
+					{isLoading && <Loading />}
+
+					<ProductsForSale userAccountName={accountname} />
+					{!isLoading && (
+						<PostDeleteContext.Provider
+							value={{ deletedPostId, setDeletedPostId }}
+						>
+							{' '}
+							<PostList accountname={accountname}></PostList>
+						</PostDeleteContext.Provider>
 					)}
-				</ProfileWrapper>
-				{!isLoading && <Loading />}
-
-				<ProductsForSale userAccountName={accountname} />
-				{isLoading && (
-					<PostDeleteContext.Provider
-						value={{ deletedPostId, setDeletedPostId }}
-					>
-						{' '}
-						<PostList accountname={accountname}></PostList>
-					</PostDeleteContext.Provider>
-				)}
-			</ProfilePageWrapper>
+				</ProfilePageWrapper>
+			) : (
+				!isLoading && !profile && <Page404 />
+			)}
 			{isModal && (
 				<DarkBackground onClick={handleModalClose}>
 					<ModalWrap>
