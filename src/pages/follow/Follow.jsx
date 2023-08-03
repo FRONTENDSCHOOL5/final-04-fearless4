@@ -116,12 +116,14 @@ export default function Follwers() {
 			<Wrapper>
 				{isLoading && follower.length !== 0
 					? follower.map((item, index) => {
-							return follower.length - 1 !== index ? (
+							return (
 								<UserWrap key={item._id}>
 									<UserFlexWrap>
 										<UserProfileImg
 											onClick={() => {
-												navigate(`../../${item.accountname}`);
+												myAccountName === item.accountname
+													? navigate('../../../profile')
+													: navigate(`../../${item.accountname}`);
 											}}
 										>
 											<UserFollowImage
@@ -132,7 +134,9 @@ export default function Follwers() {
 										</UserProfileImg>
 										<UserContent
 											onClick={() => {
-												navigate(`../../${item.accountname}`);
+												myAccountName === item.accountname
+													? navigate('../../../profile')
+													: navigate(`../../${item.accountname}`);
 											}}
 										>
 											<UserFollowNickName>{item.username}</UserFollowNickName>
@@ -151,43 +155,6 @@ export default function Follwers() {
 										</FollowButton>
 									)}
 								</UserWrap>
-							) : (
-								<>
-									<UserWrap key={item._id}>
-										<UserFlexWrap>
-											<UserProfileImg
-												onClick={() => {
-													navigate(`../../${item.accountname}`);
-												}}
-											>
-												<UserFollowImage
-													src={item.image}
-													onError={handleImgError}
-													alt='유저 프로필 이미지입니다.'
-												/>
-											</UserProfileImg>
-											<UserContent
-												onClick={() => {
-													navigate(`../../${item.accountname}`);
-												}}
-											>
-												<UserFollowNickName>{item.username}</UserFollowNickName>
-												<UserFollowIntro>{item.intro}</UserFollowIntro>
-											</UserContent>
-										</UserFlexWrap>
-										{!(myAccountName === item.accountname) && (
-											<FollowButton
-												type='button'
-												follow={item.isFollow}
-												onClick={(e) => {
-													handleFollowChange(index, item.accountname, e);
-												}}
-											>
-												{item.isFollow === true ? '취소' : '팔로우'}
-											</FollowButton>
-										)}
-									</UserWrap>
-								</>
 							);
 					  })
 					: isLoading &&
