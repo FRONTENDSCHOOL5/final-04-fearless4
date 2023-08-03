@@ -9,8 +9,6 @@ const getHomefeed = async (pageParam) => {
 	return {
 		data: posts,
 		nextPage: pageParam,
-
-		// isLast: posts.length % 10 !== 0,
 	};
 };
 

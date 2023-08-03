@@ -21,6 +21,7 @@ export default function Homefeed() {
 	const navigate = useNavigate();
 	const [ref, inView] = useInView();
 	const count = useRef(0);
+	const [newPost, setPost] = useState([]);
 
 	const {
 		data: followingFeedData,
@@ -45,7 +46,24 @@ export default function Homefeed() {
 	}, [inView]);
 
 	console.log(followingFeedData?.pages);
+	console.log(followingFeedData);
 	console.log(inView);
+
+	useEffect(() => {
+		const newPosts = followingFeedData?.pages.map((page) =>
+			page.data.map((post) => {
+				return (
+					<PostDeleteContext.Provider
+						key={post.id}
+						value={{ deletedPostId, setDeletedPostId }}
+					>
+						<HomeFollower postId={post.id} />
+					</PostDeleteContext.Provider>
+				);
+			})
+		);
+		setPost(newPosts);
+	}, [followingFeedData]);
 
 	return (
 		<>
@@ -62,26 +80,13 @@ export default function Homefeed() {
 				/>
 			</NavbarWrap>
 			<HomefeedWrap>
-				{!isLoading && followingFeedData?.pages.length > 0 && (
-					<>
-						{followingFeedData.pages.map((page) =>
-							page.data.map((post) => {
-								return (
-									<PostDeleteContext.Provider
-										key={post.id}
-										value={{ deletedPostId, setDeletedPostId }}
-									>
-										<HomeFollower postId={post.id} />
-									</PostDeleteContext.Provider>
-								);
-							})
-						)}
-					</>
-				)}
+				{followingFeedData?.pages.length > 0
+					? newPost
+					: !isLoading &&
+					  (!newPost || followingFeedData?.pages[0].data.length === 0) && (
+							<NoFeed />
+					  )}
 
-				{!isLoading && followingFeedData?.pages[0].data.length === 0 && (
-					<NoFeed />
-				)}
 				<BottomNavContainer home />
 				{isLoading && <Loading />}
 				{hasNextPage && (
