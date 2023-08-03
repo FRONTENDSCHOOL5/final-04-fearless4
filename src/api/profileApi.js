@@ -3,6 +3,7 @@ import { accessInstance, instance } from './axiosInstance';
 export const getUserInfo = async (accountname) => {
 	try {
 		const res = await accessInstance.get(`/profile/${accountname}`);
+		console.log(res.data.profile);
 		return res.data.profile;
 	} catch (error) {
 		console.error(error);
@@ -22,6 +23,7 @@ export const getMyInfo = async () => {
 export const postFollow = async (accountname) => {
 	try {
 		const res = await accessInstance.post(`/profile/${accountname}/follow`);
+		console.log(res);
 	} catch (error) {
 		console.error(error);
 	}
@@ -30,6 +32,7 @@ export const postFollow = async (accountname) => {
 export const delUnFollow = async (accountname) => {
 	try {
 		const res = await accessInstance.delete(`/profile/${accountname}/unfollow`);
+		console.log(res);
 	} catch (error) {
 		console.error(error);
 	}
