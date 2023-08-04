@@ -43,11 +43,10 @@ export default function Homefeed() {
 				fetchNextPage();
 			}
 		}
-	}, [inView]);
+	}, [inView, isLoading]);
 
 	console.log(followingFeedData?.pages);
-	console.log(followingFeedData);
-	console.log(inView);
+	console.log(count.current);
 
 	useEffect(() => {
 		const newPosts = followingFeedData?.pages.map((page) =>
@@ -80,12 +79,9 @@ export default function Homefeed() {
 				/>
 			</NavbarWrap>
 			<HomefeedWrap>
-				{followingFeedData?.pages.length > 0
+				{followingFeedData?.pages[0].data.length > 0
 					? newPost
-					: !isLoading &&
-					  (!newPost || followingFeedData?.pages[0].data.length === 0) && (
-							<NoFeed />
-					  )}
+					: !isLoading && <NoFeed />}
 
 				<BottomNavContainer home />
 				{isLoading && <Loading />}
