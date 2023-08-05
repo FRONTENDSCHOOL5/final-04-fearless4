@@ -45,21 +45,21 @@ export default function ProfileSetup() {
 	const [showSizeOverToast, setShowSizeOverToast] = useState(false);
 	const location = useLocation();
 	const navigate = useNavigate();
-	const profileId = useParams().accountUsername;
+	const accountId = localStorage.getItem('userAccountName');
 	const profileName = location.state.profileName;
 	const profileIntro = location.state.profileIntro;
 	const profileImg = location.state.profileImage;
 
 	useEffect(() => {
 		setSelectedImage(profileImg);
-		setUserId(profileId);
+		setUserId(accountId);
 		setUserName(profileName);
 		setIntro(profileIntro);
 		setDisabled(false);
 	}, []);
 
 	useEffect(() => {
-		userId === profileId &&
+		userId === accountId &&
 		userName === profileName &&
 		intro === profileIntro &&
 		selectedImage === profileImg
@@ -78,7 +78,7 @@ export default function ProfileSetup() {
 
 	const postValidMutation = useMutation(postAccountValid, {
 		onSuccess: (data) => {
-			if (userId === profileId || data === '사용 가능한 계정ID 입니다.') {
+			if (userId === accountId || data === '사용 가능한 계정ID 입니다.') {
 				setIdDuplication(false);
 				setDisabled(false);
 			} else if (data === '이미 가입된 계정ID 입니다.') {
@@ -97,7 +97,7 @@ export default function ProfileSetup() {
 			setTimeout(() => {
 				setShowProfileEditToast(false);
 				localStorage.setItem('userAccountName', userId);
-				navigate(`../../${userId}`);
+				navigate(`../../../profile`);
 			}, 1000);
 		},
 		onError: () => {
@@ -108,12 +108,7 @@ export default function ProfileSetup() {
 	const validateUserId = async () => {
 		if (!userId || /^[A-Za-z0-9._]+$/.test(userId)) {
 			setNotValidUserId(false);
-			const data = {
-				user: {
-					accountname: userId,
-				},
-			};
-			postValidMutation.mutate(data);
+			postValidMutation.mutate(userId);
 		} else {
 			setNotValidUserId(true);
 			setIdDuplication(false);
