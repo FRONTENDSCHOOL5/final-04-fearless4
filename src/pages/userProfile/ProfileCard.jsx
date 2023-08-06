@@ -40,8 +40,6 @@ export const ProfileCard = ({ setIsUser }) => {
 		() => (accountname ? getUserInfo(accountname) : getMyInfo())
 	);
 
-	console.log('렌더링했음');
-
 	const handleFollowChange = async (e) => {
 		e.preventDefault();
 		if (profile.isfollow) {
@@ -112,10 +110,7 @@ export const ProfileCard = ({ setIsUser }) => {
 								onClick={() => {
 									navigate('./edit', {
 										state: {
-											profileImage: profile.image,
-											profileId: profile.accountname,
-											profileName: profile.username,
-											profileIntro: profile.intro,
+											profile: profile,
 										},
 									});
 								}}

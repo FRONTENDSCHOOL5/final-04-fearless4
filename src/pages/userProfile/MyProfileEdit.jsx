@@ -33,36 +33,25 @@ import { useMutation } from '@tanstack/react-query';
 import { postAccountValid, putProfileEdit } from '../../api/profileApi.js';
 
 export default function ProfileSetup() {
-	const [userName, setUserName] = useState('');
-	const [userId, setUserId] = useState('');
-	const [intro, setIntro] = useState('');
-	const [selectedImage, setSelectedImage] = useState('');
+	const location = useLocation();
+	const profile = location.state.profile;
+	const [userName, setUserName] = useState(profile.username);
+	const [userId, setUserId] = useState(profile.accountname);
+	const [intro, setIntro] = useState(profile.intro);
+	const [selectedImage, setSelectedImage] = useState(profile.image);
 	const [idDuplication, setIdDuplication] = useState(false);
 	const [notValidUserId, setNotValidUserId] = useState(false);
 	const [disabled, setDisabled] = useState(true);
 	const [showProfileEditToast, setShowProfileEditToast] = useState(false);
 	const [showWrongExtensionToast, setShowWrongExtensionToast] = useState(false);
 	const [showSizeOverToast, setShowSizeOverToast] = useState(false);
-	const location = useLocation();
 	const navigate = useNavigate();
 	const accountId = localStorage.getItem('userAccountName');
-	const profileName = location.state.profileName;
-	const profileIntro = location.state.profileIntro;
-	const profileImg = location.state.profileImage;
 
 	useEffect(() => {
-		setSelectedImage(profileImg);
-		setUserId(accountId);
-		setUserName(profileName);
-		setIntro(profileIntro);
-		setDisabled(false);
-	}, []);
-
-	useEffect(() => {
-		userId === accountId &&
-		userName === profileName &&
-		intro === profileIntro &&
-		selectedImage === profileImg
+		userId === profile.accountname &&
+		userName === profile.username &&
+		intro === profile.intro
 			? setDisabled(false)
 			: setDisabled(true);
 	}, [userId]);
@@ -200,7 +189,7 @@ export default function ProfileSetup() {
 							onChange={handleImageInputChange}
 						/>
 						<ProfileImage
-							src={selectedImage || profileImg || profilePic}
+							src={selectedImage || profile.image || profilePic}
 							onError={handleImgError}
 							alt=''
 						/>{' '}
