@@ -18,6 +18,9 @@ import { useNavigate } from 'react-router-dom';
 
 import ProfilePic from '../../assets/image/profilePic.png';
 import { Helmet } from 'react-helmet';
+import Loading from '../../components/loading/Loading';
+import getSearchdata from '../../api/searchApi';
+import { useQuery } from '@tanstack/react-query';
 
 export default function Search() {
 	const navigate = useNavigate();
@@ -25,7 +28,7 @@ export default function Search() {
 	const url = API_URL;
 	const token = localStorage.getItem('token');
 	const [keyword, setKeyword] = useState('');
-	const [searchData, setSearchData] = useState([]);
+	// const [searchData, setSearchData] = useState([]);
 	const [debounceValue, setDebounceValue] = useState(keyword);
 
 	const onChange = (event) => {
@@ -45,26 +48,32 @@ export default function Search() {
 		};
 	}, [keyword]);
 
-	useEffect(() => {
-		if (debounceValue.length > 0) {
-			const getSearch = async () => {
-				try {
-					const res = await axios({
-						method: 'GET',
-						url: `${url}/user/searchuser/?keyword=${debounceValue}`,
-						headers: {
-							Authorization: `Bearer ${token}`,
-							'Content-type': 'application/json',
-						},
-					});
-					setSearchData(res.data);
-				} catch (error) {
-					console.log('에러입니다', error);
-				}
-			};
-			getSearch();
-		}
-	}, [debounceValue]);
+	const { data: searchData, isLoading } = useQuery(
+		['searchData', debounceValue],
+		() => getSearchdata(debounceValue),
+		{ enabled: !!debounceValue }
+	);
+
+	// useEffect(() => {
+	// 	if (debounceValue.length > 0) {
+	// 		const getSearch = async () => {
+	// 			try {
+	// 				const res = await axios({
+	// 					method: 'GET',
+	// 					url: `${url}/user/searchuser/?keyword=${debounceValue}`,
+	// 					headers: {
+	// 						Authorization: `Bearer ${token}`,
+	// 						'Content-type': 'application/json',
+	// 					},
+	// 				});
+	// 				setSearchData(res.data);
+	// 			} catch (error) {
+	// 				console.log('에러입니다', error);
+	// 			}
+	// 		};
+	// 		getSearch();
+	// 	}
+	// }, [debounceValue]);
 
 	const SearchColor = ({ user, word, type }) => {
 		return user.includes(word) ? (
@@ -96,7 +105,7 @@ export default function Search() {
 				/>
 			</NavbarWrap>
 			<SearchWrap>
-				{searchData.map((item) => {
+				{searchData?.map((item) => {
 					return (
 						<Wrapper key={item.id}>
 							<UserWrap>
@@ -136,6 +145,8 @@ export default function Search() {
 						</Wrapper>
 					);
 				})}
+				{/* {isLoading && <Loading />} */}
+
 				<BottomNavContainer />
 			</SearchWrap>
 		</>

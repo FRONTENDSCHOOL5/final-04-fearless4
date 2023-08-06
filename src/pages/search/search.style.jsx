@@ -31,3 +31,12 @@ export const Wrapper = styled.div`
 	flex-direction: column;
 	gap: 16px;
 `;
+
+export const NoResult = styled.div`
+	width: 100%;
+	box-sizing: border-box;
+	padding: 16px;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+`;
