@@ -17,7 +17,6 @@ import {
 	delUnFollow,
 	getMyInfo,
 	getUserInfo,
-	postAccountValid,
 	postFollow,
 } from '../../api/profileApi.js';
 import profilePic from '../../assets/image/profilePic.png';
@@ -28,7 +27,7 @@ import {
 } from '../../components/button/button.style.jsx';
 import Loading from '../../components/loading/Loading.jsx';
 
-export const ProfileCard = ({ setIsUser }) => {
+export const ProfileCard = () => {
 	const navigate = useNavigate();
 	const myaccountname = localStorage.getItem('userAccountName');
 	const accountname = useParams().accountUsername;
