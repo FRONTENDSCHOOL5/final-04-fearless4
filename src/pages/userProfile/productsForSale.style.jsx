@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 export const WrapAll = styled.div`
 	background: white;
 	box-sizing: border-box;
+	height: 280px;
 	padding: 20px 20px 20px 20px;
 `;
 
@@ -71,9 +72,7 @@ export const ProductList = styled.li`
 	flex-shrink: 0;
 	list-style: none;
 	padding-bottom: 10px;
-	&.cursor {
-		cursor: pointer;
-	}
+	cursor: pointer;
 `;
 
 export const ProductImg = styled.img`
@@ -82,11 +81,9 @@ export const ProductImg = styled.img`
 	border-radius: 8px;
 	border: 0.5px solid #dbdbdb;
 	object-fit: cover;
-	&.hover {
-		:hover {
-			border: 3px solid #81d8d0;
-			box-sizing: border-box;
-		}
+	&:hover {
+		border: 3px solid #81d8d0;
+		box-sizing: border-box;
 	}
 `;
 
