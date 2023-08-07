@@ -1,4 +1,5 @@
 import axios from 'axios';
+import imageCompression from 'browser-image-compression';
 
 const imageValidation = async (
 	e,
@@ -23,9 +24,17 @@ const imageValidation = async (
 			e.target.value = '';
 			return;
 		}
-		const formData = new FormData();
-		formData.append('image', imageFile);
+
 		try {
+			// browser-image-compression을 사용하여 이미지 압축
+			const compressedImageFile = await imageCompression(imageFile, {
+				maxSizeMb: 1,
+				maxWidthOrHeight: 800,
+			});
+
+			const formData = new FormData();
+			formData.append('image', compressedImageFile);
+
 			const res = await axios({
 				method: 'POST',
 				url: 'https://api.mandarin.weniv.co.kr/image/uploadfile/',
