@@ -69,9 +69,9 @@ export default function Follwers() {
 		}
 	}, [inView]);
 
-	// useEffect(() => {
-	// 	queryClient.removeQueries({ queryKey: 'getFollowData' });
-	// }, []);
+	useEffect(() => {
+		queryClient.removeQueries({ queryKey: 'getFollowData' });
+	}, []);
 
 	useEffect(() => {
 		const newFollowList = followData?.pages.map((page) =>

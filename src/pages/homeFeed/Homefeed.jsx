@@ -50,21 +50,17 @@ export default function Homefeed() {
 		queryClient.removeQueries({ queryKey: 'getFeedPosts' });
 	}, []);
 
-	console.log(followingFeedData?.pages);
-	console.log(count.current);
-
 	useEffect(() => {
 		const newPosts = followingFeedData?.pages.map((page) =>
 			page.data.map((post) => {
 				return (
-					<>
+					<React.Fragment key={post.id}>
 						<PostDeleteContext.Provider
-							key={post.id}
 							value={{ deletedPostId, setDeletedPostId }}
 						>
 							<HomeFollower postId={post.id} />
 						</PostDeleteContext.Provider>
-					</>
+					</React.Fragment>
 				);
 			})
 		);
