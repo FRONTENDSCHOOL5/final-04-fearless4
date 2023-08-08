@@ -25,50 +25,58 @@ import FollowUnknown from './FollowUnknown';
 import Loading from '../../components/loading/Loading';
 import { Helmet } from 'react-helmet';
 import { useInView } from 'react-intersection-observer';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import {
+	useInfiniteQuery,
+	useMutation,
+	useQueryClient,
+} from '@tanstack/react-query';
 import { getFollow } from '../../api/followApi';
+import { delUnFollow, postFollow } from '../../api/profileApi';
 
 export default function Follwers() {
-	// const [follower, setFollower] = useState([]);
 	const [newFollow, setNewFollow] = useState([]);
-	// const [isLoading, setIsLoading] = useState(false);
 	const navigate = useNavigate();
 	const accountUsername = useParams().accountUsername;
 	const followPage = useParams().follow;
-	const token = localStorage.getItem('token');
 	const myAccountName = localStorage.getItem('userAccountName');
-	const url = API_URL;
 	const count = useRef(0);
 	const [ref, inView] = useInView();
-	// const [skip, setSkip] = useState(0);
-	// const [hasNextPage, setHasNextPage] = useState(true);
+	const [hasNextPage, setHasNextPage] = useState(false);
+	const queryClient = useQueryClient();
 
 	const {
 		data: followData,
 		isLoading,
 		fetchNextPage,
-		hasNextPage,
 	} = useInfiniteQuery(
-		['getFollowData'],
+		['getFollowData', accountUsername],
 		({
-			accountname = accountUsername ? myAccountName : accountUsername,
+			myName = myAccountName,
 			pageParam = count.current,
 			follow = followPage,
-		}) => getFollow(accountname, pageParam, follow),
+			nextPage = setHasNextPage,
+		}) =>
+			accountUsername
+				? getFollow(accountUsername, pageParam, follow, nextPage)
+				: getFollow(myName, pageParam, follow, nextPage),
 		{
 			getNextPageParam: (lastPage) => lastPage.nextPage + 10,
+			refetchOnWindowFocus: false,
 		}
 	);
-	console.log(followData);
 
 	useEffect(() => {
 		if (!isLoading) {
-			if (inView) {
+			if (inView && hasNextPage) {
 				count.current += 1;
 				fetchNextPage();
 			}
 		}
-	}, [inView, isLoading]);
+	}, [inView]);
+
+	useEffect(() => {
+		queryClient.removeQueries({ queryKey: 'getFollowData' });
+	}, []);
 
 	useEffect(() => {
 		const newFollowList = followData?.pages.map((page) =>
@@ -103,12 +111,12 @@ export default function Follwers() {
 						{!(myAccountName === follow.accountname) && (
 							<FollowButton
 								type='button'
-								follow={follow.isFollow}
-								// onClick={(e) => {
-								// 	handleFollowChange(index, item.accountname, e);
-								// }}
+								follow={follow.isfollow}
+								onClick={(e) => {
+									handleFollowChange(follow.accountname, follow.isfollow, e);
+								}}
 							>
-								{follow.isFollow === true ? '취소' : '팔로우'}
+								{follow.isfollow === true ? '취소' : '팔로우'}
 							</FollowButton>
 						)}
 					</UserWrap>
@@ -118,58 +126,32 @@ export default function Follwers() {
 		setNewFollow(newFollowList);
 	}, [followData]);
 
-	// const followerData = async () => {
-	// 	try {
-	// 		const res = await axios({
-	// 			method: 'GET',
-	// 			url: `${url}/profile/${accountname}/${follow}/?limit=10&skip=${skip}`,
-	// 			headers: {
-	// 				Authorization: `Bearer ${token}`,
-	// 				'Content-type': 'application/json',
-	// 			},
-	// 		});
-	// 		setIsLoading(true);
-	// 		const updateFollowing = res.data.map((item) => ({
-	// 			...item,
-	// 			isFollow: item.isfollow,
-	// 		}));
-	// 		updateFollowing.length >= 10
-	// 			? setHasNextPage(true)
-	// 			: setHasNextPage(false);
-	// 		setFollower([...follower, ...updateFollowing]);
-	// 		setSkip((prev) => prev + 10);
-	// 	} catch (error) {
-	// 		console.log('에러입니다', error);
-	// 	}
-	// };
+	const handleFollowChange = async (accountname, isfollow, e) => {
+		e.preventDefault();
+		if (isfollow) {
+			delFollowMutaion.mutate(accountname);
+		} else {
+			postFollowMutaion.mutate(accountname);
+		}
+	};
 
-	// console.log(follower);
+	const delFollowMutaion = useMutation(delUnFollow, {
+		onSuccess: () => {
+			queryClient.invalidateQueries('profileData');
+		},
+		onError: () => {
+			console.error('실패');
+		},
+	});
 
-	// useEffect(() => {
-	// 	inView && followerData();
-	// }, [inView, isLoading]);
-
-	// const handleFollowChange = async (index, accountname, e) => {
-	// 	e.preventDefault();
-	// 	const updateFollowing = [...follower];
-	// 	updateFollowing[index].isFollow = !follower[index].isFollow;
-	// 	setFollower(updateFollowing);
-	// 	try {
-	// 		const res = await axios({
-	// 			method: !follower[index].isFollow ? 'DELETE' : 'POST',
-	// 			url: `${url}/profile/${accountname}/${
-	// 				!follower[index].isFollow ? 'unfollow' : 'follow'
-	// 			}`,
-	// 			headers: {
-	// 				Authorization: `Bearer ${token}`,
-	// 				'Content-type': 'application/json',
-	// 			},
-	// 		});
-	// 		console.log(res);
-	// 	} catch (error) {
-	// 		console.log('에러입니다', error);
-	// 	}
-	// };
+	const postFollowMutaion = useMutation(postFollow, {
+		onSuccess: () => {
+			queryClient.invalidateQueries('profileData');
+		},
+		onError: () => {
+			console.error('실패');
+		},
+	});
 
 	const handleImgError = (e) => {
 		e.target.src = userNoneProfile;
@@ -197,11 +179,7 @@ export default function Follwers() {
 					? newFollow
 					: !isLoading && <FollowUnknown />}
 				{isLoading && <Loading />}
-				{hasNextPage && (
-					<>
-						<div ref={ref} />
-					</>
-				)}
+				{hasNextPage && <div ref={ref} />}
 			</Wrapper>
 		</>
 	);
