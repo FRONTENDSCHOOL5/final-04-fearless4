@@ -7,6 +7,7 @@ import {
 	Wrapper,
 	NoData,
 	NoData2,
+	MoreBtn,
 } from './search.style';
 
 import {
@@ -32,6 +33,8 @@ export default function Search() {
 	const [keyword, setKeyword] = useState('');
 	const [debounceValue, setDebounceValue] = useState(keyword);
 
+	const [page, setPage] = useState(1);
+
 	const onChange = (event) => {
 		setKeyword(event.target.value);
 	};
@@ -52,11 +55,21 @@ export default function Search() {
 	const { data: searchData, isLoading } = useQuery(
 		['searchData', debounceValue],
 		() => getSearchdata(debounceValue),
-		{ enabled: !!debounceValue }
+		{
+			enabled: !!debounceValue,
+			select: (result) =>
+				result
+					.filter((user) => user.username.includes(debounceValue))
+					.slice(0, page * 10),
+		}
 	);
 
 	console.log(searchData);
 	console.log(debounceValue);
+
+	const onClickBtn = () => {
+		setPage(page + 1);
+	};
 
 	const SearchColor = ({ user, word, type }) => {
 		return user.includes(word) ? (
@@ -128,6 +141,9 @@ export default function Search() {
 						</Wrapper>
 					);
 				})}
+				{searchData?.length > 0 && searchData?.length >= page * 10 && (
+					<MoreBtn onClick={onClickBtn}>더보기 v</MoreBtn>
+				)}
 				{searchData?.length === 0 && (
 					<>
 						<NoData>검색 결과가 없습니다.</NoData>

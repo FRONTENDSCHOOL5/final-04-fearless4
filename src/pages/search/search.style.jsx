@@ -49,5 +49,18 @@ export const NoData2 = styled.p`
 	box-sizing: border-box;
 	display: flex;
 	justify-content: center;
-	color: #808080;
+	color: #777;
+`;
+
+export const MoreBtn = styled.div`
+	font-family: 'Suit-Bold';
+	font-size: 13px;
+	cursor: pointer;
+	width: 100%;
+	box-sizing: border-box;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #6b7d8c;
+	padding-bottom: 20px;
 `;
