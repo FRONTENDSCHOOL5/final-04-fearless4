@@ -6,8 +6,6 @@ import {
 	NavbarWrap,
 } from '../../components/navbar/navbar.style';
 import {
-	LoadingText,
-	ScrollRef,
 	UserContent,
 	UserFlexWrap,
 	UserFollowImage,
@@ -17,10 +15,8 @@ import {
 	UserWrap,
 	Wrapper,
 } from './follow.style';
-import { FollowButton, MoreButton } from '../../components/button/button.style';
-import axios from 'axios';
+import { FollowButton } from '../../components/button/button.style';
 import userNoneProfile from '../../assets/image/profilePic.png';
-import { API_URL } from '../../api';
 import FollowUnknown from './FollowUnknown';
 import Loading from '../../components/loading/Loading';
 import { Helmet } from 'react-helmet';
@@ -30,8 +26,7 @@ import {
 	useMutation,
 	useQueryClient,
 } from '@tanstack/react-query';
-import { getFollow } from '../../api/followApi';
-import { delUnFollow, postFollow } from '../../api/profileApi';
+import { delUnFollow, getFollow, postFollow } from '../../api/followApi';
 
 export default function Follwers() {
 	const [newFollow, setNewFollow] = useState([]);
@@ -74,9 +69,9 @@ export default function Follwers() {
 		}
 	}, [inView]);
 
-	useEffect(() => {
-		queryClient.removeQueries({ queryKey: 'getFollowData' });
-	}, []);
+	// useEffect(() => {
+	// 	queryClient.removeQueries({ queryKey: 'getFollowData' });
+	// }, []);
 
 	useEffect(() => {
 		const newFollowList = followData?.pages.map((page) =>

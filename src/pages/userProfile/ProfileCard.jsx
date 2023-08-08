@@ -13,12 +13,7 @@ import {
 } from './Profile.style.jsx';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate, useParams } from 'react-router-dom';
-import {
-	delUnFollow,
-	getMyInfo,
-	getUserInfo,
-	postFollow,
-} from '../../api/profileApi.js';
+import { getMyInfo, getUserInfo } from '../../api/profileApi.js';
 import profilePic from '../../assets/image/profilePic.png';
 import { ProfileImage } from './myProfileEdit.style.jsx';
 import {
@@ -26,6 +21,7 @@ import {
 	ProfileButton,
 } from '../../components/button/button.style.jsx';
 import Loading from '../../components/loading/Loading.jsx';
+import { delUnFollow, postFollow } from '../../api/followApi.js';
 
 export const ProfileCard = () => {
 	const navigate = useNavigate();
