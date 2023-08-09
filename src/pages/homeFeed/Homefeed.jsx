@@ -12,7 +12,7 @@ import { BottomNavContainer } from '../../components/bottomnav/bottomnav.style';
 import Loading from '../../components/loading/Loading.jsx';
 import { Helmet } from 'react-helmet';
 
-import { useInfiniteQuery } from '@tanstack/react-query'; //react-query
+import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'; //react-query
 import { useInView } from 'react-intersection-observer'; //라이브러리
 import getHomefeed from '../../api/homefeedApi.js';
 
@@ -22,42 +22,45 @@ export default function Homefeed() {
 	const [ref, inView] = useInView();
 	const count = useRef(0);
 	const [newPost, setPost] = useState([]);
+	const queryClient = useQueryClient();
 
 	const {
 		data: followingFeedData,
 		isLoading,
 		fetchNextPage,
-		hasNextPage,
 	} = useInfiniteQuery(
 		['getFeedPosts'],
 		({ pageParam = count.current }) => getHomefeed(pageParam),
 		{
 			getNextPageParam: (lastPage) => lastPage.nextPage + 10,
+			refetchOnWindowFocus: false,
 		}
 	);
 
 	useEffect(() => {
 		if (!isLoading) {
-			if (inView) {
+			if (inView && !followingFeedData?.pages[count.current].isLast) {
 				count.current += 1;
 				fetchNextPage();
 			}
 		}
-	}, [inView, isLoading]);
+	}, [inView]);
 
-	console.log(followingFeedData?.pages);
-	console.log(count.current);
+	useEffect(() => {
+		queryClient.removeQueries({ queryKey: 'getFeedPosts' });
+	}, []);
 
 	useEffect(() => {
 		const newPosts = followingFeedData?.pages.map((page) =>
 			page.data.map((post) => {
 				return (
-					<PostDeleteContext.Provider
-						key={post.id}
-						value={{ deletedPostId, setDeletedPostId }}
-					>
-						<HomeFollower postId={post.id} />
-					</PostDeleteContext.Provider>
+					<React.Fragment key={post.id}>
+						<PostDeleteContext.Provider
+							value={{ deletedPostId, setDeletedPostId }}
+						>
+							<HomeFollower postId={post.id} />
+						</PostDeleteContext.Provider>
+					</React.Fragment>
 				);
 			})
 		);
@@ -82,14 +85,10 @@ export default function Homefeed() {
 				{followingFeedData?.pages[0].data.length > 0
 					? newPost
 					: !isLoading && <NoFeed />}
+				<div ref={ref} />
 
 				<BottomNavContainer home />
 				{isLoading && <Loading />}
-				{hasNextPage && (
-					<>
-						<div ref={ref} />
-					</>
-				)}
 			</HomefeedWrap>
 		</>
 	);
