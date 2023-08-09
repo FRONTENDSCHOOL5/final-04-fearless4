@@ -36,7 +36,7 @@ export default function Follwers() {
 	const myAccountName = localStorage.getItem('userAccountName');
 	const count = useRef(0);
 	const [ref, inView] = useInView();
-	const [hasNextPage, setHasNextPage] = useState(false);
+	const [hasNextPage, setHasNextPage] = useState(true);
 	const queryClient = useQueryClient();
 
 	const {
@@ -67,7 +67,7 @@ export default function Follwers() {
 				fetchNextPage();
 			}
 		}
-	}, [inView]);
+	}, [inView, isLoading]);
 
 	useEffect(() => {
 		queryClient.removeQueries({ queryKey: 'getFollowData' });
