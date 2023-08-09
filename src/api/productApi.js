@@ -19,3 +19,19 @@ export const deleteProduct = async (selectedProduct) => {
 		console.error(error);
 	}
 };
+
+export const editProduct = async (selectedProduct, data) => {
+	try {
+		const res = await accessInstance.put(`product/${selectedProduct}`, data);
+	} catch (error) {
+		console.error(error);
+	}
+};
+
+export const registrationProduct = async (data) => {
+	try {
+		const res = await accessInstance.post(`product`, data);
+	} catch (error) {
+		console.error(error);
+	}
+};

@@ -76,14 +76,12 @@ export default function ProductsForSale() {
 	const createProductList = (items) => {
 		return items.map((item) => (
 			<ProductList
-				className='cursor'
 				key={item.id}
 				onClick={() => {
 					handleModalOpen(item);
 				}}
 			>
 				<ProductImg
-					className='hover'
 					src={item.itemImage}
 					alt={`${item.itemName}의 상품 이미지`}
 				/>
@@ -152,7 +150,8 @@ export default function ProductsForSale() {
 
 	const handleDeleteProduct = async () => {
 		if (selectedProduct) {
-			deleteProductMutation.mutate(accountUsername ? accountUsername : data);
+			deleteProductMutation.mutate(selectedProduct);
+			handleModalClose(true);
 		}
 	};
 

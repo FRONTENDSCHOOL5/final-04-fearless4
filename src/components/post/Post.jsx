@@ -90,7 +90,7 @@ export function Post({ postId }) {
 			}
 		};
 		getpostData();
-	}, [postInstance, postId]);
+	}, [postId]);
 
 	const handleHeartClick = async () => {
 		try {
