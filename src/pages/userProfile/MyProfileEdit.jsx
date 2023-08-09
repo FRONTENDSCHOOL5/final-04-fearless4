@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import {
 	WrapForm,
 	InputStyle,
@@ -15,140 +14,90 @@ import {
 	LabelStyle,
 	ImageInput,
 } from './myProfileEdit.style.jsx';
-import { API_URL } from '../../api.js';
 import profilePic from '../../assets/image/profilePic.png';
 import profileImageUploadButton from '../../assets/image/profileImageUploadButton.png';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
 	Backspace,
 	NavbarWrap,
 } from '../../components/navbar/navbar.style.jsx';
 import {
-	ToastClose,
 	ToastContainer,
 	ToastIcon,
 	ToastMsg,
 	ToastMsgBold,
 } from '../../components/toast/toast.style';
 import { Helmet } from 'react-helmet';
+import imageValidation from '../../imageValidation.js';
+import { useMutation } from '@tanstack/react-query';
+import { postAccountValid, putProfileEdit } from '../../api/profileApi.js';
 
 export default function ProfileSetup() {
-	const [userName, setUserName] = useState('');
-	const [userId, setUserId] = useState('');
-	const [intro, setIntro] = useState('');
-	const [selectedImage, setSelectedImage] = useState('');
+	const location = useLocation();
+	const profile = location.state.profile;
+	const [userName, setUserName] = useState(profile.username);
+	const [userId, setUserId] = useState(profile.accountname);
+	const [intro, setIntro] = useState(profile.intro);
+	const [selectedImage, setSelectedImage] = useState(profile.image);
 	const [idDuplication, setIdDuplication] = useState(false);
 	const [notValidUserId, setNotValidUserId] = useState(false);
 	const [disabled, setDisabled] = useState(true);
 	const [showProfileEditToast, setShowProfileEditToast] = useState(false);
 	const [showWrongExtensionToast, setShowWrongExtensionToast] = useState(false);
 	const [showSizeOverToast, setShowSizeOverToast] = useState(false);
-	const location = useLocation();
 	const navigate = useNavigate();
-	const url = API_URL;
-	const token = localStorage.getItem('token');
-	const profileId = location.state.profileId;
-	const profileName = location.state.profileName;
-	const profileIntro = location.state.profileIntro;
-	const profileImg = location.state.profileImage;
+	const accountId = localStorage.getItem('userAccountName');
 
 	useEffect(() => {
-		setSelectedImage(profileImg);
-		setUserId(profileId);
-		setUserName(profileName);
-		setIntro(profileIntro);
-		setDisabled(false);
-	}, []);
-
-	useEffect(() => {
-		userId === profileId &&
-		userName === profileName &&
-		intro === profileIntro &&
-		selectedImage === profileImg
+		userId === profile.accountname &&
+		userName === profile.username &&
+		intro === profile.intro
 			? setDisabled(false)
 			: setDisabled(true);
 	}, [userId]);
 
-	const handleImageInputChange = async (e) => {
-		const allowedExtensionsRegex = /\.(jpg|gif|png|jpeg|bmp|tif|heic)$/i;
-		const maxImageSize = 10 * 1024 * 1024;
-		const imageFile = e.target.files[0];
-
-		if (imageFile) {
-			if (imageFile.size > maxImageSize) {
-				setShowSizeOverToast(true);
-				setTimeout(() => setShowSizeOverToast(false), 3000);
-				e.target.value = ''; // 파일 선택 창을 비웁니다.
-				return;
-			}
-
-			const fileExtension = '.' + imageFile.name.split('.').pop().toLowerCase();
-			if (!allowedExtensionsRegex.test(fileExtension)) {
-				setShowWrongExtensionToast(true);
-				setTimeout(() => setShowWrongExtensionToast(false), 3000);
-				e.target.value = ''; // 파일 선택 창을 비웁니다.
-				return;
-			}
-
-			// 유효성 검사를 통과한 경우에만 이미지 업로드 처리를 진행합니다.
-			const formData = new FormData();
-			const reader = new FileReader();
-
-			formData.append('image', imageFile);
-
-			try {
-				const response = await axios.post(
-					'https://api.mandarin.weniv.co.kr/image/uploadfile/',
-					formData
-				);
-
-				const imageUrl =
-					'https://api.mandarin.weniv.co.kr/' + response.data.filename;
-
-				setSelectedImage(imageUrl);
-			} catch (error) {
-				console.error(error.response.data);
-			}
-		} else {
-			e.target.value = ''; // 파일 선택 창을 비웁니다.
-		}
+	const handleImageInputChange = (e) => {
+		imageValidation(
+			e,
+			setSelectedImage,
+			setShowSizeOverToast,
+			setShowWrongExtensionToast
+		);
 	};
+
+	const postValidMutation = useMutation(postAccountValid, {
+		onSuccess: (data) => {
+			if (userId === accountId || data === '사용 가능한 계정ID 입니다.') {
+				setIdDuplication(false);
+				setDisabled(false);
+			} else if (data === '이미 가입된 계정ID 입니다.') {
+				setIdDuplication(true);
+				setDisabled(true);
+			}
+		},
+		onError: () => {
+			console.error('실패');
+		},
+	});
+
+	const putProfileEditMutation = useMutation(putProfileEdit, {
+		onSuccess: () => {
+			setShowProfileEditToast(true);
+			setTimeout(() => {
+				setShowProfileEditToast(false);
+				localStorage.setItem('userAccountName', userId);
+				navigate(`../../../profile`);
+			}, 1000);
+		},
+		onError: () => {
+			console.error('실패');
+		},
+	});
 
 	const validateUserId = async () => {
 		if (!userId || /^[A-Za-z0-9._]+$/.test(userId)) {
 			setNotValidUserId(false);
-
-			const data = {
-				user: {
-					accountname: userId,
-				},
-			};
-
-			try {
-				const response = await axios.post(
-					`${url}/user/accountnamevalid/`,
-					data,
-					{
-						headers: {
-							'Content-Type': 'application/json',
-						},
-					}
-				);
-				if (
-					userId === profileId ||
-					response.data.message === '사용 가능한 계정ID 입니다.'
-				) {
-					setIdDuplication(false);
-					setDisabled(false);
-				} else if (response.data.message === '이미 가입된 계정ID 입니다.') {
-					setIdDuplication(true);
-					setDisabled(true);
-				} else {
-					console.log('접근 불가');
-				}
-			} catch (error) {
-				console.error('에러입니다.', error);
-			}
+			postValidMutation.mutate(userId);
 		} else {
 			setNotValidUserId(true);
 			setIdDuplication(false);
@@ -170,23 +119,7 @@ export default function ProfileSetup() {
 			},
 		};
 
-		try {
-			const response = await axios.put(`${url}/user/`, data, {
-				headers: {
-					Authorization: `Bearer ${token}`,
-					'Content-Type': 'application/json',
-				},
-			});
-			console.log(response.data);
-			setShowProfileEditToast(true);
-			setTimeout(() => {
-				setShowProfileEditToast(false);
-				navigate('../../myProfile');
-			}, 1000);
-		} catch (error) {
-			console.error('에러입니다.', error);
-			console.log('오류 발생!');
-		}
+		putProfileEditMutation.mutate(data);
 	};
 
 	const handleImgError = (e) => {
@@ -256,7 +189,7 @@ export default function ProfileSetup() {
 							onChange={handleImageInputChange}
 						/>
 						<ProfileImage
-							src={selectedImage || profileImg || profilePic}
+							src={selectedImage || profile.image || profilePic}
 							onError={handleImgError}
 							alt=''
 						/>{' '}

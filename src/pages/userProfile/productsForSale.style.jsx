@@ -103,3 +103,14 @@ export const ProductPrice = styled.span`
 	font-weight: 700;
 	line-height: 15.02px;
 `;
+
+export const ProductCardWrap = styled.div`
+	width: 250px;
+	height: 250px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: #fff;
+	border-radius: 5px;
+`;
