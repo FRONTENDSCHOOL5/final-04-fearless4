@@ -1,24 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { PostDeleteContext } from '../post/PostDeleteContext.jsx';
-import {
-	ChatShare,
-	ProfileButton,
-} from '../../components/button/button.style.jsx';
-import {
-	ProfileWrapper,
-	Intro,
-	UserEmail,
-	UserNickName,
-	Follower,
-	FollowerNumber,
-	FollowerWrap,
-	ProfileImgWrap,
-	UserWrap,
-	ProfileButtonWrap,
-	ProfilePageWrapper,
-} from './Profile.style.jsx';
-import { ProfileImage } from '../profileSetup/profileSetup.style.jsx';
-import profilePic from '../../assets/image/profilePic.png';
+import { ProfilePageWrapper } from './Profile.style.jsx';
+import { ProfileCard } from './ProfileCard.jsx';
 import {
 	Backspace,
 	NavbarWrap,
@@ -35,60 +18,27 @@ import {
 } from '../../components/modal/modal.style.jsx';
 import PostList from '../../components/post/PostList.jsx';
 import { BottomNavContainer } from '../../components/bottomnav/bottomnav.style.jsx';
-import { useNavigate, useParams } from 'react-router-dom';
 import ProductsForSale from './ProductsForSale.jsx';
-import Loading from '../../components/loading/Loading.jsx';
 import { Helmet } from 'react-helmet';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { delUnFollow, getUserInfo, postFollow } from '../../api/profileApi.js';
+import { useNavigate, useParams } from 'react-router-dom';
 import Page404 from '../page404/Page404.jsx';
+import { useQuery } from '@tanstack/react-query';
+import { postAccountValid } from '../../api/profileApi.js';
 export default function UserProfile() {
-	const navigate = useNavigate();
 	const [isModal, setIsModal] = useState(false);
 	const [isCheckModal, setIsCheckModal] = useState(false);
 	const [deletedPostId, setDeletedPostId] = useState(null);
 	const myaccountname = localStorage.getItem('userAccountName');
 	const accountname = useParams().accountUsername;
-	const queryClient = useQueryClient();
+	const navigate = useNavigate();
 
-	const { data: profile, isLoading } = useQuery(
-		// 매개변수 accountname 값이 변경될 때 마다 재요청
-		['profileData', accountname],
-		() => getUserInfo(accountname),
-		{ keepPreviousData: true }
-		// { enabled: !!accountname }
+	const { data: isUser, isLoading } = useQuery(
+		['isUserData', accountname],
+		() =>
+			accountname
+				? postAccountValid(accountname)
+				: postAccountValid(myaccountname)
 	);
-
-	const handleImgError = (e) => {
-		e.target.src = profilePic;
-	};
-
-	const handleFollowChange = async (e) => {
-		e.preventDefault();
-		if (profile.isfollow) {
-			delFollowMutaion.mutate(accountname);
-		} else {
-			postFollowMutaion.mutate(accountname);
-		}
-	};
-
-	const delFollowMutaion = useMutation(delUnFollow, {
-		onSuccess: () => {
-			queryClient.invalidateQueries('profileData');
-		},
-		onError: () => {
-			console.error('실패');
-		},
-	});
-
-	const postFollowMutaion = useMutation(postFollow, {
-		onSuccess: () => {
-			queryClient.invalidateQueries('profileData');
-		},
-		onError: () => {
-			console.error('실패');
-		},
-	});
 
 	const handleModalOpen = (e) => {
 		e.preventDefault();
@@ -130,94 +80,31 @@ export default function UserProfile() {
 				/>
 				<OptionModalTab onClick={handleModalOpen} />
 			</NavbarWrap>
-			{!isLoading && profile ? (
-				<ProfilePageWrapper>
-					<ProfileWrapper>
-						<ProfileImgWrap>
-							<FollowerWrap to='./follower'>
-								<FollowerNumber followers>
-									{profile.followerCount}
-								</FollowerNumber>
-								<Follower>followers</Follower>
-							</FollowerWrap>
+			{!isLoading && isUser === '이미 가입된 계정ID 입니다.' ? (
+				<>
+					<ProfilePageWrapper>
+						<ProfileCard />
 
-							<ProfileImage
-								style={{ width: '110px', height: '110px' }}
-								src={profile.image}
-								onError={handleImgError}
-								alt={`${profile.accountname}의 프로필입니다.`}
-							></ProfileImage>
-
-							<FollowerWrap to='./following'>
-								<FollowerNumber>{profile.followingCount}</FollowerNumber>
-								<Follower>followings</Follower>
-							</FollowerWrap>
-						</ProfileImgWrap>
-
-						<UserWrap>
-							<UserNickName>{profile.username}</UserNickName>
-							<UserEmail>@ {profile.accountname}</UserEmail>
-							<Intro>{profile.intro}</Intro>
-						</UserWrap>
-
-						{myaccountname === accountname ? (
-							<ProfileButtonWrap>
-								<ProfileButton
-									type='button'
-									onClick={() => {
-										navigate('./edit', {
-											state: {
-												profileImage: profile.image,
-												profileId: profile.accountname,
-												profileName: profile.username,
-												profileIntro: profile.intro,
-											},
-										});
-									}}
-								>
-									프로필 수정
-								</ProfileButton>
-
-								<ProfileButton
-									product
-									type='button'
-									onClick={() => {
-										navigate('../../Product/upload');
-									}}
-								>
-									상품 등록
-								</ProfileButton>
-							</ProfileButtonWrap>
-						) : (
-							<ProfileButtonWrap>
-								<ChatShare type='button' chatting />
-								<ProfileButton
-									follow={profile.isfollow === true ? false : true}
-									type='button'
-									onClick={(e) => handleFollowChange(e)}
-								>
-									{profile.isfollow === true ? '팔로우 취소' : '팔로우'}
-								</ProfileButton>
-								<ChatShare type='button' />
-							</ProfileButtonWrap>
-						)}
-					</ProfileWrapper>
-
-					{isLoading && <Loading />}
-
-					<ProductsForSale userAccountName={accountname} />
-					{!isLoading && (
+						<ProductsForSale
+							userAccountName={!accountname ? myaccountname : accountname}
+						/>
 						<PostDeleteContext.Provider
 							value={{ deletedPostId, setDeletedPostId }}
 						>
 							{' '}
-							<PostList accountname={accountname}></PostList>
+							<PostList
+								accountname={!accountname ? myaccountname : accountname}
+							></PostList>
 						</PostDeleteContext.Provider>
-					)}
-				</ProfilePageWrapper>
+					</ProfilePageWrapper>
+				</>
 			) : (
-				!isLoading && !profile && <Page404 />
+				!isLoading &&
+				isUser !== '이미 가입된 계정ID 입니다.' && (
+					<Page404 message='User not Found' />
+				)
 			)}
+
 			{isModal && (
 				<DarkBackground onClick={handleModalClose}>
 					<ModalWrap>

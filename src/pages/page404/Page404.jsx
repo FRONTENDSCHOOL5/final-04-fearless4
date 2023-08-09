@@ -19,7 +19,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
-export default function Page404() {
+export default function Page404(props) {
 	const navigate = useNavigate();
 	return (
 		<>
@@ -32,7 +32,7 @@ export default function Page404() {
 				<NotFoundText>
 					404
 					<br />
-					Page not Found
+					{props.message ? <>{props.message} </> : <>page not Found </>}
 				</NotFoundText>
 				<CatWrap>
 					<Cat404Img src={Cat404} />

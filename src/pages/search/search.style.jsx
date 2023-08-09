@@ -10,7 +10,8 @@ export const SearchWrap = styled.div`
 export const SearchInput = styled.input`
 	font-family: 'Suit-Regular';
 	width: 100%;
-	padding: 8px 0;
+	padding: 10px 20px;
+	height: 15px;
 	margin-left: 20px;
 	display: flex;
 	background: #f2f2f2;
@@ -19,7 +20,6 @@ export const SearchInput = styled.input`
 	align-items: center;
 	border: none;
 	outline: none;
-	padding: 7px 16px;
 	font-size: 18px;
 `;
 
@@ -30,4 +30,37 @@ export const Wrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 16px;
+`;
+
+export const NoData = styled.div`
+	font-family: 'Suit-Bold';
+	width: 100%;
+	box-sizing: border-box;
+	padding: 30px 0px 13px;
+	display: flex;
+	justify-content: center;
+	color: #000;
+	font-size: 19px;
+`;
+
+export const NoData2 = styled.p`
+	font-family: 'Suit-Regular';
+	width: 100%;
+	box-sizing: border-box;
+	display: flex;
+	justify-content: center;
+	color: #777;
+`;
+
+export const MoreBtn = styled.div`
+	font-family: 'Suit-Bold';
+	font-size: 13px;
+	cursor: pointer;
+	width: 100%;
+	box-sizing: border-box;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #6b7d8c;
+	padding-bottom: 20px;
 `;
