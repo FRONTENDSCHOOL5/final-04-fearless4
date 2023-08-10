@@ -15,6 +15,7 @@ import { Helmet } from 'react-helmet';
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'; //react-query
 import { useInView } from 'react-intersection-observer'; //라이브러리
 import getHomefeed from '../../api/homefeedApi.js';
+import Topbtn from '../../components/button/Topbtn.jsx';
 
 export default function Homefeed() {
 	const [deletedPostId, setDeletedPostId] = useState(null);
@@ -23,6 +24,8 @@ export default function Homefeed() {
 	const count = useRef(0);
 	const [newPost, setPost] = useState([]);
 	const queryClient = useQueryClient();
+
+	const [showButton, setShowButton] = useState(false);
 
 	const {
 		data: followingFeedData,
@@ -67,6 +70,21 @@ export default function Homefeed() {
 		setPost(newPosts);
 	}, [followingFeedData]);
 
+	useEffect(() => {
+		const handleShowBtn = () => {
+			if (window.scrollY > 500) {
+				setShowButton(true);
+			} else {
+				setShowButton(false);
+			}
+		};
+
+		window.addEventListener('scroll', handleShowBtn);
+		return () => {
+			window.removeEventListener('scroll', handleShowBtn);
+		};
+	}, []);
+
 	return (
 		<>
 			<Helmet>
@@ -78,7 +96,7 @@ export default function Homefeed() {
 					onClick={() => {
 						navigate('/Search');
 					}}
-					alt='검색 아이콘'
+					alt='검색 버튼'
 				/>
 			</NavbarWrap>
 			<HomefeedWrap>
@@ -86,7 +104,7 @@ export default function Homefeed() {
 					? newPost
 					: !isLoading && <NoFeed />}
 				<div ref={ref} />
-
+				{showButton && <Topbtn />}
 				<BottomNavContainer home />
 				{isLoading && <Loading />}
 			</HomefeedWrap>

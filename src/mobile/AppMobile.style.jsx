@@ -8,7 +8,7 @@ export const MoblieWrap = styled.div`
 
 export const MoblieWidth = styled.div`
 	width: 390px;
-	height: 100vh;
+	min-height: 100vh;
 	position: relative;
 	background-color: #fff;
 
