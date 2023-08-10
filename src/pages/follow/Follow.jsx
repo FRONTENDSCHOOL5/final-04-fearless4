@@ -5,27 +5,13 @@ import {
 	NavbarTitle,
 	NavbarWrap,
 } from '../../components/navbar/navbar.style';
-import {
-	UserContent,
-	UserFlexWrap,
-	UserFollowImage,
-	UserFollowIntro,
-	UserFollowNickName,
-	UserProfileImg,
-	UserWrap,
-	Wrapper,
-} from './follow.style';
-import { FollowButton } from '../../components/button/button.style';
+import { Wrapper } from './follow.style';
 import FollowUnknown from './FollowUnknown';
 import Loading from '../../components/loading/Loading';
 import { Helmet } from 'react-helmet';
 import { useInView } from 'react-intersection-observer';
-import {
-	useInfiniteQuery,
-	useMutation,
-	useQueryClient,
-} from '@tanstack/react-query';
-import { delUnFollow, getFollow, postFollow } from '../../api/followApi';
+import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
+import { getFollow } from '../../api/followApi';
 import FollowItem from './FollowItem';
 
 export default function Follwers() {
