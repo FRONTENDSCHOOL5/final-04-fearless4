@@ -21,51 +21,51 @@ import {
 	ModalWrap,
 } from '../../components/modal/modal.style';
 import ProductCard from '../product/ProductCard';
-import axios from 'axios';
-import { API_URL } from '../../api.js';
-import { useNavigate } from 'react-router-dom';
+import noProduct from '../../assets/image/noProduct.png';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useQueryClient, useQuery, useMutation } from '@tanstack/react-query';
+import { deleteProduct, getProduct } from '../../api/productApi';
 
-export default function ProductsForSale({ userAccountName }) {
+export default function ProductsForSale() {
 	const [productData, setProductData] = useState([]);
-	const [resProd, setResProd] = useState([]);
 	const [isModal, setIsModal] = useState(false);
 	const [isUserModal, setIsUserModal] = useState(false);
 	const [selectedProduct, setSelectedProduct] = useState(null);
-	const [myProfile, setMyProfile] = useState();
 	const [selectedButton, setSelectedButton] = useState(0);
 	const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
 	const [isCard, setIsCard] = useState(false);
 	const navigate = useNavigate();
 
-	const accountname = userAccountName;
-	const url = API_URL;
-	const token = localStorage.getItem('token');
+	const accountUsername = useParams().accountUsername;
 	const data = localStorage.getItem('userAccountName');
 
-	useEffect(() => {
-		data && setMyProfile(data);
-		async function getProductForSale() {
-			const res = await axios({
-				method: 'GET',
-				url: `${url}/product/${accountname}/?limit=infinity`,
-				headers: {
-					Authorization: `Bearer ${token}`,
-					'Content-type': 'application/json',
-				},
-			});
-			setResProd(res.data.product);
+	const queryClient = useQueryClient();
+
+	const { data: resProd, isLoading } = useQuery(
+		['productForSale'],
+		({ accountname = accountUsername ? accountUsername : data }) =>
+			getProduct(accountname),
+		{
+			enabled: !!data,
 		}
-		if (data) {
-			getProductForSale();
-		}
-	}, [data]);
+	);
+
+	console.log(resProd);
+
+	const deleteProductMutation = useMutation(deleteProduct, {
+		onSuccess: () => {
+			queryClient.invalidateQueries('productForSale');
+		},
+		onError: () => {
+			console.error('실패');
+		},
+	});
 
 	const handleModalOpen = (item) => {
-		if (accountname === myProfile) {
+		if (accountUsername === data) {
 			setIsCard(true);
 			setIsUserModal(true);
 			setSelectedProduct(item);
-			console.log(item);
 		} else {
 			setIsCard(true);
 			setIsUserModal(false);
@@ -92,7 +92,7 @@ export default function ProductsForSale({ userAccountName }) {
 	};
 
 	useEffect(() => {
-		if (resProd.length !== 0) {
+		if (!isLoading && resProd) {
 			const product = createProductList(resProd);
 			setProductData(product);
 		}
@@ -150,23 +150,8 @@ export default function ProductsForSale({ userAccountName }) {
 
 	const handleDeleteProduct = async () => {
 		if (selectedProduct) {
-			setIsConfirmationModalOpen(false);
-			setIsCard(false);
-			try {
-				const res = await axios({
-					method: 'DELETE',
-					url: `${url}/product/${selectedProduct.id}`,
-					headers: {
-						Authorization: `Bearer ${token}`,
-						'Content-type': 'application/json',
-					},
-				});
-				setResProd((prevProducts) =>
-					prevProducts.filter((product) => product.id !== selectedProduct.id)
-				);
-			} catch (error) {
-				console.error(error);
-			}
+			deleteProductMutation.mutate(selectedProduct);
+			handleModalClose(true);
 		}
 	};
 
@@ -185,7 +170,7 @@ export default function ProductsForSale({ userAccountName }) {
 
 	return (
 		<>
-			{resProd.length === 0 ? null : (
+			{!isLoading && resProd && (
 				<WrapAll>
 					<Title>함께 떠나는 상품</Title>
 					<SortedButton
@@ -217,7 +202,22 @@ export default function ProductsForSale({ userAccountName }) {
 						🤑할인 상품
 					</SortedButton>
 					<Scroll>
-						<ProductsContainer>{productData}</ProductsContainer>
+						<ProductsContainer>
+							{productData.length > 0 ? (
+								productData
+							) : (
+								<ProductList
+									style={{
+										margin: '-10px auto',
+									}}
+								>
+									<img style={{ width: '130px' }} src={noProduct} />
+									<ProductName style={{ marginTop: '2px' }}>
+										해당하는 상품이 없습니다
+									</ProductName>
+								</ProductList>
+							)}
+						</ProductsContainer>
 					</Scroll>
 				</WrapAll>
 			)}
