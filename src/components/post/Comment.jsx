@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import moment from 'moment';
 import 'moment/locale/ko';
 import {
@@ -21,7 +20,7 @@ import {
 	ToastMsgBold,
 } from '../toast/toast.style';
 import profilePic from '../../assets/image/profilePic.png';
-import { API_URL } from '../../api';
+import { deleteComment, reportComment } from '../../api/commentAPI';
 
 export const Comment = ({
 	comment,
@@ -50,24 +49,24 @@ export const Comment = ({
 
 	const handleCommentDeleteClick = async () => {
 		try {
-			await axios.delete(`${API_URL}/post/${postId}/comments/${id}`, {
-				headers: {
-					Authorization: `Bearer ${token}`,
-					'Content-Type': 'application/json',
-				},
-			});
+			await deleteComment(postId, id);
 			setIsCommentModal(false);
 			reloadComments();
 			setShowDeleteToast(true);
 			setTimeout(() => setShowDeleteToast(false), 1000);
 		} catch (error) {
-			console.error('오류 발생!');
+			console.error(error);
 		}
 	};
 
-	const handleReportClick = () => {
-		setShowReportToast(true);
-		setTimeout(() => setShowReportToast(false), 1000);
+	const handleReportClick = async () => {
+		try {
+			await reportComment(id);
+			setShowReportToast(true);
+			setTimeout(() => setShowReportToast(false), 1000);
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	const handleImgError = (e) => {
