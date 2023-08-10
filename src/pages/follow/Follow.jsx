@@ -29,7 +29,6 @@ import {
 import { delUnFollow, getFollow, postFollow } from '../../api/followApi';
 
 export default function Follwers() {
-	const [newFollow, setNewFollow] = useState([]);
 	const navigate = useNavigate();
 	const accountUsername = useParams().accountUsername;
 	const followPage = useParams().follow;
@@ -63,7 +62,6 @@ export default function Follwers() {
 	useEffect(() => {
 		if (!isLoading) {
 			if (inView && hasNextPage) {
-				count.current += 1;
 				fetchNextPage();
 			}
 		}
@@ -72,54 +70,6 @@ export default function Follwers() {
 	useEffect(() => {
 		queryClient.removeQueries({ queryKey: 'getFollowData' });
 	}, []);
-
-	useEffect(() => {
-		const newFollowList = followData?.pages.map((page) =>
-			page.data.map((follow) => {
-				return (
-					<UserWrap key={follow._id}>
-						<UserFlexWrap>
-							<UserProfileImg
-								onClick={() => {
-									myAccountName === follow.accountname
-										? navigate('../../../profile')
-										: navigate(`../../${follow.accountname}`);
-								}}
-							>
-								<UserFollowImage
-									src={follow.image}
-									onError={handleImgError}
-									alt={`${follow.username} 프로필 이미지입니다.`}
-								/>
-							</UserProfileImg>
-							<UserContent
-								onClick={() => {
-									myAccountName === follow.accountname
-										? navigate('../../../profile')
-										: navigate(`../../${follow.accountname}`);
-								}}
-							>
-								<UserFollowNickName>{follow.username}</UserFollowNickName>
-								<UserFollowIntro>{follow.intro}</UserFollowIntro>
-							</UserContent>
-						</UserFlexWrap>
-						{!(myAccountName === follow.accountname) && (
-							<FollowButton
-								type='button'
-								follow={follow.isfollow}
-								onClick={(e) => {
-									handleFollowChange(follow.accountname, follow.isfollow, e);
-								}}
-							>
-								{follow.isfollow === true ? '취소' : '팔로우'}
-							</FollowButton>
-						)}
-					</UserWrap>
-				);
-			})
-		);
-		setNewFollow(newFollowList);
-	}, [followData]);
 
 	const handleFollowChange = async (accountname, isfollow, e) => {
 		e.preventDefault();
@@ -171,7 +121,56 @@ export default function Follwers() {
 			</NavbarWrap>
 			<Wrapper>
 				{followData?.pages[0].data.length > 0
-					? newFollow
+					? followData?.pages.map((page) =>
+							page.data.map((follow) => {
+								return (
+									<UserWrap key={follow._id}>
+										<UserFlexWrap>
+											<UserProfileImg
+												onClick={() => {
+													myAccountName === follow.accountname
+														? navigate('../../../profile')
+														: navigate(`../../${follow.accountname}`);
+												}}
+											>
+												<UserFollowImage
+													src={follow.image}
+													onError={handleImgError}
+													alt={`${follow.username} 프로필 이미지입니다.`}
+												/>
+											</UserProfileImg>
+											<UserContent
+												onClick={() => {
+													myAccountName === follow.accountname
+														? navigate('../../../profile')
+														: navigate(`../../${follow.accountname}`);
+												}}
+											>
+												<UserFollowNickName>
+													{follow.username}
+												</UserFollowNickName>
+												<UserFollowIntro>{follow.intro}</UserFollowIntro>
+											</UserContent>
+										</UserFlexWrap>
+										{!(myAccountName === follow.accountname) && (
+											<FollowButton
+												type='button'
+												follow={follow.isfollow}
+												onClick={(e) => {
+													handleFollowChange(
+														follow.accountname,
+														follow.isfollow,
+														e
+													);
+												}}
+											>
+												{follow.isfollow === true ? '취소' : '팔로우'}
+											</FollowButton>
+										)}
+									</UserWrap>
+								);
+							})
+					  )
 					: !isLoading && <FollowUnknown />}
 				{isLoading && <Loading />}
 				{hasNextPage && <div ref={ref} />}
