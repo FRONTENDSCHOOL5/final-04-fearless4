@@ -39,6 +39,7 @@ export const ProfileImage = styled.img`
 	width: 100%;
 	border-radius: 50%;
 	object-fit: cover;
+	flex-shrink: 0;
 `;
 
 export const ImageButton = styled.img`

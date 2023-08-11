@@ -62,7 +62,7 @@ export default function ProfileSetup() {
 		imageValidation(
 			e,
 			1,
-			110,
+			320,
 			setSelectedImage,
 			setShowSizeOverToast,
 			setShowWrongExtensionToast
