@@ -1,5 +1,5 @@
-import axios from 'axios';
 import imageCompression from 'browser-image-compression';
+import { API_URL, imgInstance } from './api/axiosInstance';
 
 const imageValidation = async (
 	e,
@@ -63,15 +63,8 @@ const handlingData = async (dataURL, setSelectedImage) => {
 	formData.append('image', file);
 
 	try {
-		const res = await axios({
-			method: 'POST',
-			url: 'https://api.mandarin.weniv.co.kr/image/uploadfile/',
-			data: formData,
-			headers: {
-				'Content-type': 'multipart/form-data',
-			},
-		});
-		const imageUrl = 'https://api.mandarin.weniv.co.kr/' + res.data.filename;
+		const res = await imgInstance.post('/image/uploadfile', formData);
+		const imageUrl = `${API_URL}/` + res.data.filename;
 		setSelectedImage(imageUrl);
 	} catch (error) {
 		console.error(error);
