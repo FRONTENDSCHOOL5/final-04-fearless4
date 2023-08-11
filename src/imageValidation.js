@@ -3,6 +3,8 @@ import { API_URL, imgInstance } from './api/axiosInstance';
 
 const imageValidation = async (
 	e,
+	maxSize = 1,
+	maxHeight = 320,
 	setSelectedImage,
 	setShowSizeOverToast,
 	setShowWrongExtensionToast
@@ -28,9 +30,10 @@ const imageValidation = async (
 		try {
 			// browser-image-compression을 사용하여 이미지 압축
 			const compressedImageFile = await imageCompression(imageFile, {
-				maxSizeMb: 1,
-				maxWidthOrHeight: 320,
+				maxSizeMb: maxSize,
+				maxWidthOrHeight: maxHeight,
 			});
+			console.log(maxHeight, maxSize);
 			const reader = new FileReader();
 			reader.readAsDataURL(compressedImageFile);
 			reader.onloadend = () => {

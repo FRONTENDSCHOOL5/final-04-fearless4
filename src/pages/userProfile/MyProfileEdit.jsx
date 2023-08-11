@@ -47,6 +47,8 @@ export default function ProfileSetup() {
 	const [showSizeOverToast, setShowSizeOverToast] = useState(false);
 	const navigate = useNavigate();
 	const accountId = localStorage.getItem('userAccountName');
+	const maxSize = 1;
+	const maxHeight = 320;
 
 	useEffect(() => {
 		userId === profile.accountname &&
@@ -59,6 +61,8 @@ export default function ProfileSetup() {
 	const handleImageInputChange = (e) => {
 		imageValidation(
 			e,
+			1,
+			110,
 			setSelectedImage,
 			setShowSizeOverToast,
 			setShowWrongExtensionToast
