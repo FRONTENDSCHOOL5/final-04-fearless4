@@ -32,6 +32,7 @@ export const ImageInput = styled.input`
 	position: absolute;
 	opacity: 0;
 	z-index: 1;
+	cursor: pointer;
 `;
 
 export const ProfileImage = styled.img`
