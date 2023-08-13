@@ -5,39 +5,24 @@ import {
 	NavbarTitle,
 	NavbarWrap,
 } from '../../components/navbar/navbar.style';
-import {
-	UserContent,
-	UserFlexWrap,
-	UserFollowImage,
-	UserFollowIntro,
-	UserFollowNickName,
-	UserProfileImg,
-	UserWrap,
-	Wrapper,
-} from './follow.style';
-import { FollowButton } from '../../components/button/button.style';
-import userNoneProfile from '../../assets/image/profilePic.png';
+import { Wrapper } from './follow.style';
 import FollowUnknown from './FollowUnknown';
 import Loading from '../../components/loading/Loading';
 import { Helmet } from 'react-helmet';
 import { useInView } from 'react-intersection-observer';
-import {
-	useInfiniteQuery,
-	useMutation,
-	useQueryClient,
-} from '@tanstack/react-query';
-import { delUnFollow, getFollow, postFollow } from '../../api/followApi';
+import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
+import { getFollow } from '../../api/followApi';
+import FollowItem from './FollowItem';
 
 export default function Follwers() {
-	const [newFollow, setNewFollow] = useState([]);
 	const navigate = useNavigate();
+	const queryClient = useQueryClient();
 	const accountUsername = useParams().accountUsername;
 	const followPage = useParams().follow;
 	const myAccountName = localStorage.getItem('userAccountName');
 	const count = useRef(0);
 	const [ref, inView] = useInView();
 	const [hasNextPage, setHasNextPage] = useState(true);
-	const queryClient = useQueryClient();
 
 	const {
 		data: followData,
@@ -63,7 +48,6 @@ export default function Follwers() {
 	useEffect(() => {
 		if (!isLoading) {
 			if (inView && hasNextPage) {
-				count.current += 1;
 				fetchNextPage();
 			}
 		}
@@ -72,85 +56,6 @@ export default function Follwers() {
 	useEffect(() => {
 		queryClient.removeQueries({ queryKey: 'getFollowData' });
 	}, []);
-
-	useEffect(() => {
-		const newFollowList = followData?.pages.map((page) =>
-			page.data.map((follow) => {
-				return (
-					<UserWrap key={follow._id}>
-						<UserFlexWrap>
-							<UserProfileImg
-								onClick={() => {
-									myAccountName === follow.accountname
-										? navigate('../../../profile')
-										: navigate(`../../${follow.accountname}`);
-								}}
-							>
-								<UserFollowImage
-									src={follow.image}
-									onError={handleImgError}
-									alt={`${follow.username} 프로필 이미지입니다.`}
-								/>
-							</UserProfileImg>
-							<UserContent
-								onClick={() => {
-									myAccountName === follow.accountname
-										? navigate('../../../profile')
-										: navigate(`../../${follow.accountname}`);
-								}}
-							>
-								<UserFollowNickName>{follow.username}</UserFollowNickName>
-								<UserFollowIntro>{follow.intro}</UserFollowIntro>
-							</UserContent>
-						</UserFlexWrap>
-						{!(myAccountName === follow.accountname) && (
-							<FollowButton
-								type='button'
-								follow={follow.isfollow}
-								onClick={(e) => {
-									handleFollowChange(follow.accountname, follow.isfollow, e);
-								}}
-							>
-								{follow.isfollow === true ? '취소' : '팔로우'}
-							</FollowButton>
-						)}
-					</UserWrap>
-				);
-			})
-		);
-		setNewFollow(newFollowList);
-	}, [followData]);
-
-	const handleFollowChange = async (accountname, isfollow, e) => {
-		e.preventDefault();
-		if (isfollow) {
-			delFollowMutaion.mutate(accountname);
-		} else {
-			postFollowMutaion.mutate(accountname);
-		}
-	};
-
-	const delFollowMutaion = useMutation(delUnFollow, {
-		onSuccess: () => {
-			queryClient.invalidateQueries('profileData');
-		},
-		onError: () => {
-			console.error('실패');
-		},
-	});
-
-	const postFollowMutaion = useMutation(postFollow, {
-		onSuccess: () => {
-			queryClient.invalidateQueries('profileData');
-		},
-		onError: () => {
-			console.error('실패');
-		},
-	});
-
-	const handleImgError = (e) => {
-		e.target.src = userNoneProfile;
-	};
 
 	return (
 		<>
@@ -171,7 +76,11 @@ export default function Follwers() {
 			</NavbarWrap>
 			<Wrapper>
 				{followData?.pages[0].data.length > 0
-					? newFollow
+					? followData?.pages.map((page) =>
+							page.data.map((follow) => {
+								return <FollowItem key={follow._id} follow={follow} />;
+							})
+					  )
 					: !isLoading && <FollowUnknown />}
 				{isLoading && <Loading />}
 				{hasNextPage && <div ref={ref} />}
