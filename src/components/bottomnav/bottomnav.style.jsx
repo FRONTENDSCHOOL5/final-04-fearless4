@@ -11,7 +11,7 @@ import profileIconFill from '../../assets/icon/icon-profile-fill.svg';
 import { Link } from 'react-router-dom';
 
 export const BottomNav = styled.div`
-	position: fixed;
+	position: relative;
 	bottom: 0;
 	width: 100%;
 	height: 50px;

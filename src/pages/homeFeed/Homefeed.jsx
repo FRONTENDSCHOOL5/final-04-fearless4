@@ -24,8 +24,8 @@ export default function Homefeed() {
 	const count = useRef(0);
 	const [newPost, setPost] = useState([]);
 	const queryClient = useQueryClient();
-
 	const [showButton, setShowButton] = useState(false);
+	const homefeedWrap = document.getElementById('homefeed-wrap');
 
 	const {
 		data: followingFeedData,
@@ -71,19 +71,20 @@ export default function Homefeed() {
 	}, [followingFeedData]);
 
 	useEffect(() => {
-		const handleShowBtn = () => {
-			if (window.scrollY > 500) {
-				setShowButton(true);
-			} else {
-				setShowButton(false);
-			}
-		};
-
-		window.addEventListener('scroll', handleShowBtn);
-		return () => {
-			window.removeEventListener('scroll', handleShowBtn);
-		};
-	}, []);
+		if (homefeedWrap) {
+			const handleShowBtn = () => {
+				if (homefeedWrap.scrollTop > 500) {
+					setShowButton(true);
+				} else {
+					setShowButton(false);
+				}
+			};
+			homefeedWrap.addEventListener('scroll', handleShowBtn);
+			return () => {
+				homefeedWrap.removeEventListener('scroll', handleShowBtn);
+			};
+		}
+	}, [homefeedWrap]);
 
 	return (
 		<>
@@ -99,15 +100,15 @@ export default function Homefeed() {
 					alt='검색 버튼'
 				/>
 			</NavbarWrap>
-			<HomefeedWrap>
+			<HomefeedWrap id='homefeed-wrap'>
 				{followingFeedData?.pages[0].data.length > 0
 					? newPost
 					: !isLoading && <NoFeed />}
-				<div ref={ref} />
-				{showButton && <Topbtn />}
-				<BottomNavContainer home />
+				<div style={{ height: '1px' }} ref={ref} />
+				{showButton && <Topbtn homefeedWrap={homefeedWrap} />}
 				{isLoading && <Loading />}
 			</HomefeedWrap>
+			<BottomNavContainer home />
 		</>
 	);
 }

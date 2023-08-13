@@ -4,9 +4,9 @@ import optionIcon from '../../assets/icon/option.svg';
 import Cat from '../../assets/image/cat.png';
 
 export const NavbarWrap = styled.div`
-	position: sticky;
+	position: relative;
 	width: 100%;
-	height: 50px;
+	height: 48px;
 	display: flex;
 	align-items: center;
 	justify-content: ${({ spaceBetween }) =>
@@ -16,7 +16,7 @@ export const NavbarWrap = styled.div`
 	top: 0;
 	background-color: #fff;
 	border-bottom: solid 1px #dbdbdb;
-	z-index: 888;
+	z-index: 1;
 `;
 
 export const Backspace = styled.button`
