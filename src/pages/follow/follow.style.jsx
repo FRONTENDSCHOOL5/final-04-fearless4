@@ -1,7 +1,12 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
-	width: 100%;
+	height: calc(100vh - 50px);
+	overflow-x: hidden;
+	overflow-y: scroll;
+	::-webkit-scrollbar {
+		width: 0px;
+	}
 	box-sizing: border-box;
 	padding: 16px 16px;
 	display: flex;
