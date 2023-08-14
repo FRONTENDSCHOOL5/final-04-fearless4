@@ -22,8 +22,10 @@ export const ProductCardClose = styled.div`
 export const CloseIconImg = styled.img`
 	width: 6px;
 	margin-top: 1.5px;
+	cursor: pointer;
 `;
 
 export const CloseIconText = styled.span`
 	margin-left: 4px;
+	cursor: pointer;
 `;

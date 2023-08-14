@@ -18,7 +18,7 @@ export default function ProductCard({ item, handleCard, handleModal }) {
 		<>
 			<ProductCardImg
 				src={item.itemImage}
-				alt={`${item.itemNamd}의 상품 이미지`}
+				alt={`${item.itemName}의 상품 이미지`}
 			/>
 			<ProductCardContainer>
 				<ProductName style={{ marginLeft: '10px', fontWeight: 'bold' }}>

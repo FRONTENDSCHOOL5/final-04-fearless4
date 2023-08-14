@@ -16,18 +16,16 @@ import {
 } from './product.style';
 import { Incorrect, LabelStyle } from '../../components/form/form.style';
 import UploadButton from '../../assets/image/profileImageUploadButton.png';
-import { API_URL } from '../../api';
-import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router';
-import {
-	ToastClose,
-	ToastContainer,
-	ToastIcon,
-	ToastMsg,
-	ToastMsgBold,
-} from '../../components/toast/toast.style';
 import { Helmet } from 'react-helmet';
 import imageValidation from '../../imageValidation';
+import {
+	Toast,
+	WrongExtensionToast,
+	SizeOverToast,
+} from '../../components/toast/Toast';
+import { useMutation } from '@tanstack/react-query';
+import { editProduct, registrationProduct } from '../../api/productApi';
 
 export default function Product() {
 	// 이미지 등록
@@ -50,11 +48,33 @@ export default function Product() {
 	const [showWrongExtensionToast, setShowWrongExtensionToast] = useState(false);
 	const [showSizeOverToast, setShowSizeOverToast] = useState(false);
 
+	const myAccountname = localStorage.getItem('userAccountName');
 	const location = useLocation();
 	const navigate = useNavigate();
-	const url = API_URL;
-	const token = localStorage.getItem('token');
 	const selectedProduct = location.state?.selectedProduct || null;
+	console.log(selectedProduct);
+
+	const mutation = useMutation(
+		async (productData) => {
+			console.log(productData);
+			if (selectedProduct) {
+				editProduct(selectedProduct.id, productData);
+			} else {
+				registrationProduct(productData);
+			}
+		},
+		{
+			onSuccess: () => {
+				setShowToast(true);
+				setTimeout(() => {
+					navigate(`../../profile/${myAccountname}`);
+				}, 1000);
+			},
+			onError: (error) => {
+				console.error(error);
+			},
+		}
+	);
 
 	useEffect(() => {
 		// 상품 수정 페이지로 들어온 경우
@@ -69,7 +89,7 @@ export default function Product() {
 			setProductName(selectedProduct.itemName);
 			setSalesLink(selectedProduct.link);
 		}
-	}, [selectedProduct]);
+	}, []);
 
 	useEffect(() => {
 		const isFormValid =
@@ -103,36 +123,7 @@ export default function Product() {
 				itemImage: selectedImage,
 			},
 		};
-		try {
-			// 상품 등록인지 수정인지 확인하여 API 호출 분기 처리
-			if (selectedProduct) {
-				const res = await axios({
-					method: 'PUT',
-					url: `${url}/product/${selectedProduct.id}`,
-					data: productData,
-					headers: {
-						Authorization: `Bearer ${token}`,
-						'Content-type': 'application/json',
-					},
-				});
-			} else {
-				const res = await axios({
-					method: 'POST',
-					url: `${url}/product`,
-					data: productData,
-					headers: {
-						Authorization: `Bearer ${token}`,
-						'Content-type': 'application/json',
-					},
-				});
-			}
-			setShowToast(true);
-			setTimeout(() => {
-				navigate('../../profile/myProfile');
-			}, 1000);
-		} catch (error) {
-			console.error(error.response);
-		}
+		mutation.mutate(productData);
 	};
 
 	function handleProductNameChange(e) {
@@ -174,50 +165,9 @@ export default function Product() {
 		}
 	}
 
-	const Toast = () => {
-		const handleCloseToast = () => {
-			setShowToast(false);
-		};
-		return (
-			<>
-				{showToast && (
-					<ToastContainer>
-						<ToastIcon>😺</ToastIcon>
-						<ToastMsg>
-							<ToastMsgBold>상품</ToastMsgBold>이 등록되었습니다.
-						</ToastMsg>
-						<ToastClose onClick={handleCloseToast}>X</ToastClose>
-					</ToastContainer>
-				)}
-			</>
-		);
+	const handleCloseToast = () => {
+		setShowToast(false);
 	};
-
-	const WrongExtensionToast = () => (
-		<>
-			{showWrongExtensionToast && (
-				<ToastContainer>
-					<ToastIcon>😵‍💫</ToastIcon>
-					<ToastMsg>
-						<ToastMsgBold>이미지</ToastMsgBold>만 업로드 해 주세요!
-					</ToastMsg>
-				</ToastContainer>
-			)}
-		</>
-	);
-
-	const SizeOverToast = () => (
-		<>
-			{showSizeOverToast && (
-				<ToastContainer>
-					<ToastIcon>😵</ToastIcon>
-					<ToastMsg>
-						<ToastMsgBold>10MB</ToastMsgBold>이하의 파일만 업로드 해 주세요!
-					</ToastMsg>
-				</ToastContainer>
-			)}
-		</>
-	);
 
 	return (
 		<>
@@ -233,7 +183,7 @@ export default function Product() {
 				<SaveButton disabled={!isFormValid} onClick={handleSaveButtonClick}>
 					저장
 				</SaveButton>
-				<Toast />
+				<Toast showToast={showToast} handleCloseToast={handleCloseToast} />
 			</NavbarWrap>
 
 			<ProductContainer>
@@ -322,8 +272,10 @@ export default function Product() {
 						{salesLinkError && <Incorrect>{salesLinkError}</Incorrect>}
 					</InputList>
 				</InputWrap>
-				<WrongExtensionToast />
-				<SizeOverToast />
+				<WrongExtensionToast
+					showWrongExtensionToast={showWrongExtensionToast}
+				/>
+				<SizeOverToast showSizeOverToast={showSizeOverToast} />
 			</ProductContainer>
 		</>
 	);
