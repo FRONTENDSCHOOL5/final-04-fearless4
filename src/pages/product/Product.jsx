@@ -48,7 +48,6 @@ export default function Product() {
 	const [showWrongExtensionToast, setShowWrongExtensionToast] = useState(false);
 	const [showSizeOverToast, setShowSizeOverToast] = useState(false);
 
-	const myAccountname = localStorage.getItem('userAccountName');
 	const location = useLocation();
 	const navigate = useNavigate();
 	const selectedProduct = location.state?.selectedProduct || null;
@@ -67,7 +66,7 @@ export default function Product() {
 			onSuccess: () => {
 				setShowToast(true);
 				setTimeout(() => {
-					navigate(`../../profile/${myAccountname}`);
+					navigate('../../profile');
 				}, 1000);
 			},
 			onError: (error) => {
