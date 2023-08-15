@@ -23,7 +23,7 @@ export const SearchInput = styled.input`
 	font-size: 18px;
 `;
 
-export const Wrapper = styled.div`
+export const Wrapper = styled.article`
 	width: 100%;
 	box-sizing: border-box;
 	padding: 16px;

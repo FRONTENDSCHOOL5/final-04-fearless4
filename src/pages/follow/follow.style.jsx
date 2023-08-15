@@ -27,7 +27,7 @@ export const UserFlexWrap = styled.div`
 	gap: 12px;
 `;
 
-export const UserProfileImg = styled.div`
+export const UserProfileImg = styled.article`
 	width: 50px;
 	height: 50px;
 	border-radius: 50%;
@@ -42,14 +42,14 @@ export const UserFollowImage = styled.img`
 	object-fit: cover;
 `;
 
-export const UserContent = styled.div`
+export const UserContent = styled.article`
 	display: flex;
 	flex-direction: column;
 	gap: 6px;
 	cursor: pointer;
 `;
 
-export const UserFollowNickName = styled.span`
+export const UserFollowNickName = styled.h3`
 	font-size: 14px;
 	font-family: 'Suit-Bold';
 `;

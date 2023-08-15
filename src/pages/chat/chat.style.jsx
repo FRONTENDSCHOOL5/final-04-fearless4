@@ -9,8 +9,13 @@ export const HomeContainer = styled.div`
 	background-color: #f2f2f2;
 `;
 
-export const Column = styled.div`
+export const Column = styled.article`
 	flex: 1;
+`;
+
+export const ChatUser = styled.h2`
+	flex-grow: 1;
+	margin-left: 5px;
 `;
 
 export const MessageRow = styled.div`
@@ -25,7 +30,7 @@ export const MessageText = styled.div`
 	border-radius: 0px 10px 10px 10px;
 	max-width: 240px;
 `;
-export const ChatBox = styled.div`
+export const ChatBox = styled.section`
 	display: flex;
 	flex-direction: column;
 	padding: 20px;
@@ -71,7 +76,7 @@ export const MessageRow2 = styled.div`
 	gap: 20px;
 `;
 
-export const Time = styled.span`
+export const Time = styled.time`
 	margin-top: auto;
 	font-size: 10px;
 `;

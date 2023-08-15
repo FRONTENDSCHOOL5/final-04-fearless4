@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import styled from 'styled-components';
+
 import {
 	ModalWrap,
 	ModalText,
@@ -33,6 +33,7 @@ import {
 	Time,
 	ChatImg,
 	HomeContainer,
+	ChatUser,
 } from './chat.style';
 import UploadPic from '../../assets/image/profileImageUploadButton.png';
 import VillageInItaly2 from '../../assets/image/villageInItaly2.jpg';
@@ -69,13 +70,14 @@ export default function Chat2() {
 						navigate(-1);
 					}}
 				/>
-				choi <OptionModalTab onClick={handleModalOpen} />
+				<ChatUser>choi </ChatUser>
+				<OptionModalTab onClick={handleModalOpen} />
 			</NavbarWrap>
 			<HomeContainer>
 				<ChatBox>
 					<Column>
 						<MessageRow>
-							<ProfileImg src={ChatProfile} />
+							<ProfileImg src={ChatProfile} alt='choi 프로필 이미지입니다' />
 							<MessageText>
 								<ChatText>
 									안녕하세요! 판매중이신 상품들 중에 친구들과 가기 좋은 곳이
@@ -87,7 +89,7 @@ export default function Chat2() {
 					</Column>
 					<Column>
 						<MessageRow>
-							<ProfileImg src={ChatProfile} />
+							<ProfileImg src={ChatProfile} alt='choi 프로필 이미지입니다' />
 							<MessageText>
 								<ChatText>
 									저희는 여행가서 이쁜 곳에서 사진 많이 찍고 싶어요~
@@ -116,7 +118,7 @@ export default function Chat2() {
 						<MessageRow2>
 							<Time>3:24</Time>
 							<ChatTextRight>
-								<ChatImg src={VillageInItaly2} />
+								<ChatImg src={VillageInItaly2} alt='이탈리아마을 이미지' />
 							</ChatTextRight>
 						</MessageRow2>
 					</Column>

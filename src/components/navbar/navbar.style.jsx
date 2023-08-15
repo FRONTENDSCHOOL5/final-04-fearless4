@@ -54,11 +54,11 @@ export const TitleImg = styled.img`
 	margin-left: ${({ ml }) => (ml === true ? '-15px' : 'initial')};
 `;
 
-export const TitleColorMint = styled.span`
+export const TitleColorMint = styled.h2`
 	color: #81d8d0;
 `;
 
-export const TitleColorGray = styled.span`
+export const TitleColorGray = styled.h2`
 	color: #767676;
 `;
 

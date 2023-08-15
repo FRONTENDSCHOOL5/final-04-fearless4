@@ -19,7 +19,7 @@ export const Card = styled.div`
 	box-sizing: border-box;
 `;
 
-export const RightCard = styled.div`
+export const RightCard = styled.figure`
 	position: relative;
 	margin-top: 4px;
 	flex: 1;
@@ -70,7 +70,7 @@ export const Dot = styled.img`
 	cursor: pointer;
 `;
 
-export const TextPost = styled.div`
+export const TextPost = styled.figcaption`
 	margin: 16px 0;
 	font-size: 14px;
 	min-width: 200px;
