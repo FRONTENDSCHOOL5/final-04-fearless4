@@ -52,7 +52,7 @@ export const Follower = styled.span`
 	color: #767676;
 `;
 
-export const FollowerWrap = styled.button`
+export const FollowerWrap = styled(Link)`
 	width: 55px;
 	flex-shrink: 0;
 	border: 0;
