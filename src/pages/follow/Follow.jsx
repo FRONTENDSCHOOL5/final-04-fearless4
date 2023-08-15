@@ -5,7 +5,7 @@ import {
 	NavbarTitle,
 	NavbarWrap,
 } from '../../components/navbar/navbar.style';
-import { Wrapper } from './follow.style';
+import { FollowTitle, Wrapper } from './follow.style';
 import FollowUnknown from './FollowUnknown';
 import Loading from '../../components/loading/Loading';
 import { Helmet } from 'react-helmet';
@@ -19,7 +19,6 @@ export default function Follwers() {
 	const queryClient = useQueryClient();
 	const accountUsername = useParams().accountUsername;
 	const followPage = useParams().follow;
-	const myAccountName = localStorage.getItem('userAccountName');
 	const count = useRef(0);
 	const [ref, inView] = useInView();
 	const [hasNextPage, setHasNextPage] = useState(true);
@@ -31,14 +30,10 @@ export default function Follwers() {
 	} = useInfiniteQuery(
 		['getFollowData', accountUsername],
 		({
-			myName = myAccountName,
 			pageParam = count.current,
 			follow = followPage,
 			nextPage = setHasNextPage,
-		}) =>
-			accountUsername
-				? getFollow(accountUsername, pageParam, follow, nextPage)
-				: getFollow(myName, pageParam, follow, nextPage),
+		}) => getFollow(accountUsername, pageParam, follow, nextPage),
 		{
 			getNextPageParam: (lastPage) => lastPage.nextPage + 10,
 			refetchOnWindowFocus: false,
@@ -74,17 +69,22 @@ export default function Follwers() {
 					followPage === 'follower' ? 'Followers' : 'Followings'
 				}`}</NavbarTitle>
 			</NavbarWrap>
-			<Wrapper>
-				{followData?.pages[0].data.length > 0
-					? followData?.pages.map((page) =>
-							page.data.map((follow) => {
-								return <FollowItem key={follow._id} follow={follow} />;
-							})
-					  )
-					: !isLoading && <FollowUnknown />}
-				{isLoading && <Loading />}
-				{hasNextPage && <div ref={ref} />}
-			</Wrapper>
+			<main>
+				<FollowTitle>
+					{accountUsername + '의 ' + followPage + '페이지 '}
+				</FollowTitle>
+				<Wrapper>
+					{followData?.pages[0].data.length > 0
+						? followData?.pages.map((page) =>
+								page.data.map((follow) => {
+									return <FollowItem key={follow._id} follow={follow} />;
+								})
+						  )
+						: !isLoading && <FollowUnknown />}
+					{isLoading && <Loading />}
+					{hasNextPage && <div ref={ref} />}
+				</Wrapper>
+			</main>
 		</>
 	);
 }

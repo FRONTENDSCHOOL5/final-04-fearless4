@@ -56,27 +56,21 @@ function FollowItem({ follow }) {
 
 	return (
 		<UserWrap key={follow._id}>
-			<UserFlexWrap>
-				<UserProfileImg
-					onClick={() => {
-						myAccountName === follow.accountname
-							? navigate('../../../profile')
-							: navigate(`../../${follow.accountname}`);
-					}}
-				>
+			<UserFlexWrap
+				to={
+					myAccountName === follow.accountname
+						? '../../../profile'
+						: `../../${follow.accountname}`
+				}
+			>
+				<UserProfileImg>
 					<UserFollowImage
 						src={follow.image}
 						onError={handleImgError}
 						alt={`${follow.username} 프로필 이미지입니다.`}
 					/>
 				</UserProfileImg>
-				<UserContent
-					onClick={() => {
-						myAccountName === follow.accountname
-							? navigate('../../../profile')
-							: navigate(`../../${follow.accountname}`);
-					}}
-				>
+				<UserContent>
 					<UserFollowNickName>{follow.username}</UserFollowNickName>
 					<UserFollowIntro>{follow.intro}</UserFollowIntro>
 				</UserContent>
