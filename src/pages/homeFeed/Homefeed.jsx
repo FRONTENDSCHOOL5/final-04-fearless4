@@ -25,7 +25,7 @@ export default function Homefeed() {
 	const [newPost, setPost] = useState([]);
 	const queryClient = useQueryClient();
 	const [showButton, setShowButton] = useState(false);
-	const homefeedWrap = document.getElementById('homefeed-wrap');
+	const scrollWrap = document.getElementById('homefeed-wrap');
 
 	const {
 		data: followingFeedData,
@@ -71,20 +71,20 @@ export default function Homefeed() {
 	}, [followingFeedData]);
 
 	useEffect(() => {
-		if (homefeedWrap) {
+		if (scrollWrap) {
 			const handleShowBtn = () => {
-				if (homefeedWrap.scrollTop > 500) {
+				if (scrollWrap.scrollTop > 500) {
 					setShowButton(true);
 				} else {
 					setShowButton(false);
 				}
 			};
-			homefeedWrap.addEventListener('scroll', handleShowBtn);
+			scrollWrap.addEventListener('scroll', handleShowBtn);
 			return () => {
-				homefeedWrap.removeEventListener('scroll', handleShowBtn);
+				scrollWrap.removeEventListener('scroll', handleShowBtn);
 			};
 		}
-	}, [homefeedWrap]);
+	}, [scrollWrap]);
 
 	return (
 		<>
@@ -105,7 +105,7 @@ export default function Homefeed() {
 					? newPost
 					: !isLoading && <NoFeed />}
 				<div style={{ height: '1px' }} ref={ref} />
-				{showButton && <Topbtn homefeedWrap={homefeedWrap} />}
+				{showButton && <Topbtn scrollWrap={scrollWrap} />}
 				{isLoading && <Loading />}
 			</HomefeedWrap>
 			<BottomNavContainer home />

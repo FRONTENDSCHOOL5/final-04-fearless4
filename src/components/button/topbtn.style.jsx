@@ -3,7 +3,7 @@ import uparrowIcon from '../../assets/icon/uparrow.svg';
 
 export const Topbutton = styled.button`
 	position: fixed;
-	bottom: 8%;
+	bottom: 10%;
 	margin-left: 330px;
 	padding: 18px;
 	background-color: #81d8d0;

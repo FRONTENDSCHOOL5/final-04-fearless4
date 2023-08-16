@@ -1,9 +1,9 @@
 import React from 'react';
 import { Topbutton } from './topbtn.style';
 
-export default function Topbtn({ homefeedWrap }) {
+export default function Topbtn({ scrollWrap }) {
 	const scrollTop = () => {
-		homefeedWrap.scroll({
+		scrollWrap.scroll({
 			top: 0,
 			behavior: 'smooth',
 		});
