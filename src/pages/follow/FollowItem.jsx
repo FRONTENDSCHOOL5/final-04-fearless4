@@ -15,8 +15,6 @@ import { delUnFollow, postFollow } from '../../api/followApi';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 function FollowItem({ follow }) {
-	const navigate = useNavigate();
-	const queryClient = useQueryClient();
 	const myAccountName = localStorage.getItem('userAccountName');
 	const [followButtonState, setFollowButtonState] = useState(follow.isfollow);
 
