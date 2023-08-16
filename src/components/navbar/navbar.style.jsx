@@ -66,7 +66,7 @@ export const TitleColorGray = styled.h2`
 export function TitleLogo() {
 	return (
 		<TitleLogoWrap>
-			<TitleImg src={Cat} ml />
+			<TitleImg src={Cat} alt='TravelUs 로고' ml />
 			<TitleColorMint>T</TitleColorMint>
 			<TitleColorGray>ravel</TitleColorGray>
 			<TitleColorMint>Us</TitleColorMint>

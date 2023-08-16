@@ -3,7 +3,12 @@ import styled from 'styled-components';
 export const HomeContainer = styled.div`
 	position: relative;
 	width: 100%;
-	height: 100vh;
+	height: calc(100vh - 50px - 50px);
+	overflow-x: hidden;
+	overflow-y: scroll;
+	::-webkit-scrollbar {
+		width: 0px;
+	}
 	display: flex;
 	flex-direction: column;
 	background-color: #f2f2f2;
