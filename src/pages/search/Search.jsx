@@ -152,8 +152,8 @@ export default function Search() {
 					</>
 				)}
 				{debounceValue && isLoading && <Loading />}
-				<BottomNavContainer />
 			</SearchWrap>
+			<BottomNavContainer />
 		</>
 	);
 }

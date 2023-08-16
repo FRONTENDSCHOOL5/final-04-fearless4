@@ -2,6 +2,12 @@ import styled from 'styled-components';
 
 export const SearchWrap = styled.div`
 	width: 100%;
+	height: calc(100vh - 50px - 50px);
+	overflow-x: hidden;
+	overflow-y: scroll;
+	::-webkit-scrollbar {
+		width: 0px;
+	}
 	padding-bottom: 50px;
 	background-color: #fff;
 	box-sizing: border-box;
