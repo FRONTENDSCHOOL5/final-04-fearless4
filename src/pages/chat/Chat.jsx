@@ -66,12 +66,13 @@ export default function Chat2() {
 			</Helmet>
 			<NavbarWrap spaceBetween>
 				<Backspace
+					aria-label='뒤로가기'
 					onClick={() => {
 						navigate(-1);
 					}}
 				/>
 				<ChatUser>choi </ChatUser>
-				<OptionModalTab onClick={handleModalOpen} />
+				<OptionModalTab aria-label='더보기' onClick={handleModalOpen} />
 			</NavbarWrap>
 			<HomeContainer>
 				<ChatBox>

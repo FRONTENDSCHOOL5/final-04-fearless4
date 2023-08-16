@@ -75,11 +75,12 @@ export default function UserProfile() {
 			</Helmet>
 			<NavbarWrap spaceBetween>
 				<Backspace
+					aria-label='뒤로가기'
 					onClick={() => {
 						navigate(-1);
 					}}
 				/>
-				<OptionModalTab onClick={handleModalOpen} />
+				<OptionModalTab aria-label='더보기' onClick={handleModalOpen} />
 			</NavbarWrap>
 			<ProfilePageWrapper>
 				{!isLoading && isUser === '이미 가입된 계정ID 입니다.' ? (

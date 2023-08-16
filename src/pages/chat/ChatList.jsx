@@ -56,11 +56,12 @@ export default function ChatList() {
 			</Helmet>
 			<NavbarWrap spaceBetween>
 				<Backspace
+					aria-label='뒤로가기'
 					onClick={() => {
 						navigate(-1);
 					}}
 				/>
-				<OptionModalTab />
+				<OptionModalTab aria-label='더보기' />
 			</NavbarWrap>
 			<ChatWrap>
 				<UserFlexWrap

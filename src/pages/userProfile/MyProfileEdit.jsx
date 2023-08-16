@@ -176,6 +176,7 @@ export default function ProfileSetup() {
 			</Helmet>
 			<NavbarWrap spaceBetween>
 				<Backspace
+					aria-label='뒤로가기'
 					onClick={() => {
 						navigate(-1);
 					}}

@@ -66,6 +66,7 @@ export default function Follwers() {
 			</Helmet>
 			<NavbarWrap>
 				<Backspace
+					aria-label='뒤로가기'
 					onClick={() => {
 						navigate(-1);
 					}}

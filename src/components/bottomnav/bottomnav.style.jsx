@@ -19,25 +19,25 @@ export const BottomNav = styled.nav`
 	background-color: white;
 	border-top: solid 1px #dbdbdb;
 `;
-export const NavContent = styled.ul`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-between;
-`;
+// export const NavContent = styled.ul`
+// 	display: flex;
+// 	flex-direction: column;
+// 	align-items: center;
+// 	justify-content: space-between;
+// `;
 
-export const NavList = styled.li`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	flex-grow: 1;
-	gap: 4px;
-	font-size: 10px;
-	color: #767676;
-	text-decoration: none;
-	padding: 12px 0px 6px 0px;
-`;
+// export const NavList = styled.li`
+// 	display: flex;
+// 	flex-direction: column;
+// 	align-items: center;
+// 	justify-content: center;
+// 	flex-grow: 1;
+// 	gap: 4px;
+// 	font-size: 10px;
+// 	color: #767676;
+// 	text-decoration: none;
+// 	padding: 12px 0px 6px 0px;
+// `;
 
 export const NavLink = styled(Link)`
 	display: flex;
