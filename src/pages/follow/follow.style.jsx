@@ -48,11 +48,13 @@ export const UserContent = styled.div`
 `;
 
 export const UserFollowNickName = styled.p`
+	color: black;
 	font-size: 14px;
 	font-family: 'Suit-Bold';
 `;
 
 export const UserFollowIntro = styled.p`
+	color: black;
 	font-size: 12px;
 	font-weight: 400;
 	overflow: hidden;
