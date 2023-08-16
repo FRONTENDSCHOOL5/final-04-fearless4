@@ -111,25 +111,15 @@ export const ProfileCard = () => {
 					{!accountname ? (
 						<ProfileButtonWrap>
 							<ProfileButton
-								type='button'
-								onClick={() => {
-									navigate('./edit', {
-										state: {
-											profile: profile,
-										},
-									});
+								to={'./edit'}
+								state={{
+									profile: profile,
 								}}
 							>
 								프로필 수정
 							</ProfileButton>
 
-							<ProfileButton
-								product
-								type='button'
-								onClick={() => {
-									navigate('../../Product/upload');
-								}}
-							>
+							<ProfileButton product to={'../../Product/upload'}>
 								상품 등록
 							</ProfileButton>
 						</ProfileButtonWrap>
