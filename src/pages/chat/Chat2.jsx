@@ -33,8 +33,9 @@ import {
 	Time,
 	HomeContainer,
 	ChatImg,
+	ChatUser,
 } from './chat.style';
-import ProfilePic from '../../assets/image/profilePic.png';
+
 import UploadPic from '../../assets/image/profileImageUploadButton.png';
 import Alpaca from '../../assets/image/alpaca.png';
 import ChatProfile from '../../assets/image/chatProfile2.jpg';
@@ -71,13 +72,17 @@ export default function Chat() {
 							navigate(-1);
 						}}
 					/>
-					여행조아 <OptionModalTab onClick={handleModalOpen} />
+					<ChatUser>여행조아 </ChatUser>
+					<OptionModalTab onClick={handleModalOpen} />
 				</NavbarWrap>
 				<HomeContainer>
 					<ChatBox>
 						<Column>
 							<MessageRow>
-								<ProfileImg src={ChatProfile} />
+								<ProfileImg
+									src={ChatProfile}
+									alt='여행조아 프로필 이미지입니다'
+								/>
 								<MessageText>
 									<ChatText>
 										안녕하세요~ 올려주신 상품을 보다가 궁금한 점이 있어서 메시지
@@ -91,7 +96,10 @@ export default function Chat() {
 						</Column>
 						<Column>
 							<MessageRow>
-								<ProfileImg src={ChatProfile} />
+								<ProfileImg
+									src={ChatProfile}
+									alt='여행조아 프로필 이미지입니다'
+								/>
 								<MessageText>
 									<ChatText>
 										그리고 해당 상품 가격도 안내부탁드리겠습니다.
@@ -119,7 +127,7 @@ export default function Chat() {
 								<Time>4:31</Time>
 
 								<ChatTextRight>
-									<ChatImg src={Alpaca} />
+									<ChatImg src={Alpaca} alt='알파카 이미지' />
 								</ChatTextRight>
 							</MessageRow2>
 						</Column>

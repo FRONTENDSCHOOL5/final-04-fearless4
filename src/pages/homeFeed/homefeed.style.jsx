@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import searchIcon from '../../assets/icon/icon-search.svg';
 
-export const HomefeedWrap = styled.div`
+export const HomefeedWrap = styled.section`
 	height: calc(100vh - 50px - 50px);
 	overflow-x: hidden;
 	overflow-y: scroll;

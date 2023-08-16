@@ -19,7 +19,7 @@ import ChatProfile from '../../assets/image/chatProfile.jpg';
 import { Helmet } from 'react-helmet';
 
 export default function ChatList() {
-	const Date = styled.span`
+	const Date = styled.time`
 		margin-bottom: auto;
 		font-size: 10px;
 	`;
@@ -33,7 +33,7 @@ export default function ChatList() {
 		}
 	`;
 
-	const UserFlexWrap = styled.div`
+	const UserFlexWrap = styled.article`
 		display: flex;
 		padding: 12px 16px;
 		align-items: center;
