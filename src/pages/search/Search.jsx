@@ -9,6 +9,7 @@ import {
 	NoData2,
 	MoreBtn,
 	SearchTitle,
+	LinkStyle,
 } from './search.style';
 
 import {
@@ -107,7 +108,7 @@ export default function Search() {
 
 				{searchData?.map((item) => {
 					return (
-						<Link to={`/profile/${item.accountname}`}>
+						<Link to={`/profile/${item.accountname}`} style={LinkStyle}>
 							<Wrapper key={item.id}>
 								<UserWrap>
 									<UserFlexWrap>
@@ -116,16 +117,9 @@ export default function Search() {
 												src={item.image}
 												onError={onErrorImg}
 												alt='유저 프로필 이미지입니다.'
-												onClick={() => {
-													navigate(`/profile/${item.accountname}`);
-												}}
 											/>
 										</UserProfileImg>
-										<UserContent
-											onClick={() => {
-												navigate(`/profile/${item.accountname}`);
-											}}
-										>
+										<UserContent>
 											<UserFollowNickName>
 												<SearchColor
 													user={item.username}

@@ -48,6 +48,10 @@ export default function ChatList() {
 		gap: 12px;
 	`;
 
+	const linkStyle = {
+		color: 'black',
+	};
+
 	const navigate = useNavigate();
 
 	return (
@@ -67,7 +71,7 @@ export default function ChatList() {
 			<ChatWrap>
 				<ChatTitle>채팅 목록</ChatTitle>
 
-				<Link to='/chat/여행조아/'>
+				<Link to='/chat/여행조아/' style={linkStyle}>
 					<UserFlexWrap>
 						<ProfileWrap>
 							<UserProfileImg>
@@ -84,7 +88,7 @@ export default function ChatList() {
 						<Date>23.06.20</Date>
 					</UserFlexWrap>
 				</Link>
-				<Link to='/chat/choi/'>
+				<Link to='/chat/choi/' style={linkStyle}>
 					<UserFlexWrap>
 						<ProfileWrap>
 							<UserProfileImg>
