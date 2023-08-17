@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { PostDeleteContext } from '../post/PostDeleteContext.jsx';
-import { ProfilePageWrapper } from './Profile.style.jsx';
+import { ProfilePageWrapper, ProfileTitle } from './Profile.style.jsx';
 import { ProfileCard } from './ProfileCard.jsx';
 import {
 	Backspace,
@@ -82,11 +82,14 @@ export default function UserProfile() {
 				/>
 				<OptionModalTab aria-label='더보기' onClick={handleModalOpen} />
 			</NavbarWrap>
+
 			<ProfilePageWrapper>
 				{!isLoading && isUser === '이미 가입된 계정ID 입니다.' ? (
 					<>
+						<ProfileTitle>
+							{(!accountname ? myaccountname : accountname) + '의 프로필'}
+						</ProfileTitle>
 						<ProfileCard />
-
 						<ProductsForSale
 							userAccountName={!accountname ? myaccountname : accountname}
 						/>

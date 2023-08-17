@@ -1,12 +1,14 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-export const Wrapper = styled.div`
+export const Wrapper = styled.ul`
 	height: calc(100vh - 50px);
 	overflow-x: hidden;
 	overflow-y: scroll;
 	::-webkit-scrollbar {
 		width: 0px;
 	}
+	width: 100%;
 	box-sizing: border-box;
 	padding: 16px 16px;
 	display: flex;
@@ -14,17 +16,19 @@ export const Wrapper = styled.div`
 	gap: 22px;
 `;
 
-export const UserWrap = styled.div`
+export const UserWrap = styled.li`
 	width: 100%;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 `;
 
-export const UserFlexWrap = styled.div`
+export const UserFlexWrap = styled(Link)`
+	width: 100%;
 	display: flex;
 	align-items: center;
 	gap: 12px;
+	cursor: pointer;
 `;
 
 export const UserProfileImg = styled.article`
@@ -49,12 +53,14 @@ export const UserContent = styled.article`
 	cursor: pointer;
 `;
 
-export const UserFollowNickName = styled.h3`
+export const UserFollowNickName = styled.p`
+	color: black;
 	font-size: 14px;
 	font-family: 'Suit-Bold';
 `;
 
-export const UserFollowIntro = styled.span`
+export const UserFollowIntro = styled.p`
+	color: black;
 	font-size: 12px;
 	font-weight: 400;
 	overflow: hidden;
@@ -78,4 +84,15 @@ export const LoadingText = styled.span`
 	font-size: 16px;
 	text-align: center;
 	color: black;
+`;
+
+export const FollowTitle = styled.h1`
+	clip: rect(1px, 1px, 1px, 1px);
+	clip-path: inset(50%);
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
 `;
