@@ -1,7 +1,7 @@
 import React, { useState, useEffect, startTransition, useContext } from 'react';
 import { PostDeleteContext } from './PostDeleteContext';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import { accessInstance } from '../../api/axiosInstance';
 import { Post } from '../../components/post/Post';
 import {
 	Backspace,
@@ -34,7 +34,6 @@ import {
 } from '../../components/toast/toast.style';
 import profilePic from '../../assets/image/profilePic.png';
 import { Comment } from '../../components/post/Comment';
-import { API_URL } from '../../api';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
@@ -57,13 +56,8 @@ const ViewPost = () => {
 	const getCommentList = () => {
 		startTransition(async () => {
 			try {
-				await axios
-					.get(`${API_URL}/post/${postData.id}/comments/?limit=infinity`, {
-						headers: {
-							Authorization: `Bearer ${token}`,
-							'Content-type': 'application/json',
-						},
-					})
+				await accessInstance
+					.get(`/post/${postData.id}/comments/?limit=infinity`)
 					.then((response) => {
 						const sortedComments = response.data.comments.sort((a, b) => {
 							return new Date(a.createdAt) - new Date(b.createdAt);
@@ -78,16 +72,10 @@ const ViewPost = () => {
 
 	const getMyInfo = async () => {
 		try {
-			await axios
-				.get(`${API_URL}/user/myinfo`, {
-					headers: {
-						Authorization: `Bearer ${token}`,
-					},
-				})
-				.then((response) => {
-					setMyProfilePic(response.data.user.image);
-					setMyAccountName(response.data.user.accountname);
-				});
+			await accessInstance.get(`/user/myinfo`).then((response) => {
+				setMyProfilePic(response.data.user.image);
+				setMyAccountName(response.data.user.accountname);
+			});
 		} catch (error) {
 			console.error('오류 발생!', error.response || error);
 		}
@@ -120,16 +108,9 @@ const ViewPost = () => {
 	useEffect(() => {
 		const getApiData = async () => {
 			try {
-				await axios
-					.get(`${API_URL}/post/${id}`, {
-						headers: {
-							Authorization: `Bearer ${token}`,
-							'Content-type': 'application/json',
-						},
-					})
-					.then((response) => {
-						setPostData(response.data.post);
-					});
+				await accessInstance.get(`/post/${id}`).then((response) => {
+					setPostData(response.data.post);
+				});
 			} catch (error) {
 				console.error('데이터를 불러오지 못했습니다!', error);
 			}
@@ -147,20 +128,11 @@ const ViewPost = () => {
 
 	const handleCommentUpload = async () => {
 		try {
-			await axios.post(
-				`${API_URL}/post/${postData.id}/comments`,
-				{
-					comment: {
-						content: commentContent,
-					},
+			await accessInstance.post(`/post/${postData.id}/comments`, {
+				comment: {
+					content: commentContent,
 				},
-				{
-					headers: {
-						Authorization: `Bearer ${token}`,
-						'Content-type': 'application/json',
-					},
-				}
-			);
+			});
 
 			setCommentContent('');
 			await getCommentList();
@@ -199,7 +171,7 @@ const ViewPost = () => {
 						onClick={() =>
 							postData.author.accountname !== currentUserAccountName
 								? navigate(-1)
-								: navigate('../../profile/myProfile')
+								: navigate('../../profile')
 						}
 					/>
 					<OptionModalTab onClick={handleModalOpen}></OptionModalTab>

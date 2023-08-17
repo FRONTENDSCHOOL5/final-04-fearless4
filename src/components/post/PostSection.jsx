@@ -1,30 +1,22 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { PostDeleteContext } from '../../pages/post/PostDeleteContext';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { Post } from '../../components/post/Post';
 import { GridView, GridItem } from './postAlbum.style';
-import { API_URL } from '../../api';
+import { accessInstance } from '../../api/axiosInstance';
 
 const PostSection = ({ accountname, listView }) => {
 	const { deletedPostId } = useContext(PostDeleteContext);
 	const [posts, setPosts] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
-	const token = localStorage.getItem('token');
 	const navigate = useNavigate();
 
 	useEffect(() => {
 		if (accountname) {
 			const getPostList = async () => {
 				try {
-					const response = await axios.get(
-						`${API_URL}/post/${accountname}/userpost`,
-						{
-							headers: {
-								Authorization: `Bearer ${token}`,
-								'Content-type': 'application/json',
-							},
-						}
+					const response = await accessInstance.get(
+						`/post/${accountname}/userpost`
 					);
 					setPosts(response.data.post);
 				} catch (error) {
@@ -34,7 +26,7 @@ const PostSection = ({ accountname, listView }) => {
 			setIsLoading(true);
 			getPostList();
 		}
-	}, [accountname, token, deletedPostId]);
+	}, [accountname, deletedPostId]);
 
 	return (
 		<div>

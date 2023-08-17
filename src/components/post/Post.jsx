@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { PostDeleteContext } from '../../pages/post/PostDeleteContext';
-import axios from 'axios';
-import { API_URL } from '../../api';
 import {
 	Container,
 	Card,
@@ -42,6 +40,7 @@ import {
 	ToastMsgBold,
 } from '../../components/toast/toast.style';
 import { useNavigate } from 'react-router-dom';
+import { accessInstance } from '../../api/axiosInstance';
 
 const formatCreatedAt = (createdAt) => {
 	const date = new Date(createdAt);
@@ -51,7 +50,6 @@ const formatCreatedAt = (createdAt) => {
 
 export function Post({ postId }) {
 	const { setDeletedPostId } = useContext(PostDeleteContext);
-	const token = localStorage.getItem('token');
 	const currentUserAccountName = localStorage.getItem('userAccountName');
 	const [postData, setPostData] = useState(null);
 	const [isHearted, setIsHearted] = useState(false);
@@ -65,18 +63,10 @@ export function Post({ postId }) {
 	const [showAPIErrorToast, setShowAPIErrorToast] = useState(false);
 	const navigate = useNavigate();
 
-	const postInstance = axios.create({
-		baseURL: `${API_URL}/post/`, // 중복되는 baseURL 부분입니다.
-		headers: {
-			Authorization: `Bearer ${token}`, // 중복되는 헤더 부분입니다.
-			'Content-Type': 'application/json',
-		},
-	});
-
 	useEffect(() => {
 		const getpostData = async () => {
 			try {
-				await postInstance.get(`${postId}`).then((response) => {
+				await accessInstance.get(`/post/${postId}`).then((response) => {
 					setIsLoading(true);
 					setPostData(response.data.post);
 					setIsHearted(response.data.post.hearted);
@@ -95,15 +85,17 @@ export function Post({ postId }) {
 	const handleHeartClick = async () => {
 		try {
 			if (!isHearted) {
-				await postInstance.post(`${postId}/heart`).then((response) => {
+				await accessInstance.post(`/post/${postId}/heart`).then((response) => {
 					setIsHearted(true);
 					setHeartCount(response.data.post.heartCount);
 				});
 			} else {
-				await postInstance.delete(`${postId}/unheart`).then((response) => {
-					setIsHearted(false);
-					setHeartCount(response.data.post.heartCount);
-				});
+				await accessInstance
+					.delete(`/post/${postId}/unheart`)
+					.then((response) => {
+						setIsHearted(false);
+						setHeartCount(response.data.post.heartCount);
+					});
 			}
 		} catch (error) {
 			setShowAPIErrorToast(true);
@@ -145,7 +137,7 @@ export function Post({ postId }) {
 
 	const handlePostDeleteConfirmClick = async () => {
 		try {
-			await postInstance.delete(`${postId}`).then((response) => {
+			await accessInstance.delete(`/post/${postId}`).then((response) => {
 				setDeletedPostId(postData.id);
 			});
 		} catch (error) {
@@ -158,7 +150,7 @@ export function Post({ postId }) {
 		setShowPostDeleteToast(true);
 		setTimeout(() => {
 			setShowPostDeleteToast(false);
-			navigate('/profile/myProfile/');
+			navigate('/profile/');
 		}, 1000);
 	};
 
