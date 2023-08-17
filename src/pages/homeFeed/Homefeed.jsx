@@ -5,7 +5,11 @@ import {
 	NavbarWrap,
 	TitleLogo,
 } from '../../components/navbar/navbar.style.jsx';
-import { HomefeedWrap, SearchIcon } from '../homeFeed/homefeed.style.jsx';
+import {
+	HomefeedWrap,
+	SearchIcon,
+	HomeTitle,
+} from '../homeFeed/homefeed.style.jsx';
 import HomeFollower from './HomeFollower';
 import NoFeed from './NoFeed.jsx';
 import { BottomNavContainer } from '../../components/bottomnav/bottomnav.style';
@@ -100,7 +104,10 @@ export default function Homefeed() {
 					alt='검색 버튼'
 				/>
 			</NavbarWrap>
+
 			<HomefeedWrap id='homefeed-wrap'>
+				<HomeTitle>홈피드</HomeTitle>
+
 				{followingFeedData?.pages[0].data.length > 0
 					? newPost
 					: !isLoading && <NoFeed />}

@@ -10,7 +10,10 @@ export default function Topbtn({ scrollWrap }) {
 	};
 	return (
 		<>
-			<Topbutton onClick={scrollTop}></Topbutton>
+			<Topbutton
+				aria-label='페이지 최상단으로 이동합니다'
+				onClick={scrollTop}
+			></Topbutton>
 		</>
 	);
 }

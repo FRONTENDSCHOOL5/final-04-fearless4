@@ -8,6 +8,7 @@ import {
 	NoData,
 	NoData2,
 	MoreBtn,
+	SearchTitle,
 } from './search.style';
 
 import {
@@ -20,7 +21,7 @@ import {
 	UserFollowIntro,
 } from '../follow/follow.style';
 
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import ProfilePic from '../../assets/image/profilePic.png';
 import { Helmet } from 'react-helmet';
@@ -102,44 +103,48 @@ export default function Search() {
 				/>
 			</NavbarWrap>
 			<SearchWrap>
+				<SearchTitle>검색 결과</SearchTitle>
+
 				{searchData?.map((item) => {
 					return (
-						<Wrapper key={item.id}>
-							<UserWrap>
-								<UserFlexWrap>
-									<UserProfileImg>
-										<UserFollowImage
-											src={item.image}
-											onError={onErrorImg}
-											alt='유저 프로필 이미지입니다.'
+						<Link to={`/profile/${item.accountname}`}>
+							<Wrapper key={item.id}>
+								<UserWrap>
+									<UserFlexWrap>
+										<UserProfileImg>
+											<UserFollowImage
+												src={item.image}
+												onError={onErrorImg}
+												alt='유저 프로필 이미지입니다.'
+												onClick={() => {
+													navigate(`/profile/${item.accountname}`);
+												}}
+											/>
+										</UserProfileImg>
+										<UserContent
 											onClick={() => {
 												navigate(`/profile/${item.accountname}`);
 											}}
-										/>
-									</UserProfileImg>
-									<UserContent
-										onClick={() => {
-											navigate(`/profile/${item.accountname}`);
-										}}
-									>
-										<UserFollowNickName>
-											<SearchColor
-												user={item.username}
-												word={keyword}
-												type='username'
-											></SearchColor>
-										</UserFollowNickName>
-										<UserFollowIntro>
-											<SearchColor
-												user={`@${item.accountname}`}
-												word={keyword}
-												type='accountname'
-											/>
-										</UserFollowIntro>
-									</UserContent>
-								</UserFlexWrap>
-							</UserWrap>
-						</Wrapper>
+										>
+											<UserFollowNickName>
+												<SearchColor
+													user={item.username}
+													word={keyword}
+													type='username'
+												></SearchColor>
+											</UserFollowNickName>
+											<UserFollowIntro>
+												<SearchColor
+													user={`@${item.accountname}`}
+													word={keyword}
+													type='accountname'
+												/>
+											</UserFollowIntro>
+										</UserContent>
+									</UserFlexWrap>
+								</UserWrap>
+							</Wrapper>
+						</Link>
 					);
 				})}
 				{searchData?.length > 0 && searchData?.length >= page * 10 && (
