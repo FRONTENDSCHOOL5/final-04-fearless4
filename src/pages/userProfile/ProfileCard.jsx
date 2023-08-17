@@ -71,6 +71,11 @@ export const ProfileCard = () => {
 				<ProfileWrapper>
 					<ProfileImgWrap>
 						<FollowerWrap
+							aria-label={`${
+								!accountname ? myaccountname : accountname
+							}님이 현재 ${
+								profile.followerCount
+							}명이 팔로워 중 입니다. 클릭 시 팔로워된 유저 수를 확인할 수 있습니다.`}
 							to={accountname ? './follower' : `./${myaccountname}/follower`}
 						>
 							<FollowerNumber followers>{profile.followerCount}</FollowerNumber>
@@ -85,6 +90,11 @@ export const ProfileCard = () => {
 						></ProfileImage>
 
 						<FollowerWrap
+							aria-label={`${
+								!accountname ? myaccountname : accountname
+							}님이 현재 ${
+								profile.followingCount
+							}명이 팔로잉 중 입니다. 버튼 클릭 시 팔로잉한 유저 수를 확인할 수 있습니다.`}
 							to={accountname ? './following' : `./${myaccountname}/following`}
 						>
 							<FollowerNumber>{profile.followingCount}</FollowerNumber>
@@ -101,25 +111,15 @@ export const ProfileCard = () => {
 					{!accountname ? (
 						<ProfileButtonWrap>
 							<ProfileButton
-								type='button'
-								onClick={() => {
-									navigate('./edit', {
-										state: {
-											profile: profile,
-										},
-									});
+								to={'./edit'}
+								state={{
+									profile: profile,
 								}}
 							>
 								프로필 수정
 							</ProfileButton>
 
-							<ProfileButton
-								product
-								type='button'
-								onClick={() => {
-									navigate('../../Product/upload');
-								}}
-							>
+							<ProfileButton product to={'../../Product/upload'}>
 								상품 등록
 							</ProfileButton>
 						</ProfileButtonWrap>
