@@ -34,6 +34,7 @@ import {
 	HomeContainer,
 	ChatImg,
 	ChatUser,
+	ChatTitle,
 } from './chat.style';
 
 import UploadPic from '../../assets/image/profileImageUploadButton.png';
@@ -77,6 +78,8 @@ export default function Chat() {
 					<OptionModalTab aria-label='더보기' onClick={handleModalOpen} />
 				</NavbarWrap>
 				<HomeContainer>
+					<ChatTitle>여행조아 채팅방</ChatTitle>
+
 					<ChatBox>
 						<Column>
 							<MessageRow>

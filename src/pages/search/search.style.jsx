@@ -70,3 +70,17 @@ export const MoreBtn = styled.div`
 	color: #6b7d8c;
 	padding-bottom: 20px;
 `;
+
+export const SearchTitle = styled.h1`
+	clip: rect(1px, 1px, 1px, 1px);
+	clip-path: inset(50%);
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+`;
+export const LinkStyle = {
+	color: 'black',
+};
