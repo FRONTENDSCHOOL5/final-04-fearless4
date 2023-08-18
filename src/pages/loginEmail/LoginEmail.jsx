@@ -41,6 +41,12 @@ export default function LoginEmail() {
 	async function userLogin(e) {
 		e.preventDefault();
 		const url = 'https://api.mandarin.weniv.co.kr';
+		const data = {
+			user: {
+				email: email,
+				password: pw,
+			},
+		};
 		try {
 			const res = await axios({
 				method: 'post',
@@ -48,12 +54,7 @@ export default function LoginEmail() {
 				headers: {
 					'Content-Type': 'application/json',
 				},
-				data: {
-					user: {
-						email: email,
-						password: pw,
-					},
-				},
+				data,
 			});
 			const successRes = res.data;
 			if (successRes.user) {
