@@ -13,15 +13,16 @@ export const SnoringAnimation = keyframes`
 `;
 
 export const Page404Wrap = styled.div`
-	position: absolute;
-	top: 0;
-	left: 0;
+	height: calc(100vh - 50px - 50px);
+	overflow-x: hidden;
+	overflow-y: scroll;
+	::-webkit-scrollbar {
+		width: 0px;
+	}
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	background-color: #fff;
-	width: 100%;
-	height: 100vh;
 	overflow: hidden;
 `;
 

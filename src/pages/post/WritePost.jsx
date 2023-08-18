@@ -196,7 +196,7 @@ const WritePost = () => {
 			</Helmet>
 			<WrapperWritePost>
 				<NavbarWrap spaceBetween>
-					<Backspace onClick={() => navigate(-1)} />
+					<Backspace aria-label='뒤로가기' onClick={() => navigate(-1)} />
 					<UploadButton disabled={disabled} onClick={handleSubmit}>
 						업로드
 					</UploadButton>

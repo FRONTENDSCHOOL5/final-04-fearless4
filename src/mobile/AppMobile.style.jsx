@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const MoblieWrap = styled.div`
+export const MoblieWrap = styled.section`
 	display: flex;
 	justify-content: center;
 	background-color: #f5f5f5;
@@ -8,7 +8,7 @@ export const MoblieWrap = styled.div`
 
 export const MoblieWidth = styled.div`
 	width: 390px;
-	height: 100vh;
+	min-height: 100vh;
 	position: relative;
 	background-color: #fff;
 

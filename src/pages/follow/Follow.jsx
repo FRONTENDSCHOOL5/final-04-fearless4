@@ -13,6 +13,7 @@ import { useInView } from 'react-intersection-observer';
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 import { getFollow } from '../../api/followApi';
 import FollowItem from './FollowItem';
+import Topbtn from '../../components/button/Topbtn';
 
 export default function Follwers() {
 	const navigate = useNavigate();
@@ -22,6 +23,8 @@ export default function Follwers() {
 	const count = useRef(0);
 	const [ref, inView] = useInView();
 	const [hasNextPage, setHasNextPage] = useState(true);
+	const [showButton, setShowButton] = useState(false);
+	const scrollWrap = document.getElementById('follow-wrap');
 
 	const {
 		data: followData,
@@ -52,6 +55,22 @@ export default function Follwers() {
 		queryClient.removeQueries({ queryKey: 'getFollowData' });
 	}, []);
 
+	useEffect(() => {
+		if (scrollWrap) {
+			const handleShowBtn = () => {
+				if (scrollWrap.scrollTop > 500) {
+					setShowButton(true);
+				} else {
+					setShowButton(false);
+				}
+			};
+			scrollWrap.addEventListener('scroll', handleShowBtn);
+			return () => {
+				scrollWrap.removeEventListener('scroll', handleShowBtn);
+			};
+		}
+	}, [scrollWrap]);
+
 	return (
 		<>
 			<Helmet>
@@ -61,6 +80,7 @@ export default function Follwers() {
 			</Helmet>
 			<NavbarWrap>
 				<Backspace
+					aria-label='뒤로가기'
 					onClick={() => {
 						navigate(-1);
 					}}
@@ -73,7 +93,7 @@ export default function Follwers() {
 				<FollowTitle>
 					{accountUsername + '의 ' + followPage + '페이지 '}
 				</FollowTitle>
-				<Wrapper>
+				<Wrapper id='follow-wrap'>
 					{followData?.pages[0].data.length > 0
 						? followData?.pages.map((page) =>
 								page.data.map((follow) => {

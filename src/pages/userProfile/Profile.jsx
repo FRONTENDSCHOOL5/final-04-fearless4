@@ -24,6 +24,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Page404 from '../page404/Page404.jsx';
 import { useQuery } from '@tanstack/react-query';
 import { postAccountValid } from '../../api/profileApi.js';
+import Loading from '../../components/loading/Loading.jsx';
 export default function UserProfile() {
 	const [isModal, setIsModal] = useState(false);
 	const [isCheckModal, setIsCheckModal] = useState(false);
@@ -74,15 +75,17 @@ export default function UserProfile() {
 			</Helmet>
 			<NavbarWrap spaceBetween>
 				<Backspace
+					aria-label='뒤로가기'
 					onClick={() => {
 						navigate(-1);
 					}}
 				/>
-				<OptionModalTab onClick={handleModalOpen} />
+				<OptionModalTab aria-label='더보기' onClick={handleModalOpen} />
 			</NavbarWrap>
-			{!isLoading && isUser === '이미 가입된 계정ID 입니다.' ? (
-				<>
-					<ProfilePageWrapper>
+
+			<ProfilePageWrapper>
+				{!isLoading && isUser === '이미 가입된 계정ID 입니다.' ? (
+					<>
 						<ProfileTitle>
 							{(!accountname ? myaccountname : accountname) + '의 프로필'}
 						</ProfileTitle>
@@ -98,14 +101,15 @@ export default function UserProfile() {
 								accountname={!accountname ? myaccountname : accountname}
 							></PostList>
 						</PostDeleteContext.Provider>
-					</ProfilePageWrapper>
-				</>
-			) : (
-				!isLoading &&
-				isUser !== '이미 가입된 계정ID 입니다.' && (
-					<Page404 message='User not Found' />
-				)
-			)}
+					</>
+				) : (
+					!isLoading &&
+					isUser !== '이미 가입된 계정ID 입니다.' && (
+						<Page404 message='User not Found' />
+					)
+				)}
+			</ProfilePageWrapper>
+			{isLoading && <Loading />}
 
 			{isModal && (
 				<DarkBackground onClick={handleModalClose}>

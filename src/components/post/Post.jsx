@@ -203,7 +203,7 @@ export function Post({ postId }) {
 					<Card>
 						<ProfileImg
 							src={postData.author.image}
-							alt='Profile Image'
+							alt={`${postData.author.username} 프로필 이미지입니다.`}
 							className='profile_img'
 							onError={handleImgError}
 							onClick={() => {
@@ -230,6 +230,7 @@ export function Post({ postId }) {
 									alt='Dot Icon'
 								></Dot>
 							</Top>
+
 							<TextPost>{postData.content}</TextPost>
 							{postData.image && postData.image.trim() !== '' && (
 								<ImgBx>
@@ -240,12 +241,12 @@ export function Post({ postId }) {
 							<Icons>
 								<IconsImg
 									src={isHearted ? heartIconActive : heartIconInactive}
-									alt='Heart Icon'
+									alt='좋아요 버튼'
 									onClick={handleHeartClick}
 								/>
 								<IconsSpan>{heartCount}</IconsSpan>
 								<Link to={`/post/view/${postData.id}`}>
-									<IconsImg src={messageIcon} alt='Message Icon' />
+									<IconsImg src={messageIcon} alt='댓글 버튼' />
 								</Link>
 								<IconsSpan>{postData.commentCount}</IconsSpan>
 							</Icons>

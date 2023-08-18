@@ -47,8 +47,6 @@ export default function ProfileSetup() {
 	const [showSizeOverToast, setShowSizeOverToast] = useState(false);
 	const navigate = useNavigate();
 	const accountId = localStorage.getItem('userAccountName');
-	const maxSize = 1;
-	const maxHeight = 320;
 
 	useEffect(() => {
 		userId === profile.accountname &&
@@ -175,11 +173,7 @@ export default function ProfileSetup() {
 				<title>TravelUs | 프로필 수정</title>
 			</Helmet>
 			<NavbarWrap spaceBetween>
-				<Backspace
-					onClick={() => {
-						navigate(-1);
-					}}
-				/>
+				<Backspace aria-label='뒤로가기' to={'../../profile'} />
 				<SaveButton onClick={profileEdit} type='button' disabled={disabled}>
 					저장
 				</SaveButton>

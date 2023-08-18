@@ -2,6 +2,12 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const Wrapper = styled.ul`
+	height: calc(100vh - 50px);
+	overflow-x: hidden;
+	overflow-y: scroll;
+	::-webkit-scrollbar {
+		width: 0px;
+	}
 	width: 100%;
 	box-sizing: border-box;
 	padding: 16px 16px;
@@ -25,7 +31,7 @@ export const UserFlexWrap = styled(Link)`
 	cursor: pointer;
 `;
 
-export const UserProfileImg = styled.div`
+export const UserProfileImg = styled.article`
 	width: 50px;
 	height: 50px;
 	border-radius: 50%;
@@ -40,7 +46,7 @@ export const UserFollowImage = styled.img`
 	object-fit: cover;
 `;
 
-export const UserContent = styled.div`
+export const UserContent = styled.article`
 	display: flex;
 	flex-direction: column;
 	gap: 6px;

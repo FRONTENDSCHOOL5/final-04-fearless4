@@ -1,9 +1,14 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-export const ProfilePageWrapper = styled.main`
+export const ProfilePageWrapper = styled.div`
+	height: calc(100vh - 50px - 50px);
+	overflow-x: hidden;
+	overflow-y: scroll;
+	::-webkit-scrollbar {
+		width: 0px;
+	}
 	background-color: #f2f2f2;
-
 	display: flex;
 	flex-direction: column;
 	gap: 12px;
