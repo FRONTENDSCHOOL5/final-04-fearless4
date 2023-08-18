@@ -199,14 +199,14 @@ export function Post({ postId }) {
 							className='profile_img'
 							onError={handleImgError}
 							onClick={() => {
-								navigate(`../profile/${postData.author.accountname}`);
+								navigate('../../profile');
 							}}
 						/>
 						<RightCard>
 							<Top>
 								<UserDetails
 									onClick={() => {
-										navigate(`../profile/${postData.author.accountname}`);
+										navigate('../../profile');
 									}}
 								>
 									<SpanName className='span-name'>

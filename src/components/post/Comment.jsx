@@ -48,7 +48,7 @@ export const Comment = ({
 
 	const deleteMutation = useMutation(deleteComment, {
 		onSuccess: () => {
-			queryClient.invalidateQueries(['comments', postId]);
+			queryClient.invalidateQueries('comments');
 			setShowDeleteToast(true);
 			setTimeout(() => setShowDeleteToast(false), 1000);
 		},
