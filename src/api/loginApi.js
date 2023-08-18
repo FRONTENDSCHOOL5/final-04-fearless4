@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { instance } from './axiosInstance';
 
 export const postLogin = async (data) => {
