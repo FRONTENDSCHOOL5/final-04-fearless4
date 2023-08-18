@@ -65,7 +65,29 @@ export const LoginButton = styled.button`
 	cursor: ${({ disabled }) => (disabled === true ? 'not-allowed' : 'pointer')};
 `;
 
-export const ProfileButton = styled(Link)`
+export const ProfileEdit = styled(Link)`
+	font-family: 'Suit-Regular';
+	text-align: center;
+	font-size: 14px;
+	font-weight: 500;
+	background-color: #fff;
+	display: block;
+	width: 120px;
+	padding: 10px 0;
+	box-sizing: border-box;
+	color: #767676;
+	border-radius: 30px;
+	border: solid 1px #dbdbdb;
+
+	cursor: pointer;
+
+	&:hover {
+		color: #fff;
+		background-color: #81d8d0;
+	}
+`;
+
+export const ProfileButton = styled.button`
 	font-family: 'Suit-Regular';
 	text-align: center;
 	font-size: 14px;

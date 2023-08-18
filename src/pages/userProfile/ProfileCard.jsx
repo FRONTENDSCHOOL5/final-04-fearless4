@@ -19,6 +19,7 @@ import { ProfileImage } from './myProfileEdit.style.jsx';
 import {
 	ChatShare,
 	ProfileButton,
+	ProfileEdit,
 } from '../../components/button/button.style.jsx';
 import Loading from '../../components/loading/Loading.jsx';
 import { delUnFollow, postFollow } from '../../api/followApi.js';
@@ -110,16 +111,19 @@ export const ProfileCard = () => {
 
 					{!accountname ? (
 						<ProfileButtonWrap>
-							<ProfileButton
+							<ProfileEdit
 								to={'./edit'}
 								state={{
 									profile: profile,
 								}}
 							>
 								프로필 수정
-							</ProfileButton>
+							</ProfileEdit>
 
-							<ProfileButton product to={'../../Product/upload'}>
+							<ProfileButton
+								product
+								onClick={() => navigate('../../Product/upload')}
+							>
 								상품 등록
 							</ProfileButton>
 						</ProfileButtonWrap>
