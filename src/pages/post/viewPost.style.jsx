@@ -88,7 +88,7 @@ export const CommentText = styled.p`
 	line-height: 1.3em;
 `;
 
-export const UploadComment = styled.div`
+export const UploadComment = styled.section`
 	width: 390px;
 	box-sizing: border-box;
 	background-color: #fff;

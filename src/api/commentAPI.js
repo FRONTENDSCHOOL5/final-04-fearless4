@@ -1,6 +1,6 @@
 import { accessInstance } from './axiosInstance';
 
-export const deleteComment = async (postId, commentId) => {
+export const deleteComment = async ({ postId, commentId }) => {
 	try {
 		await accessInstance.delete(`/post/${postId}/comments/${commentId}`);
 	} catch (error) {

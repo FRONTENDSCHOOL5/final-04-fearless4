@@ -2,6 +2,12 @@ import styled from 'styled-components';
 
 export const SearchWrap = styled.div`
 	width: 100%;
+	height: calc(100vh - 50px - 50px);
+	overflow-x: hidden;
+	overflow-y: scroll;
+	::-webkit-scrollbar {
+		width: 0px;
+	}
 	padding-bottom: 50px;
 	background-color: #fff;
 	box-sizing: border-box;
@@ -23,7 +29,7 @@ export const SearchInput = styled.input`
 	font-size: 18px;
 `;
 
-export const Wrapper = styled.div`
+export const Wrapper = styled.article`
 	width: 100%;
 	box-sizing: border-box;
 	padding: 16px;
@@ -64,3 +70,17 @@ export const MoreBtn = styled.div`
 	color: #6b7d8c;
 	padding-bottom: 20px;
 `;
+
+export const SearchTitle = styled.h1`
+	clip: rect(1px, 1px, 1px, 1px);
+	clip-path: inset(50%);
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+`;
+export const LinkStyle = {
+	color: 'black',
+};

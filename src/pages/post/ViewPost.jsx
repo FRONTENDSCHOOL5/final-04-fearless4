@@ -168,13 +168,17 @@ const ViewPost = () => {
 			<WrapperViewPost>
 				<NavbarWrap spaceBetween>
 					<Backspace
+						aria-label='뒤로가기'
 						onClick={() =>
 							postData.author.accountname !== currentUserAccountName
 								? navigate(-1)
 								: navigate('../../profile')
 						}
 					/>
-					<OptionModalTab onClick={handleModalOpen}></OptionModalTab>
+					<OptionModalTab
+						aria-label='더보기'
+						onClick={handleModalOpen}
+					></OptionModalTab>
 				</NavbarWrap>
 
 				{isLoading && (

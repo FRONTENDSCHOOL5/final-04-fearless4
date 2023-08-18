@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
 import ProductCard from '../pages/product/ProductCard';
 
 const LoginEmail = lazy(() => import('../pages/loginEmail/LoginEmail'));
-const Splash = lazy(() => import('../pages/splash/Splash'));
 const Login = lazy(() => import('../pages/login/Login'));
 const ProfileSetup = lazy(() => import('../pages/profileSetup/ProfileSetup'));
 const Signup = lazy(() => import('../pages/loginEmail/Signup'));
@@ -20,11 +19,12 @@ const ChatList = lazy(() => import('../pages/chat/ChatList'));
 const Chat = lazy(() => import('../pages/chat/Chat'));
 const Chat2 = lazy(() => import('../pages/chat/Chat2'));
 const Page404 = lazy(() => import('../pages/page404/Page404'));
+const Loading = lazy(() => import('../components/loading/Loading'));
 
 export default function Router() {
 	return (
 		<BrowserRouter basename=''>
-			<Suspense fallback={<Splash />}>
+			<Suspense fallback={<Loading />}>
 				<Routes>
 					<Route path='/' element={<Login />} />
 					<Route path='/homefeed' element={<Homefeed />}></Route>

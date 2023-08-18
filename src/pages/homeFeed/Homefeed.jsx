@@ -5,7 +5,11 @@ import {
 	NavbarWrap,
 	TitleLogo,
 } from '../../components/navbar/navbar.style.jsx';
-import { HomefeedWrap, SearchIcon } from '../homeFeed/homefeed.style.jsx';
+import {
+	HomefeedWrap,
+	SearchIcon,
+	HomeTitle,
+} from '../homeFeed/homefeed.style.jsx';
 import HomeFollower from './HomeFollower';
 import NoFeed from './NoFeed.jsx';
 import { BottomNavContainer } from '../../components/bottomnav/bottomnav.style';
@@ -15,6 +19,7 @@ import { Helmet } from 'react-helmet';
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'; //react-query
 import { useInView } from 'react-intersection-observer'; //라이브러리
 import getHomefeed from '../../api/homefeedApi.js';
+import Topbtn from '../../components/button/Topbtn.jsx';
 
 export default function Homefeed() {
 	const [deletedPostId, setDeletedPostId] = useState(null);
@@ -23,6 +28,8 @@ export default function Homefeed() {
 	const count = useRef(0);
 	const [newPost, setPost] = useState([]);
 	const queryClient = useQueryClient();
+	const [showButton, setShowButton] = useState(false);
+	const scrollWrap = document.getElementById('homefeed-wrap');
 
 	const {
 		data: followingFeedData,
@@ -67,6 +74,22 @@ export default function Homefeed() {
 		setPost(newPosts);
 	}, [followingFeedData]);
 
+	useEffect(() => {
+		if (scrollWrap) {
+			const handleShowBtn = () => {
+				if (scrollWrap.scrollTop > 500) {
+					setShowButton(true);
+				} else {
+					setShowButton(false);
+				}
+			};
+			scrollWrap.addEventListener('scroll', handleShowBtn);
+			return () => {
+				scrollWrap.removeEventListener('scroll', handleShowBtn);
+			};
+		}
+	}, [scrollWrap]);
+
 	return (
 		<>
 			<Helmet>
@@ -78,18 +101,21 @@ export default function Homefeed() {
 					onClick={() => {
 						navigate('/Search');
 					}}
-					alt='검색 아이콘'
+					alt='검색 버튼'
 				/>
 			</NavbarWrap>
-			<HomefeedWrap>
+
+			<HomefeedWrap id='homefeed-wrap'>
+				<HomeTitle>홈피드</HomeTitle>
+
 				{followingFeedData?.pages[0].data.length > 0
 					? newPost
 					: !isLoading && <NoFeed />}
-				<div ref={ref} />
-
-				<BottomNavContainer home />
+				<div style={{ height: '1px' }} ref={ref} />
+				{showButton && <Topbtn scrollWrap={scrollWrap} />}
 				{isLoading && <Loading />}
 			</HomefeedWrap>
+			<BottomNavContainer home />
 		</>
 	);
 }

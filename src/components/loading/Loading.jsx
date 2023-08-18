@@ -2,6 +2,13 @@ import React from 'react';
 import Load from './loading.gif';
 import styled from 'styled-components';
 
+export const LoadingWrap = styled.div`
+	width: 100%;
+	position: absolute;
+	height: calc(100vh - 50px - 50px);
+	background-color: #fff;
+`;
+
 const Loaded = styled.img`
 	position: absolute;
 	top: 50%;
@@ -10,5 +17,9 @@ const Loaded = styled.img`
 `;
 
 export default function Loading() {
-	return <Loaded src={Load} alt='로딩중' width='20%' />;
+	return (
+		<LoadingWrap>
+			<Loaded src={Load} alt='로딩중' width='20%' />
+		</LoadingWrap>
+	);
 }

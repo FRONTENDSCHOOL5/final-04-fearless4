@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import moment from 'moment';
 import 'moment/locale/ko';
 import {
@@ -29,75 +30,69 @@ export const Comment = ({
 	reloadComments,
 	currentUsername,
 }) => {
+	const navigate = useNavigate();
+	const queryClient = useQueryClient();
+
 	const currentUserAccountName = localStorage.getItem('userAccountName');
 	const { author, createdAt, content, id } = comment;
+
 	const [isCommentModal, setIsCommentModal] = useState(false);
 	const [showDeleteToast, setShowDeleteToast] = useState(false);
 	const [showReportToast, setShowReportToast] = useState(false);
-	const navigate = useNavigate();
 
 	moment.locale('ko');
 	const fromNow = moment(createdAt).fromNow();
 
-	const handleCommentModalOpen = () => {
-		setIsCommentModal(true);
-	};
+	const handleCommentModalOpen = () => setIsCommentModal(true);
+	const handleCommentModalClose = () => setIsCommentModal(false);
 
-	const handleCommentModalClose = () => {
+	const deleteMutation = useMutation(deleteComment, {
+		onSuccess: () => {
+			queryClient.invalidateQueries(['comments', postId]);
+			setShowDeleteToast(true);
+			setTimeout(() => setShowDeleteToast(false), 1000);
+		},
+	});
+
+	const reportMutation = useMutation(reportComment, {
+		onSuccess: () => {
+			setShowReportToast(true);
+			setTimeout(() => setShowReportToast(false), 1000);
+		},
+	});
+
+	const handleCommentDeleteClick = () => {
+		deleteMutation.mutate({ postId, commentId: id });
 		setIsCommentModal(false);
 	};
 
-	const handleCommentDeleteClick = async () => {
-		try {
-			await deleteComment(postId, id);
-			setIsCommentModal(false);
-			reloadComments();
-			setShowDeleteToast(true);
-			setTimeout(() => setShowDeleteToast(false), 1000);
-		} catch (error) {
-			console.error(error);
-		}
-	};
-
-	const handleReportClick = async () => {
-		try {
-			await reportComment(id);
-			setShowReportToast(true);
-			setTimeout(() => setShowReportToast(false), 1000);
-		} catch (error) {
-			console.error(error);
-		}
+	const handleReportClick = () => {
+		reportMutation.mutate({ id });
 	};
 
 	const handleImgError = (e) => {
 		e.target.src = profilePic;
 	};
 
-	const DeleteToast = () => (
-		<>
-			{showDeleteToast && (
-				<ToastContainer>
-					<ToastIcon>🗑️</ToastIcon>
-					<ToastMsg>
-						<ToastMsgBold>댓글</ToastMsgBold>이 삭제되었습니다.
-					</ToastMsg>
-				</ToastContainer>
-			)}
-		</>
-	);
+	const DeleteToast = () =>
+		showDeleteToast && (
+			<ToastContainer>
+				<ToastIcon>🗑️</ToastIcon>
+				<ToastMsg>
+					<ToastMsgBold>댓글</ToastMsgBold>이 삭제되었습니다.
+				</ToastMsg>
+			</ToastContainer>
+		);
 
-	const ReportToast = () => (
-		<>
-			{showReportToast && (
-				<ToastContainer>
-					<ToastIcon>🚨</ToastIcon>
-					<ToastMsg>
-						<ToastMsgBold>댓글</ToastMsgBold>이 신고되었습니다.
-					</ToastMsg>
-				</ToastContainer>
-			)}
-		</>
-	);
+	const ReportToast = () =>
+		showReportToast && (
+			<ToastContainer>
+				<ToastIcon>🚨</ToastIcon>
+				<ToastMsg>
+					<ToastMsgBold>댓글</ToastMsgBold>이 신고되었습니다.
+				</ToastMsg>
+			</ToastContainer>
+		);
 
 	return (
 		<CommentWrapper>
@@ -106,16 +101,16 @@ export const Comment = ({
 				onError={handleImgError}
 				onClick={() => {
 					currentUserAccountName === author.accountname
-						? navigate('../../profile/myprofile')
+						? navigate('../../profile')
 						: navigate(`../../profile/${author.accountname}`);
 				}}
-			></FollowerProfileImageComment>
+			/>
 			<CommentDetail>
 				<CommentFollower>
 					<CommentFollowerName
 						onClick={() => {
 							currentUserAccountName === author.accountname
-								? navigate('../../profile/myprofile')
+								? navigate('../../profile')
 								: navigate(`../../profile/${author.accountname}`);
 						}}
 					>
@@ -123,12 +118,9 @@ export const Comment = ({
 					</CommentFollowerName>
 					<CommentTime>{fromNow}</CommentTime>
 				</CommentFollower>
-
 				<CommentText>{content}</CommentText>
 			</CommentDetail>
-			<OptionModalTabComment
-				onClick={handleCommentModalOpen}
-			></OptionModalTabComment>
+			<OptionModalTabComment onClick={handleCommentModalOpen} />
 			{isCommentModal && (
 				<DarkBackground onClick={handleCommentModalClose}>
 					<ModalWrap>
@@ -142,6 +134,8 @@ export const Comment = ({
 			)}
 			<DeleteToast />
 			<ReportToast />
+			{deleteMutation.isError && <div>Error deleting comment</div>}
+			{reportMutation.isError && <div>Error reporting comment</div>}
 		</CommentWrapper>
 	);
 };

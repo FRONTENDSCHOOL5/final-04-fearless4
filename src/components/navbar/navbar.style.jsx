@@ -2,11 +2,12 @@ import styled from 'styled-components';
 import arrowIcon from '../../assets/icon/arrow-left.svg';
 import optionIcon from '../../assets/icon/option.svg';
 import Cat from '../../assets/image/cat.png';
+import { Link } from 'react-router-dom';
 
-export const NavbarWrap = styled.div`
-	position: sticky;
+export const NavbarWrap = styled.header`
+	position: relative;
 	width: 100%;
-	height: 50px;
+	height: 48px;
 	display: flex;
 	align-items: center;
 	justify-content: ${({ spaceBetween }) =>
@@ -16,10 +17,10 @@ export const NavbarWrap = styled.div`
 	top: 0;
 	background-color: #fff;
 	border-bottom: solid 1px #dbdbdb;
-	z-index: 888;
+	z-index: 1;
 `;
 
-export const Backspace = styled.button`
+export const Backspace = styled(Link)`
 	width: 22px;
 	height: 22px;
 	border: none;
@@ -54,18 +55,18 @@ export const TitleImg = styled.img`
 	margin-left: ${({ ml }) => (ml === true ? '-15px' : 'initial')};
 `;
 
-export const TitleColorMint = styled.span`
+export const TitleColorMint = styled.h2`
 	color: #81d8d0;
 `;
 
-export const TitleColorGray = styled.span`
+export const TitleColorGray = styled.h2`
 	color: #767676;
 `;
 
 export function TitleLogo() {
 	return (
 		<TitleLogoWrap>
-			<TitleImg src={Cat} ml />
+			<TitleImg src={Cat} alt='TravelUs 로고' ml />
 			<TitleColorMint>T</TitleColorMint>
 			<TitleColorGray>ravel</TitleColorGray>
 			<TitleColorMint>Us</TitleColorMint>
