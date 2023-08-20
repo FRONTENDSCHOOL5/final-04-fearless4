@@ -6,6 +6,7 @@ import {
 	InputStyle,
 	Incorrect,
 	Title,
+	Correct,
 } from '../../components/form/form.style.jsx';
 import { WrapperLoginEmail } from './loginEmail.style.jsx';
 import { LoginButton } from '../../components/button/button.style.jsx';
@@ -83,6 +84,8 @@ export default function Signup() {
 			setValidEmail(false);
 		}
 	};
+	console.log(validEmail);
+	console.log(duplicateEmail);
 
 	return (
 		<>
@@ -106,7 +109,11 @@ export default function Signup() {
 							placeholder='이메일 주소를 입력해 주세요.'
 						/>
 
-						{duplicateEmail && <Incorrect ref={emailAlertMsg}></Incorrect>}
+						{duplicateEmail && validEmail ? (
+							<Correct ref={emailAlertMsg}></Correct>
+						) : (
+							<Incorrect ref={emailAlertMsg}></Incorrect>
+						)}
 					</WrapEmailPw>
 					<WrapEmailPw>
 						<LabelStyle htmlFor='userpw'>비밀번호</LabelStyle>

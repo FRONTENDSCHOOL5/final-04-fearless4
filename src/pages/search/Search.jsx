@@ -9,7 +9,6 @@ import {
 	NoData2,
 	MoreBtn,
 	SearchTitle,
-	LinkStyle,
 } from './search.style';
 
 import {
@@ -108,37 +107,38 @@ export default function Search() {
 
 				{searchData?.map((item) => {
 					return (
-						<Link to={`/profile/${item.accountname}`} style={LinkStyle}>
-							<Wrapper key={item.id}>
-								<UserWrap>
-									<UserFlexWrap>
-										<UserProfileImg>
-											<UserFollowImage
-												src={item.image}
-												onError={onErrorImg}
-												alt='유저 프로필 이미지입니다.'
+						<Wrapper key={item.id}>
+							<UserWrap>
+								<UserFlexWrap
+									to={`/profile/${item.accountname}`}
+									aria-label={`${item.accountname} 프로필로 이동합니다.`}
+								>
+									<UserProfileImg>
+										<UserFollowImage
+											src={item.image}
+											onError={onErrorImg}
+											alt='유저 프로필 이미지입니다.'
+										/>
+									</UserProfileImg>
+									<UserContent>
+										<UserFollowNickName>
+											<SearchColor
+												user={item.username}
+												word={keyword}
+												type='username'
+											></SearchColor>
+										</UserFollowNickName>
+										<UserFollowIntro>
+											<SearchColor
+												user={`@${item.accountname}`}
+												word={keyword}
+												type='accountname'
 											/>
-										</UserProfileImg>
-										<UserContent>
-											<UserFollowNickName>
-												<SearchColor
-													user={item.username}
-													word={keyword}
-													type='username'
-												></SearchColor>
-											</UserFollowNickName>
-											<UserFollowIntro>
-												<SearchColor
-													user={`@${item.accountname}`}
-													word={keyword}
-													type='accountname'
-												/>
-											</UserFollowIntro>
-										</UserContent>
-									</UserFlexWrap>
-								</UserWrap>
-							</Wrapper>
-						</Link>
+										</UserFollowIntro>
+									</UserContent>
+								</UserFlexWrap>
+							</UserWrap>
+						</Wrapper>
 					);
 				})}
 				{searchData?.length > 0 && searchData?.length >= page * 10 && (
