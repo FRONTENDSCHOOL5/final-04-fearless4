@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-export const ProfilePageWrapper = styled.div`
+export const ProfilePageWrapper = styled.main`
 	height: calc(100vh - 50px - 50px);
 	overflow-x: hidden;
 	overflow-y: scroll;
