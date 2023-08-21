@@ -120,10 +120,7 @@ export const ProfileCard = () => {
 								프로필 수정
 							</ProfileEdit>
 
-							<ProfileButton
-								product
-								onClick={() => navigate('../../Product/upload')}
-							>
+							<ProfileButton product='true' to={'../../Product/upload'}>
 								상품 등록
 							</ProfileButton>
 						</ProfileButtonWrap>
@@ -131,7 +128,7 @@ export const ProfileCard = () => {
 						<ProfileButtonWrap>
 							<ChatShare type='button' chatting />
 							<ProfileButton
-								follow={profile.isfollow === true ? false : true}
+								follow={profile.isfollow === true ? 'false' : 'true'}
 								type='button'
 								onClick={(e) => handleFollowChange(e)}
 							>
