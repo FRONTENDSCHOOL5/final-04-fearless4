@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-export const WrapperLoginEmail = styled.div`
+export const WrapperLoginEmail = styled.section`
 	width: 100%;
 	gap: 20px;
 	margin: 0 auto;
