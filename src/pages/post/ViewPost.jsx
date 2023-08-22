@@ -171,7 +171,7 @@ const ViewPost = () => {
 						aria-label='뒤로가기'
 						onClick={() =>
 							postData.author.accountname !== currentUserAccountName
-								? navigate(-1)
+								? navigate(`../../profile/${postData.author.accountname}`)
 								: navigate('../../profile')
 						}
 					/>
