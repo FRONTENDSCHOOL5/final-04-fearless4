@@ -59,6 +59,8 @@ export default function ProfileSetup() {
 	const handleImageInputChange = (e) => {
 		imageValidation(
 			e,
+			1,
+			320,
 			setSelectedImage,
 			setShowSizeOverToast,
 			setShowWrongExtensionToast
@@ -171,11 +173,7 @@ export default function ProfileSetup() {
 				<title>TravelUs | 프로필 수정</title>
 			</Helmet>
 			<NavbarWrap spaceBetween>
-				<Backspace
-					onClick={() => {
-						navigate(-1);
-					}}
-				/>
+				<Backspace aria-label='뒤로가기' to={'../../profile'} />
 				<SaveButton onClick={profileEdit} type='button' disabled={disabled}>
 					저장
 				</SaveButton>

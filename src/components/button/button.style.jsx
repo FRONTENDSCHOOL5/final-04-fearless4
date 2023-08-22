@@ -3,6 +3,7 @@ import socialImg from '../../assets/image/social_login_sprites.png';
 import chat from '../../assets/icon/icon-message-circle.svg';
 import share from '../../assets/icon/share.svg';
 import UploadImage from '../../assets/icon/upload-image.svg';
+import { Link } from 'react-router-dom';
 
 export const SocialLoginButton = styled.button`
 	font-family: 'Suit-Regular';
@@ -64,14 +65,16 @@ export const LoginButton = styled.button`
 	cursor: ${({ disabled }) => (disabled === true ? 'not-allowed' : 'pointer')};
 `;
 
-export const ProfileButton = styled.button`
+export const ProfileButton = styled(Link)`
 	font-family: 'Suit-Regular';
+	text-align: center;
 	font-size: 14px;
 	font-weight: 500;
 	background-color: ${({ follow }) => (follow === true ? `#81d8d0` : `#fff`)};
 	display: block;
 	width: ${({ product }) => (product === true ? `100px` : `120px`)};
-	padding: 8px 0;
+	padding: 10px 0;
+	box-sizing: border-box;
 	color: ${({ follow }) => (follow === true ? `#fff` : `#767676`)};
 	border-radius: 30px;
 	border: ${({ follow }) =>

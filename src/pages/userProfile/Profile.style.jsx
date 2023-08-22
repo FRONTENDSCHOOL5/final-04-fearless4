@@ -2,14 +2,19 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const ProfilePageWrapper = styled.div`
+	height: calc(100vh - 50px - 50px);
+	overflow-x: hidden;
+	overflow-y: scroll;
+	::-webkit-scrollbar {
+		width: 0px;
+	}
 	background-color: #f2f2f2;
-
 	display: flex;
 	flex-direction: column;
 	gap: 12px;
 `;
 
-export const ProfileWrapper = styled.div`
+export const ProfileWrapper = styled.section`
 	width: 100%;
 	position: relative;
 	box-sizing: border-box;
@@ -53,10 +58,15 @@ export const Follower = styled.span`
 `;
 
 export const FollowerWrap = styled(Link)`
+	width: 55px;
+	flex-shrink: 0;
+	border: 0;
+	background-color: transparent;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	gap: 6px;
+	cursor: pointer;
 `;
 
 export const ProfileImgWrap = styled.div`
@@ -77,4 +87,13 @@ export const ProfileButtonWrap = styled.div`
 	gap: 12px;
 `;
 
-export const ProductWrap = styled.div``;
+export const ProfileTitle = styled.h1`
+	clip: rect(1px, 1px, 1px, 1px);
+	clip-path: inset(50%);
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+`;

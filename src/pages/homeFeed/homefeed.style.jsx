@@ -1,10 +1,13 @@
 import styled from 'styled-components';
 import searchIcon from '../../assets/icon/icon-search.svg';
 
-export const HomefeedWrap = styled.div`
-	width: 100%;
-	padding-bottom: 20px;
-	height: 100%;
+export const HomefeedWrap = styled.section`
+	height: calc(100vh - 50px - 50px);
+	overflow-x: hidden;
+	overflow-y: scroll;
+	::-webkit-scrollbar {
+		width: 0px;
+	}
 `;
 
 export const NavTitle = styled.span`
@@ -48,4 +51,15 @@ export const SearchBtn = styled.button`
 	border-radius: 44px;
 	border: none;
 	cursor: pointer;
+`;
+
+export const HomeTitle = styled.h1`
+	clip: rect(1px, 1px, 1px, 1px);
+	clip-path: inset(50%);
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
 `;

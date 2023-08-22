@@ -24,7 +24,10 @@ export default function ProductCard({ item, handleCard, handleModal }) {
 				<ProductName style={{ marginLeft: '10px', fontWeight: 'bold' }}>
 					{item.itemName}
 				</ProductName>
-				<OptionModalTab onClick={(e, boolean) => handleModal(e, true)} />
+				<OptionModalTab
+					aria-label='더보기'
+					onClick={(e, boolean) => handleModal(e, true)}
+				/>
 			</ProductCardContainer>
 
 			<ProductPrice style={{ marginLeft: '10px', marginTop: '8px' }}>
