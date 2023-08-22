@@ -62,7 +62,7 @@ export default function ProductsForSale() {
 	});
 
 	const handleModalOpen = (item) => {
-		if (accountUsername === data) {
+		if (!accountUsername) {
 			setIsCard(true);
 			setIsUserModal(true);
 			setSelectedProduct(item);
