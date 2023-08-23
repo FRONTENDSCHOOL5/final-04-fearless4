@@ -104,6 +104,7 @@ export default function Follwers() {
 					{isLoading && <Loading />}
 					{hasNextPage && <div ref={ref} />}
 				</Wrapper>
+				{showButton && <Topbtn scrollWrap={scrollWrap} />}
 			</main>
 		</>
 	);
