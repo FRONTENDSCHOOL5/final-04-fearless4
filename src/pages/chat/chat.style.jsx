@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const HomeContainer = styled.div`
+export const HomeContainer = styled.main`
 	position: relative;
 	width: 100%;
 	height: calc(100vh - 50px - 50px);
