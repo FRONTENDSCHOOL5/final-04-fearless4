@@ -70,6 +70,7 @@ export const MessageText2 = styled.div`
 export const ProfileImg = styled.img`
 	width: 30px;
 	height: 30px;
+	object-fit: cover;
 	border-radius: 50%;
 	margin-bottom: auto;
 `;
