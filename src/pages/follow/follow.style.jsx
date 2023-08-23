@@ -49,6 +49,7 @@ export const UserFollowImage = styled.img`
 export const UserContent = styled.article`
 	display: flex;
 	flex-direction: column;
+	justify-content: center;
 	gap: 6px;
 	cursor: pointer;
 `;

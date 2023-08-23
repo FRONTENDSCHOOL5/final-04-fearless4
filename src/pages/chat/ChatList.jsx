@@ -21,6 +21,7 @@ import { ChatTitle } from './chat.style';
 
 const Date = styled.time`
 	margin-bottom: auto;
+	padding-top: 10px;
 	font-size: 10px;
 `;
 
@@ -33,7 +34,7 @@ const ChatWrap = styled.main`
 	}
 `;
 
-const UserFlexWrap = styled.article`
+const UserFlexWrap = styled.div`
 	display: flex;
 	padding: 12px 16px;
 	align-items: center;
@@ -71,39 +72,44 @@ export default function ChatList() {
 			<ChatWrap>
 				<ChatTitle>채팅 목록</ChatTitle>
 
-				<Link to='/chat/여행조아/' style={linkStyle}>
-					<UserFlexWrap>
-						<ProfileWrap>
-							<UserProfileImg>
-								<UserFollowImage src={Chatprofile2} alt='프로필 이미지' />
-							</UserProfileImg>
-							<UserContent>
-								<UserFollowNickName>여행조아</UserFollowNickName>
-								<UserFollowIntro>
-									안녕하세요~ 올려주신 상품을 보다가 궁금한 점이 있어서 메시지
-									남깁니다...
-								</UserFollowIntro>
-							</UserContent>
-						</ProfileWrap>
-						<Date>23.06.20</Date>
-					</UserFlexWrap>
-				</Link>
-				<Link to='/chat/choi/' style={linkStyle}>
-					<UserFlexWrap>
-						<ProfileWrap>
-							<UserProfileImg>
-								<UserFollowImage src={ChatProfile} alt='프로필 이미지' />
-							</UserProfileImg>
-							<UserContent>
-								<UserFollowNickName>choi</UserFollowNickName>
-								<UserFollowIntro>
-									안녕하세요! 판매중이신 상품들 중에...
-								</UserFollowIntro>
-							</UserContent>
-						</ProfileWrap>
-						<Date>23.06.20</Date>
-					</UserFlexWrap>
-				</Link>
+				<article>
+					<Link to='/chat/여행조아/' style={linkStyle}>
+						<UserFlexWrap>
+							<ProfileWrap>
+								<UserProfileImg>
+									<UserFollowImage src={Chatprofile2} alt='프로필 이미지' />
+								</UserProfileImg>
+								<UserContent>
+									<UserFollowNickName>여행조아</UserFollowNickName>
+									<UserFollowIntro>
+										안녕하세요~ 올려주신 상품을 보다가 궁금한 점이 있어서 메시지
+										남깁니다.
+									</UserFollowIntro>
+								</UserContent>
+							</ProfileWrap>
+							<Date>23.06.20</Date>
+						</UserFlexWrap>
+					</Link>
+				</article>
+				<article>
+					<Link to='/chat/choi/' style={linkStyle}>
+						<UserFlexWrap>
+							<ProfileWrap>
+								<UserProfileImg>
+									<UserFollowImage src={ChatProfile} alt='프로필 이미지' />
+								</UserProfileImg>
+								<UserContent>
+									<UserFollowNickName>choi</UserFollowNickName>
+									<UserFollowIntro>
+										안녕하세요! 판매중이신 상품들 중에 친구들과 가기 좋은 곳이
+										어디있을까요?
+									</UserFollowIntro>
+								</UserContent>
+							</ProfileWrap>
+							<Date>23.06.20</Date>
+						</UserFlexWrap>
+					</Link>
+				</article>
 			</ChatWrap>
 
 			<BottomNavContainer message />
