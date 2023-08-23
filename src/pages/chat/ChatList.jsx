@@ -19,39 +19,39 @@ import ChatProfile from '../../assets/image/chatProfile.jpg';
 import { Helmet } from 'react-helmet';
 import { ChatTitle } from './chat.style';
 
+const Date = styled.time`
+	margin-bottom: auto;
+	font-size: 10px;
+`;
+
+const ChatWrap = styled.main`
+	height: calc(100vh - 50px - 50px);
+	overflow-x: hidden;
+	overflow-y: scroll;
+	::-webkit-scrollbar {
+		width: 0px;
+	}
+`;
+
+const UserFlexWrap = styled.article`
+	display: flex;
+	padding: 12px 16px;
+	align-items: center;
+	gap: 12px;
+	justify-content: space-between;
+	cursor: pointer;
+`;
+
+const ProfileWrap = styled.div`
+	display: flex;
+	gap: 12px;
+`;
+
+const linkStyle = {
+	color: 'black',
+};
+
 export default function ChatList() {
-	const Date = styled.time`
-		margin-bottom: auto;
-		font-size: 10px;
-	`;
-
-	const ChatWrap = styled.div`
-		height: calc(100vh - 50px - 50px);
-		overflow-x: hidden;
-		overflow-y: scroll;
-		::-webkit-scrollbar {
-			width: 0px;
-		}
-	`;
-
-	const UserFlexWrap = styled.article`
-		display: flex;
-		padding: 12px 16px;
-		align-items: center;
-		gap: 12px;
-		justify-content: space-between;
-		cursor: pointer;
-	`;
-
-	const ProfileWrap = styled.div`
-		display: flex;
-		gap: 12px;
-	`;
-
-	const linkStyle = {
-		color: 'black',
-	};
-
 	const navigate = useNavigate();
 
 	return (
