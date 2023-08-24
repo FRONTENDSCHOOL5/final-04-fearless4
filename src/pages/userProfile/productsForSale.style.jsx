@@ -1,13 +1,13 @@
 import styled, { css } from 'styled-components';
 
-export const WrapAll = styled.div`
+export const WrapAll = styled.section`
 	background: white;
 	box-sizing: border-box;
 	height: 280px;
 	padding: 20px 20px 20px 20px;
 `;
 
-export const Scroll = styled.div`
+export const Scroll = styled.section`
 	overflow-x: scroll;
 	overflow-y: hidden;
 
@@ -105,7 +105,7 @@ export const ProductPrice = styled.span`
 	line-height: 15.02px;
 `;
 
-export const ProductCardWrap = styled.div`
+export const ProductCardWrap = styled.section`
 	width: 250px;
 	height: 250px;
 	position: absolute;

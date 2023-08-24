@@ -1,6 +1,7 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-export const WrapperLoginEmail = styled.div`
+export const WrapperLoginEmail = styled.section`
 	width: 100%;
 	gap: 20px;
 	margin: 0 auto;
@@ -10,7 +11,7 @@ export const WrapperLoginEmail = styled.div`
 	box-sizing: border-box;
 `;
 
-export const SignUpContainer = styled.span`
+export const SignUpContainer = styled(Link)`
 	display: block;
 	text-align: center;
 	color: #767676;
