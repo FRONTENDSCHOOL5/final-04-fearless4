@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import arrowIcon from '../../assets/icon/arrow-left.svg';
 import optionIcon from '../../assets/icon/option.svg';
-import Cat from '../../assets/image/cat.png';
+import Cat from '../../assets/image/homecat.png';
 import { Link } from 'react-router-dom';
 
 export const NavbarWrap = styled.header`
