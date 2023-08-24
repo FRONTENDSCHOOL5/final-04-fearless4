@@ -134,7 +134,8 @@ Hello, there! 저희는 4명의 Front-End 개발자로 구성된 <img width="20"
 - 그래서 저희는 업로드되는 파일의 형식이 이미지 파일로만 설정되도록 한번 더 구체적 유효성 검사 기능을 추가하였습니다.   
 
 #### 2) 요건에 맞는 상품을 정렬하여 보여주는 기능
-![sortedButton_Animation](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/113747290/64648d30-65f9-40cf-8cf7-6a59aa462dcb)
+![filter](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/113747290/3eceb602-568f-463f-8d31-2200020515e8)
+
 - 사용자들이 원하는 조건에 맞는 상품을 손쉽게 찾을 수 있도록 해당 기능을 추가하였습니다.
 - 사용자들이 함께 떠나는 상품 목록에서 🔥추천 상품이나 🤑할인 상품 버튼을 클릭하면, 해당 요건에 맞는 상품이 정렬되어 보여집니다.
 - 상품 판매자가 상품 등록할 때 제목 앞에 [추천], [할인] 문구를 넣어주면 해당 기능이 적용됩니다.
