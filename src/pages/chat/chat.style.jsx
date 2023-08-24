@@ -59,6 +59,7 @@ export const ChatTextRight = styled.p`
 export const ChatImg = styled.img`
 	border-radius: 10px 10px 0 10px;
 	width: 200px;
+	height: 149px;
 `;
 
 export const MessageText2 = styled.div`
