@@ -21,14 +21,17 @@ import {
 	ToastMsgBold,
 } from '../toast/toast.style';
 import profilePic from '../../assets/image/profilePic.png';
-import { deleteComment, reportComment } from '../../api/commentAPI';
+import {
+	getCommentList,
+	deleteComment,
+	reportComment,
+} from '../../api/commentAPI';
 
 export const Comment = ({
 	comment,
-	token,
 	postId,
-	reloadComments,
 	currentUsername,
+	reloadComments,
 }) => {
 	const navigate = useNavigate();
 	const queryClient = useQueryClient();
@@ -40,6 +43,14 @@ export const Comment = ({
 	const [showDeleteToast, setShowDeleteToast] = useState(false);
 	const [showReportToast, setShowReportToast] = useState(false);
 
+	const navigateToProfile = (accountName) => {
+		if (currentUserAccountName === accountName) {
+			navigate('../../profile');
+		} else {
+			navigate(`../../profile/${accountName}`);
+		}
+	};
+
 	moment.locale('ko');
 	const fromNow = moment(createdAt).fromNow();
 
@@ -47,10 +58,15 @@ export const Comment = ({
 	const handleCommentModalClose = () => setIsCommentModal(false);
 
 	const deleteMutation = useMutation(deleteComment, {
-		onSuccess: () => {
+		onSuccess: async () => {
 			queryClient.invalidateQueries('comments');
+			const updatedComments = await getCommentList(postId);
+			queryClient.setQueryData(['comments', postId, updatedComments]);
+			console.log(updatedComments);
 			setShowDeleteToast(true);
 			setTimeout(() => setShowDeleteToast(false), 1000);
+
+			reloadComments();
 		},
 	});
 
@@ -99,20 +115,12 @@ export const Comment = ({
 			<FollowerProfileImageComment
 				src={author.image}
 				onError={handleImgError}
-				onClick={() => {
-					currentUserAccountName === author.accountname
-						? navigate('../../profile')
-						: navigate(`../../profile/${author.accountname}`);
-				}}
+				onClick={() => navigateToProfile(author.accountName)}
 			/>
 			<CommentDetail>
 				<CommentFollower>
 					<CommentFollowerName
-						onClick={() => {
-							currentUserAccountName === author.accountname
-								? navigate('../../profile')
-								: navigate(`../../profile/${author.accountname}`);
-						}}
+						onClick={() => navigateToProfile(author.accountName)}
 					>
 						{author.username}
 					</CommentFollowerName>
