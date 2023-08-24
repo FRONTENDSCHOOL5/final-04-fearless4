@@ -81,6 +81,13 @@ const ViewPost = () => {
 		}
 	};
 
+	const handleBackSpace = (e, author) => {
+		e.preventDefault();
+		author !== currentUserAccountName
+			? navigate(-1)
+			: navigate(`../../profile/${postData.author.accountname}`);
+	};
+
 	const handleModalOpen = (e) => {
 		e.preventDefault();
 		setIsModal(true);
@@ -169,11 +176,7 @@ const ViewPost = () => {
 				<NavbarWrap spaceBetween>
 					<Backspace
 						aria-label='뒤로가기'
-						onClick={() =>
-							postData.author.accountname !== currentUserAccountName
-								? navigate(`../../profile/${postData.author.accountname}`)
-								: navigate('../../profile')
-						}
+						onClick={(e) => handleBackSpace(e, postData.author.accountname)}
 					/>
 					<OptionModalTab
 						aria-label='더보기'
@@ -194,7 +197,6 @@ const ViewPost = () => {
 						<Comment
 							key={comment.id}
 							comment={comment}
-							token={token}
 							postId={postData.id}
 							reloadComments={getCommentList}
 							currentUsername={myAccountName}
