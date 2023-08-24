@@ -21,11 +21,7 @@ import {
 	ToastMsgBold,
 } from '../toast/toast.style';
 import profilePic from '../../assets/image/profilePic.png';
-import {
-	getCommentList,
-	deleteComment,
-	reportComment,
-} from '../../api/commentAPI';
+import { deleteComment, reportComment } from '../../api/commentAPI';
 
 export const Comment = ({
 	comment,
@@ -60,9 +56,6 @@ export const Comment = ({
 	const deleteMutation = useMutation(deleteComment, {
 		onSuccess: async () => {
 			queryClient.invalidateQueries('comments');
-			const updatedComments = await getCommentList(postId);
-			queryClient.setQueryData(['comments', postId, updatedComments]);
-			console.log(updatedComments);
 			setShowDeleteToast(true);
 			setTimeout(() => setShowDeleteToast(false), 1000);
 
