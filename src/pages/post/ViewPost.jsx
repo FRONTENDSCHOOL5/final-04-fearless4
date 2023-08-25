@@ -1,11 +1,13 @@
-import React, { useState, useEffect, startTransition } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PostDeleteContext } from './PostDeleteContext';
 import {
 	CommentCountProvider,
 	useCommentCount,
 } from '../post/CommentCounterContext.jsx';
 import { useParams } from 'react-router-dom';
-import { accessInstance } from '../../api/axiosInstance';
+import { getCommentList, uploadComment } from '../../api/commentAPI';
+import { getPostData } from '../../api/postAPI';
+import { getMyInfo } from '../../api/profileApi';
 import { Post } from '../../components/post/Post';
 import {
 	Backspace,
@@ -42,7 +44,6 @@ import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
 const ViewPost = () => {
-	const token = localStorage.getItem('token');
 	const currentUserAccountName = localStorage.getItem('userAccountName');
 	const [postData, setPostData] = useState(null);
 	const [myProfilePic, setMyProfilePic] = useState('');
@@ -58,31 +59,23 @@ const ViewPost = () => {
 	const navigate = useNavigate();
 	const { id } = useParams();
 
-	const getCommentList = () => {
-		startTransition(() => {
-			try {
-				accessInstance
-					.get(`/post/${postData.id}/comments/?limit=infinity`)
-					.then((response) => {
-						const sortedComments = response.data.comments.sort((a, b) => {
-							return new Date(a.createdAt) - new Date(b.createdAt);
-						});
-						setComments(sortedComments);
-					});
-			} catch (error) {
-				console.error('오류 발생!', error.response || error);
-			}
-		});
+	const fetchComments = async () => {
+		try {
+			const fetchedComments = await getCommentList(postData.id);
+			setComments(fetchedComments);
+		} catch (error) {
+			console.error('댓글을 불러오는 중 오류가 발생했습니다.', error);
+		}
 	};
 
-	const getMyInfo = async () => {
+	const loadMyInfo = async () => {
 		try {
-			await accessInstance.get(`/user/myinfo`).then((response) => {
-				setMyProfilePic(response.data.user.image);
-				setMyAccountName(response.data.user.accountname);
-			});
+			const myInfo = await getMyInfo();
+			setMyProfilePic(myInfo.image);
+			setMyAccountName(myInfo.accountname);
 		} catch (error) {
-			console.error('오류 발생!', error.response || error);
+			console.error('오류 발생!', error);
+			throw error;
 		}
 	};
 
@@ -118,36 +111,30 @@ const ViewPost = () => {
 	};
 
 	useEffect(() => {
-		const getApiData = async () => {
+		const fetchPost = async () => {
 			try {
-				await accessInstance.get(`/post/${id}`).then((response) => {
-					setPostData(response.data.post);
-				});
+				const response = await getPostData(id);
+				setPostData(response.data.post);
 			} catch (error) {
 				console.error('데이터를 불러오지 못했습니다!', error);
 			}
 		};
-		getApiData();
-	}, [token, id]);
+		fetchPost();
+	}, [id]);
 
 	useEffect(() => {
-		getMyInfo();
+		loadMyInfo();
 		if (postData) {
-			getCommentList();
+			fetchComments();
 		}
 		setIsLoading(true);
-	}, [token, postData]);
+	}, [postData]);
 
 	const handleCommentUpload = async () => {
 		try {
-			await accessInstance.post(`/post/${postData.id}/comments`, {
-				comment: {
-					content: commentContent,
-				},
-			});
-
+			await uploadComment(postData.id, commentContent);
 			setCommentContent('');
-			getCommentList();
+			fetchComments();
 			setCommentCount(commentCount + 1);
 			setShowCommentToast(true);
 			setTimeout(() => setShowCommentToast(false), 1000);
@@ -206,7 +193,7 @@ const ViewPost = () => {
 							key={comment.id}
 							comment={comment}
 							postId={postData.id}
-							reloadComments={getCommentList}
+							reloadComments={fetchComments}
 							currentUsername={myAccountName}
 						/>
 					))}

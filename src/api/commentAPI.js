@@ -15,6 +15,20 @@ export const getCommentList = async (postId) => {
 	}
 };
 
+export const uploadComment = async (postId, commentContent) => {
+	try {
+		const response = await accessInstance.post(`/post/${postId}/comments`, {
+			comment: {
+				content: commentContent,
+			},
+		});
+		return response.data;
+	} catch (error) {
+		console.error('댓글을 업로드하지 못했습니다!', error.response);
+		throw error;
+	}
+};
+
 export const deleteComment = async ({ postId, commentId }) => {
 	try {
 		await accessInstance.delete(`/post/${postId}/comments/${commentId}`);

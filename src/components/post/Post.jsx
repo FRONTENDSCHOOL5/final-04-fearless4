@@ -41,7 +41,12 @@ import {
 	ToastMsgBold,
 } from '../../components/toast/toast.style';
 import { useNavigate } from 'react-router-dom';
-import { accessInstance } from '../../api/axiosInstance';
+import {
+	getPostData,
+	deletePost,
+	addHeartToPost,
+	removeHeartFromPost,
+} from '../../api/postAPI';
 
 const formatCreatedAt = (createdAt) => {
 	const date = new Date(createdAt);
@@ -66,15 +71,14 @@ export function Post({ postId }) {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		const getpostData = async () => {
+		const fetchPostData = async () => {
 			try {
-				await accessInstance.get(`/post/${postId}`).then((response) => {
-					setIsLoading(true);
-					setPostData(response.data.post);
-					setIsHearted(response.data.post.hearted);
-					setHeartCount(response.data.post.heartCount);
-					setCommentCount(response.data.post.comments.length);
-				});
+				const response = await getPostData(postId);
+				setIsLoading(true);
+				setPostData(response.data.post);
+				setIsHearted(response.data.post.hearted);
+				setHeartCount(response.data.post.heartCount);
+				setCommentCount(response.data.post.comments.length);
 			} catch (error) {
 				setShowAPIErrorToast(true);
 				setTimeout(() => {
@@ -82,27 +86,21 @@ export function Post({ postId }) {
 				}, 1000);
 			}
 		};
-		getpostData();
+		fetchPostData();
 	}, [postId]);
-
-	useEffect(() => {
-		setCommentCount(commentCount);
-	}, [commentCount, setCommentCount]);
 
 	const handleHeartClick = async () => {
 		try {
 			if (!isHearted) {
-				await accessInstance.post(`/post/${postId}/heart`).then((response) => {
+				await addHeartToPost(postId).then((response) => {
 					setIsHearted(true);
 					setHeartCount(response.data.post.heartCount);
 				});
 			} else {
-				await accessInstance
-					.delete(`/post/${postId}/unheart`)
-					.then((response) => {
-						setIsHearted(false);
-						setHeartCount(response.data.post.heartCount);
-					});
+				await removeHeartFromPost(postId).then((response) => {
+					setIsHearted(false);
+					setHeartCount(response.data.post.heartCount);
+				});
 			}
 		} catch (error) {
 			setShowAPIErrorToast(true);
@@ -144,7 +142,7 @@ export function Post({ postId }) {
 
 	const handlePostDeleteConfirmClick = async () => {
 		try {
-			await accessInstance.delete(`/post/${postId}`).then((response) => {
+			await deletePost(postId).then((response) => {
 				setDeletedPostId(postData.id);
 			});
 		} catch (error) {

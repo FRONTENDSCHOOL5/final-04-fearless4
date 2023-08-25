@@ -19,7 +19,8 @@ import {
 } from '../../components/toast/toast.style';
 import { ImageUploadButton } from '../../components/button/button.style';
 import profilePic from '../../assets/image/profilePic.png';
-import { accessInstance } from '../../api/axiosInstance';
+import { getMyInfo } from '../../api/profileApi';
+import { updatePost } from '../../api/postAPI';
 import { Helmet } from 'react-helmet';
 import imageValidation from '../../imageValidation';
 
@@ -44,13 +45,13 @@ const EditPost = () => {
 	}, [location.state]);
 
 	useEffect(() => {
-		const token = localStorage.getItem('token');
 		const loadMyProfileImage = async () => {
 			try {
-				const response = await accessInstance.get('/user/myinfo');
-				setMyProfileImage(response.data.user.image);
+				const myInfo = await getMyInfo();
+				setMyProfileImage(myInfo.image);
 			} catch (error) {
 				console.error('프로필 이미지를 불러오지 못했습니다!', error);
+				throw error;
 			}
 		};
 		loadMyProfileImage();
@@ -99,7 +100,7 @@ const EditPost = () => {
 		};
 
 		try {
-			await accessInstance.put(`/post/${location.state.id}`, data);
+			await updatePost(location.state.id, data);
 			setShowPostEditToast(true);
 			setTimeout(() => {
 				setShowPostEditToast(false);

@@ -3,7 +3,7 @@ import { PostDeleteContext } from '../../pages/post/PostDeleteContext';
 import { useNavigate } from 'react-router-dom';
 import { Post } from '../../components/post/Post';
 import { GridView, GridItem } from './postAlbum.style';
-import { accessInstance } from '../../api/axiosInstance';
+import { getUserPosts } from '../../api/postAPI';
 
 const PostSection = ({ accountname, listView }) => {
 	const { deletedPostId } = useContext(PostDeleteContext);
@@ -13,18 +13,17 @@ const PostSection = ({ accountname, listView }) => {
 
 	useEffect(() => {
 		if (accountname) {
-			const getPostList = async () => {
+			const fetchPostList = async () => {
 				try {
-					const response = await accessInstance.get(
-						`/post/${accountname}/userpost`
-					);
+					const response = await getUserPosts(accountname);
 					setPosts(response.data.post);
 				} catch (error) {
 					console.error('데이터를 불러올 수 없습니다', error);
+					throw error;
 				}
 			};
 			setIsLoading(true);
-			getPostList();
+			fetchPostList();
 		}
 	}, [accountname, deletedPostId]);
 

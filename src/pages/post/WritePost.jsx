@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { accessInstance } from '../../api/axiosInstance';
+import { createPost } from '../../api/postAPI';
+import { getMyInfo } from '../../api/profileApi';
 import imageValidation from '../../imageValidation';
 import {
 	WrapperWritePost,
@@ -38,8 +39,8 @@ const WritePost = () => {
 	useEffect(() => {
 		const loadMyProfileImage = async () => {
 			try {
-				const response = await accessInstance.get(`/user/myinfo`);
-				setMyProfileImage(response.data.user.image);
+				const myInfo = await getMyInfo();
+				setMyProfileImage(myInfo.image);
 			} catch (error) {
 				console.error('프로필 이미지를 불러오지 못했습니다!', error);
 			}
@@ -92,11 +93,12 @@ const WritePost = () => {
 		};
 
 		try {
-			const response = await accessInstance.post('/post', data);
+			const response = await createPost(data);
 			const id = response.data.post.id;
 			navigate(`/post/view/${id}`);
 		} catch (error) {
 			console.error(error);
+			throw error;
 		}
 	};
 
