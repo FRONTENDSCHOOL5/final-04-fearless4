@@ -126,7 +126,7 @@ export const ProfileCard = () => {
 						</ProfileButtonWrap>
 					) : (
 						<ProfileButtonWrap>
-							<ChatShare type='button' chatting />
+							<ChatShare aria-label='채팅하기' type='button' chatting />
 							<ProfileButton
 								follow={profile.isfollow === true ? 'false' : 'true'}
 								type='button'
@@ -134,7 +134,7 @@ export const ProfileCard = () => {
 							>
 								{profile.isfollow === true ? '팔로우 취소' : '팔로우'}
 							</ProfileButton>
-							<ChatShare type='button' />
+							<ChatShare aria-label='공유하기' type='button' />
 						</ProfileButtonWrap>
 					)}
 				</ProfileWrapper>
