@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { PostDeleteContext } from '../../pages/post/PostDeleteContext';
-import { useCommentCount } from '../../pages/post/CommentCounterContext';
 import {
 	Container,
 	Card,
@@ -56,12 +56,9 @@ const formatCreatedAt = (createdAt) => {
 
 export function Post({ postId }) {
 	const { setDeletedPostId } = useContext(PostDeleteContext);
-	const { commentCount, setCommentCount } = useCommentCount();
+
 	const currentUserAccountName = localStorage.getItem('userAccountName');
-	const [postData, setPostData] = useState(null);
 	const [isHearted, setIsHearted] = useState(false);
-	const [heartCount, setHeartCount] = useState(0);
-	const [isLoading, setIsLoading] = useState(false);
 	const [isPostModal, setIsPostModal] = useState(false);
 	const [isPostDeleteCheckModal, setIsPostDeleteCheckModal] = useState(false);
 	const [isReportModal, setIsReportModal] = useState(false);
@@ -70,43 +67,79 @@ export function Post({ postId }) {
 	const [showAPIErrorToast, setShowAPIErrorToast] = useState(false);
 	const navigate = useNavigate();
 
-	useEffect(() => {
-		const fetchPostData = async () => {
-			try {
-				const response = await getPostData(postId);
-				setIsLoading(true);
-				setPostData(response.data.post);
-				setIsHearted(response.data.post.hearted);
-				setHeartCount(response.data.post.heartCount);
-				setCommentCount(response.data.post.comments.length);
-			} catch (error) {
-				setShowAPIErrorToast(true);
-				setTimeout(() => {
-					setShowAPIErrorToast(false);
-				}, 1000);
-			}
-		};
-		fetchPostData();
-	}, [postId]);
+	const queryClient = useQueryClient();
 
-	const handleHeartClick = async () => {
-		try {
-			if (!isHearted) {
-				await addHeartToPost(postId).then((response) => {
-					setIsHearted(true);
-					setHeartCount(response.data.post.heartCount);
-				});
-			} else {
-				await removeHeartFromPost(postId).then((response) => {
-					setIsHearted(false);
-					setHeartCount(response.data.post.heartCount);
-				});
-			}
-		} catch (error) {
+	const addHeartMutation = useMutation(addHeartToPost, {
+		onSuccess: (data) => {
+			queryClient.setQueryData(['post', postId], (oldData) => ({
+				...oldData,
+				heartCount: data?.post?.heartCount,
+			}));
+			setIsHearted(true);
+			refetch();
+		},
+		onError: (error) => {
 			setShowAPIErrorToast(true);
 			setTimeout(() => {
 				setShowAPIErrorToast(false);
 			}, 1000);
+		},
+	});
+
+	const removeHeartMutation = useMutation(removeHeartFromPost, {
+		onSuccess: (data) => {
+			queryClient.setQueryData(['post', postId], (oldData) => ({
+				...oldData,
+				heartCount: data?.post?.heartCount,
+			}));
+			setIsHearted(false);
+			refetch();
+		},
+		onError: (error) => {
+			setShowAPIErrorToast(true);
+			setTimeout(() => {
+				setShowAPIErrorToast(false);
+			}, 1000);
+		},
+	});
+
+	const deletePostMutation = useMutation(deletePost, {
+		onSuccess: () => {
+			setDeletedPostId(postData.id);
+			setIsPostDeleteCheckModal(false);
+			setShowPostDeleteToast(true);
+			setTimeout(() => {
+				setShowPostDeleteToast(false);
+				navigate('/profile/');
+			}, 1000);
+		},
+		onError: (error) => {
+			setShowAPIErrorToast(true);
+			setTimeout(() => {
+				setShowAPIErrorToast(false);
+			}, 1000);
+		},
+	});
+
+	const fetchPostData = async () => {
+		const response = await getPostData(postId);
+		setIsHearted(response.data.post.hearted);
+		return response.data.post;
+	};
+
+	const {
+		data: postData,
+		isLoading,
+		refetch,
+	} = useQuery(['post', postId], fetchPostData);
+
+	console.log(postData);
+
+	const handleHeartClick = async () => {
+		if (!isHearted) {
+			addHeartMutation.mutate(postId);
+		} else {
+			removeHeartMutation.mutate(postId);
 		}
 	};
 
@@ -141,22 +174,7 @@ export function Post({ postId }) {
 	};
 
 	const handlePostDeleteConfirmClick = async () => {
-		try {
-			await deletePost(postId).then((response) => {
-				setDeletedPostId(postData.id);
-			});
-		} catch (error) {
-			setShowAPIErrorToast(true);
-			setTimeout(() => {
-				setShowAPIErrorToast(false);
-			}, 1000);
-		}
-		setIsPostDeleteCheckModal(false);
-		setShowPostDeleteToast(true);
-		setTimeout(() => {
-			setShowPostDeleteToast(false);
-			navigate('/profile/');
-		}, 1000);
+		deletePostMutation.mutate(postId);
 	};
 
 	const handleReportClick = () => {
@@ -195,7 +213,7 @@ export function Post({ postId }) {
 
 	return (
 		<>
-			{isLoading && (
+			{!isLoading && (
 				<Container>
 					<Card>
 						<ProfileImg
@@ -241,11 +259,11 @@ export function Post({ postId }) {
 									alt='좋아요 버튼'
 									onClick={handleHeartClick}
 								/>
-								<IconsSpan>{heartCount}</IconsSpan>
+								<IconsSpan>{postData.heartCount}</IconsSpan>
 								<Link to={`/post/view/${postData.id}`}>
 									<IconsImg src={messageIcon} alt='댓글 버튼' />
 								</Link>
-								<IconsSpan>{commentCount}</IconsSpan>
+								<IconsSpan>{postData.commentCount}</IconsSpan>
 							</Icons>
 							<PostDate>{formatCreatedAt(postData.createdAt)}</PostDate>
 						</RightCard>
