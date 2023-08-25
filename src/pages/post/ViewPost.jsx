@@ -1,5 +1,9 @@
-import React, { useState, useEffect, startTransition, useContext } from 'react';
+import React, { useState, useEffect, startTransition } from 'react';
 import { PostDeleteContext } from './PostDeleteContext';
+import {
+	CommentCountProvider,
+	useCommentCount,
+} from '../post/CommentCounterContext.jsx';
 import { useParams } from 'react-router-dom';
 import { accessInstance } from '../../api/axiosInstance';
 import { Post } from '../../components/post/Post';
@@ -45,6 +49,7 @@ const ViewPost = () => {
 	const [myAccountName, setMyAccountName] = useState('');
 	const [commentContent, setCommentContent] = useState('');
 	const [comments, setComments] = useState([]);
+	const { commentCount, setCommentCount } = useCommentCount();
 	const [isLoading, setIsLoading] = useState(false);
 	const [isModal, setIsModal] = useState(false);
 	const [isCheckModal, setIsCheckModal] = useState(false);
@@ -54,9 +59,9 @@ const ViewPost = () => {
 	const { id } = useParams();
 
 	const getCommentList = () => {
-		startTransition(async () => {
+		startTransition(() => {
 			try {
-				await accessInstance
+				accessInstance
 					.get(`/post/${postData.id}/comments/?limit=infinity`)
 					.then((response) => {
 						const sortedComments = response.data.comments.sort((a, b) => {
@@ -142,7 +147,8 @@ const ViewPost = () => {
 			});
 
 			setCommentContent('');
-			await getCommentList();
+			getCommentList();
+			setCommentCount(commentCount + 1);
 			setShowCommentToast(true);
 			setTimeout(() => setShowCommentToast(false), 1000);
 		} catch (error) {
@@ -188,8 +194,10 @@ const ViewPost = () => {
 					<PostDeleteContext.Provider
 						value={{ deletedPostId, setDeletedPostId }}
 					>
-						{' '}
-						<PostView>{postData && <Post postId={id} />}</PostView>
+						<CommentCountProvider>
+							{' '}
+							<PostView>{postData && <Post postId={id} />}</PostView>
+						</CommentCountProvider>
 					</PostDeleteContext.Provider>
 				)}
 				<CommentSection>

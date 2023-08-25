@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { PostDeleteContext } from '../../pages/post/PostDeleteContext';
+import { useCommentCount } from '../../pages/post/CommentCounterContext';
 import {
 	Container,
 	Card,
@@ -50,6 +51,7 @@ const formatCreatedAt = (createdAt) => {
 
 export function Post({ postId }) {
 	const { setDeletedPostId } = useContext(PostDeleteContext);
+	const { commentCount, setCommentCount } = useCommentCount();
 	const currentUserAccountName = localStorage.getItem('userAccountName');
 	const [postData, setPostData] = useState(null);
 	const [isHearted, setIsHearted] = useState(false);
@@ -71,6 +73,7 @@ export function Post({ postId }) {
 					setPostData(response.data.post);
 					setIsHearted(response.data.post.hearted);
 					setHeartCount(response.data.post.heartCount);
+					setCommentCount(response.data.post.comments.length);
 				});
 			} catch (error) {
 				setShowAPIErrorToast(true);
@@ -81,6 +84,10 @@ export function Post({ postId }) {
 		};
 		getpostData();
 	}, [postId]);
+
+	useEffect(() => {
+		setCommentCount(commentCount);
+	}, [commentCount, setCommentCount]);
 
 	const handleHeartClick = async () => {
 		try {
@@ -240,7 +247,7 @@ export function Post({ postId }) {
 								<Link to={`/post/view/${postData.id}`}>
 									<IconsImg src={messageIcon} alt='댓글 버튼' />
 								</Link>
-								<IconsSpan>{postData.commentCount}</IconsSpan>
+								<IconsSpan>{commentCount}</IconsSpan>
 							</Icons>
 							<PostDate>{formatCreatedAt(postData.createdAt)}</PostDate>
 						</RightCard>

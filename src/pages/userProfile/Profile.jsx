@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { PostDeleteContext } from '../post/PostDeleteContext.jsx';
+import { CommentCountProvider } from '../post/CommentCounterContext.jsx';
 import { ProfilePageWrapper, ProfileTitle } from './Profile.style.jsx';
 import { ProfileCard } from './ProfileCard.jsx';
 import {
@@ -48,9 +49,6 @@ export default function UserProfile() {
 
 	const handleModalClose = (e) => {
 		e.preventDefault();
-		// e.currentTarget 현재 handleModalClose가 부착된 요소
-		// e.target 내가 클릭한 자식 요소
-		console.log(e.target, e.currentTarget);
 		if (e.target === e.currentTarget) {
 			setIsModal(false);
 			setIsCheckModal(false);
@@ -96,10 +94,12 @@ export default function UserProfile() {
 						<PostDeleteContext.Provider
 							value={{ deletedPostId, setDeletedPostId }}
 						>
-							{' '}
-							<PostList
-								accountname={!accountname ? myaccountname : accountname}
-							></PostList>
+							<CommentCountProvider>
+								{' '}
+								<PostList
+									accountname={!accountname ? myaccountname : accountname}
+								></PostList>
+							</CommentCountProvider>
 						</PostDeleteContext.Provider>
 					</>
 				) : (

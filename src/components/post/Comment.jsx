@@ -22,6 +22,7 @@ import {
 } from '../toast/toast.style';
 import profilePic from '../../assets/image/profilePic.png';
 import { deleteComment, reportComment } from '../../api/commentAPI';
+import { useCommentCount } from '../../pages/post/CommentCounterContext';
 
 export const Comment = ({
 	comment,
@@ -34,6 +35,7 @@ export const Comment = ({
 
 	const currentUserAccountName = localStorage.getItem('userAccountName');
 	const { author, createdAt, content, id } = comment;
+	const { commentCount, setCommentCount } = useCommentCount();
 
 	const [isCommentModal, setIsCommentModal] = useState(false);
 	const [showDeleteToast, setShowDeleteToast] = useState(false);
@@ -58,6 +60,7 @@ export const Comment = ({
 			queryClient.invalidateQueries('comments');
 			setShowDeleteToast(true);
 			setTimeout(() => setShowDeleteToast(false), 1000);
+			setCommentCount(commentCount - 1);
 
 			reloadComments();
 		},
