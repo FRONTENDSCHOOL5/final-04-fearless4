@@ -65,8 +65,6 @@ export default function Search() {
 		}
 	);
 
-	console.log(searchData);
-
 	const onClickBtn = () => {
 		setPage(page + 1);
 	};

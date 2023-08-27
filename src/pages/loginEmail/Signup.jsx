@@ -13,7 +13,6 @@ import { LoginButton } from '../../components/button/button.style.jsx';
 import { exptext } from '../../api.js';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-
 import postSignup from '../../api/signupApi.js';
 import { useMutation } from '@tanstack/react-query';
 
@@ -27,22 +26,30 @@ export default function Signup() {
 	const [validPassword, setValidPassword] = useState(false);
 	const pwAlertMsg = useRef(null);
 	const userEmail = useRef();
-	const [disabled, setDisabled] = useState(true);
 
 	useEffect(() => {
 		userEmail.current.focus();
 	}, []);
 
-	const validPw = () => {
-		setPassword(pwAlertMsg.current.value);
+	const onChange = (event) => {
+		if (event.target.type === 'email') {
+			setEmail(event.target.value);
+		} else if (event.target.type === 'password') {
+			setPassword(event.target.value);
+		}
 	};
 
-	useEffect(() => {
-		validEmail && password.length >= 6 ? setDisabled(false) : setDisabled(true);
-		if (password.length >= 1) {
-			password.length >= 6 ? setValidPassword(false) : setValidPassword(true);
+	const checkValidEmail = () => {
+		if (email.length >= 1) {
+			if (valid.test(email)) {
+				SignupMutation.mutate({ user: { email: email } });
+			} else {
+				emailAlertMsg.current.textContent = '*잘못된 이메일 형식입니다.';
+				emailAlertMsg.current.style.display = 'block';
+				setValidEmail(false);
+			}
 		}
-	}, [email, password]);
+	};
 
 	const SignupMutation = useMutation(postSignup, {
 		onSuccess(data) {
@@ -52,7 +59,6 @@ export default function Signup() {
 				emailAlertMsg.current.style.display = 'block';
 				setValidEmail(true);
 			} else if (data.message === '이미 가입된 이메일 주소 입니다.') {
-				console.log(data);
 				emailAlertMsg.current.textContent = '*' + data.message;
 				emailAlertMsg.current.style.display = 'block';
 				setValidEmail(false);
@@ -63,15 +69,21 @@ export default function Signup() {
 		},
 	});
 
-	const duplicateEmail = async () => {
-		if (valid.test(email)) {
-			SignupMutation.mutate({ user: { email: email } });
-		} else {
-			emailAlertMsg.current.textContent = '*잘못된 이메일 형식입니다.';
-			emailAlertMsg.current.style.display = 'block';
-			setValidEmail(false);
+	const checkValidPw = () => {
+		if (password.length >= 1) {
+			if (password.length >= 6) {
+				setValidPassword(false);
+			} else {
+				setPassword(pwAlertMsg.current.value);
+				setValidPassword(true);
+			}
 		}
 	};
+
+	useEffect(() => {
+		checkValidEmail();
+		checkValidPw();
+	}, [email, password]);
 
 	return (
 		<>
@@ -87,15 +99,12 @@ export default function Signup() {
 							id='useremail'
 							type='email'
 							ref={userEmail}
-							onChange={(event) => {
-								setEmail(event.target.value);
-							}}
+							onChange={onChange}
 							value={email}
-							onBlur={duplicateEmail}
 							placeholder='이메일 주소를 입력해 주세요.'
 						/>
 
-						{duplicateEmail && validEmail ? (
+						{validEmail ? (
 							<Correct ref={emailAlertMsg}></Correct>
 						) : (
 							<Incorrect ref={emailAlertMsg}></Incorrect>
@@ -108,7 +117,7 @@ export default function Signup() {
 							type='password'
 							value={password}
 							ref={pwAlertMsg}
-							onChange={validPw}
+							onChange={onChange}
 							placeholder='비밀번호를 설정해 주세요.'
 						/>
 						{validPassword && (
@@ -117,7 +126,7 @@ export default function Signup() {
 
 						<LoginButton
 							type='button'
-							disabled={disabled}
+							disabled={!(validEmail && !validPassword)}
 							onClick={() => {
 								navigate('./profileSetup', {
 									state: { email: email, password: password },
