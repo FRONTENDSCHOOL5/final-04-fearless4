@@ -48,15 +48,12 @@ export default function Product() {
 	const [showWrongExtensionToast, setShowWrongExtensionToast] = useState(false);
 	const [showSizeOverToast, setShowSizeOverToast] = useState(false);
 
-	const myAccountname = localStorage.getItem('userAccountName');
 	const location = useLocation();
 	const navigate = useNavigate();
 	const selectedProduct = location.state?.selectedProduct || null;
-	console.log(selectedProduct);
 
 	const mutation = useMutation(
 		async (productData) => {
-			console.log(productData);
 			if (selectedProduct) {
 				editProduct(selectedProduct.id, productData);
 			} else {
@@ -67,7 +64,7 @@ export default function Product() {
 			onSuccess: () => {
 				setShowToast(true);
 				setTimeout(() => {
-					navigate(`../../profile/${myAccountname}`);
+					navigate('../../profile');
 				}, 1000);
 			},
 			onError: (error) => {
@@ -103,6 +100,8 @@ export default function Product() {
 	const handleImageInputChange = (e) => {
 		imageValidation(
 			e,
+			1,
+			400,
 			setSelectedImage,
 			setShowSizeOverToast,
 			setShowWrongExtensionToast

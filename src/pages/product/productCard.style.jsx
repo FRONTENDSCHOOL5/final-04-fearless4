@@ -6,13 +6,13 @@ export const ProductCardImg = styled.img`
 	border-radius: 5px 5px 0px 0px;
 `;
 
-export const ProductCardContainer = styled.div`
+export const ProductCardContainer = styled.section`
 	display: flex;
 	justify-content: space-between;
 	margin-top: 6px;
 `;
 
-export const ProductCardClose = styled.div`
+export const ProductCardClose = styled.section`
 	margin-top: 15px;
 	margin-left: 10px;
 	font-size: 12px;

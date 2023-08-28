@@ -81,6 +81,3 @@ export const SearchTitle = styled.h1`
 	padding: 0;
 	position: absolute;
 `;
-export const LinkStyle = {
-	color: 'black',
-};

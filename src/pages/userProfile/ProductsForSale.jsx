@@ -50,7 +50,7 @@ export default function ProductsForSale() {
 		}
 	);
 
-	console.log(resProd);
+	
 
 	const deleteProductMutation = useMutation(deleteProduct, {
 		onSuccess: () => {
@@ -62,7 +62,7 @@ export default function ProductsForSale() {
 	});
 
 	const handleModalOpen = (item) => {
-		if (accountUsername === data) {
+		if (!accountUsername) {
 			setIsCard(true);
 			setIsUserModal(true);
 			setSelectedProduct(item);
