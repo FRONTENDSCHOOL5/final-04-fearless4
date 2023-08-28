@@ -65,27 +65,49 @@ export const LoginButton = styled.button`
 	cursor: ${({ disabled }) => (disabled === true ? 'not-allowed' : 'pointer')};
 `;
 
+export const ProfileEdit = styled(Link)`
+	font-family: 'Suit-Regular';
+	text-align: center;
+	font-size: 14px;
+	font-weight: 500;
+	background-color: #fff;
+	display: block;
+	width: 120px;
+	padding: 10px 0;
+	box-sizing: border-box;
+	color: #767676;
+	border-radius: 30px;
+	border: solid 1px #dbdbdb;
+
+	cursor: pointer;
+
+	&:hover {
+		color: #fff;
+		background-color: #81d8d0;
+	}
+`;
+
 export const ProfileButton = styled(Link)`
 	font-family: 'Suit-Regular';
 	text-align: center;
 	font-size: 14px;
 	font-weight: 500;
-	background-color: ${({ follow }) => (follow === true ? `#81d8d0` : `#fff`)};
+	background-color: ${({ follow }) => (follow === 'true' ? `#81d8d0` : `#fff`)};
 	display: block;
-	width: ${({ product }) => (product === true ? `100px` : `120px`)};
+	width: ${({ product }) => (product === 'true' ? `100px` : `120px`)};
 	padding: 10px 0;
 	box-sizing: border-box;
-	color: ${({ follow }) => (follow === true ? `#fff` : `#767676`)};
+	color: ${({ follow }) => (follow === 'true' ? `#fff` : `#767676`)};
 	border-radius: 30px;
 	border: ${({ follow }) =>
-		follow === true ? `solid 1px transparent` : `solid 1px #DBDBDB;`};
+		follow === 'true' ? `solid 1px transparent` : `solid 1px #DBDBDB;`};
 
 	cursor: pointer;
 
 	&:hover {
-		color: ${({ follow }) => (follow === false ? `#767676` : `#fff`)};
+		color: ${({ follow }) => (follow === 'false' ? `#767676` : `#fff`)};
 		background-color: ${({ follow }) =>
-			follow === false ? `#DBDBDB` : `#81d8d0`};
+			follow === 'false' ? `#DBDBDB` : `#81d8d0`};
 	}
 `;
 

@@ -153,7 +153,12 @@ export default function Chat() {
 				)}
 				<>
 					<UploadComment>
-						{<ProfileImageComment src={UploadPic}></ProfileImageComment>}
+						{
+							<ProfileImageComment
+								alt='이미지 추가버튼'
+								src={UploadPic}
+							></ProfileImageComment>
+						}
 						<CommentInputArea
 							placeholder='메세지 입력하기...'
 							rows={1}

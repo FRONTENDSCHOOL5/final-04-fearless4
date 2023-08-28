@@ -34,7 +34,6 @@ export const postAccountValid = async (accountname) => {
 export const putProfileEdit = async (userData) => {
 	try {
 		const res = await accessInstance.put('/user/', userData);
-		console.log(res);
 	} catch (error) {
 		console.error('에러입니다.', error);
 	}

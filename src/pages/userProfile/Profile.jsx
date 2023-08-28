@@ -50,7 +50,6 @@ export default function UserProfile() {
 		e.preventDefault();
 		// e.currentTarget 현재 handleModalClose가 부착된 요소
 		// e.target 내가 클릭한 자식 요소
-		console.log(e.target, e.currentTarget);
 		if (e.target === e.currentTarget) {
 			setIsModal(false);
 			setIsCheckModal(false);

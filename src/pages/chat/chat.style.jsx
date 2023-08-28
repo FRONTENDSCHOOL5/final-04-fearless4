@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const HomeContainer = styled.div`
+export const HomeContainer = styled.main`
 	position: relative;
 	width: 100%;
 	height: calc(100vh - 50px - 50px);
@@ -59,6 +59,7 @@ export const ChatTextRight = styled.p`
 export const ChatImg = styled.img`
 	border-radius: 10px 10px 0 10px;
 	width: 200px;
+	height: 149px;
 `;
 
 export const MessageText2 = styled.div`
@@ -70,6 +71,7 @@ export const MessageText2 = styled.div`
 export const ProfileImg = styled.img`
 	width: 30px;
 	height: 30px;
+	object-fit: cover;
 	border-radius: 50%;
 	margin-bottom: auto;
 `;
