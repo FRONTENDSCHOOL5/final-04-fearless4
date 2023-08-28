@@ -50,7 +50,7 @@ export default function ProductsForSale() {
 		}
 	);
 
-	console.log(resProd);
+	
 
 	const deleteProductMutation = useMutation(deleteProduct, {
 		onSuccess: () => {
