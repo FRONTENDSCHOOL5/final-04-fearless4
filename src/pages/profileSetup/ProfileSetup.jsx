@@ -16,6 +16,7 @@ import {
 	FormElement,
 	LabelStyle,
 	ImageInput,
+	LabelStyleImg,
 } from './profileSetup.style.jsx';
 import profilePic from '../../assets/image/profilePic.png';
 import profileImageUploadButton from '../../assets/image/profileImageUploadButton.png';
@@ -33,9 +34,7 @@ import { postProfileSetup } from '../../api/signupApi.js';
 
 const ProfileSetup = () => {
 	const location = useLocation();
-	// eslint-disable-next-line no-restricted-globals
 	const email = location.state.email;
-	// eslint-disable-next-line no-restricted-globals
 	const password = location.state.password;
 	const [userName, setUserName] = useState('');
 	const [userId, setUserId] = useState('');
@@ -177,8 +176,10 @@ const ProfileSetup = () => {
 
 				<WrapForm onSubmit={handleSubmit}>
 					<Upload>
+						<LabelStyleImg htmlFor='user-image'>사용자 이미지</LabelStyleImg>
 						<ImageInput
 							type='file'
+							id='user-image'
 							accept='image/*'
 							onChange={handleImageInputChange}
 						/>
@@ -190,6 +191,7 @@ const ProfileSetup = () => {
 						<LabelStyle htmlFor='user-name'>사용자 이름</LabelStyle>
 						<InputStyle
 							type='text'
+							id='user-name'
 							name=''
 							placeholder='2~10자 이내여야 합니다.'
 							value={userName}
