@@ -33,6 +33,12 @@ export const InputStyle = styled.input`
 	}
 `;
 
+export const Correct = styled.span`
+	box-sizing: border-box;
+	color: #03c75a;
+	font-size: 12px;
+`;
+
 export const Incorrect = styled.span`
 	box-sizing: border-box;
 	color: #eb5757;
