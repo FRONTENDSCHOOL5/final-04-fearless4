@@ -1,8 +1,20 @@
 import { instance } from './axiosInstance';
 
-const postSignup = async (data) => {
-	const res = await instance.post(`/user/emailvalid`, data);
-	return res.data;
+export const postSignup = async (data) => {
+	try {
+		const res = await instance.post(`/user/emailvalid`, data);
+		return res.data;
+	} catch (error) {
+		console.error(error);
+	}
 };
 
-export default postSignup;
+export const postProfileSetup = async (data) => {
+	try {
+		const res = await instance.post(`/user`, data);
+		console.log(res.data);
+		return res.data;
+	} catch (error) {
+		console.error(error);
+	}
+};

@@ -13,7 +13,7 @@ import { LoginButton } from '../../components/button/button.style.jsx';
 import { exptext } from '../../api.js';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import postSignup from '../../api/signupApi.js';
+import { postSignup } from '../../api/signupApi.js';
 import { useMutation } from '@tanstack/react-query';
 
 export default function Signup() {
