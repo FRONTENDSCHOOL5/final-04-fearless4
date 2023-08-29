@@ -53,7 +53,6 @@ export default function Signup() {
 
 	const SignupMutation = useMutation(postSignup, {
 		onSuccess(data) {
-			console.log(data);
 			if (data.message === '사용 가능한 이메일 입니다.') {
 				emailAlertMsg.current.textContent = '*' + data.message;
 				emailAlertMsg.current.style.display = 'block';
@@ -70,16 +69,13 @@ export default function Signup() {
 	});
 
 	const checkValidPw = () => {
-		if (password.length >= 1) {
-			if (password.length >= 6) {
-				setValidPassword(false);
-			} else {
-				setPassword(pwAlertMsg.current.value);
-				setValidPassword(true);
-			}
+		if (!(password.length >= 6)) {
+			setValidPassword(false);
+			setPassword(pwAlertMsg.current.value);
+		} else {
+			setValidPassword(true);
 		}
 	};
-
 	useEffect(() => {
 		checkValidEmail();
 		checkValidPw();
@@ -120,13 +116,13 @@ export default function Signup() {
 							onChange={onChange}
 							placeholder='비밀번호를 설정해 주세요.'
 						/>
-						{validPassword && (
+						{password.length > 0 && !validPassword && (
 							<Incorrect>*비밀번호는 6자 이상이어야 합니다.</Incorrect>
 						)}
 
 						<LoginButton
 							type='button'
-							disabled={!(validEmail && !validPassword)}
+							disabled={!(validEmail && validPassword)}
 							onClick={() => {
 								navigate('./profileSetup', {
 									state: { email: email, password: password },
