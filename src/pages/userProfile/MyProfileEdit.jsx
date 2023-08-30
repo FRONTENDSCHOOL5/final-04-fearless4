@@ -39,6 +39,7 @@ export default function ProfileSetup() {
 	const [userId, setUserId] = useState(profile.accountname);
 	const [intro, setIntro] = useState(profile.intro);
 	const [selectedImage, setSelectedImage] = useState(profile.image);
+	const [debounceValue, setDebounceValue] = useState(userId);
 	const [idDuplication, setIdDuplication] = useState(false);
 	const [notValidUserId, setNotValidUserId] = useState(false);
 	const [disabled, setDisabled] = useState(true);
@@ -49,12 +50,39 @@ export default function ProfileSetup() {
 	const accountId = localStorage.getItem('userAccountName');
 
 	useEffect(() => {
+		const timer = setTimeout(() => {
+			setDebounceValue(userId);
+		}, 300);
+
+		return () => {
+			clearTimeout(timer);
+		};
+	}, [userId]);
+
+	useEffect(() => {
+		if (!userName || !userId) {
+			setDisabled(true);
+		}
+		validateUserId();
+	}, [debounceValue, userName]);
+
+	useEffect(() => {
 		userId === profile.accountname &&
 		userName === profile.username &&
 		intro === profile.intro
 			? setDisabled(false)
 			: setDisabled(true);
-	}, [userId]);
+	}, []);
+
+	const onChange = (e) => {
+		if (e.target.name === 'username') {
+			setUserName(e.target.value);
+		} else if (e.target.name === 'userid') {
+			setUserId(e.target.value);
+		} else if (e.target.name === 'userintro') {
+			setIntro(e.target.value);
+		}
+	};
 
 	const handleImageInputChange = (e) => {
 		imageValidation(
@@ -71,7 +99,9 @@ export default function ProfileSetup() {
 		onSuccess: (data) => {
 			if (userId === accountId || data === '사용 가능한 계정ID 입니다.') {
 				setIdDuplication(false);
-				setDisabled(false);
+				if (userName && userId) {
+					setDisabled(false);
+				}
 			} else if (data === '이미 가입된 계정ID 입니다.') {
 				setIdDuplication(true);
 				setDisabled(true);
@@ -198,10 +228,10 @@ export default function ProfileSetup() {
 						<LabelStyle htmlFor='user-name'>사용자 이름</LabelStyle>
 						<InputStyle
 							type='text'
-							name=''
+							name='username'
 							placeholder='2~10자 이내여야 합니다.'
 							value={userName}
-							onChange={(e) => setUserName(e.target.value)}
+							onChange={onChange}
 						/>
 					</FormElement>
 
@@ -210,9 +240,9 @@ export default function ProfileSetup() {
 						<InputStyle
 							type='text'
 							id='user-id'
+							name='userid'
 							value={userId}
-							onChange={(e) => setUserId(e.target.value)}
-							onBlur={validateUserId}
+							onChange={onChange}
 							placeholder='영문, 숫자, 특수문자(.),(_)만 사용 가능합니다.'
 							pattern='^[A-Za-z0-9._]+$'
 						/>
@@ -230,10 +260,10 @@ export default function ProfileSetup() {
 						<LabelStyle htmlFor='user-intro'>소개</LabelStyle>
 						<InputStyle
 							type='text'
-							name=''
+							name='userintro'
 							placeholder='자신에 대해서 소개해 주세요!'
 							value={intro}
-							onChange={(e) => setIntro(e.target.value)}
+							onChange={onChange}
 						/>
 					</FormElement>
 				</WrapForm>
