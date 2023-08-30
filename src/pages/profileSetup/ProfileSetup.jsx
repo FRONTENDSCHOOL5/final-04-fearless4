@@ -39,6 +39,7 @@ const ProfileSetup = () => {
 	const [userName, setUserName] = useState('');
 	const [userId, setUserId] = useState('');
 	const [intro, setIntro] = useState('');
+	const [debounceValue, setDebounceValue] = useState(userId);
 	const [selectedImage, setSelectedImage] = useState('');
 	const [idDuplication, setIdDuplication] = useState(false);
 	const [notValidUserId, setNotValidUserId] = useState(false);
@@ -49,10 +50,31 @@ const ProfileSetup = () => {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		if (!userName) {
+		const timer = setTimeout(() => {
+			setDebounceValue(userId);
+		}, 300);
+
+		return () => {
+			clearTimeout(timer);
+		};
+	}, [userId]);
+
+	useEffect(() => {
+		if (!userName || !userId) {
 			setDisabled(true);
 		}
-	}, [userName]);
+		validateUserId();
+	}, [debounceValue, userName]);
+
+	const onChange = (event) => {
+		if (event.target.name === 'username') {
+			setUserName(event.target.value);
+		} else if (event.target.name === 'userid') {
+			setUserId(event.target.value);
+		} else if (event.target.name === 'userintro') {
+			setIntro(event.target.value);
+		}
+	};
 
 	const handleImageInputChange = async (e) => {
 		imageValidation(
@@ -69,7 +91,9 @@ const ProfileSetup = () => {
 		onSuccess: (data) => {
 			if (data === '사용 가능한 계정ID 입니다.') {
 				setIdDuplication(false);
-				setDisabled(false);
+				if (userName && userId) {
+					setDisabled(false);
+				}
 			} else if (data === '이미 가입된 계정ID 입니다.') {
 				setIdDuplication(true);
 				setDisabled(true);
@@ -79,6 +103,7 @@ const ProfileSetup = () => {
 			console.error('실패');
 		},
 	});
+
 	const validateUserId = async () => {
 		if (!userId || /^[A-Za-z0-9._]+$/.test(userId)) {
 			setNotValidUserId(false);
@@ -91,7 +116,7 @@ const ProfileSetup = () => {
 	};
 
 	const postProfileSetupMutation = useMutation(postProfileSetup, {
-		onSuccess: (data) => {
+		onSuccess: () => {
 			setShowProfileEditToast(true);
 			setTimeout(() => {
 				setShowProfileEditToast(false);
@@ -192,10 +217,10 @@ const ProfileSetup = () => {
 						<InputStyle
 							type='text'
 							id='user-name'
-							name=''
+							name='username'
 							placeholder='2~10자 이내여야 합니다.'
 							value={userName}
-							onChange={(e) => setUserName(e.target.value)}
+							onChange={onChange}
 						/>
 					</FormElement>
 
@@ -204,9 +229,9 @@ const ProfileSetup = () => {
 						<InputStyle
 							type='text'
 							id='user-id'
+							name='userid'
 							value={userId}
-							onChange={(e) => setUserId(e.target.value)}
-							onBlur={validateUserId}
+							onChange={onChange}
 							placeholder='영문, 숫자, 특수문자(.),(_)만 사용 가능합니다.'
 							pattern='^[A-Za-z0-9._]+$'
 						/>
@@ -224,10 +249,10 @@ const ProfileSetup = () => {
 						<LabelStyle htmlFor='user-intro'>소개</LabelStyle>
 						<InputStyle
 							type='text'
-							name=''
+							name='userintro'
 							placeholder='자신에 대해서 소개해 주세요!'
 							value={intro}
-							onChange={(e) => setIntro(e.target.value)}
+							onChange={onChange}
 						/>
 					</FormElement>
 
