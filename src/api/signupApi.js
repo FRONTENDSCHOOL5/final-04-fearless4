@@ -12,7 +12,6 @@ export const postSignup = async (data) => {
 export const postProfileSetup = async (data) => {
 	try {
 		const res = await instance.post(`/user`, data);
-		console.log(res.data);
 		return res.data;
 	} catch (error) {
 		console.error(error);
