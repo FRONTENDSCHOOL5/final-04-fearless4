@@ -4,8 +4,14 @@ export const getPostData = (postId) => {
 	return accessInstance.get(`/post/${postId}`);
 };
 
-export const getUserPosts = (accountname) => {
-	return accessInstance.get(`/post/${accountname}/userpost`);
+export const getUserPosts = async (accountname) => {
+	try {
+		const response = await accessInstance.get(`/post/${accountname}/userpost`);
+		return response.data;
+	} catch (error) {
+		console.error('게시물을 가져오는데 실패했습니다.', error);
+		throw error;
+	}
 };
 
 export const createPost = (postData) => {

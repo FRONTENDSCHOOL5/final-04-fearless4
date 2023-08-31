@@ -133,8 +133,6 @@ export function Post({ postId }) {
 		refetch,
 	} = useQuery(['post', postId], fetchPostData);
 
-	console.log(postData);
-
 	const handleHeartClick = async () => {
 		if (!isHearted) {
 			addHeartMutation.mutate(postId);
