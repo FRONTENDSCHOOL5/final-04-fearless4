@@ -9,9 +9,10 @@ import {
 } from '../../components/form/form.style.jsx';
 import { WrapperLoginEmail, SignUpContainer } from './loginEmail.style.jsx';
 import { LoginButton } from '../../components/button/button.style.jsx';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
+import { useMutation } from '@tanstack/react-query';
+import { postLogin } from '../../api/loginApi.js';
 
 export default function LoginEmail() {
 	const [emailValid, setEmailValid] = useState(false);
@@ -38,43 +39,30 @@ export default function LoginEmail() {
 		}
 	}
 
-	async function userLogin(e) {
-		e.preventDefault();
-		const url = 'https://api.mandarin.weniv.co.kr';
-		try {
-			const res = await axios({
-				method: 'post',
-				url: `${url}/user/login`,
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				data: {
-					user: {
-						email: email,
-						password: pw,
-					},
-				},
-			});
-			const successRes = res.data;
-			if (successRes.user) {
-				// 요청이 성공하고, user 속성이 존재하는 경우 localStorage에 'token'이라는 키로 저장한다.
-				const token = successRes.user['token'];
-				localStorage.setItem('token', token);
-				const userAccountName = successRes.user['accountname'];
-				localStorage.setItem('userAccountName', userAccountName);
+	const postLoginMutation = useMutation(postLogin, {
+		onSuccess: (data) => {
+			if (data.user) {
+				localStorage.setItem('token', data.user['token']);
+				localStorage.setItem('userAccountName', data.user['accountname']);
 				navigate('/Homefeed');
-			} else if (successRes.message) {
-				// 요청이 성공하고, message 속성이 존재하는 경우 setCorrect(true)를 호출해서 이메일 또는 비밀번호가 일치하지 않을 때 오류 메시지를 표시한다.
+			} else if (data.message) {
 				setCorrect(true);
 			}
-		} catch (error) {
-			// 요청이 실패한 경우
-			console.error(error);
-		}
-	}
+		},
+		onError: () => {
+			console.error('실패');
+		},
+	});
 
-	function GoToSignUp() {
-		navigate('/account/signup');
+	async function userLogin(e) {
+		e.preventDefault();
+		const data = {
+			user: {
+				email: email,
+				password: pw,
+			},
+		};
+		postLoginMutation.mutate(data);
 	}
 
 	return (
@@ -110,7 +98,7 @@ export default function LoginEmail() {
 						<LoginButton disabled={disabled}>로그인</LoginButton>
 					</WrapEmailPw>
 				</WrapForm>
-				<SignUpContainer onClick={GoToSignUp}>
+				<SignUpContainer to={'/account/signup'}>
 					이메일로 회원가입
 				</SignUpContainer>
 			</WrapperLoginEmail>

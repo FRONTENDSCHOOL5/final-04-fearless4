@@ -1,8 +1,14 @@
-import React, { useState, useEffect, startTransition, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PostDeleteContext } from './PostDeleteContext';
+import {
+	CommentCountProvider,
+	useCommentCount,
+} from '../post/CommentCounterContext.jsx';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
-import { Post } from '../../components/post/post.style';
+import { getCommentList, uploadComment } from '../../api/commentAPI';
+import { getPostData } from '../../api/postAPI';
+import { getMyInfo } from '../../api/profileApi';
+import { Post } from '../../components/post/Post';
 import {
 	Backspace,
 	NavbarWrap,
@@ -33,19 +39,18 @@ import {
 	ToastMsgBold,
 } from '../../components/toast/toast.style';
 import profilePic from '../../assets/image/profilePic.png';
-import { Comment } from './Comment';
-import { API_URL } from '../../api';
+import { Comment } from '../../components/post/Comment';
 import { useNavigate } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 const ViewPost = () => {
-	const token = localStorage.getItem('token');
 	const currentUserAccountName = localStorage.getItem('userAccountName');
 	const [postData, setPostData] = useState(null);
 	const [myProfilePic, setMyProfilePic] = useState('');
 	const [myAccountName, setMyAccountName] = useState('');
 	const [commentContent, setCommentContent] = useState('');
 	const [comments, setComments] = useState([]);
+	const { commentCount, setCommentCount } = useCommentCount();
 	const [isLoading, setIsLoading] = useState(false);
 	const [isModal, setIsModal] = useState(false);
 	const [isCheckModal, setIsCheckModal] = useState(false);
@@ -54,43 +59,31 @@ const ViewPost = () => {
 	const navigate = useNavigate();
 	const { id } = useParams();
 
-	const getCommentList = () => {
-		startTransition(async () => {
-			try {
-				await axios
-					.get(`${API_URL}/post/${postData.id}/comments/?limit=infinity`, {
-						headers: {
-							Authorization: `Bearer ${token}`,
-							'Content-type': 'application/json',
-						},
-					})
-					.then((response) => {
-						const sortedComments = response.data.comments.sort((a, b) => {
-							return new Date(a.createdAt) - new Date(b.createdAt);
-						});
-						setComments(sortedComments);
-					});
-			} catch (error) {
-				console.error('오류 발생!', error.response || error);
-			}
-		});
+	const fetchComments = async () => {
+		try {
+			const fetchedComments = await getCommentList(postData.id);
+			setComments(fetchedComments);
+		} catch (error) {
+			console.error('댓글을 불러오는 중 오류가 발생했습니다.', error);
+		}
 	};
 
-	const getMyInfo = async () => {
+	const loadMyInfo = async () => {
 		try {
-			await axios
-				.get(`${API_URL}/user/myinfo`, {
-					headers: {
-						Authorization: `Bearer ${token}`,
-					},
-				})
-				.then((response) => {
-					setMyProfilePic(response.data.user.image);
-					setMyAccountName(response.data.user.accountname);
-				});
+			const myInfo = await getMyInfo();
+			setMyProfilePic(myInfo.image);
+			setMyAccountName(myInfo.accountname);
 		} catch (error) {
-			console.error('오류 발생!', error.response || error);
+			console.error('오류 발생!', error);
+			throw error;
 		}
+	};
+
+	const handleBackSpace = (e, author) => {
+		e.preventDefault();
+		author !== currentUserAccountName
+			? navigate(-1)
+			: navigate(`../../profile/${postData.author.accountname}`);
 	};
 
 	const handleModalOpen = (e) => {
@@ -118,52 +111,31 @@ const ViewPost = () => {
 	};
 
 	useEffect(() => {
-		const getApiData = async () => {
+		const fetchPost = async () => {
 			try {
-				await axios
-					.get(`${API_URL}/post/${id}`, {
-						headers: {
-							Authorization: `Bearer ${token}`,
-							'Content-type': 'application/json',
-						},
-					})
-					.then((response) => {
-						setPostData(response.data.post);
-					});
+				const response = await getPostData(id);
+				setPostData(response.data.post);
 			} catch (error) {
 				console.error('데이터를 불러오지 못했습니다!', error);
 			}
 		};
-		getApiData();
-	}, [token, id]);
+		fetchPost();
+	}, [id]);
 
 	useEffect(() => {
-		getMyInfo();
+		loadMyInfo();
 		if (postData) {
-			getCommentList();
+			fetchComments();
 		}
 		setIsLoading(true);
-	}, [token, postData]);
+	}, [postData]);
 
 	const handleCommentUpload = async () => {
 		try {
-			await axios.post(
-				`${API_URL}/post/${postData.id}/comments`,
-				{
-					comment: {
-						content: commentContent,
-					},
-				},
-				{
-					headers: {
-						Authorization: `Bearer ${token}`,
-						'Content-type': 'application/json',
-					},
-				}
-			);
-
+			await uploadComment(postData.id, commentContent);
 			setCommentContent('');
-			await getCommentList();
+			fetchComments();
+			setCommentCount(commentCount + 1);
 			setShowCommentToast(true);
 			setTimeout(() => setShowCommentToast(false), 1000);
 		} catch (error) {
@@ -196,21 +168,23 @@ const ViewPost = () => {
 			<WrapperViewPost>
 				<NavbarWrap spaceBetween>
 					<Backspace
-						onClick={() =>
-							postData.author.accountname !== currentUserAccountName
-								? navigate(-1)
-								: navigate('../../profile/myProfile')
-						}
+						aria-label='뒤로가기'
+						onClick={(e) => handleBackSpace(e, postData.author.accountname)}
 					/>
-					<OptionModalTab onClick={handleModalOpen}></OptionModalTab>
+					<OptionModalTab
+						aria-label='더보기'
+						onClick={handleModalOpen}
+					></OptionModalTab>
 				</NavbarWrap>
 
 				{isLoading && (
 					<PostDeleteContext.Provider
 						value={{ deletedPostId, setDeletedPostId }}
 					>
-						{' '}
-						<PostView>{postData && <Post postId={id} />}</PostView>
+						<CommentCountProvider>
+							{' '}
+							<PostView>{postData && <Post postId={id} />}</PostView>
+						</CommentCountProvider>
 					</PostDeleteContext.Provider>
 				)}
 				<CommentSection>
@@ -218,9 +192,8 @@ const ViewPost = () => {
 						<Comment
 							key={comment.id}
 							comment={comment}
-							token={token}
 							postId={postData.id}
-							reloadComments={getCommentList}
+							reloadComments={fetchComments}
 							currentUsername={myAccountName}
 						/>
 					))}

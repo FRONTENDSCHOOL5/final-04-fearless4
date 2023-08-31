@@ -3,6 +3,7 @@ import socialImg from '../../assets/image/social_login_sprites.png';
 import chat from '../../assets/icon/icon-message-circle.svg';
 import share from '../../assets/icon/share.svg';
 import UploadImage from '../../assets/icon/upload-image.svg';
+import { Link } from 'react-router-dom';
 
 export const SocialLoginButton = styled.button`
 	font-family: 'Suit-Regular';
@@ -64,23 +65,49 @@ export const LoginButton = styled.button`
 	cursor: ${({ disabled }) => (disabled === true ? 'not-allowed' : 'pointer')};
 `;
 
-export const ProfileButton = styled.button`
+export const ProfileEdit = styled(Link)`
 	font-family: 'Suit-Regular';
+	text-align: center;
 	font-size: 14px;
 	font-weight: 500;
-	background-color: ${({ follow }) => (follow === true ? `#81d8d0` : `#fff`)};
+	background-color: #fff;
 	display: block;
-	width: ${({ product }) => (product === true ? `100px` : `120px`)};
-	padding: 8px 0;
-	color: ${({ follow }) => (follow === true ? `#fff` : `#767676`)};
+	width: 120px;
+	padding: 10px 0;
+	box-sizing: border-box;
+	color: #767676;
 	border-radius: 30px;
-	border: ${({ follow }) => (follow === true ? `none` : `solid 1px #DBDBDB`)};
+	border: solid 1px #dbdbdb;
+
 	cursor: pointer;
 
 	&:hover {
-		color: ${({ follow }) => (follow === false ? `#767676` : `#fff`)};
+		color: #fff;
+		background-color: #81d8d0;
+	}
+`;
+
+export const ProfileButton = styled(Link)`
+	font-family: 'Suit-Regular';
+	text-align: center;
+	font-size: 14px;
+	font-weight: 500;
+	background-color: ${({ follow }) => (follow === 'true' ? `#81d8d0` : `#fff`)};
+	display: block;
+	width: ${({ product }) => (product === 'true' ? `100px` : `120px`)};
+	padding: 10px 0;
+	box-sizing: border-box;
+	color: ${({ follow }) => (follow === 'true' ? `#fff` : `#767676`)};
+	border-radius: 30px;
+	border: ${({ follow }) =>
+		follow === 'true' ? `solid 1px transparent` : `solid 1px #DBDBDB;`};
+
+	cursor: pointer;
+
+	&:hover {
+		color: ${({ follow }) => (follow === 'false' ? `#767676` : `#fff`)};
 		background-color: ${({ follow }) =>
-			follow === false ? `#DBDBDB` : `#81d8d0`};
+			follow === 'false' ? `#DBDBDB` : `#81d8d0`};
 	}
 `;
 
@@ -106,10 +133,12 @@ export const FollowButton = styled.button`
 	width: 60px;
 	height: 30px;
 	padding: 0 11px;
+	margin-left: 12px;
 	color: ${({ follow }) => (follow === false ? `#fff` : `#767676`)};
 	border-radius: 30px;
 	border: ${({ follow }) => (follow === false ? `none` : `solid 1px #DBDBDB`)};
 	cursor: pointer;
+	flex-shrink: 0;
 `;
 
 export const SaveButton = styled.button`
@@ -134,5 +163,19 @@ export const ImageUploadButton = styled.button`
 	border: 0;
 	bottom: 16px;
 	right: 16px;
+	cursor: pointer;
+`;
+
+export const MoreButton = styled.button`
+	width: 150px;
+	font-size: 16px;
+	font-weight: 500;
+	color: white;
+	font-family: 'Suit-Regular';
+	background-color: #81d8d0;
+	padding: 6px;
+	margin: 0 auto;
+	border: none;
+	border-radius: 10px;
 	cursor: pointer;
 `;

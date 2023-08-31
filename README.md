@@ -314,6 +314,9 @@ https://kr.freepik.com/free-photo/view-of-adorable-3d-cat_45138550.htm#query=3d%
 - 팔로잉한 유저가 없는 경우<br> 
 https://kr.freepik.com/free-photo/view-of-adorable-3d-cats_45138596.htm#page=2&query=3d%20cat&position=10&from_view=search&track=ais
 
+- (함께 떠나는 상품) 해당하는 카테고리에 상품이 없을 경우<br>
+https://kr.freepik.com/free-photo/3d-view-of-adorable-pet-cat_45145578.htm#page=2&query=3d%20cry%20cat&position=0&from_view=search&track=ais
+
 ### 폰트 출처
 - 오뮤 다예쁨체<br> 
 https://omyudiary.com/1510339180/?idx=28

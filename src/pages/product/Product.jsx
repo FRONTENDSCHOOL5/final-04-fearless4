@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Backspace, NavbarWrap } from '../../components/navbar/navbar.style';
+import { SaveButton } from '../../components/button/button.style';
 import {
 	BgBtnCover,
 	BgBtnInputStyle,
@@ -15,17 +16,16 @@ import {
 } from './product.style';
 import { Incorrect, LabelStyle } from '../../components/form/form.style';
 import UploadButton from '../../assets/image/profileImageUploadButton.png';
-import { SaveButton } from '../../components/button/button.style';
-import axios from 'axios';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
+import { Helmet } from 'react-helmet-async';
+import imageValidation from '../../imageValidation';
 import {
-	ToastClose,
-	ToastContainer,
-	ToastIcon,
-	ToastMsg,
-	ToastMsgBold,
-} from '../../components/toast/toast.style';
-import { Helmet } from 'react-helmet';
+	Toast,
+	WrongExtensionToast,
+	SizeOverToast,
+} from '../../components/toast/Toast';
+import { useMutation } from '@tanstack/react-query';
+import { editProduct, registrationProduct } from '../../api/productApi';
 
 export default function Product() {
 	// 이미지 등록
@@ -43,12 +43,50 @@ export default function Product() {
 
 	// 전체 유효성 검사
 	const [isFormValid, setIsFormValid] = useState(false);
-	const token = localStorage.getItem('token');
 
 	const [showToast, setShowToast] = useState(false);
 	const [showWrongExtensionToast, setShowWrongExtensionToast] = useState(false);
 	const [showSizeOverToast, setShowSizeOverToast] = useState(false);
+
+	const location = useLocation();
 	const navigate = useNavigate();
+	const selectedProduct = location.state?.selectedProduct || null;
+
+	const mutation = useMutation(
+		async (productData) => {
+			if (selectedProduct) {
+				editProduct(selectedProduct.id, productData);
+			} else {
+				registrationProduct(productData);
+			}
+		},
+		{
+			onSuccess: () => {
+				setShowToast(true);
+				setTimeout(() => {
+					navigate('../../profile');
+				}, 1000);
+			},
+			onError: (error) => {
+				console.error(error);
+			},
+		}
+	);
+
+	useEffect(() => {
+		// 상품 수정 페이지로 들어온 경우
+		if (selectedProduct) {
+			setSelectedImage(selectedProduct.itemImage);
+			setProductPrice(
+				selectedProduct.price.toLocaleString('ko-KR', {
+					style: 'currency',
+					currency: 'KRW',
+				})
+			);
+			setProductName(selectedProduct.itemName);
+			setSalesLink(selectedProduct.link);
+		}
+	}, []);
 
 	useEffect(() => {
 		const isFormValid =
@@ -59,55 +97,23 @@ export default function Product() {
 		setIsFormValid(isFormValid);
 	}, [selectedImage, productNameError, productPrice, salesLinkError]);
 
-	const handleImageInputChange = async (e) => {
-		const allowedExtensionsRegex = /\.(jpg|gif|png|jpeg|bmp|tif|heic)$/i;
-		const maxImageSize = 10 * 1024 * 1024;
-		const imageFile = e.target.files[0];
-		if (imageFile) {
-			if (imageFile.size > maxImageSize) {
-				setShowSizeOverToast(true);
-				setTimeout(() => setShowSizeOverToast(false), 3000);
-				e.target.value = '';
-				return;
-			}
-			const fileExtension = '.' + imageFile.name.split('.').pop().toLowerCase();
-			if (!allowedExtensionsRegex.test(fileExtension)) {
-				setShowWrongExtensionToast(true);
-				setTimeout(() => setShowWrongExtensionToast(false), 3000);
-				e.target.value = '';
-				return;
-			}
-
-			const formData = new FormData();
-
-			formData.append('image', imageFile);
-
-			try {
-				const res = await axios({
-					method: 'POST',
-					url: 'https://api.mandarin.weniv.co.kr/image/uploadfile/',
-					data: formData,
-					headers: {
-						'Content-type': 'multipart/form-data',
-					},
-				});
-				const imageUrl =
-					'https://api.mandarin.weniv.co.kr/' + res.data.filename;
-				setSelectedImage(imageUrl);
-			} catch (error) {
-				console.error(error);
-			}
-		} else {
-			e.target.value = '';
-		}
+	const handleImageInputChange = (e) => {
+		imageValidation(
+			e,
+			1,
+			400,
+			setSelectedImage,
+			setShowSizeOverToast,
+			setShowWrongExtensionToast
+		);
 	};
 
-	async function handleSaveButtonClick(e) {
-		let itemName = productName;
+	const handleSaveButtonClick = async (e) => {
+		// 등록 또는 수정 처리
+		const updatedCategory = category !== '일반' ? '[' + category + ']' : '';
+		const updatedItemName = productName.replace(/^\[[^\]]*\]\s*/, '');
+		const itemName = updatedCategory + ' ' + updatedItemName;
 
-		if (category !== '일반') {
-			itemName = '[' + category + ']' + ' ' + productName;
-		}
 		const productData = {
 			product: {
 				itemName: itemName,
@@ -116,24 +122,8 @@ export default function Product() {
 				itemImage: selectedImage,
 			},
 		};
-		try {
-			const res = await axios({
-				method: 'POST',
-				url: 'https://api.mandarin.weniv.co.kr/product',
-				data: productData,
-				headers: {
-					Authorization: `Bearer ${token}`,
-					'Content-type': 'application/json',
-				},
-			});
-			setShowToast(true);
-			setTimeout(() => {
-				navigate('../../profile/myProfile');
-			}, 1000);
-		} catch (error) {
-			console.error(error.response);
-		}
-	}
+		mutation.mutate(productData);
+	};
 
 	function handleProductNameChange(e) {
 		const productNameValue = e.target.value;
@@ -174,50 +164,9 @@ export default function Product() {
 		}
 	}
 
-	const Toast = () => {
-		const handleCloseToast = () => {
-			setShowToast(false);
-		};
-		return (
-			<>
-				{showToast && (
-					<ToastContainer>
-						<ToastIcon>😺</ToastIcon>
-						<ToastMsg>
-							<ToastMsgBold>상품</ToastMsgBold>이 등록되었습니다.
-						</ToastMsg>
-						<ToastClose onClick={handleCloseToast}>X</ToastClose>
-					</ToastContainer>
-				)}
-			</>
-		);
+	const handleCloseToast = () => {
+		setShowToast(false);
 	};
-
-	const WrongExtensionToast = () => (
-		<>
-			{showWrongExtensionToast && (
-				<ToastContainer>
-					<ToastIcon>😵‍💫</ToastIcon>
-					<ToastMsg>
-						<ToastMsgBold>이미지</ToastMsgBold>만 업로드 해 주세요!
-					</ToastMsg>
-				</ToastContainer>
-			)}
-		</>
-	);
-
-	const SizeOverToast = () => (
-		<>
-			{showSizeOverToast && (
-				<ToastContainer>
-					<ToastIcon>😵</ToastIcon>
-					<ToastMsg>
-						<ToastMsgBold>10MB</ToastMsgBold>이하의 파일만 업로드 해 주세요!
-					</ToastMsg>
-				</ToastContainer>
-			)}
-		</>
-	);
 
 	return (
 		<>
@@ -226,6 +175,7 @@ export default function Product() {
 			</Helmet>
 			<NavbarWrap spaceBetween>
 				<Backspace
+					aria-label='뒤로가기'
 					onClick={() => {
 						navigate(-1);
 					}}
@@ -233,7 +183,7 @@ export default function Product() {
 				<SaveButton disabled={!isFormValid} onClick={handleSaveButtonClick}>
 					저장
 				</SaveButton>
-				<Toast />
+				<Toast showToast={showToast} handleCloseToast={handleCloseToast} />
 			</NavbarWrap>
 
 			<ProductContainer>
@@ -322,8 +272,10 @@ export default function Product() {
 						{salesLinkError && <Incorrect>{salesLinkError}</Incorrect>}
 					</InputList>
 				</InputWrap>
-				<WrongExtensionToast />
-				<SizeOverToast />
+				<WrongExtensionToast
+					showWrongExtensionToast={showWrongExtensionToast}
+				/>
+				<SizeOverToast showSizeOverToast={showSizeOverToast} />
 			</ProductContainer>
 		</>
 	);

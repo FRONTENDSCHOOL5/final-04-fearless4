@@ -1,6 +1,17 @@
 import styled from 'styled-components';
 
-export const WrapperProfileSetup = styled.div`
+export const ProfileEditTitle = styled.h1`
+	clip: rect(1px, 1px, 1px, 1px);
+	clip-path: inset(50%);
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+`;
+
+export const WrapperProfileSetup = styled.main`
 	width: 100%;
 	justify-content: center;
 	box-sizing: border-box;
@@ -32,12 +43,25 @@ export const ImageInput = styled.input`
 	position: absolute;
 	opacity: 0;
 	z-index: 1;
+	cursor: pointer;
 `;
 
 export const ProfileImage = styled.img`
 	width: 100%;
 	border-radius: 50%;
 	object-fit: cover;
+	flex-shrink: 0;
+`;
+
+export const LabelStyleImg = styled.label`
+	clip: rect(1px, 1px, 1px, 1px);
+	clip-path: inset(50%);
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
 `;
 
 export const ImageButton = styled.img`

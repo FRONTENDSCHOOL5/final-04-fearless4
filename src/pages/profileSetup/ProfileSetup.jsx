@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import {
 	Title,
 	WrapForm,
@@ -17,122 +16,117 @@ import {
 	FormElement,
 	LabelStyle,
 	ImageInput,
+	LabelStyleImg,
 } from './profileSetup.style.jsx';
 import profilePic from '../../assets/image/profilePic.png';
 import profileImageUploadButton from '../../assets/image/profileImageUploadButton.png';
 import {
-	ToastClose,
 	ToastContainer,
 	ToastIcon,
 	ToastMsg,
 	ToastMsgBold,
 } from '../../components/toast/toast.style';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
+import imageValidation from '../../imageValidation.js';
+import { postAccountValid } from '../../api/profileApi.js';
+import { useMutation } from '@tanstack/react-query';
+import { postProfileSetup } from '../../api/signupApi.js';
 
 const ProfileSetup = () => {
 	const location = useLocation();
-	// eslint-disable-next-line no-restricted-globals
 	const email = location.state.email;
-	// eslint-disable-next-line no-restricted-globals
 	const password = location.state.password;
 	const [userName, setUserName] = useState('');
 	const [userId, setUserId] = useState('');
 	const [intro, setIntro] = useState('');
+	const [debounceValue, setDebounceValue] = useState(userId);
 	const [selectedImage, setSelectedImage] = useState('');
 	const [idDuplication, setIdDuplication] = useState(false);
 	const [notValidUserId, setNotValidUserId] = useState(false);
 	const [disabled, setDisabled] = useState(true);
 	const [showWrongExtensionToast, setShowWrongExtensionToast] = useState(false);
 	const [showSizeOverToast, setShowSizeOverToast] = useState(false);
+	const [showProfileEditToast, setShowProfileEditToast] = useState(false);
 	const navigate = useNavigate();
 
-	// 테스트용 주석
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			setDebounceValue(userId);
+		}, 300);
+
+		return () => {
+			clearTimeout(timer);
+		};
+	}, [userId]);
 
 	useEffect(() => {
-		if (!userName) {
+		if (!userName || !userId) {
 			setDisabled(true);
 		}
-	}, [userName]);
+		validateUserId();
+	}, [debounceValue, userName]);
 
-	const handleImageInputChange = async (e) => {
-		const allowedExtensionsRegex = /\.(jpg|gif|png|jpeg|bmp|tif|heic)$/i;
-		const maxImageSize = 10 * 1024 * 1024;
-		const imageFile = e.target.files[0];
-
-		if (imageFile) {
-			if (imageFile.size > maxImageSize) {
-				setShowSizeOverToast(true);
-				setTimeout(() => setShowSizeOverToast(false), 3000);
-				e.target.value = '';
-				return;
-			}
-
-			const fileExtension = '.' + imageFile.name.split('.').pop().toLowerCase();
-			if (!allowedExtensionsRegex.test(fileExtension)) {
-				setShowWrongExtensionToast(true);
-				setTimeout(() => setShowWrongExtensionToast(false), 3000);
-				e.target.value = '';
-				return;
-			}
-
-			// 유효성 검사를 통과한 경우에만 이미지 업로드 처리를 진행합니다.
-			const formData = new FormData();
-
-			formData.append('image', imageFile);
-
-			try {
-				const response = await axios.post(
-					'https://api.mandarin.weniv.co.kr/image/uploadfile/',
-					formData
-				);
-
-				const imageUrl =
-					'https://api.mandarin.weniv.co.kr/' + response.data.filename;
-
-				setSelectedImage(imageUrl);
-			} catch (error) {
-				console.error(error.response.data);
-			}
-		} else {
-			e.target.value = ''; // 파일 선택 창을 비웁니다.
+	const onChange = (event) => {
+		if (event.target.name === 'username') {
+			setUserName(event.target.value);
+		} else if (event.target.name === 'userid') {
+			setUserId(event.target.value);
+		} else if (event.target.name === 'userintro') {
+			setIntro(event.target.value);
 		}
 	};
+
+	const handleImageInputChange = async (e) => {
+		imageValidation(
+			e,
+			1,
+			320,
+			setSelectedImage,
+			setShowSizeOverToast,
+			setShowWrongExtensionToast
+		);
+	};
+
+	const postValidMutation = useMutation(postAccountValid, {
+		onSuccess: (data) => {
+			if (data === '사용 가능한 계정ID 입니다.') {
+				setIdDuplication(false);
+				if (userName && userId) {
+					setDisabled(false);
+				}
+			} else if (data === '이미 가입된 계정ID 입니다.') {
+				setIdDuplication(true);
+				setDisabled(true);
+			}
+		},
+		onError: () => {
+			console.error('실패');
+		},
+	});
+
 	const validateUserId = async () => {
 		if (!userId || /^[A-Za-z0-9._]+$/.test(userId)) {
 			setNotValidUserId(false);
-
-			const data = {
-				user: {
-					accountname: userId,
-				},
-			};
-
-			await axios
-				.post('https://api.mandarin.weniv.co.kr/user/accountnamevalid/', data, {
-					headers: {
-						'Content-Type': 'application/json',
-					},
-				})
-				.then((response) => {
-					if (response.data.message === '이미 가입된 계정ID 입니다.') {
-						setIdDuplication(true);
-					} else if (
-						response.data.message === '사용 가능한 계정ID 입니다.' &&
-						userName
-					) {
-						setIdDuplication(false);
-						setDisabled(false);
-					} else {
-						console.log('접근 불가');
-					}
-				})
-				.catch((error) => {
-					console.error(error.response.data.message);
-				});
+			postValidMutation.mutate(userId);
 		} else {
 			setNotValidUserId(true);
+			setIdDuplication(false);
+			setDisabled(true);
 		}
 	};
+
+	const postProfileSetupMutation = useMutation(postProfileSetup, {
+		onSuccess: () => {
+			setShowProfileEditToast(true);
+			setTimeout(() => {
+				setShowProfileEditToast(false);
+				navigate('/');
+			}, 1000);
+		},
+		onError: () => {
+			console.error('회원가입 실패');
+		},
+	});
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -154,20 +148,21 @@ const ProfileSetup = () => {
 			},
 		};
 
-		await axios
-			.post('https://api.mandarin.weniv.co.kr/user/', data, {
-				headers: {
-					'Content-Type': 'application/json',
-				},
-			})
-			.then((response) => {
-				console.log(response.data);
-				navigate('/');
-			})
-			.catch((error) => {
-				console.error(error.response.data.message);
-			});
+		postProfileSetupMutation.mutate(data);
 	};
+
+	const ProfileSetupToast = () => (
+		<>
+			{showProfileEditToast && (
+				<ToastContainer>
+					<ToastIcon>😆</ToastIcon>
+					<ToastMsg>
+						<ToastMsgBold>회원가입</ToastMsgBold>이 완료되었습니다.
+					</ToastMsg>
+				</ToastContainer>
+			)}
+		</>
+	);
 
 	const WrongExtensionToast = () => (
 		<>
@@ -206,8 +201,10 @@ const ProfileSetup = () => {
 
 				<WrapForm onSubmit={handleSubmit}>
 					<Upload>
+						<LabelStyleImg htmlFor='user-image'>사용자 이미지</LabelStyleImg>
 						<ImageInput
 							type='file'
+							id='user-image'
 							accept='image/*'
 							onChange={handleImageInputChange}
 						/>
@@ -219,10 +216,11 @@ const ProfileSetup = () => {
 						<LabelStyle htmlFor='user-name'>사용자 이름</LabelStyle>
 						<InputStyle
 							type='text'
-							name=''
+							id='user-name'
+							name='username'
 							placeholder='2~10자 이내여야 합니다.'
 							value={userName}
-							onChange={(e) => setUserName(e.target.value)}
+							onChange={onChange}
 						/>
 					</FormElement>
 
@@ -231,9 +229,9 @@ const ProfileSetup = () => {
 						<InputStyle
 							type='text'
 							id='user-id'
+							name='userid'
 							value={userId}
-							onChange={(e) => setUserId(e.target.value)}
-							onBlur={validateUserId}
+							onChange={onChange}
 							placeholder='영문, 숫자, 특수문자(.),(_)만 사용 가능합니다.'
 							pattern='^[A-Za-z0-9._]+$'
 						/>
@@ -251,15 +249,16 @@ const ProfileSetup = () => {
 						<LabelStyle htmlFor='user-intro'>소개</LabelStyle>
 						<InputStyle
 							type='text'
-							name=''
+							name='userintro'
 							placeholder='자신에 대해서 소개해 주세요!'
 							value={intro}
-							onChange={(e) => setIntro(e.target.value)}
+							onChange={onChange}
 						/>
 					</FormElement>
 
 					<LoginButton disabled={disabled}>트래블어스 시작하기</LoginButton>
 				</WrapForm>
+				<ProfileSetupToast />
 				<WrongExtensionToast />
 				<SizeOverToast />
 			</WrapperProfileSetup>

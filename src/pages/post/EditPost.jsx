@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import { useLocation, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import {
 	WrapperWritePost,
 	ImageInput,
@@ -8,12 +8,11 @@ import {
 	PostInputArea,
 	PostForm,
 	ImagePreview,
-	TextForm,
 	UploadButton,
+	TextForm,
 } from './writePost.style';
 import { Backspace, NavbarWrap } from '../../components/navbar/navbar.style';
 import {
-	ToastClose,
 	ToastContainer,
 	ToastIcon,
 	ToastMsg,
@@ -21,12 +20,13 @@ import {
 } from '../../components/toast/toast.style';
 import { ImageUploadButton } from '../../components/button/button.style';
 import profilePic from '../../assets/image/profilePic.png';
-import { API_URL } from '../../api';
-import { Helmet } from 'react-helmet';
+import { getMyInfo } from '../../api/profileApi';
+import { updatePost } from '../../api/postAPI';
+import { Helmet } from 'react-helmet-async';
+import imageValidation from '../../imageValidation';
 
 const EditPost = () => {
 	const [uploadImageUrl, setUploadImageUrl] = useState('');
-	const [myProfileImage, setMyProfileImage] = useState('');
 	const [text, setText] = useState('');
 	const [disabled, setDisabled] = useState(true);
 	const [showPostEditToast, setShowPostEditToast] = useState(false);
@@ -36,7 +36,35 @@ const EditPost = () => {
 	const textarea = useRef();
 	const location = useLocation();
 	const navigate = useNavigate();
-	const token = localStorage.getItem('token');
+
+	const {
+		data: myInfo,
+		isError,
+		error,
+	} = useQuery(['myProfileImage'], getMyInfo);
+
+	if (isError) {
+		console.error('프로필 이미지를 불러오지 못했습니다!', error);
+	}
+
+	const mutation = useMutation((data) => updatePost(location.state.id, data), {
+		onSuccess: () => {
+			setShowPostEditToast(true);
+			setTimeout(() => {
+				setShowPostEditToast(false);
+				navigate(`/post/view/${location.state.id}`);
+			}, 1000);
+		},
+	});
+
+	const handleSubmit = () => {
+		mutation.mutate({
+			post: {
+				content: text,
+				image: uploadImageUrl,
+			},
+		});
+	};
 
 	useEffect(() => {
 		if (location.state) {
@@ -46,79 +74,18 @@ const EditPost = () => {
 	}, [location.state]);
 
 	useEffect(() => {
-		const loadMyProfileImage = async () => {
-			try {
-				await axios
-					.get('https://api.mandarin.weniv.co.kr/user/myinfo', {
-						headers: {
-							Authorization: `Bearer ${token}`,
-						},
-					})
-					.then((response) => {
-						setMyProfileImage(response.data.user.image);
-					});
-			} catch (error) {
-				console.error('프로필 이미지를 불러오지 못했습니다!', error);
-			}
-		};
-		loadMyProfileImage();
-	}, [token]);
-
-	useEffect(() => {
 		uploadImageUrl || text ? setDisabled(false) : setDisabled(true);
 	}, [uploadImageUrl, text]);
 
 	const handleImageInputChange = async (e) => {
-		const allowedExtensionsRegex = /\.(jpg|gif|png|jpeg|bmp|tif|heic)$/i;
-		const maxImageSize = 10 * 1024 * 1024;
-		const imageFile = e.target.files[0];
-
-		if (imageFile) {
-			if (imageFile.size > maxImageSize) {
-				setShowSizeOverToast(true);
-				setTimeout(() => setShowSizeOverToast(false), 3000);
-				e.target.value = ''; // 파일 선택 창을 비웁니다.
-				return;
-			}
-
-			const fileExtension = '.' + imageFile.name.split('.').pop().toLowerCase();
-			if (!allowedExtensionsRegex.test(fileExtension)) {
-				setShowWrongExtensionToast(true);
-				setTimeout(() => setShowWrongExtensionToast(false), 3000);
-				e.target.value = ''; // 파일 선택 창을 비웁니다.
-				return;
-			}
-
-			// 유효성 검사를 통과한 경우에만 이미지 업로드 처리를 진행합니다.
-			const formData = new FormData();
-			const reader = new FileReader();
-
-			formData.append('image', imageFile);
-
-			reader.onloadend = () => {
-				setUploadImageUrl(reader.result);
-			};
-
-			if (imageFile) {
-				reader.readAsDataURL(imageFile);
-			}
-
-			try {
-				const response = await axios.post(
-					'https://api.mandarin.weniv.co.kr/image/uploadfile/',
-					formData
-				);
-
-				const imageUrl =
-					'https://api.mandarin.weniv.co.kr/' + response.data.filename;
-
-				setUploadImageUrl(imageUrl);
-			} catch (error) {
-				console.error(error.response.data);
-			}
-		} else {
-			e.target.value = ''; // 파일 선택 창을 비웁니다.
-		}
+		await imageValidation(
+			e,
+			10,
+			320,
+			setUploadImageUrl,
+			setShowSizeOverToast,
+			setShowWrongExtensionToast
+		);
 	};
 
 	const handleImgError = (e) => {
@@ -127,10 +94,7 @@ const EditPost = () => {
 
 	const handleDeleteImage = () => {
 		setUploadImageUrl('');
-
-		if (inputRef.current) {
-			inputRef.current.value = '';
-		}
+		if (inputRef.current) inputRef.current.value = '';
 	};
 
 	const handleResizeHeight = () => {
@@ -143,75 +107,6 @@ const EditPost = () => {
 		handleResizeHeight();
 	};
 
-	const handleSubmit = async () => {
-		const data = {
-			post: {
-				content: text,
-				image: uploadImageUrl,
-			},
-		};
-
-		const headers = {
-			Authorization: `Bearer ${token}`,
-			'Content-Type': 'application/json',
-		};
-
-		try {
-			const response = await axios.put(
-				`${API_URL}/post/${location.state.id}`,
-				data,
-				{ headers }
-			);
-
-			setShowPostEditToast(true);
-			setTimeout(() => {
-				setShowPostEditToast(false);
-				navigate(`/post/view/${location.state.id}`);
-			}, 1000);
-		} catch (error) {
-			console.error(error);
-		}
-	};
-
-	const PostEditToast = () => (
-		<>
-			{showPostEditToast && (
-				<ToastContainer>
-					<ToastIcon>🛠️</ToastIcon>
-					<ToastMsg>
-						<ToastMsgBold>게시글</ToastMsgBold>이 수정되었습니다.
-					</ToastMsg>
-				</ToastContainer>
-			)}
-		</>
-	);
-
-	const WrongExtensionToast = () => (
-		<>
-			{showWrongExtensionToast && (
-				<ToastContainer>
-					<ToastIcon>😵‍💫</ToastIcon>
-					<ToastMsg>
-						<ToastMsgBold>이미지</ToastMsgBold>만 업로드 해 주세요!
-					</ToastMsg>
-				</ToastContainer>
-			)}
-		</>
-	);
-
-	const SizeOverToast = () => (
-		<>
-			{showSizeOverToast && (
-				<ToastContainer>
-					<ToastIcon>😵</ToastIcon>
-					<ToastMsg>
-						<ToastMsgBold>10MB</ToastMsgBold>이하의 파일만 업로드 해 주세요!
-					</ToastMsg>
-				</ToastContainer>
-			)}
-		</>
-	);
-
 	return (
 		<>
 			<Helmet>
@@ -219,27 +114,22 @@ const EditPost = () => {
 			</Helmet>
 			<WrapperWritePost>
 				<NavbarWrap spaceBetween>
-					<Backspace onClick={() => navigate(-1)} />
+					<Backspace aria-label='뒤로가기' onClick={() => navigate(-1)} />
 					<UploadButton disabled={disabled} onClick={handleSubmit}>
 						업로드
 					</UploadButton>
 				</NavbarWrap>
 				<PostForm>
 					<TextForm>
-						<ProfileImageMini
-							src={myProfileImage}
-							onError={handleImgError}
-						></ProfileImageMini>
+						<ProfileImageMini src={myInfo?.image} onError={handleImgError} />
 						<PostInputArea
 							ref={textarea}
 							placeholder='게시글 입력하기...'
-							name='post'
 							value={text}
 							rows={1}
 							onChange={handleTextChange}
-						></PostInputArea>
+						/>
 					</TextForm>
-
 					{uploadImageUrl && (
 						<ImagePreview
 							src={uploadImageUrl}
@@ -256,9 +146,30 @@ const EditPost = () => {
 						onChange={handleImageInputChange}
 					/>
 				</ImageUploadButton>
-				<PostEditToast />
-				<WrongExtensionToast />
-				<SizeOverToast />
+				{showPostEditToast && (
+					<ToastContainer>
+						<ToastIcon>🛠️</ToastIcon>
+						<ToastMsg>
+							<ToastMsgBold>게시글</ToastMsgBold>이 수정되었습니다.
+						</ToastMsg>
+					</ToastContainer>
+				)}
+				{showWrongExtensionToast && (
+					<ToastContainer>
+						<ToastIcon>😵‍💫</ToastIcon>
+						<ToastMsg>
+							<ToastMsgBold>이미지</ToastMsgBold>만 업로드 해 주세요!
+						</ToastMsg>
+					</ToastContainer>
+				)}
+				{showSizeOverToast && (
+					<ToastContainer>
+						<ToastIcon>😵</ToastIcon>
+						<ToastMsg>
+							<ToastMsgBold>10MB</ToastMsgBold>이하의 파일만 업로드 해 주세요!
+						</ToastMsg>
+					</ToastContainer>
+				)}
 			</WrapperWritePost>
 		</>
 	);

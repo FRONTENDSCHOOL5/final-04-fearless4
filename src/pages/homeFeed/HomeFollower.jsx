@@ -1,10 +1,8 @@
 import React from 'react';
-import { Post } from '../../components/post/post.style';
-import { BottomNavContainer } from '../../components/bottomnav/bottomnav.style';
+import { Post } from '../../components/post/Post';
 import styled from 'styled-components';
 
-export const FeedListWrapper = styled.div`
-	padding-bottom: 20px;
+export const FeedListWrapper = styled.article`
 	width: 100%;
 	background-color: #fff;
 	box-sizing: border-box;

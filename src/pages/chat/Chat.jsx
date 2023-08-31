@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import styled from 'styled-components';
+
 import {
 	ModalWrap,
 	ModalText,
@@ -33,11 +33,13 @@ import {
 	Time,
 	ChatImg,
 	HomeContainer,
+	ChatUser,
+	ChatTitle,
 } from './chat.style';
 import UploadPic from '../../assets/image/profileImageUploadButton.png';
 import VillageInItaly2 from '../../assets/image/villageInItaly2.jpg';
 import ChatProfile from '../../assets/image/chatProfile.jpg';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 export default function Chat2() {
 	const navigate = useNavigate();
@@ -65,17 +67,21 @@ export default function Chat2() {
 			</Helmet>
 			<NavbarWrap spaceBetween>
 				<Backspace
+					aria-label='뒤로가기'
 					onClick={() => {
 						navigate(-1);
 					}}
 				/>
-				choi <OptionModalTab onClick={handleModalOpen} />
+				<ChatUser>choi </ChatUser>
+				<OptionModalTab aria-label='더보기' onClick={handleModalOpen} />
 			</NavbarWrap>
 			<HomeContainer>
+				<ChatTitle>choi 채팅방</ChatTitle>
+
 				<ChatBox>
 					<Column>
 						<MessageRow>
-							<ProfileImg src={ChatProfile} />
+							<ProfileImg src={ChatProfile} alt='choi 프로필 이미지입니다' />
 							<MessageText>
 								<ChatText>
 									안녕하세요! 판매중이신 상품들 중에 친구들과 가기 좋은 곳이
@@ -87,7 +93,7 @@ export default function Chat2() {
 					</Column>
 					<Column>
 						<MessageRow>
-							<ProfileImg src={ChatProfile} />
+							<ProfileImg src={ChatProfile} alt='choi 프로필 이미지입니다' />
 							<MessageText>
 								<ChatText>
 									저희는 여행가서 이쁜 곳에서 사진 많이 찍고 싶어요~
@@ -116,24 +122,12 @@ export default function Chat2() {
 						<MessageRow2>
 							<Time>3:24</Time>
 							<ChatTextRight>
-								<ChatImg src={VillageInItaly2} />
+								<ChatImg src={VillageInItaly2} alt='이탈리아마을 이미지' />
 							</ChatTextRight>
 						</MessageRow2>
 					</Column>
 				</ChatBox>
 			</HomeContainer>
-			<UploadComment>
-				{<ProfileImageComment src={UploadPic}></ProfileImageComment>}
-				<CommentInputArea
-					placeholder='메세지 입력하기...'
-					rows={1}
-					value={text}
-					onChange={(e) => setText(e.target.value)}
-				></CommentInputArea>
-				<CommentUploadButton style={{ color: text ? '#81d8d0' : '#c4c4c4' }}>
-					전송
-				</CommentUploadButton>
-			</UploadComment>
 			{isModal && (
 				<DarkBackground onClick={handleModalClose}>
 					<ModalWrap>
@@ -147,6 +141,23 @@ export default function Chat2() {
 					</ModalWrap>
 				</DarkBackground>
 			)}
+			<UploadComment>
+				{
+					<ProfileImageComment
+						alt='이미지 추가버튼'
+						src={UploadPic}
+					></ProfileImageComment>
+				}
+				<CommentInputArea
+					placeholder='메세지 입력하기...'
+					rows={1}
+					value={text}
+					onChange={(e) => setText(e.target.value)}
+				></CommentInputArea>
+				<CommentUploadButton style={{ color: text ? '#81d8d0' : '#c4c4c4' }}>
+					전송
+				</CommentUploadButton>
+			</UploadComment>
 		</>
 	);
 }
