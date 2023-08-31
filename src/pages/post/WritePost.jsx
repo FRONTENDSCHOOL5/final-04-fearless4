@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { createPost } from '../../api/postAPI';
 import { getMyInfo } from '../../api/profileApi';
@@ -25,7 +26,6 @@ import profilePic from '../../assets/image/profilePic.png';
 import { Helmet } from 'react-helmet';
 
 const WritePost = () => {
-	const token = localStorage.getItem('token');
 	const [uploadImageUrl, setUploadImageUrl] = useState('');
 	const [myProfileImage, setMyProfileImage] = useState('');
 	const [text, setText] = useState('');
@@ -36,17 +36,30 @@ const WritePost = () => {
 	const textarea = useRef();
 	const navigate = useNavigate();
 
+	const {
+		data: myInfo,
+		isError,
+		error,
+	} = useQuery(['myProfileImage'], getMyInfo);
+
+	const createPostMutation = useMutation(createPost, {
+		onSuccess: (data) => {
+			const id = data.data.post.id;
+			navigate(`/post/view/${id}`);
+		},
+		onError: (error) => {
+			console.error(error);
+		},
+	});
+
 	useEffect(() => {
-		const loadMyProfileImage = async () => {
-			try {
-				const myInfo = await getMyInfo();
-				setMyProfileImage(myInfo.image);
-			} catch (error) {
-				console.error('프로필 이미지를 불러오지 못했습니다!', error);
-			}
-		};
-		loadMyProfileImage();
-	}, [token]);
+		if (myInfo) {
+			setMyProfileImage(myInfo.image);
+		}
+		if (isError) {
+			console.error('프로필 이미지를 불러오지 못했습니다!', error);
+		}
+	}, [myInfo, isError, error]);
 
 	useEffect(() => {
 		uploadImageUrl || text ? setDisabled(false) : setDisabled(true);
@@ -91,15 +104,7 @@ const WritePost = () => {
 				image: uploadImageUrl,
 			},
 		};
-
-		try {
-			const response = await createPost(data);
-			const id = response.data.post.id;
-			navigate(`/post/view/${id}`);
-		} catch (error) {
-			console.error(error);
-			throw error;
-		}
+		createPostMutation.mutate(data);
 	};
 
 	return (
