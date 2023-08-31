@@ -6,30 +6,37 @@ import {
 	InputStyle,
 	Incorrect,
 	Title,
-	Correct,
 } from '../../components/form/form.style.jsx';
 import { WrapperLoginEmail } from './loginEmail.style.jsx';
 import { LoginButton } from '../../components/button/button.style.jsx';
-import { exptext } from '../../api.js';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import postSignup from '../../api/signupApi.js';
+import { postSignup } from '../../api/signupApi.js';
 import { useMutation } from '@tanstack/react-query';
 
 export default function Signup() {
-	const valid = exptext;
 	const navigate = useNavigate();
+	const userEmail = useRef();
+	const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
 	const [email, setEmail] = useState('');
 	const [validEmail, setValidEmail] = useState(false);
-	const emailAlertMsg = useRef(null);
 	const [password, setPassword] = useState('');
-	const [validPassword, setValidPassword] = useState(false);
-	const pwAlertMsg = useRef(null);
-	const userEmail = useRef();
+	const [validPassword, setValidPassword] = useState(true);
+	const [debounceValue, setDebounceValue] = useState(email);
 
 	useEffect(() => {
 		userEmail.current.focus();
 	}, []);
+
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			setDebounceValue(email);
+		}, 300);
+
+		return () => {
+			clearTimeout(timer);
+		};
+	}, [email]);
 
 	const onChange = (event) => {
 		if (event.target.type === 'email') {
@@ -41,27 +48,20 @@ export default function Signup() {
 
 	const checkValidEmail = () => {
 		if (email.length >= 1) {
-			if (valid.test(email)) {
+			if (exptext.test(email)) {
 				SignupMutation.mutate({ user: { email: email } });
 			} else {
-				emailAlertMsg.current.textContent = '*잘못된 이메일 형식입니다.';
-				emailAlertMsg.current.style.display = 'block';
-				setValidEmail(false);
+				setValidEmail('validEmail');
 			}
 		}
 	};
 
 	const SignupMutation = useMutation(postSignup, {
 		onSuccess(data) {
-			console.log(data);
 			if (data.message === '사용 가능한 이메일 입니다.') {
-				emailAlertMsg.current.textContent = '*' + data.message;
-				emailAlertMsg.current.style.display = 'block';
-				setValidEmail(true);
-			} else if (data.message === '이미 가입된 이메일 주소 입니다.') {
-				emailAlertMsg.current.textContent = '*' + data.message;
-				emailAlertMsg.current.style.display = 'block';
 				setValidEmail(false);
+			} else if (data.message === '이미 가입된 이메일 주소 입니다.') {
+				setValidEmail('checkEmail');
 			}
 		},
 		onError(error) {
@@ -70,20 +70,17 @@ export default function Signup() {
 	});
 
 	const checkValidPw = () => {
-		if (password.length >= 1) {
-			if (password.length >= 6) {
-				setValidPassword(false);
-			} else {
-				setPassword(pwAlertMsg.current.value);
-				setValidPassword(true);
-			}
+		if (!(password.length >= 6)) {
+			setValidPassword(false);
+		} else {
+			setValidPassword(true);
 		}
 	};
 
 	useEffect(() => {
 		checkValidEmail();
 		checkValidPw();
-	}, [email, password]);
+	}, [debounceValue, password]);
 
 	return (
 		<>
@@ -104,10 +101,11 @@ export default function Signup() {
 							placeholder='이메일 주소를 입력해 주세요.'
 						/>
 
-						{validEmail ? (
-							<Correct ref={emailAlertMsg}></Correct>
-						) : (
-							<Incorrect ref={emailAlertMsg}></Incorrect>
+						{validEmail === 'checkEmail' && (
+							<Incorrect>이미 가입된 이메일 주소 입니다.</Incorrect>
+						)}
+						{validEmail === 'validEmail' && (
+							<Incorrect>* 잘못된 이메일 형식입니다.</Incorrect>
 						)}
 					</WrapEmailPw>
 					<WrapEmailPw>
@@ -116,17 +114,16 @@ export default function Signup() {
 							id='userpw'
 							type='password'
 							value={password}
-							ref={pwAlertMsg}
 							onChange={onChange}
 							placeholder='비밀번호를 설정해 주세요.'
 						/>
-						{validPassword && (
+						{password.length > 0 && !validPassword && (
 							<Incorrect>*비밀번호는 6자 이상이어야 합니다.</Incorrect>
 						)}
 
 						<LoginButton
 							type='button'
-							disabled={!(validEmail && !validPassword)}
+							disabled={!(!validEmail && validPassword)}
 							onClick={() => {
 								navigate('./profileSetup', {
 									state: { email: email, password: password },
