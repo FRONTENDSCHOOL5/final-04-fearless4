@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { PostDeleteContext } from '../post/PostDeleteContext.jsx';
+import { CommentCountProvider } from '../post/CommentCounterContext.jsx';
 import { useNavigate } from 'react-router-dom';
 import {
 	NavbarWrap,
@@ -65,7 +66,9 @@ export default function Homefeed() {
 						<PostDeleteContext.Provider
 							value={{ deletedPostId, setDeletedPostId }}
 						>
-							<HomeFollower postId={post.id} />
+							<CommentCountProvider>
+								<HomeFollower postId={post.id} />
+							</CommentCountProvider>
 						</PostDeleteContext.Provider>
 					</React.Fragment>
 				);
