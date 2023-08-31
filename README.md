@@ -1,6 +1,6 @@
 # TravelUs 🚌
 🔗[TravelUs 바로가기](https://travels-us.netlify.app/ )
-- ID: travelus_official@travelus.com
+- ID: travelus_official@travelsus.com
 - PW: 123123
 
 ### 목차
