@@ -13,7 +13,11 @@ export const SnoringAnimation = keyframes`
 `;
 
 export const Page404Wrap = styled.div`
-	height: calc(100vh - 50px - 50px);
+	position: absolute;
+	top: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	height: calc(100vh - 50px);
 	overflow-x: hidden;
 	overflow-y: scroll;
 	::-webkit-scrollbar {
@@ -32,6 +36,8 @@ export const CatWrap = styled.div`
 `;
 
 export const NotFoundSign = styled.img`
+	width: 565px;
+	height: 441px;
 	margin-top: -60px;
 `;
 
@@ -46,7 +52,8 @@ export const NotFoundText = styled.p`
 `;
 
 export const Cat404Img = styled.img`
-	width: 100%;
+	width: 450px;
+	height: 300px;
 	margin: 120px 0 0 10px;
 `;
 
@@ -62,6 +69,7 @@ export const HomeButton = styled.button`
 	cursor: pointer;
 	color: #fff;
 	background-color: #81d8d0;
+	z-index: 999;
 `;
 
 export const AnimationWrap = styled.div`

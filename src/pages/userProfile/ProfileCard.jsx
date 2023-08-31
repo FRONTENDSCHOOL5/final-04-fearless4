@@ -19,6 +19,7 @@ import { ProfileImage } from './myProfileEdit.style.jsx';
 import {
 	ChatShare,
 	ProfileButton,
+	ProfileEdit,
 } from '../../components/button/button.style.jsx';
 import Loading from '../../components/loading/Loading.jsx';
 import { delUnFollow, postFollow } from '../../api/followApi.js';
@@ -110,30 +111,30 @@ export const ProfileCard = () => {
 
 					{!accountname ? (
 						<ProfileButtonWrap>
-							<ProfileButton
+							<ProfileEdit
 								to={'./edit'}
 								state={{
 									profile: profile,
 								}}
 							>
 								프로필 수정
-							</ProfileButton>
+							</ProfileEdit>
 
-							<ProfileButton product to={'../../Product/upload'}>
+							<ProfileButton product='true' to={'../../Product/upload'}>
 								상품 등록
 							</ProfileButton>
 						</ProfileButtonWrap>
 					) : (
 						<ProfileButtonWrap>
-							<ChatShare type='button' chatting />
+							<ChatShare aria-label='채팅하기' type='button' chatting />
 							<ProfileButton
-								follow={profile.isfollow === true ? false : true}
+								follow={profile.isfollow === true ? 'false' : 'true'}
 								type='button'
 								onClick={(e) => handleFollowChange(e)}
 							>
 								{profile.isfollow === true ? '팔로우 취소' : '팔로우'}
 							</ProfileButton>
-							<ChatShare type='button' />
+							<ChatShare aria-label='공유하기' type='button' />
 						</ProfileButtonWrap>
 					)}
 				</ProfileWrapper>

@@ -51,11 +51,9 @@ export default function Product() {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const selectedProduct = location.state?.selectedProduct || null;
-	console.log(selectedProduct);
 
 	const mutation = useMutation(
 		async (productData) => {
-			console.log(productData);
 			if (selectedProduct) {
 				editProduct(selectedProduct.id, productData);
 			} else {
@@ -102,6 +100,8 @@ export default function Product() {
 	const handleImageInputChange = (e) => {
 		imageValidation(
 			e,
+			1,
+			400,
 			setSelectedImage,
 			setShowSizeOverToast,
 			setShowWrongExtensionToast

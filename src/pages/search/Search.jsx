@@ -9,7 +9,6 @@ import {
 	NoData2,
 	MoreBtn,
 	SearchTitle,
-	LinkStyle,
 } from './search.style';
 
 import {
@@ -22,7 +21,7 @@ import {
 	UserFollowIntro,
 } from '../follow/follow.style';
 
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import ProfilePic from '../../assets/image/profilePic.png';
 import { Helmet } from 'react-helmet';
@@ -34,12 +33,12 @@ export default function Search() {
 	const navigate = useNavigate();
 	const [keyword, setKeyword] = useState('');
 	const [debounceValue, setDebounceValue] = useState(keyword);
-
 	const [page, setPage] = useState(1);
 
 	const onChange = (event) => {
 		setKeyword(event.target.value);
 	};
+
 	const onErrorImg = (e) => {
 		e.target.src = ProfilePic;
 	};
@@ -66,9 +65,6 @@ export default function Search() {
 		}
 	);
 
-	console.log(searchData);
-	console.log(debounceValue);
-
 	const onClickBtn = () => {
 		setPage(page + 1);
 	};
@@ -77,7 +73,7 @@ export default function Search() {
 		return user.includes(word) ? (
 			<div type={type}>
 				{user.split(word)[0]}
-				<span style={{ color: '#A6E3DA' }}>{debounceValue}</span>
+				<mark style={{ color: '#A6E3DA' }}>{debounceValue}</mark>
 				{user.split(word)[1]}
 			</div>
 		) : (
@@ -108,41 +104,42 @@ export default function Search() {
 
 				{searchData?.map((item) => {
 					return (
-						<Link to={`/profile/${item.accountname}`} style={LinkStyle}>
-							<Wrapper key={item.id}>
-								<UserWrap>
-									<UserFlexWrap>
-										<UserProfileImg>
-											<UserFollowImage
-												src={item.image}
-												onError={onErrorImg}
-												alt='유저 프로필 이미지입니다.'
+						<Wrapper key={item.id}>
+							<UserWrap>
+								<UserFlexWrap
+									to={`/profile/${item.accountname}`}
+									aria-label={`${item.accountname} 프로필로 이동합니다.`}
+								>
+									<UserProfileImg>
+										<UserFollowImage
+											src={item.image}
+											onError={onErrorImg}
+											alt='유저 프로필 이미지입니다.'
+										/>
+									</UserProfileImg>
+									<UserContent>
+										<UserFollowNickName>
+											<SearchColor
+												user={item.username}
+												word={keyword}
+												type='username'
+											></SearchColor>
+										</UserFollowNickName>
+										<UserFollowIntro>
+											<SearchColor
+												user={`@${item.accountname}`}
+												word={keyword}
+												type='accountname'
 											/>
-										</UserProfileImg>
-										<UserContent>
-											<UserFollowNickName>
-												<SearchColor
-													user={item.username}
-													word={keyword}
-													type='username'
-												></SearchColor>
-											</UserFollowNickName>
-											<UserFollowIntro>
-												<SearchColor
-													user={`@${item.accountname}`}
-													word={keyword}
-													type='accountname'
-												/>
-											</UserFollowIntro>
-										</UserContent>
-									</UserFlexWrap>
-								</UserWrap>
-							</Wrapper>
-						</Link>
+										</UserFollowIntro>
+									</UserContent>
+								</UserFlexWrap>
+							</UserWrap>
+						</Wrapper>
 					);
 				})}
 				{searchData?.length > 0 && searchData?.length >= page * 10 && (
-					<MoreBtn onClick={onClickBtn}>더보기 v</MoreBtn>
+					<MoreBtn onClick={onClickBtn}>더보기</MoreBtn>
 				)}
 				{searchData?.length === 0 && (
 					<>

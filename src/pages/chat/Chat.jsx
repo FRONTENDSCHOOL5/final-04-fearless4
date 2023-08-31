@@ -128,18 +128,6 @@ export default function Chat2() {
 					</Column>
 				</ChatBox>
 			</HomeContainer>
-			<UploadComment>
-				{<ProfileImageComment src={UploadPic}></ProfileImageComment>}
-				<CommentInputArea
-					placeholder='메세지 입력하기...'
-					rows={1}
-					value={text}
-					onChange={(e) => setText(e.target.value)}
-				></CommentInputArea>
-				<CommentUploadButton style={{ color: text ? '#81d8d0' : '#c4c4c4' }}>
-					전송
-				</CommentUploadButton>
-			</UploadComment>
 			{isModal && (
 				<DarkBackground onClick={handleModalClose}>
 					<ModalWrap>
@@ -153,6 +141,23 @@ export default function Chat2() {
 					</ModalWrap>
 				</DarkBackground>
 			)}
+			<UploadComment>
+				{
+					<ProfileImageComment
+						alt='이미지 추가버튼'
+						src={UploadPic}
+					></ProfileImageComment>
+				}
+				<CommentInputArea
+					placeholder='메세지 입력하기...'
+					rows={1}
+					value={text}
+					onChange={(e) => setText(e.target.value)}
+				></CommentInputArea>
+				<CommentUploadButton style={{ color: text ? '#81d8d0' : '#c4c4c4' }}>
+					전송
+				</CommentUploadButton>
+			</UploadComment>
 		</>
 	);
 }

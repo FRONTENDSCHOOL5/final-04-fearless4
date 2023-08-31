@@ -33,7 +33,6 @@ const imageValidation = async (
 				maxSizeMb: maxSize,
 				maxWidthOrHeight: maxHeight,
 			});
-			console.log(maxHeight, maxSize);
 			const reader = new FileReader();
 			reader.readAsDataURL(compressedImageFile);
 			reader.onloadend = () => {
