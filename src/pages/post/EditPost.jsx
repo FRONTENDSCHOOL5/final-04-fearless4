@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
 	WrapperWritePost,
@@ -26,7 +27,6 @@ import imageValidation from '../../imageValidation';
 
 const EditPost = () => {
 	const [uploadImageUrl, setUploadImageUrl] = useState('');
-	const [myProfileImage, setMyProfileImage] = useState('');
 	const [text, setText] = useState('');
 	const [disabled, setDisabled] = useState(true);
 	const [showPostEditToast, setShowPostEditToast] = useState(false);
@@ -37,25 +37,41 @@ const EditPost = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
 
+	const {
+		data: myInfo,
+		isError,
+		error,
+	} = useQuery(['myProfileImage'], getMyInfo);
+
+	if (isError) {
+		console.error('프로필 이미지를 불러오지 못했습니다!', error);
+	}
+
+	const mutation = useMutation((data) => updatePost(location.state.id, data), {
+		onSuccess: () => {
+			setShowPostEditToast(true);
+			setTimeout(() => {
+				setShowPostEditToast(false);
+				navigate(`/post/view/${location.state.id}`);
+			}, 1000);
+		},
+	});
+
+	const handleSubmit = () => {
+		mutation.mutate({
+			post: {
+				content: text,
+				image: uploadImageUrl,
+			},
+		});
+	};
+
 	useEffect(() => {
 		if (location.state) {
 			setText(location.state.content);
 			setUploadImageUrl(location.state.image);
 		}
 	}, [location.state]);
-
-	useEffect(() => {
-		const loadMyProfileImage = async () => {
-			try {
-				const myInfo = await getMyInfo();
-				setMyProfileImage(myInfo.image);
-			} catch (error) {
-				console.error('프로필 이미지를 불러오지 못했습니다!', error);
-				throw error;
-			}
-		};
-		loadMyProfileImage();
-	}, []);
 
 	useEffect(() => {
 		uploadImageUrl || text ? setDisabled(false) : setDisabled(true);
@@ -91,26 +107,6 @@ const EditPost = () => {
 		handleResizeHeight();
 	};
 
-	const handleSubmit = async () => {
-		const data = {
-			post: {
-				content: text,
-				image: uploadImageUrl,
-			},
-		};
-
-		try {
-			await updatePost(location.state.id, data);
-			setShowPostEditToast(true);
-			setTimeout(() => {
-				setShowPostEditToast(false);
-				navigate(`/post/view/${location.state.id}`);
-			}, 1000);
-		} catch (error) {
-			console.error(error);
-		}
-	};
-
 	return (
 		<>
 			<Helmet>
@@ -125,7 +121,7 @@ const EditPost = () => {
 				</NavbarWrap>
 				<PostForm>
 					<TextForm>
-						<ProfileImageMini src={myProfileImage} onError={handleImgError} />
+						<ProfileImageMini src={myInfo?.image} onError={handleImgError} />
 						<PostInputArea
 							ref={textarea}
 							placeholder='게시글 입력하기...'
