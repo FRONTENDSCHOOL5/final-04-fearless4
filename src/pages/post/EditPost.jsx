@@ -22,7 +22,7 @@ import { ImageUploadButton } from '../../components/button/button.style';
 import profilePic from '../../assets/image/profilePic.png';
 import { getMyInfo } from '../../api/profileApi';
 import { updatePost } from '../../api/postAPI';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import imageValidation from '../../imageValidation';
 
 const EditPost = () => {

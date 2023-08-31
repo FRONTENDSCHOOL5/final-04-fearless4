@@ -39,7 +39,7 @@ import {
 import UploadPic from '../../assets/image/profileImageUploadButton.png';
 import VillageInItaly2 from '../../assets/image/villageInItaly2.jpg';
 import ChatProfile from '../../assets/image/chatProfile.jpg';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 export default function Chat2() {
 	const navigate = useNavigate();

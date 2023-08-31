@@ -10,7 +10,7 @@ import {
 import { WrapperLoginEmail, SignUpContainer } from './loginEmail.style.jsx';
 import { LoginButton } from '../../components/button/button.style.jsx';
 import { useNavigate } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { useMutation } from '@tanstack/react-query';
 import { postLogin } from '../../api/loginApi.js';
 

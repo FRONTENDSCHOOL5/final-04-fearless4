@@ -17,7 +17,7 @@ import {
 import { Incorrect, LabelStyle } from '../../components/form/form.style';
 import UploadButton from '../../assets/image/profileImageUploadButton.png';
 import { useLocation, useNavigate } from 'react-router';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import imageValidation from '../../imageValidation';
 import {
 	Toast,

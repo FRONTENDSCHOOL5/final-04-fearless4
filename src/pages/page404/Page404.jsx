@@ -17,7 +17,7 @@ import {
 	CatWrap,
 } from './page404.style';
 import { useNavigate } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 export default function Page404(props) {
 	const navigate = useNavigate();

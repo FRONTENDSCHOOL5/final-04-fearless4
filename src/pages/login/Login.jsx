@@ -24,7 +24,7 @@ import {
 	ToastMsg,
 	ToastMsgBold,
 } from '../../components/toast/toast.style';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import CatTail from '../../assets/image/tail.png';
 
 export default function Login() {

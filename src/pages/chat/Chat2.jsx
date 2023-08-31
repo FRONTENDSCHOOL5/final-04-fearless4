@@ -40,7 +40,7 @@ import {
 import UploadPic from '../../assets/image/profileImageUploadButton.png';
 import Alpaca from '../../assets/image/alpaca.png';
 import ChatProfile from '../../assets/image/chatProfile2.jpg';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 export default function Chat() {
 	const navigate = useNavigate();

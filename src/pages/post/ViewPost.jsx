@@ -41,7 +41,7 @@ import {
 import profilePic from '../../assets/image/profilePic.png';
 import { Comment } from '../../components/post/Comment';
 import { useNavigate } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 const ViewPost = () => {
 	const currentUserAccountName = localStorage.getItem('userAccountName');

@@ -8,7 +8,7 @@ import {
 import { FollowTitle, Wrapper } from './follow.style';
 import FollowUnknown from './FollowUnknown';
 import Loading from '../../components/loading/Loading';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { useInView } from 'react-intersection-observer';
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 import { getFollow } from '../../api/followApi';

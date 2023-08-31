@@ -16,7 +16,7 @@ import {
 } from '../follow/follow.style';
 import { BottomNavContainer } from '../../components/bottomnav/bottomnav.style';
 import ChatProfile from '../../assets/image/chatProfile.jpg';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { ChatTitle } from './chat.style';
 
 const Date = styled.time`

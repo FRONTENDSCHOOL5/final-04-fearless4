@@ -20,7 +20,7 @@ import {
 import PostList from '../../components/post/PostList.jsx';
 import { BottomNavContainer } from '../../components/bottomnav/bottomnav.style.jsx';
 import ProductsForSale from './ProductsForSale.jsx';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { useNavigate, useParams } from 'react-router-dom';
 import Page404 from '../page404/Page404.jsx';
 import { useQuery } from '@tanstack/react-query';

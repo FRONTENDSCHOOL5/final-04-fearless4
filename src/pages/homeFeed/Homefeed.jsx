@@ -15,7 +15,7 @@ import HomeFollower from './HomeFollower';
 import NoFeed from './NoFeed.jsx';
 import { BottomNavContainer } from '../../components/bottomnav/bottomnav.style';
 import Loading from '../../components/loading/Loading.jsx';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query'; //react-query
 import { useInView } from 'react-intersection-observer'; //라이브러리

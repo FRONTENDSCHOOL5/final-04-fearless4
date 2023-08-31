@@ -23,7 +23,7 @@ import {
 import { Backspace, NavbarWrap } from '../../components/navbar/navbar.style';
 import { ImageUploadButton } from '../../components/button/button.style';
 import profilePic from '../../assets/image/profilePic.png';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 const WritePost = () => {
 	const [uploadImageUrl, setUploadImageUrl] = useState('');

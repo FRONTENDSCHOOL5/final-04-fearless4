@@ -24,7 +24,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 
 import ProfilePic from '../../assets/image/profilePic.png';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import Loading from '../../components/loading/Loading';
 import getSearchdata from '../../api/searchApi';
 import { useQuery } from '@tanstack/react-query';

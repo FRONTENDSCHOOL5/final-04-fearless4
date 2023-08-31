@@ -26,7 +26,7 @@ import {
 	ToastMsg,
 	ToastMsgBold,
 } from '../../components/toast/toast.style';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import imageValidation from '../../imageValidation.js';
 import { postAccountValid } from '../../api/profileApi.js';
 import { useMutation } from '@tanstack/react-query';
