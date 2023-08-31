@@ -13,6 +13,8 @@ import {
 	FormElement,
 	LabelStyle,
 	ImageInput,
+	ProfileEditTitle,
+	LabelStyleImg,
 } from './myProfileEdit.style.jsx';
 import profilePic from '../../assets/image/profilePic.png';
 import profileImageUploadButton from '../../assets/image/profileImageUploadButton.png';
@@ -209,10 +211,17 @@ export default function ProfileSetup() {
 				</SaveButton>
 			</NavbarWrap>
 			<WrapperProfileSetup>
+				<ProfileEditTitle>
+					{profile.accountname + '의 프로필 편집'}
+				</ProfileEditTitle>
 				<WrapForm>
 					<Upload>
+						<LabelStyleImg htmlFor='user-image'>
+							{profile.accountname + '의 프로필 이미지'}
+						</LabelStyleImg>
 						<ImageInput
 							type='file'
+							id='user-image'
 							accept='image/*'
 							onChange={handleImageInputChange}
 						/>
