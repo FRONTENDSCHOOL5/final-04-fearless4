@@ -101,7 +101,7 @@ Hello, there! 저희는 4명의 Front-End 개발자로 구성된 <img width="20"
 
 |                                                        Splash                                                         | 회원가입 |                                                        로그인                                                        |
 | :-------------------------------------------------------------------------------------------------------------------: | :------: | :------------------------------------------------------------------------------------------------------------------: |
-| ![splash](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/be01a546-b51c-4986-81c8-b34fb82c9199) |    ![email](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/abb1c3f1-4660-4e55-9c65-4f2ca25fd0f5)     | ![loginPage](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/108723143/66f3d39a-bfdb-41f4-949d-f02103c0b5f8) |
+| ![splash](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/be01a546-b51c-4986-81c8-b34fb82c9199) |    ![email](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/1e8cfa34-bfba-4633-95e5-874f13d6a5b0) | ![loginPage](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/108723143/66f3d39a-bfdb-41f4-949d-f02103c0b5f8) |
 
 |                                                       홈피드                                                        | 검색 | 404 페이지 |
 | :-----------------------------------------------------------------------------------------------------------------: | :--: | :--------: |
