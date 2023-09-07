@@ -121,7 +121,7 @@ Hello, there! 저희는 4명의 Front-End 개발자로 구성된 <img width="20"
 
 | 팔로우 | 로그아웃 | 토스트 |
 | :------: | :----: | :---------: |
-|  ![팔로우](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/dbb2f2bd-16de-4dcb-9c5c-cbd386825905) |![로그아웃](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/d2a55943-cfe4-4a45-bbee-8bb4be702c1d)| ![토스트](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/0a4c6e31-64ad-43fd-be02-0435ac0cdc79) |
+|  ![팔로우](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/dbb2f2bd-16de-4dcb-9c5c-cbd386825905) |![로그아웃](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/d2a55943-cfe4-4a45-bbee-8bb4be702c1d)| ![토스트](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/113747290/8854540c-fc3b-4515-a0a8-2848e04555e7) |
 
 ### 차별화 기능
 
