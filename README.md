@@ -101,15 +101,15 @@ Hello, there! 저희는 4명의 Front-End 개발자로 구성된 <img width="20"
 
 |                                                        Splash                                                         | 회원가입 |                                                        로그인                                                        |
 | :-------------------------------------------------------------------------------------------------------------------: | :------: | :------------------------------------------------------------------------------------------------------------------: |
-| ![splash](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/be01a546-b51c-4986-81c8-b34fb82c9199) |    ![email](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/abb1c3f1-4660-4e55-9c65-4f2ca25fd0f5)     | ![login](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/52bb303f-b537-4409-ab84-143b153dd6c7) |
+| ![splash](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/be01a546-b51c-4986-81c8-b34fb82c9199) |    ![email](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/abb1c3f1-4660-4e55-9c65-4f2ca25fd0f5)     | ![loginPage](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/108723143/66f3d39a-bfdb-41f4-949d-f02103c0b5f8) |
 
 |                                                       홈피드                                                        | 검색 | 404 페이지 |
 | :-----------------------------------------------------------------------------------------------------------------: | :--: | :--------: |
-| ![HomeFeed](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/108723143/cb4ccf95-61e3-4749-a449-f4e50d281206) |  ![searchPage](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/108723143/dbac5fb2-cf6f-454a-a7cc-936553240e67)    |     ![404page](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/108723143/c697618e-0cf3-4293-bf2e-7d652a93e250)       |
+| ![HomeFeed](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/108723143/cb4ccf95-61e3-4749-a449-f4e50d281206) |  ![searchPage](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/108723143/dbac5fb2-cf6f-454a-a7cc-936553240e67)    |     ![404page](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/108723143/8c4ba44e-964b-439e-a926-7c3a59f9b078) |
 
 | 채팅 | 프로필 | 프로필 수정 |
 | :--: | :----: | :---------: |
-| ![chatting_Animation](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/113747290/fa13ce1c-afac-402d-a0fa-ee5917f66707) | ![profile_Animation](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/113747290/ad2aa292-6bc8-4526-bac7-3131be74c222) | ![profileEdit_Animation](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/113747290/5b4a2da2-24d7-4f78-a7f0-739673c6661c) |
+| ![chatpage](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/108723143/5f373e1b-42ea-44dd-bf51-e22de2c5cdfc) | ![profilepage](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/108723143/bf2a5c21-4c96-42c8-a38f-a3e42cc8dfba) | ![profileeditpage](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/108723143/a0a6d855-7000-44ea-b891-f69616339d65) |
 
 | 게시글 등록 | 게시글 수정 | 게시글 삭제 |
 | :---------: | :---------: | :---------: |
@@ -117,12 +117,12 @@ Hello, there! 저희는 4명의 Front-End 개발자로 구성된 <img width="20"
 
 | 게시글 댓글 | 상품 등록 | 상품 정렬 |
 | :------: | :----: | :---------: |
-|![댓글 작성](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/113353436/c533f830-a889-44fd-9086-3cd821902bf9)| ![상품등록](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/113747290/f323bfd7-8473-4a4c-8cfe-cf343b3d86ad) | ![상품정렬](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/113747290/92fc91af-95a6-4e21-a335-b787d558a6bd)
+|![댓글 작성](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/113353436/c533f830-a889-44fd-9086-3cd821902bf9) | ![상품등록](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/113747290/f323bfd7-8473-4a4c-8cfe-cf343b3d86ad) | ![상품정렬](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/113747290/92fc91af-95a6-4e21-a335-b787d558a6bd)
 
 
 | 팔로우 | 로그아웃 | 토스트 |
 | :------: | :----: | :---------: |
-|  ![팔로우](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/dbb2f2bd-16de-4dcb-9c5c-cbd386825905) |![로그아웃](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/d2a55943-cfe4-4a45-bbee-8bb4be702c1d)| ![토스트](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/113747290/8854540c-fc3b-4515-a0a8-2848e04555e7) |
+|  ![followpage](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/108723143/9c42a2bc-e202-4b9a-bd3b-6e377e3ab9b8) |![logoutpage](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/108723143/5660c6bc-5e9a-45d3-aa90-2e6178867d37) | ![토스트](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/113747290/8854540c-fc3b-4515-a0a8-2848e04555e7) |
 
 ### 차별화 기능
 
