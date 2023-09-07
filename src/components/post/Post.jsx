@@ -215,26 +215,26 @@ export function Post({ postId }) {
 				<Container>
 					<Card>
 						<ProfileImg
-							src={postData.author.image}
-							alt={`${postData.author.username} 프로필 이미지입니다.`}
+							src={postData?.author?.image}
+							alt={`${postData?.author?.username} 프로필 이미지입니다.`}
 							className='profile_img'
 							onError={handleImgError}
 							onClick={() => {
-								navigate(`../../profile/${postData.author.accountname}`);
+								navigate(`../../profile/${postData?.author.accountname}`);
 							}}
 						/>
 						<RightCard>
 							<Top>
 								<UserDetails
 									onClick={() => {
-										navigate(`../../profile/${postData.author.accountname}`);
+										navigate(`../../profile/${postData?.author.accountname}`);
 									}}
 								>
 									<SpanName className='span-name'>
-										{postData.author.username}
+										{postData?.author?.username}
 									</SpanName>
 									<SpanId className='span-id'>
-										@{postData.author.accountname}
+										@{postData?.author?.accountname}
 									</SpanId>
 								</UserDetails>
 								<Dot
@@ -244,10 +244,10 @@ export function Post({ postId }) {
 								></Dot>
 							</Top>
 
-							<TextPost>{postData.content}</TextPost>
-							{postData.image && postData.image.trim() !== '' && (
+							<TextPost>{postData?.content}</TextPost>
+							{postData?.image && postData?.image.trim() !== '' && (
 								<ImgBx>
-									<Cover src={postData.image} alt='업로드한 이미지' />
+									<Cover src={postData?.image} alt='업로드한 이미지' />
 								</ImgBx>
 							)}
 
@@ -257,13 +257,13 @@ export function Post({ postId }) {
 									alt='좋아요 버튼'
 									onClick={handleHeartClick}
 								/>
-								<IconsSpan>{postData.heartCount}</IconsSpan>
-								<Link to={`/post/view/${postData.id}`}>
+								<IconsSpan>{postData?.heartCount}</IconsSpan>
+								<Link to={`/post/view/${postData?.id}`}>
 									<IconsImg src={messageIcon} alt='댓글 버튼' />
 								</Link>
-								<IconsSpan>{postData.commentCount}</IconsSpan>
+								<IconsSpan>{postData?.commentCount}</IconsSpan>
 							</Icons>
-							<PostDate>{formatCreatedAt(postData.createdAt)}</PostDate>
+							<PostDate>{formatCreatedAt(postData?.createdAt)}</PostDate>
 						</RightCard>
 					</Card>
 				</Container>

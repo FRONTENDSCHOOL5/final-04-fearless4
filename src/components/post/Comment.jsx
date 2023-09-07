@@ -24,12 +24,7 @@ import profilePic from '../../assets/image/profilePic.png';
 import { deleteComment, reportComment } from '../../api/commentAPI';
 import { useCommentCount } from '../../pages/post/CommentCounterContext';
 
-export const Comment = ({
-	comment,
-	postId,
-	currentUsername,
-	reloadComments,
-}) => {
+export const Comment = ({ comment, postId, currentUsername }) => {
 	const navigate = useNavigate();
 	const queryClient = useQueryClient();
 
@@ -61,8 +56,6 @@ export const Comment = ({
 			setShowDeleteToast(true);
 			setTimeout(() => setShowDeleteToast(false), 1000);
 			setCommentCount(commentCount - 1);
-
-			reloadComments();
 		},
 	});
 

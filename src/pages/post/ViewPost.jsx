@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { PostDeleteContext } from './PostDeleteContext';
 import {
 	CommentCountProvider,
@@ -45,13 +46,9 @@ import { Helmet } from 'react-helmet-async';
 
 const ViewPost = () => {
 	const currentUserAccountName = localStorage.getItem('userAccountName');
-	const [postData, setPostData] = useState(null);
 	const [myProfilePic, setMyProfilePic] = useState('');
 	const [myAccountName, setMyAccountName] = useState('');
 	const [commentContent, setCommentContent] = useState('');
-	const [comments, setComments] = useState([]);
-	const { commentCount, setCommentCount } = useCommentCount();
-	const [isLoading, setIsLoading] = useState(false);
 	const [isModal, setIsModal] = useState(false);
 	const [isCheckModal, setIsCheckModal] = useState(false);
 	const [showCommentToast, setShowCommentToast] = useState(false);
@@ -59,14 +56,7 @@ const ViewPost = () => {
 	const navigate = useNavigate();
 	const { id } = useParams();
 
-	const fetchComments = async () => {
-		try {
-			const fetchedComments = await getCommentList(postData.id);
-			setComments(fetchedComments);
-		} catch (error) {
-			console.error('댓글을 불러오는 중 오류가 발생했습니다.', error);
-		}
-	};
+	const queryClient = useQueryClient();
 
 	const loadMyInfo = async () => {
 		try {
@@ -77,6 +67,44 @@ const ViewPost = () => {
 			console.error('오류 발생!', error);
 			throw error;
 		}
+	};
+
+	// 게시글 데이터를 불러오는 로직
+	const {
+		data: postData,
+		isLoading,
+		isError,
+	} = useQuery(['post', id], () => getPostData(id));
+
+	// 댓글을 불러오는 로직
+	const { data: comments } = useQuery(
+		['comments', postData?.id],
+		() => getCommentList(postData?.id),
+		{
+			enabled: !!postData?.id,
+		}
+	);
+
+	// 댓글을 업로드하는 로직
+	const commentMutation = useMutation(
+		(content) => uploadComment(postData.id, content),
+		{
+			onSuccess: () => {
+				// 캐시된 댓글 데이터를 다시 가져옵니다.
+				queryClient.invalidateQueries(['comments', postData.id]);
+
+				// 댓글 내용을 초기화합니다.
+				setCommentContent('');
+
+				// Toast 알림을 보여줍니다.
+				setShowCommentToast(true);
+				setTimeout(() => setShowCommentToast(false), 1000);
+			},
+		}
+	);
+
+	const handleCommentUpload = () => {
+		commentMutation.mutate(commentContent);
 	};
 
 	const handleBackSpace = (e, author) => {
@@ -110,38 +138,36 @@ const ViewPost = () => {
 		navigate('/');
 	};
 
-	useEffect(() => {
-		const fetchPost = async () => {
-			try {
-				const response = await getPostData(id);
-				setPostData(response.data.post);
-			} catch (error) {
-				console.error('데이터를 불러오지 못했습니다!', error);
-			}
-		};
-		fetchPost();
-	}, [id]);
+	// 기존의 게시글을 불러오는 로직
+	// useEffect(() => {
+	// 	const fetchPost = async () => {
+	// 		try {
+	// 			const response = await getPostData(id);
+	// 			setPostData(response.data.post);
+	// 		} catch (error) {
+	// 			console.error('데이터를 불러오지 못했습니다!', error);
+	// 		}
+	// 	};
+	// 	fetchPost();
+	// }, [id]);
 
 	useEffect(() => {
 		loadMyInfo();
-		if (postData) {
-			fetchComments();
-		}
-		setIsLoading(true);
-	}, [postData]);
+	}, []);
 
-	const handleCommentUpload = async () => {
-		try {
-			await uploadComment(postData.id, commentContent);
-			setCommentContent('');
-			fetchComments();
-			setCommentCount(commentCount + 1);
-			setShowCommentToast(true);
-			setTimeout(() => setShowCommentToast(false), 1000);
-		} catch (error) {
-			console.error('댓글을 업로드하지 못했습니다!', error.response.data);
-		}
-	};
+	// 기존의 댓글 업로드 로직
+	// const handleCommentUpload = async () => {
+	// 	try {
+	// 		await uploadComment(postData.id, commentContent);
+	// 		setCommentContent('');
+	// 		fetchComments();
+	// 		setCommentCount(commentCount + 1);
+	// 		setShowCommentToast(true);
+	// 		setTimeout(() => setShowCommentToast(false), 1000);
+	// 	} catch (error) {
+	// 		console.error('댓글을 업로드하지 못했습니다!', error.response.data);
+	// 	}
+	// };
 
 	const handleImgError = (e) => {
 		e.target.src = profilePic;
@@ -169,7 +195,7 @@ const ViewPost = () => {
 				<NavbarWrap spaceBetween>
 					<Backspace
 						aria-label='뒤로가기'
-						onClick={(e) => handleBackSpace(e, postData.author.accountname)}
+						onClick={(e) => handleBackSpace(e, postData?.author?.accountname)}
 					/>
 					<OptionModalTab
 						aria-label='더보기'
@@ -177,27 +203,30 @@ const ViewPost = () => {
 					></OptionModalTab>
 				</NavbarWrap>
 
-				{isLoading && (
+				{!isLoading && postData && (
 					<PostDeleteContext.Provider
 						value={{ deletedPostId, setDeletedPostId }}
 					>
 						<CommentCountProvider>
-							{' '}
-							<PostView>{postData && <Post postId={id} />}</PostView>
+							<PostView>
+								<Post postId={id} />
+							</PostView>
 						</CommentCountProvider>
 					</PostDeleteContext.Provider>
 				)}
+
 				<CommentSection>
-					{comments.map((comment) => (
-						<Comment
-							key={comment.id}
-							comment={comment}
-							postId={postData.id}
-							reloadComments={fetchComments}
-							currentUsername={myAccountName}
-						/>
-					))}
+					{comments &&
+						comments.map((comment) => (
+							<Comment
+								key={comment.id}
+								comment={comment}
+								postId={postData?.id}
+								currentUsername={myAccountName}
+							/>
+						))}
 				</CommentSection>
+
 				<UploadComment>
 					{postData && (
 						<ProfileImageComment
@@ -215,6 +244,7 @@ const ViewPost = () => {
 						게시
 					</CommentUploadButton>
 				</UploadComment>
+
 				{isModal && (
 					<DarkBackground onClick={handleModalClose}>
 						<ModalWrap>
@@ -223,6 +253,7 @@ const ViewPost = () => {
 						</ModalWrap>
 					</DarkBackground>
 				)}
+
 				{isCheckModal && (
 					<DarkBackground onClick={handleModalClose}>
 						<CheckModalWrap>
@@ -236,6 +267,7 @@ const ViewPost = () => {
 						</CheckModalWrap>
 					</DarkBackground>
 				)}
+
 				<CommentToast />
 			</WrapperViewPost>
 		</>
