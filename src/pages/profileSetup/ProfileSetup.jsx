@@ -80,7 +80,7 @@ const ProfileSetup = () => {
 		imageValidation(
 			e,
 			1,
-			320,
+			150,
 			setSelectedImage,
 			setShowSizeOverToast,
 			setShowWrongExtensionToast
