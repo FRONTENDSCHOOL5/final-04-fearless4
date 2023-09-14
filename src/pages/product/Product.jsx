@@ -101,7 +101,7 @@ export default function Product() {
 		imageValidation(
 			e,
 			1,
-			400,
+			150,
 			setSelectedImage,
 			setShowSizeOverToast,
 			setShowWrongExtensionToast

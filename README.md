@@ -1,6 +1,6 @@
 # TravelUs 🚌
 🔗[TravelUs 바로가기](https://travels-us.netlify.app/ )
-- ID: travelus_official@travelus.com
+- ID: travelus_official@travelsus.com
 - PW: 123123
 
 ### 목차
@@ -101,28 +101,28 @@ Hello, there! 저희는 4명의 Front-End 개발자로 구성된 <img width="20"
 
 |                                                        Splash                                                         | 회원가입 |                                                        로그인                                                        |
 | :-------------------------------------------------------------------------------------------------------------------: | :------: | :------------------------------------------------------------------------------------------------------------------: |
-| ![splash](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/be01a546-b51c-4986-81c8-b34fb82c9199) |    ![email](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/abb1c3f1-4660-4e55-9c65-4f2ca25fd0f5)     | ![login](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/52bb303f-b537-4409-ab84-143b153dd6c7) |
+| ![splash](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/be01a546-b51c-4986-81c8-b34fb82c9199) |    ![email](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/be13a965-ac54-4fe7-8ad2-3c09a538e605) | ![loginPage](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/108723143/66f3d39a-bfdb-41f4-949d-f02103c0b5f8) |
 
 |                                                       홈피드                                                        | 검색 | 404 페이지 |
 | :-----------------------------------------------------------------------------------------------------------------: | :--: | :--------: |
-| ![HomeFeed](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/108723143/cb4ccf95-61e3-4749-a449-f4e50d281206) |  ![searchPage](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/108723143/dbac5fb2-cf6f-454a-a7cc-936553240e67)    |     ![404page](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/108723143/c697618e-0cf3-4293-bf2e-7d652a93e250)       |
+| ![HomeFeed](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/74d4e844-8c65-453b-b205-87c4e088c076) |  ![searchPage](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/8e40c2d8-534e-4798-823c-832ca99086c9)   |     ![404page](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/108723143/8c4ba44e-964b-439e-a926-7c3a59f9b078) |
 
 | 채팅 | 프로필 | 프로필 수정 |
 | :--: | :----: | :---------: |
-| ![chatting_Animation](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/113747290/fa13ce1c-afac-402d-a0fa-ee5917f66707) | ![profile_Animation](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/113747290/ad2aa292-6bc8-4526-bac7-3131be74c222) | ![profileEdit_Animation](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/113747290/5b4a2da2-24d7-4f78-a7f0-739673c6661c) |
+| ![chatpage](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/108723143/5f373e1b-42ea-44dd-bf51-e22de2c5cdfc) | ![profilepage](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/108723143/bf2a5c21-4c96-42c8-a38f-a3e42cc8dfba) | ![profileeditpage](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/108723143/a0a6d855-7000-44ea-b891-f69616339d65) |
 
 | 게시글 등록 | 게시글 수정 | 게시글 삭제 |
 | :---------: | :---------: | :---------: |
-|     ![postupload](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/108723143/90cefbfc-346d-4cc0-b26b-789b73f80661)     |     ![postEdit](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/108723143/17b1eb96-e3db-4301-ad67-1f2c1323d086)     |     ![postDel](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/108723143/07843779-ad20-4d67-b6a6-16766eb749a3)     |
+|     ![postUpload](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/113353436/9e94ae8e-2aa1-410c-815b-cccb609448c3)     |     ![postEdit](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/113353436/0303b6bb-fee1-43a8-b998-0db55e03d5ac)     |     ![postDel](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/113353436/62a2a7ad-d8f9-4919-9532-cabe5edddc94)     |
 
 | 게시글 댓글 | 상품 등록 | 상품 정렬 |
 | :------: | :----: | :---------: |
-|![댓글](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/d99d06ac-b2ef-447b-9588-546d62a47f88)|![상품등록](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/64fe1806-a58e-445f-9a2d-8d1fa1492d8f)| ![상품정렬](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/12cb1272-5e04-4c77-bd2f-ae98bfb0607a)
+|![댓글 작성](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/113353436/c533f830-a889-44fd-9086-3cd821902bf9) | ![상품등록](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/113747290/f323bfd7-8473-4a4c-8cfe-cf343b3d86ad) | ![상품정렬](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/113747290/92fc91af-95a6-4e21-a335-b787d558a6bd)
 
 
 | 팔로우 | 로그아웃 | 토스트 |
 | :------: | :----: | :---------: |
-|  ![팔로우](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/dbb2f2bd-16de-4dcb-9c5c-cbd386825905) |![로그아웃](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/d2a55943-cfe4-4a45-bbee-8bb4be702c1d)| ![토스트](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/84113107/0a4c6e31-64ad-43fd-be02-0435ac0cdc79) |
+|  ![followpage](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/108723143/9c42a2bc-e202-4b9a-bd3b-6e377e3ab9b8) |![logoutpage](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/108723143/5660c6bc-5e9a-45d3-aa90-2e6178867d37) | ![토스트](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/113747290/8854540c-fc3b-4515-a0a8-2848e04555e7) |
 
 ### 차별화 기능
 
@@ -134,10 +134,11 @@ Hello, there! 저희는 4명의 Front-End 개발자로 구성된 <img width="20"
 - 그래서 저희는 업로드되는 파일의 형식이 이미지 파일로만 설정되도록 한번 더 구체적 유효성 검사 기능을 추가하였습니다.   
 
 #### 2) 요건에 맞는 상품을 정렬하여 보여주는 기능
-![sortedButton_Animation](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/113747290/64648d30-65f9-40cf-8cf7-6a59aa462dcb)
+![filter](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/assets/113747290/3eceb602-568f-463f-8d31-2200020515e8)
+
 - 사용자들이 원하는 조건에 맞는 상품을 손쉽게 찾을 수 있도록 해당 기능을 추가하였습니다.
 - 사용자들이 함께 떠나는 상품 목록에서 🔥추천 상품이나 🤑할인 상품 버튼을 클릭하면, 해당 요건에 맞는 상품이 정렬되어 보여집니다.
-- 상품 판매자가 상품 등록할 때 제목 앞에 [추천], [할인] 문구를 넣어주면 해당 기능이 적용됩니다.
+- 상품 판매자가 상품 등록할 때 카테고리 [추천], [할인]을 선택할 수 있고, 선택하면 해당 카테고리가 적용됩니다.
 - 또한, 사용자들이 추천이나 할인 상품을 보다가 전체 상품을 보고 싶을 때, # 전체 상품 버튼을 누르면 처음처럼 전체 상품 목록을 볼 수 있습니다.
 
 #### 3) 검색 디바운스 기능 
@@ -269,6 +270,8 @@ final-04-fearless4
 ## 10. 프로젝트 소감
 
 ### 강동훈
+저 역시도 처음으로 진행해 보는 팀 프로젝트였는데요, 이 프로젝트를 통해서 정말 많은 것들을 배워간다고 느꼈습니다. 기술적인 부분도 있었지만, 가장 큰 부분은 협업과 관련된 부분이었던 것 같습니다.
+혼자 코드를 작성할 때는 코드 컨벤션이나 커밋 컨벤션 같은 부분들을 신경쓰지 않고 작업했었는데, 이번 프로젝트를 통해서 왜 그러한 것들을 정해두고 작업을 진행해야 하는지 확실하게 경험한 것 같습니다. 그리고 프로젝트 기간동안 수고해주신 저희 팀원 분들 모두에게도 감사인사를 드립니다.
 
 ### 김소연 
 프로젝트 경험을 통해 고민해보고 차근차근 하는 연습을 한 것 같고 혼자였다면 절대 하지 못한 경험을 한 것 같습니다!
