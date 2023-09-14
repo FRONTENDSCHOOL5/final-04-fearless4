@@ -105,6 +105,7 @@ export const Comment = ({ comment, postId, currentUsername }) => {
 				src={author.image}
 				onError={handleImgError}
 				onClick={() => navigateToProfile(author.accountName)}
+				aria-label='user profile'
 			/>
 			<CommentDetail>
 				<CommentFollower>
@@ -117,7 +118,10 @@ export const Comment = ({ comment, postId, currentUsername }) => {
 				</CommentFollower>
 				<CommentText>{content}</CommentText>
 			</CommentDetail>
-			<OptionModalTabComment onClick={handleCommentModalOpen} />
+			<OptionModalTabComment
+				onClick={handleCommentModalOpen}
+				aria-label='comment option'
+			/>
 			{isCommentModal && (
 				<DarkBackground onClick={handleCommentModalClose}>
 					<ModalWrap>

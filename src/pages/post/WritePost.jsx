@@ -124,6 +124,7 @@ const WritePost = () => {
 						<ProfileImageMini
 							src={myProfileImage}
 							onError={handleImgError}
+							alt='user profile'
 						></ProfileImageMini>
 						<PostInputArea
 							ref={textarea}
@@ -143,8 +144,9 @@ const WritePost = () => {
 					)}
 				</PostForm>
 			</WrapperWritePost>
-			<ImageUploadButton>
+			<ImageUploadButton aria-label='image upload'>
 				<ImageInput
+					aria-label='image upload input'
 					ref={inputRef}
 					type='file'
 					accept='image/*'
