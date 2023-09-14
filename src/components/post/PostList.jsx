@@ -33,10 +33,18 @@ const PostList = ({ accountname }) => {
 		<PostListWrapper>
 			<PostViewStyleBar>
 				<PostStyleList onClick={handleListView}>
-					<img src={listView ? postListOn : postListOff} alt='list view' />
+					<img
+						src={listView ? postListOn : postListOff}
+						alt='list view'
+						style={{ width: '26px', height: '26px' }}
+					/>
 				</PostStyleList>
 				<PostStyleAlbum onClick={handleAlbumView}>
-					<img src={albumView ? postAlbumOn : postAlbumOff} alt='album view' />
+					<img
+						src={albumView ? postAlbumOn : postAlbumOff}
+						alt='album view'
+						style={{ width: '26px', height: '26px' }}
+					/>
 				</PostStyleAlbum>
 			</PostViewStyleBar>
 			<PostSection accountname={accountname} listView={listView}></PostSection>
