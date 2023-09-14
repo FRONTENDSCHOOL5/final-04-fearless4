@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { PostDeleteContext } from '../../pages/post/PostDeleteContext';
 import {
@@ -54,7 +54,7 @@ const formatCreatedAt = (createdAt) => {
 	return date.toLocaleDateString('ko-KR', options);
 };
 
-export function Post({ postId }) {
+export function Post({ postId, isCommentAdded }) {
 	const { setDeletedPostId } = useContext(PostDeleteContext);
 
 	const currentUserAccountName = localStorage.getItem('userAccountName');
@@ -66,6 +66,12 @@ export function Post({ postId }) {
 	const [showPostReportToast, setShowPostReportToast] = useState(false);
 	const [showAPIErrorToast, setShowAPIErrorToast] = useState(false);
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		if (isCommentAdded) {
+			refetch();
+		}
+	}, [isCommentAdded]);
 
 	const queryClient = useQueryClient();
 
@@ -131,7 +137,9 @@ export function Post({ postId }) {
 		data: postData,
 		isLoading,
 		refetch,
-	} = useQuery(['post', postId], fetchPostData);
+	} = useQuery(['post', postId], fetchPostData, {
+		refetchOnWindowFocus: false,
+	});
 
 	const handleHeartClick = async () => {
 		if (!isHearted) {
@@ -220,7 +228,9 @@ export function Post({ postId }) {
 							className='profile_img'
 							onError={handleImgError}
 							onClick={() => {
-								navigate(`../../profile/${postData?.author.accountname}`);
+								currentUserAccountName === postData?.author?.accountname
+									? navigate('../../profile')
+									: navigate(`../../profile/${postData?.author.accountname}`);
 							}}
 						/>
 						<RightCard>
@@ -247,7 +257,11 @@ export function Post({ postId }) {
 							<TextPost>{postData?.content}</TextPost>
 							{postData?.image && postData?.image.trim() !== '' && (
 								<ImgBx>
-									<Cover src={postData?.image} alt='업로드한 이미지' />
+									<Cover
+										src={postData?.image}
+										alt='업로드한 이미지'
+										style={{ width: '304px', height: 'auto' }}
+									/>
 								</ImgBx>
 							)}
 

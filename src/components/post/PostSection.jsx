@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import React, { useEffect, useContext } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { PostDeleteContext } from '../../pages/post/PostDeleteContext';
 import { useNavigate } from 'react-router-dom';
 import { Post } from '../../components/post/Post';
@@ -15,10 +15,17 @@ const PostSection = ({ accountname, listView }) => {
 		isLoading,
 		isError,
 		error,
+		refetch,
 	} = useQuery(['userPosts', accountname], () => getUserPosts(accountname), {
-		staleTime: 1000 * 60 * 5,
+		staleTime: 0,
 		retry: 1,
 	});
+
+	useEffect(() => {
+		if (deletedPostId) {
+			refetch();
+		}
+	}, [deletedPostId, refetch]);
 
 	if (isError) {
 		return <div>Error: {error.message}</div>;

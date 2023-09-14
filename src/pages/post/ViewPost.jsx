@@ -49,6 +49,7 @@ const ViewPost = () => {
 	const [myProfilePic, setMyProfilePic] = useState('');
 	const [myAccountName, setMyAccountName] = useState('');
 	const [commentContent, setCommentContent] = useState('');
+	const [isCommentAdded, setIsCommentAdded] = useState(false);
 	const [isModal, setIsModal] = useState(false);
 	const [isCheckModal, setIsCheckModal] = useState(false);
 	const [showCommentToast, setShowCommentToast] = useState(false);
@@ -74,7 +75,9 @@ const ViewPost = () => {
 		data: postData,
 		isLoading,
 		isError,
-	} = useQuery(['post', id], () => getPostData(id));
+	} = useQuery(['post', id], () => getPostData(id), {
+		refetchOnWindowFocus: false,
+	});
 
 	// 댓글을 불러오는 로직
 	const { data: comments } = useQuery(
@@ -85,18 +88,13 @@ const ViewPost = () => {
 		}
 	);
 
-	// 댓글을 업로드하는 로직
 	const commentMutation = useMutation(
 		(content) => uploadComment(postData.id, content),
 		{
 			onSuccess: () => {
-				// 캐시된 댓글 데이터를 다시 가져옵니다.
 				queryClient.invalidateQueries(['comments', postData.id]);
-
-				// 댓글 내용을 초기화합니다.
+				setIsCommentAdded((prevState) => !prevState);
 				setCommentContent('');
-
-				// Toast 알림을 보여줍니다.
 				setShowCommentToast(true);
 				setTimeout(() => setShowCommentToast(false), 1000);
 			},
@@ -111,7 +109,7 @@ const ViewPost = () => {
 		e.preventDefault();
 		author !== currentUserAccountName
 			? navigate(-1)
-			: navigate(`../../profile/${postData.author.accountname}`);
+			: navigate('../../profile/');
 	};
 
 	const handleModalOpen = (e) => {
@@ -138,36 +136,9 @@ const ViewPost = () => {
 		navigate('/');
 	};
 
-	// 기존의 게시글을 불러오는 로직
-	// useEffect(() => {
-	// 	const fetchPost = async () => {
-	// 		try {
-	// 			const response = await getPostData(id);
-	// 			setPostData(response.data.post);
-	// 		} catch (error) {
-	// 			console.error('데이터를 불러오지 못했습니다!', error);
-	// 		}
-	// 	};
-	// 	fetchPost();
-	// }, [id]);
-
 	useEffect(() => {
 		loadMyInfo();
 	}, []);
-
-	// 기존의 댓글 업로드 로직
-	// const handleCommentUpload = async () => {
-	// 	try {
-	// 		await uploadComment(postData.id, commentContent);
-	// 		setCommentContent('');
-	// 		fetchComments();
-	// 		setCommentCount(commentCount + 1);
-	// 		setShowCommentToast(true);
-	// 		setTimeout(() => setShowCommentToast(false), 1000);
-	// 	} catch (error) {
-	// 		console.error('댓글을 업로드하지 못했습니다!', error.response.data);
-	// 	}
-	// };
 
 	const handleImgError = (e) => {
 		e.target.src = profilePic;
@@ -209,7 +180,7 @@ const ViewPost = () => {
 					>
 						<CommentCountProvider>
 							<PostView>
-								<Post postId={id} />
+								<Post postId={id} isCommentAdded={isCommentAdded} />
 							</PostView>
 						</CommentCountProvider>
 					</PostDeleteContext.Provider>
@@ -232,6 +203,7 @@ const ViewPost = () => {
 						<ProfileImageComment
 							src={myProfilePic}
 							onError={handleImgError}
+							aria-label='user profile'
 						></ProfileImageComment>
 					)}
 					<CommentInputArea
