@@ -121,7 +121,11 @@ const EditPost = () => {
 				</NavbarWrap>
 				<PostForm>
 					<TextForm>
-						<ProfileImageMini src={myInfo?.image} onError={handleImgError} />
+						<ProfileImageMini
+							src={myInfo?.image}
+							onError={handleImgError}
+							alt='user profile'
+						/>
 						<PostInputArea
 							ref={textarea}
 							placeholder='게시글 입력하기...'
@@ -138,8 +142,9 @@ const EditPost = () => {
 						/>
 					)}
 				</PostForm>
-				<ImageUploadButton>
+				<ImageUploadButton aria-label='image upload'>
 					<ImageInput
+						aria-label='image upload input'
 						ref={inputRef}
 						type='file'
 						accept='image/*'

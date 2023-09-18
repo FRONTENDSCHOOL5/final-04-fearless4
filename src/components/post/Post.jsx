@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { PostDeleteContext } from '../../pages/post/PostDeleteContext';
 import {
@@ -54,7 +54,7 @@ const formatCreatedAt = (createdAt) => {
 	return date.toLocaleDateString('ko-KR', options);
 };
 
-export function Post({ postId }) {
+export function Post({ postId, isCommentAdded }) {
 	const { setDeletedPostId } = useContext(PostDeleteContext);
 
 	const currentUserAccountName = localStorage.getItem('userAccountName');
@@ -66,6 +66,12 @@ export function Post({ postId }) {
 	const [showPostReportToast, setShowPostReportToast] = useState(false);
 	const [showAPIErrorToast, setShowAPIErrorToast] = useState(false);
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		if (isCommentAdded) {
+			refetch();
+		}
+	}, [isCommentAdded]);
 
 	const queryClient = useQueryClient();
 
@@ -131,7 +137,9 @@ export function Post({ postId }) {
 		data: postData,
 		isLoading,
 		refetch,
-	} = useQuery(['post', postId], fetchPostData);
+	} = useQuery(['post', postId], fetchPostData, {
+		refetchOnWindowFocus: false,
+	});
 
 	const handleHeartClick = async () => {
 		if (!isHearted) {
@@ -215,26 +223,28 @@ export function Post({ postId }) {
 				<Container>
 					<Card>
 						<ProfileImg
-							src={postData.author.image}
-							alt={`${postData.author.username} 프로필 이미지입니다.`}
+							src={postData?.author?.image}
+							alt={`${postData?.author?.username} 프로필 이미지입니다.`}
 							className='profile_img'
 							onError={handleImgError}
 							onClick={() => {
-								navigate(`../../profile/${postData.author.accountname}`);
+								currentUserAccountName === postData?.author?.accountname
+									? navigate('../../profile')
+									: navigate(`../../profile/${postData?.author.accountname}`);
 							}}
 						/>
 						<RightCard>
 							<Top>
 								<UserDetails
 									onClick={() => {
-										navigate(`../../profile/${postData.author.accountname}`);
+										navigate(`../../profile/${postData?.author.accountname}`);
 									}}
 								>
 									<SpanName className='span-name'>
-										{postData.author.username}
+										{postData?.author?.username}
 									</SpanName>
 									<SpanId className='span-id'>
-										@{postData.author.accountname}
+										@{postData?.author?.accountname}
 									</SpanId>
 								</UserDetails>
 								<Dot
@@ -244,10 +254,14 @@ export function Post({ postId }) {
 								></Dot>
 							</Top>
 
-							<TextPost>{postData.content}</TextPost>
-							{postData.image && postData.image.trim() !== '' && (
+							<TextPost>{postData?.content}</TextPost>
+							{postData?.image && postData?.image.trim() !== '' && (
 								<ImgBx>
-									<Cover src={postData.image} alt='업로드한 이미지' />
+									<Cover
+										src={postData?.image}
+										alt='업로드한 이미지'
+										style={{ width: '304px', height: 'auto' }}
+									/>
 								</ImgBx>
 							)}
 
@@ -257,13 +271,13 @@ export function Post({ postId }) {
 									alt='좋아요 버튼'
 									onClick={handleHeartClick}
 								/>
-								<IconsSpan>{postData.heartCount}</IconsSpan>
-								<Link to={`/post/view/${postData.id}`}>
+								<IconsSpan>{postData?.heartCount}</IconsSpan>
+								<Link to={`/post/view/${postData?.id}`}>
 									<IconsImg src={messageIcon} alt='댓글 버튼' />
 								</Link>
-								<IconsSpan>{postData.commentCount}</IconsSpan>
+								<IconsSpan>{postData?.commentCount}</IconsSpan>
 							</Icons>
-							<PostDate>{formatCreatedAt(postData.createdAt)}</PostDate>
+							<PostDate>{formatCreatedAt(postData?.createdAt)}</PostDate>
 						</RightCard>
 					</Card>
 				</Container>
