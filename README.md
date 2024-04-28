@@ -73,18 +73,32 @@ Hello, there! 저희는 4명의 Front-End 개발자로 구성된 <img width="20"
 - 채팅 페이지 마크업
 
 ### 정준영
+#### 테크리더로서의 역할
+- 모두가 처음으로 시작한 팀 프로젝트로, 저도 그러해서 ‘기술적인 문제로 모르는 것이 있다면 내가 모르더라도 해결할 때까지 끝까지 도와주겠다’ 고 팀원들에게 말하고 프로젝트에 임하였습니다.
+
 #### 프로필 페이지
 - 사용자 프로필 페이지
 - 사용자 프로필 수정 페이지
 - 다른 사용자 프로필 페이지
+- 작업 내용
+	- 프로필 페이지에서 프로필 컴포넌트를 담당하였고, 해당 유저에 따른 프로필 정보를 구현했습니다.
+	- 프로필 수정 시, 기존 유저의 데이터에서 수정하도록 하고, 수정이 완료되면 해당 유저DB에 반영하도록 구현하였습니다.
+	- 해당 프로필 페이지에서 계정ID가 없는 유저로 이동했다면, 404 페이지를 보여주도록 하였습니다.
+	- Modal을 구현해, 로그아웃 기능을 구현하였습니다.
 
 #### 팔로우 페이지
 - 팔로잉 목록 페이지
 - 팔로워 목록 페이지
+- 작업 내용
+	- 다른 유저의 프로필에서 팔로우를 할 수 있는 기능을 구현하였습니다.
+	- 해당 유저의 프로필에서의 기준으로 팔로잉 및 팔로우 수를 구현하였습니다.
+	- 팔로워 및 팔로우 수를 클릭 시, 해당 팔로우 페이지로 이동하여 누가 팔로우를 했는지 볼 수 있으며, 해당 페이지에서 로그인한 유저의 기준으로 팔로우 및 팔로우 취소를 할 수 있도록 구현하였습니다.
+	- 해당 팔로우 페이지에서 팔로우 유저가 없다면, 검색 페이지 이동하는 것을 권장하는 UI를 구현하였습니다.
 
 #### 기타
-- 모바일 뷰 추가
+- 모바일 뷰 적용
 - 라우터 및 페이지 경로 관리
+- [리팩토링](https://github.com/FRONTENDSCHOOL5/final-04-fearless4/wiki/TravelUs-%EC%A0%95%EC%A4%80%EC%98%81-%EB%8B%B4%EB%8B%B9) : 렌더링 상향을 위한 이미지 최적화 라이브러리 도입
 
 ### 최사라
 
@@ -222,6 +236,8 @@ remove      : 파일을 삭제하는 작업만 수행한 경우
 <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
 <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=black">
 <img src="https://img.shields.io/badge/styled components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white">
+* 리팩토링 이후
+<img src="https://img.shields.io/badge/reactquery-7957D5?style=flat-square&logo=reactquery&logoColor=white%22">
 
 2 ) 백엔드 기술<br><br>
 멋쟁이사자처럼 프론트엔드 스쿨에서 제공된 API 사용
